@@ -1,0 +1,29 @@
+{
+  "name": "Test Case Recorder",
+  "description": "Record user actions to create e2e test cases",
+  "version": "1.0",
+  "manifest_version": 3,
+  "devtools_page": "./devTools/devTools.html",
+  "background": {
+    "service_worker": "./background/background.js"
+  },
+  "host_permissions": ["http://*/*", "https://*/*", "file://*/*", "ws://*/*"],
+  "permissions": ["tabs", "nativeMessaging", "scripting"],
+  "content_scripts": [
+    {
+      "matches": ["https://*/*", "http://*/*"],
+      "run_at": "document_start",
+      "js": ["./eventsInterceptor/eventsInterceptor.js"]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["*.js"],
+      "matches": ["<all_urls>"],
+      "use_dynamic_url": true
+    }
+  ],
+  "externally_connectable": {
+    "matches": ["http://*/*", "https://*/*"]
+  }
+}
