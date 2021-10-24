@@ -6,7 +6,7 @@ function injectCode(src: string) {
   script.dataset.extid = chrome.runtime.id
 
   const doc = document.head ?? document.documentElement
-  doc?.appendChild(script)
+  doc?.prepend(script)
 }
 
 injectCode(chrome.runtime.getURL('/eventsInterceptor/injection.js'))
