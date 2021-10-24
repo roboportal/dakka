@@ -6,9 +6,19 @@ export interface EventRecorderState {
   events: Record<number, Array<Record<string, any>>>
 }
 
+interface IEventRecord {
+  id: string
+  type: string
+  payload: {
+    id: string
+    className: string
+    type: string
+  }
+}
+
 export interface IRecordEventPayload {
   tabId: number
-  eventRecord: any
+  eventRecord: IEventRecord
 }
 
 const initialState: EventRecorderState = {

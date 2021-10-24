@@ -13,8 +13,8 @@ export default function App() {
 
   const eventsList = useMemo(() => {
     if (activeTabID > -1) {
-      return events[activeTabID]?.map((event) => (
-        <div key={event.id}>{JSON.stringify(event)}</div>
+      return events[activeTabID]?.map(({ payload }) => (
+        <div key={payload.id}>{JSON.stringify(payload)}</div>
       ))
     }
     return null
