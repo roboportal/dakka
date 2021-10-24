@@ -3,6 +3,6 @@ chrome.devtools.panels.create(
   '',
   './panel/panel.html',
   (panel) => {
-    console.log('Panel created')
+    console.log('Test Recorder Panel created')
   },
 )

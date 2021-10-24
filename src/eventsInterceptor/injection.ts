@@ -2,7 +2,7 @@ import { EVENT_INTERCEPTED } from '../constants/messageTypes'
 
 const EVENTS_TO_IGNORE = ['message']
 
-console.log('Injected to the page')
+console.log('Script injected')
 
 class HandlersCache {
   storage: Map<
@@ -98,7 +98,6 @@ window.EventTarget.prototype.removeEventListener = function (
     return
   }
   const c = handlersCache.get(callback)
-  console.log('c', c)
   if (!c) {
     return
   }

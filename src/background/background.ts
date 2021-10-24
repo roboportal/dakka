@@ -1,4 +1,4 @@
-console.log('background')
+console.log('Background SW')
 
 chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
   console.log('onUpdated', tabId, changeInfo, tab)
@@ -9,6 +9,6 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
     tab?.url?.indexOf('chrome://') === -1
 
   if (shouldExecuteInterceptor) {
-    await chrome.tabs.sendMessage(tabId, 'ololol')
+    await chrome.tabs.sendMessage(tabId, 'started')
   }
 })

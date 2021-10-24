@@ -18,7 +18,7 @@
       "source": "src/background/background.ts"
     },
     "eventsInterceptor": {
-      "source": "src/eventsInterceptor/eventsInterceptor.ts"
+      "source": "src/eventsInterceptor/contentScript.ts"
     },
     "injection": {
       "source": "src/eventsInterceptor/injection.ts"

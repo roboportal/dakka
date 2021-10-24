@@ -1,4 +1,4 @@
-console.log('External script attached')
+console.log('Content script attached')
 
 function injectCode(src: string) {
   const script: any = document.createElement('script')
