@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 import Switch from '@mui/material/Switch'
-import Buttun from '@mui/material/Button'
+import Button from '@mui/material/Button'
+import DeleteIcon from '@mui/icons-material/Delete'
 
 import useEventRecorder from './hooks/useEventRecorder'
 
@@ -29,9 +30,13 @@ export default function App() {
         onChange={handleIsRecordEnabledChange}
       />
 
-      <Buttun variant="contained" onClick={handleClearEventsByTabId}>
+      <Button
+        onClick={handleClearEventsByTabId}
+        variant="outlined"
+        startIcon={<DeleteIcon />}
+      >
         Clear Records
-      </Buttun>
+      </Button>
       {eventsList}
     </div>
   )
