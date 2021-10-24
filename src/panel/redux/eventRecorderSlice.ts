@@ -45,10 +45,17 @@ export const eventRecorderSlice = createSlice({
         events[tabId] = [...(events[tabId] ?? []), eventRecord]
       }
     },
+    clearEvents: ({ events }, { payload: { tabId } }) => {
+      events[tabId] = []
+    },
   },
 })
 
-export const { setActiveTabID, toggleIsRecorderEnabled, recordEvent } =
-  eventRecorderSlice.actions
+export const {
+  setActiveTabID,
+  toggleIsRecorderEnabled,
+  recordEvent,
+  clearEvents,
+} = eventRecorderSlice.actions
 
 export default eventRecorderSlice.reducer
