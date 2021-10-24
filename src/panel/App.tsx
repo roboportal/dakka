@@ -8,6 +8,7 @@ export default function App() {
     activeTabID,
     isRecorderEnabled,
     handleIsRecordEnabledChange,
+    handleClearEventsByTabId,
   } = useEventRecorder()
 
   const eventsList = useMemo(() => {
@@ -26,6 +27,8 @@ export default function App() {
         checked={isRecorderEnabled}
         onChange={handleIsRecordEnabledChange}
       />
+
+      <button onClick={handleClearEventsByTabId}>Clear Records</button>
       {eventsList}
     </div>
   )

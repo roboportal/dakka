@@ -4,6 +4,7 @@ import {
   setActiveTabID,
   toggleIsRecorderEnabled,
   recordEvent,
+  clearEvents,
 } from '../redux/eventRecorderSlice'
 
 import { SLICE_NAMES, RootState } from '../redux'
@@ -17,6 +18,8 @@ export default function useEventRecorder() {
 
   const handleIsRecordEnabledChange = () => dispatch(toggleIsRecorderEnabled())
 
+  const handleClearEventsByTabId = () =>
+    dispatch(clearEvents({ tabId: activeTabID }))
   useEffect(() => {
     chrome.runtime.onMessage.addListener((eventRecord, sender) => {
       const tabId = sender?.tab?.id ?? -1
@@ -42,5 +45,6 @@ export default function useEventRecorder() {
     isRecorderEnabled,
     activeTabID,
     handleIsRecordEnabledChange,
+    handleClearEventsByTabId,
   }
 }
