@@ -20,6 +20,7 @@ export default function useEventRecorder() {
 
   const handleClearEventsByTabId = () =>
     dispatch(clearEvents({ tabId: activeTabID }))
+
   useEffect(() => {
     chrome.runtime.onMessage.addListener((eventRecord, sender) => {
       const tabId = sender?.tab?.id ?? -1
