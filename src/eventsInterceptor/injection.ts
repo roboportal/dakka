@@ -1,3 +1,5 @@
+import { v1 as uuid } from 'uuid'
+
 import { EVENT_INTERCEPTED } from '../constants/messageTypes'
 
 const EVENTS_TO_IGNORE = ['message']
@@ -49,10 +51,11 @@ function eventHandler(event: any) {
     type,
     value,
   } = event
+
   const message = {
     id,
     type: EVENT_INTERCEPTED,
-    payload: { className, type, value },
+    payload: { id: uuid(), className, type, value },
   }
   try {
     window.postMessage(message)

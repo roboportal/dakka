@@ -1,4 +1,5 @@
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
+import Switch from '@mui/material/Switch'
 
 import useEventRecorder from './hooks/useEventRecorder'
 
@@ -13,7 +14,7 @@ export default function App() {
   const eventsList = useMemo(() => {
     if (activeTabID > -1) {
       return events[activeTabID]?.map((event) => (
-        <div>{JSON.stringify(event)}</div>
+        <div key={event.id}>{JSON.stringify(event)}</div>
       ))
     }
     return null
@@ -21,8 +22,7 @@ export default function App() {
 
   return (
     <div>
-      <input
-        type="checkbox"
+      <Switch
         checked={isRecorderEnabled}
         onChange={handleIsRecordEnabledChange}
       />
