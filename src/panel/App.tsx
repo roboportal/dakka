@@ -1,4 +1,8 @@
 import { useMemo } from 'react'
+import { css } from '@emotion/react'
+import Box from '@mui/material/Box'
+
+import EventsMask from './components/EventsMask/EventsMask'
 import ControlPanel from './components/ControlPanel/ControlPanel'
 import useEventRecorder from './hooks/useEventRecorder'
 
@@ -27,7 +31,16 @@ export default function App() {
         onRecordEnabledChange={handleIsRecordEnabledChange}
         onClearEventsByTabId={handleClearEventsByTabId}
       />
-      {eventsList}
+      <Box
+        css={css`
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+        `}
+      >
+        <div>{eventsList}</div>
+        <EventsMask />
+      </Box>
     </div>
   )
 }
