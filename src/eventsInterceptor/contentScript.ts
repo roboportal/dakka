@@ -1,3 +1,5 @@
+import { ENABLE_RECORDER } from '../constants/messageTypes'
+
 console.log('Content script attached')
 
 function injectCode(src: string) {
@@ -14,5 +16,11 @@ injectCode(chrome.runtime.getURL('/eventsInterceptor/injection.js'))
 window.addEventListener('message', ({ data }) => {
   if (data.id === chrome.runtime.id) {
     chrome.runtime.sendMessage(data)
+  }
+})
+
+chrome.runtime.onMessage.addListener((message) => {
+  if (message.type === ENABLE_RECORDER) {
+    window.postMessage(message)
   }
 })

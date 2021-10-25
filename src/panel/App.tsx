@@ -1,8 +1,5 @@
 import { useMemo } from 'react'
-import Switch from '@mui/material/Switch'
-import Button from '@mui/material/Button'
-import DeleteIcon from '@mui/icons-material/Delete'
-
+import ControlPanel from './components/ControlPanel/ControlPanel'
 import useEventRecorder from './hooks/useEventRecorder'
 
 export default function App() {
@@ -25,18 +22,11 @@ export default function App() {
 
   return (
     <div>
-      <Switch
-        checked={isRecorderEnabled}
-        onChange={handleIsRecordEnabledChange}
+      <ControlPanel
+        isRecorderEnabled={isRecorderEnabled}
+        onRecordEnabledChange={handleIsRecordEnabledChange}
+        onClearEventsByTabId={handleClearEventsByTabId}
       />
-
-      <Button
-        onClick={handleClearEventsByTabId}
-        variant="outlined"
-        startIcon={<DeleteIcon />}
-      >
-        Clear Records
-      </Button>
       {eventsList}
     </div>
   )
