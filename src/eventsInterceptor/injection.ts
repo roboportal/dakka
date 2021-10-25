@@ -1,6 +1,6 @@
 import { v4 as uuid } from 'uuid'
 
-import { EVENT_INTERCEPTED } from '../constants/messageTypes'
+import { EVENT_INTERCEPTED, ENABLE_RECORDER } from '../constants/messageTypes'
 
 const EVENTS_TO_IGNORE = ['message']
 
@@ -67,6 +67,14 @@ const r = window.EventTarget.prototype.removeEventListener
 
 const handlersCache = new HandlersCache()
 
+let shouldSendMessage = false
+
+window.addEventListener('message', ({ data }) => {
+  if (data.type === ENABLE_RECORDER) {
+    shouldSendMessage = data.isRecorderEnabled
+  }
+})
+
 window.EventTarget.prototype.addEventListener = function (
   type,
   callback,
@@ -76,7 +84,7 @@ window.EventTarget.prototype.addEventListener = function (
     return
   }
   function eventCallbackWrapper(e: any) {
-    if (!EVENTS_TO_IGNORE.includes(type)) {
+    if (shouldSendMessage && !EVENTS_TO_IGNORE.includes(type)) {
       eventHandler(e)
     }
     if (typeof callback === 'function') {
