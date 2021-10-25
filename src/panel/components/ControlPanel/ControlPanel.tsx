@@ -5,14 +5,15 @@ import Button from '@mui/material/Button'
 import DeleteIcon from '@mui/icons-material/Delete'
 import PlayCircle from '@mui/icons-material/PlayCircle'
 import PauseCircle from '@mui/icons-material/PauseCircle'
+import { ControlPanelProps } from './ControlPanel.types'
+
 import { css } from '@emotion/react'
 
 const ControlPanel = ({
   isRecorderEnabled,
   onRecordEnabledChange,
   onClearEventsByTabId,
-}: any) => {
-  console.log('isRecorderEnabled', isRecorderEnabled)
+}: ControlPanelProps) => {
   return (
     <AppBar
       css={css`
