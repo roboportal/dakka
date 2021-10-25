@@ -1,13 +1,9 @@
 import { useMemo } from 'react'
 import { css } from '@emotion/react'
-
-import Switch from '@mui/material/Switch'
-import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
 
-import DeleteIcon from '@mui/icons-material/Delete'
-
 import EventsMask from './components/EventsMask/EventsMask'
+import ControlPanel from './components/ControlPanel/ControlPanel'
 import useEventRecorder from './hooks/useEventRecorder'
 
 export default function App() {
@@ -30,18 +26,11 @@ export default function App() {
 
   return (
     <div>
-      <Switch
-        checked={isRecorderEnabled}
-        onChange={handleIsRecordEnabledChange}
+      <ControlPanel
+        isRecorderEnabled={isRecorderEnabled}
+        onRecordEnabledChange={handleIsRecordEnabledChange}
+        onClearEventsByTabId={handleClearEventsByTabId}
       />
-
-      <Button
-        onClick={handleClearEventsByTabId}
-        variant="outlined"
-        startIcon={<DeleteIcon />}
-      >
-        Clear Records
-      </Button>
       <Box
         css={css`
           display: flex;
@@ -49,7 +38,7 @@ export default function App() {
           justify-content: space-between;
         `}
       >
-        <div>aaaa{eventsList}</div>
+        <div>{eventsList}</div>
         <div>
           <EventsMask />
         </div>
