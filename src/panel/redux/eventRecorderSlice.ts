@@ -9,7 +9,7 @@ export interface EventRecorderState {
   eventsToTrack: Record<string, boolean>
 }
 
-interface IEventRecord {
+export interface IEventRecord {
   id: string
   type: string
   payload: {
@@ -49,10 +49,10 @@ export const eventRecorderSlice = createSlice({
       state.isRecorderEnabled = !state.isRecorderEnabled
     },
     recordEvent: (
-      { events },
+      { events, eventsToTrack },
       { payload: { tabId, eventRecord } }: PayloadAction<IRecordEventPayload>,
     ) => {
-      if (tabId > -1) {
+      if (tabId > -1 && eventsToTrack[eventRecord.payload.type]) {
         events[tabId] = [...(events[tabId] ?? []), eventRecord]
       }
     },

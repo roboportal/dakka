@@ -1,9 +1,10 @@
 import { css } from '@emotion/react'
 import List from '@mui/material/List'
+import ListSubheader from '@mui/material/ListSubheader'
 
 import CollapsibleGroupItem from './CollapsibleGroupItem'
 import GroupEventsItem from './GroupEventsItem'
-import useEventMask from './useEventMask'
+import useEventMask from '../../hooks/useEventMask'
 
 export default function EventsMask() {
   const {
@@ -16,6 +17,7 @@ export default function EventsMask() {
 
   return (
     <List
+      subheader={<ListSubheader>Events to track</ListSubheader>}
       disablePadding
       css={css`
         width: 20vw;
@@ -24,6 +26,7 @@ export default function EventsMask() {
     >
       {eventsList.map((group) => (
         <CollapsibleGroupItem
+          key={group.groupName}
           group={group}
           handleCollapseChange={handleCollapseChange}
           collapseState={collapseState}

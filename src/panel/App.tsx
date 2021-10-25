@@ -39,9 +39,7 @@ export default function App() {
         `}
       >
         <div>{eventsList}</div>
-        <div>
-          <EventsMask />
-        </div>
+        <EventsMask />
       </Box>
     </div>
   )

@@ -24,7 +24,7 @@ export default function CollapsibleGroupItem({
   collapseState,
 }: ICollapsibleGroupItemProps) {
   return (
-    <ListItem key={group.groupName} disablePadding disableGutters>
+    <ListItem disablePadding disableGutters>
       <List
         disablePadding
         css={css`
