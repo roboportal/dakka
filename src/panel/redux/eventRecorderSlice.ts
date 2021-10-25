@@ -1,9 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
+import eventsList from '../constants/eventsList'
+
 export interface EventRecorderState {
   isRecorderEnabled: boolean
   activeTabID: number
   events: Record<number, Array<Record<string, any>>>
+  eventsToTrack: Record<string, boolean>
 }
 
 interface IEventRecord {
@@ -21,10 +24,18 @@ export interface IRecordEventPayload {
   eventRecord: IEventRecord
 }
 
+const defaultEventsToTrack = Object.fromEntries(
+  eventsList
+    .map((group) => group.events)
+    .flat()
+    .map(({ key, defaultSelected }) => [key, defaultSelected ?? false]),
+)
+
 const initialState: EventRecorderState = {
   isRecorderEnabled: false,
   activeTabID: -1,
   events: {},
+  eventsToTrack: defaultEventsToTrack,
 }
 
 export const eventRecorderSlice = createSlice({
@@ -48,6 +59,12 @@ export const eventRecorderSlice = createSlice({
     clearEvents: ({ events }, { payload: { tabId } }) => {
       events[tabId] = []
     },
+    toggleEventToTrack: (
+      { eventsToTrack },
+      { payload }: PayloadAction<string>,
+    ) => {
+      eventsToTrack[payload] = !eventsToTrack[payload]
+    },
   },
 })
 
@@ -56,6 +73,7 @@ export const {
   toggleIsRecorderEnabled,
   recordEvent,
   clearEvents,
+  toggleEventToTrack,
 } = eventRecorderSlice.actions
 
 export default eventRecorderSlice.reducer

@@ -1,8 +1,13 @@
 import { useMemo } from 'react'
+import { css } from '@emotion/react'
+
 import Switch from '@mui/material/Switch'
 import Button from '@mui/material/Button'
+import Box from '@mui/material/Box'
+
 import DeleteIcon from '@mui/icons-material/Delete'
 
+import EventsMask from './components/EventsMask/EventsMask'
 import useEventRecorder from './hooks/useEventRecorder'
 
 export default function App() {
@@ -37,7 +42,18 @@ export default function App() {
       >
         Clear Records
       </Button>
-      {eventsList}
+      <Box
+        css={css`
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+        `}
+      >
+        <div>aaaa{eventsList}</div>
+        <div>
+          <EventsMask />
+        </div>
+      </Box>
     </div>
   )
 }
