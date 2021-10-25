@@ -10,6 +10,95 @@ export interface IEventGroupItem {
 
 const eventsList: Array<IEventGroupItem> = [
   {
+    groupName: 'Common',
+    events: [
+      {
+        key: 'error',
+        title: 'error',
+        about: 'https://www.w3schools.com/jsref/event_onerror.asp',
+        defaultSelected: true,
+      },
+      {
+        key: 'blur',
+        title: 'blur',
+        about: 'https://www.w3schools.com/jsref/event_onblur.asp',
+        defaultSelected: true,
+      },
+      {
+        key: 'copy',
+        title: 'copy',
+        about: 'https://www.w3schools.com/jsref/event_oncopy.asp',
+        defaultSelected: true,
+      },
+      {
+        key: 'cut',
+        title: 'cut',
+        about: 'https://www.w3schools.com/jsref/event_oncut.asp',
+        defaultSelected: true,
+      },
+      {
+        key: 'paste',
+        title: 'paste',
+        about: 'https://www.w3schools.com/jsref/event_onpaste.asp',
+        defaultSelected: true,
+      },
+      {
+        key: 'focus',
+        title: 'focus',
+        about: 'https://www.w3schools.com/jsref/event_onfocus.asp',
+        defaultSelected: true,
+      },
+      {
+        key: 'focusin',
+        title: 'focusin',
+        about: 'https://www.w3schools.com/jsref/event_onfocusin.asp',
+        defaultSelected: true,
+      },
+      {
+        key: 'focusout',
+        title: 'focusout',
+        about: 'https://www.w3schools.com/jsref/event_onfocusout.asp',
+        defaultSelected: true,
+      },
+      {
+        key: 'fullscreenchange',
+        title: 'fullscreenchange',
+        about: 'https://www.w3schools.com/jsref/event_fullscreenchange.asp',
+        defaultSelected: true,
+      },
+      {
+        key: 'fullscreenerror',
+        title: 'fullscreenerror',
+        about: 'https://www.w3schools.com/jsref/event_fullscreenerror.asp',
+        defaultSelected: true,
+      },
+
+      {
+        key: 'load',
+        title: 'load',
+        about: 'https://www.w3schools.com/jsref/event_onload.asp',
+      },
+      {
+        key: 'message',
+        title: 'message',
+        about: 'https://www.w3schools.com/jsref/event_onmessage_sse.asp',
+      },
+
+      {
+        key: 'scroll',
+        title: 'scroll',
+        about: 'https://www.w3schools.com/jsref/event_onscroll.asp',
+        defaultSelected: true,
+      },
+      {
+        key: 'wheel',
+        title: 'wheel',
+        about: 'https://www.w3schools.com/jsref/event_onwheel.asp',
+        defaultSelected: true,
+      },
+    ],
+  },
+  {
     groupName: 'Mouse',
     events: [
       {
@@ -72,6 +161,29 @@ const eventsList: Array<IEventGroupItem> = [
     ],
   },
   {
+    groupName: 'Keyboard',
+    events: [
+      {
+        key: 'keydown',
+        title: 'keydown',
+        about: 'https://www.w3schools.com/jsref/event_onkeydown.asp',
+        defaultSelected: true,
+      },
+      {
+        key: 'keypress',
+        title: 'keypress',
+        about: 'https://www.w3schools.com/jsref/event_onkeypress.asp',
+        defaultSelected: true,
+      },
+      {
+        key: 'keyup',
+        title: 'keyup',
+        about: 'https://www.w3schools.com/jsref/event_onkeyup.asp',
+        defaultSelected: true,
+      },
+    ],
+  },
+  {
     groupName: 'Drag',
     events: [
       {
@@ -119,24 +231,55 @@ const eventsList: Array<IEventGroupItem> = [
     ],
   },
   {
-    groupName: 'Keyboard',
+    groupName: 'Document',
     events: [
       {
-        key: 'keydown',
-        title: 'keydown',
-        about: 'https://www.w3schools.com/jsref/event_onkeydown.asp',
+        key: 'unload',
+        title: 'unload',
+        about: 'https://www.w3schools.com/jsref/event_onunload.asp',
         defaultSelected: true,
       },
       {
-        key: 'keypress',
-        title: 'keypress',
-        about: 'https://www.w3schools.com/jsref/event_onkeypress.asp',
+        key: 'beforeunload',
+        title: 'beforeunload',
+        about: 'https://www.w3schools.com/jsref/event_onbeforeunload.asp',
         defaultSelected: true,
       },
       {
-        key: 'keyup',
-        title: 'keyup',
-        about: 'https://www.w3schools.com/jsref/event_onkeyup.asp',
+        key: 'pagehide',
+        title: 'pagehide',
+        about: 'https://www.w3schools.com/jsref/event_onpagehide.asp',
+        defaultSelected: true,
+      },
+      {
+        key: 'resize',
+        title: 'resize',
+        about: 'https://www.w3schools.com/jsref/event_onresize.asp',
+        defaultSelected: true,
+      },
+      {
+        key: 'hashchange',
+        title: 'hashchange',
+        about: 'https://www.w3schools.com/jsref/event_onhashchange.asp',
+        defaultSelected: true,
+      },
+      {
+        key: 'offline',
+        title: 'offline',
+        about: 'https://www.w3schools.com/jsref/event_onoffline.asp',
+        defaultSelected: true,
+      },
+      {
+        key: 'online',
+        title: 'online',
+        about: 'https://www.w3schools.com/jsref/event_ononline.asp',
+        defaultSelected: true,
+      },
+
+      {
+        key: 'pageshow',
+        title: 'pageshow',
+        about: 'https://www.w3schools.com/jsref/event_onpageshow.asp',
         defaultSelected: true,
       },
     ],
@@ -319,23 +462,6 @@ const eventsList: Array<IEventGroupItem> = [
     ],
   },
   {
-    groupName: 'Printing',
-    events: [
-      {
-        key: 'afterprint',
-        title: 'afterprint',
-        about: 'https://www.w3schools.com/jsref/event_onafterprint.asp',
-        defaultSelected: true,
-      },
-      {
-        key: 'beforeprint',
-        title: 'beforeprint',
-        about: 'https://www.w3schools.com/jsref/event_onbeforeprint.asp',
-        defaultSelected: true,
-      },
-    ],
-  },
-  {
     groupName: 'Animation',
     events: [
       {
@@ -365,171 +491,6 @@ const eventsList: Array<IEventGroupItem> = [
     ],
   },
   {
-    groupName: 'Document',
-    events: [
-      {
-        key: 'unload',
-        title: 'unload',
-        about: 'https://www.w3schools.com/jsref/event_onunload.asp',
-        defaultSelected: true,
-      },
-      {
-        key: 'beforeunload',
-        title: 'beforeunload',
-        about: 'https://www.w3schools.com/jsref/event_onbeforeunload.asp',
-        defaultSelected: true,
-      },
-      {
-        key: 'pagehide',
-        title: 'pagehide',
-        about: 'https://www.w3schools.com/jsref/event_onpagehide.asp',
-        defaultSelected: true,
-      },
-      {
-        key: 'resize',
-        title: 'resize',
-        about: 'https://www.w3schools.com/jsref/event_onresize.asp',
-        defaultSelected: true,
-      },
-      {
-        key: 'hashchange',
-        title: 'hashchange',
-        about: 'https://www.w3schools.com/jsref/event_onhashchange.asp',
-        defaultSelected: true,
-      },
-      {
-        key: 'offline',
-        title: 'offline',
-        about: 'https://www.w3schools.com/jsref/event_onoffline.asp',
-        defaultSelected: true,
-      },
-      {
-        key: 'online',
-        title: 'online',
-        about: 'https://www.w3schools.com/jsref/event_ononline.asp',
-        defaultSelected: true,
-      },
-
-      {
-        key: 'pageshow',
-        title: 'pageshow',
-        about: 'https://www.w3schools.com/jsref/event_onpageshow.asp',
-        defaultSelected: true,
-      },
-    ],
-  },
-  {
-    groupName: 'Common',
-    events: [
-      {
-        key: 'error',
-        title: 'error',
-        about: 'https://www.w3schools.com/jsref/event_onerror.asp',
-        defaultSelected: true,
-      },
-      {
-        key: 'blur',
-        title: 'blur',
-        about: 'https://www.w3schools.com/jsref/event_onblur.asp',
-        defaultSelected: true,
-      },
-      {
-        key: 'copy',
-        title: 'copy',
-        about: 'https://www.w3schools.com/jsref/event_oncopy.asp',
-        defaultSelected: true,
-      },
-      {
-        key: 'cut',
-        title: 'cut',
-        about: 'https://www.w3schools.com/jsref/event_oncut.asp',
-        defaultSelected: true,
-      },
-      {
-        key: 'paste',
-        title: 'paste',
-        about: 'https://www.w3schools.com/jsref/event_onpaste.asp',
-        defaultSelected: true,
-      },
-      {
-        key: 'focus',
-        title: 'focus',
-        about: 'https://www.w3schools.com/jsref/event_onfocus.asp',
-        defaultSelected: true,
-      },
-      {
-        key: 'focusin',
-        title: 'focusin',
-        about: 'https://www.w3schools.com/jsref/event_onfocusin.asp',
-        defaultSelected: true,
-      },
-      {
-        key: 'focusout',
-        title: 'focusout',
-        about: 'https://www.w3schools.com/jsref/event_onfocusout.asp',
-        defaultSelected: true,
-      },
-      {
-        key: 'fullscreenchange',
-        title: 'fullscreenchange',
-        about: 'https://www.w3schools.com/jsref/event_fullscreenchange.asp',
-        defaultSelected: true,
-      },
-      {
-        key: 'fullscreenerror',
-        title: 'fullscreenerror',
-        about: 'https://www.w3schools.com/jsref/event_fullscreenerror.asp',
-        defaultSelected: true,
-      },
-
-      {
-        key: 'load',
-        title: 'load',
-        about: 'https://www.w3schools.com/jsref/event_onload.asp',
-      },
-      {
-        key: 'message',
-        title: 'message',
-        about: 'https://www.w3schools.com/jsref/event_onmessage_sse.asp',
-      },
-
-      {
-        key: 'scroll',
-        title: 'scroll',
-        about: 'https://www.w3schools.com/jsref/event_onscroll.asp',
-        defaultSelected: true,
-      },
-      {
-        key: 'wheel',
-        title: 'wheel',
-        about: 'https://www.w3schools.com/jsref/event_onwheel.asp',
-        defaultSelected: true,
-      },
-    ],
-  },
-  {
-    groupName: 'Menu',
-    events: [
-      {
-        key: 'show',
-        title: 'show',
-        about: 'https://www.w3schools.com/jsref/event_onshow.asp',
-        defaultSelected: true,
-      },
-    ],
-  },
-  {
-    groupName: 'Details',
-    events: [
-      {
-        key: 'toggle',
-        title: 'toggle',
-        about: 'https://www.w3schools.com/jsref/event_ontoggle.asp',
-        defaultSelected: true,
-      },
-    ],
-  },
-  {
     groupName: 'Touch',
     events: [
       {
@@ -554,6 +515,45 @@ const eventsList: Array<IEventGroupItem> = [
         key: 'touchstart',
         title: 'touchstart',
         about: 'https://www.w3schools.com/jsref/event_touchstart.asp',
+        defaultSelected: true,
+      },
+    ],
+  },
+  {
+    groupName: 'Printing',
+    events: [
+      {
+        key: 'afterprint',
+        title: 'afterprint',
+        about: 'https://www.w3schools.com/jsref/event_onafterprint.asp',
+        defaultSelected: true,
+      },
+      {
+        key: 'beforeprint',
+        title: 'beforeprint',
+        about: 'https://www.w3schools.com/jsref/event_onbeforeprint.asp',
+        defaultSelected: true,
+      },
+    ],
+  },
+  {
+    groupName: 'Menu',
+    events: [
+      {
+        key: 'show',
+        title: 'show',
+        about: 'https://www.w3schools.com/jsref/event_onshow.asp',
+        defaultSelected: true,
+      },
+    ],
+  },
+  {
+    groupName: 'Details',
+    events: [
+      {
+        key: 'toggle',
+        title: 'toggle',
+        about: 'https://www.w3schools.com/jsref/event_ontoggle.asp',
         defaultSelected: true,
       },
     ],

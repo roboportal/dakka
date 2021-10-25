@@ -4,6 +4,8 @@ import ListItem from '@mui/material/ListItem'
 import ListItemText from '@mui/material/ListItemText'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import Checkbox from '@mui/material/Checkbox'
+import OpenInNew from '@mui/icons-material/OpenInNew'
+import Link from '@mui/material/Link'
 
 import { IEventGroupItem } from '../../constants/eventsList'
 
@@ -27,6 +29,11 @@ export default function GroupEventsItem({
           css={css`
             padding-left: 32px;
           `}
+          secondaryAction={
+            <Link href={event.about} target="_blank">
+              <OpenInNew fontSize="small" />
+            </Link>
+          }
         >
           <ListItemIcon>
             <Checkbox
