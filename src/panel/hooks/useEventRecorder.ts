@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { MouseEventHandler, useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import {
   setActiveTabID,
@@ -7,12 +7,17 @@ import {
   clearEvents,
   IEventRecord,
 } from '../redux/eventRecorderSlice'
-import { ENABLE_RECORDER } from '../../constants/messageTypes'
+import {
+  ENABLE_RECORDER,
+  HIGHLIGHT_ELEMENT,
+} from '../../constants/messageTypes'
 
 import { SLICE_NAMES, RootState } from '../redux'
 
 export default function useEventRecorder() {
-  const { isRecorderEnabled, activeTabID, events, eventsToTrack } = useSelector(
+  const [highlightedEventIndex, setHighlightedEventIndex] = useState<number>(-1)
+
+  const { isRecorderEnabled, activeTabID, events } = useSelector(
     (state: RootState) => state[SLICE_NAMES.eventRecorder],
   )
 
@@ -28,6 +33,34 @@ export default function useEventRecorder() {
 
   const handleClearEventsByTabId = () =>
     dispatch(clearEvents({ tabId: activeTabID }))
+
+  const toggleHighlightedElement: MouseEventHandler = (e) => {
+    const eventId = Number(
+      (e?.target as HTMLElement)?.dataset?.event_list_index,
+    )
+    if (!Number.isFinite(eventId)) {
+      return
+    }
+    if (eventId === highlightedEventIndex) {
+      setHighlightedEventIndex(-1)
+    } else {
+      setHighlightedEventIndex(eventId)
+    }
+  }
+
+  useEffect(() => {
+    if (activeTabID === -1) {
+      return
+    }
+    const payload: { type: string; selector: string | null } = {
+      type: HIGHLIGHT_ELEMENT,
+      selector: null,
+    }
+    if (highlightedEventIndex > -1) {
+      payload.selector = events[activeTabID][highlightedEventIndex].selector
+    }
+    chrome.tabs.sendMessage(activeTabID, payload)
+  }, [highlightedEventIndex])
 
   useEffect(() => {
     chrome.runtime.onMessage.addListener(
@@ -57,5 +90,6 @@ export default function useEventRecorder() {
     activeTabID,
     handleIsRecordEnabledChange,
     handleClearEventsByTabId,
+    toggleHighlightedElement,
   }
 }

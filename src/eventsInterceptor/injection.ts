@@ -1,66 +1,9 @@
-import { v4 as uuid } from 'uuid'
-
-import { EVENT_INTERCEPTED, ENABLE_RECORDER } from '../constants/messageTypes'
+import { HandlersCache, eventHandler } from './utils'
+import { ENABLE_RECORDER, HIGHLIGHT_ELEMENT } from '../constants/messageTypes'
 
 const EVENTS_TO_IGNORE = ['message']
 
 console.log('Script injected')
-
-class HandlersCache {
-  storage: Map<
-    EventListenerOrEventListenerObject,
-    { event: EventListenerOrEventListenerObject; count: number }
-  >
-
-  constructor() {
-    this.storage = new Map()
-  }
-
-  set(
-    handler: EventListenerOrEventListenerObject,
-    event: EventListenerOrEventListenerObject,
-  ) {
-    const v = this.storage.get(handler) ?? { event, count: 0 }
-    v.count++
-    this.storage.set(handler, v)
-  }
-
-  get(
-    handler: EventListenerOrEventListenerObject,
-  ): EventListenerOrEventListenerObject | undefined {
-    const v = this.storage.get(handler)
-
-    if (!v) {
-      return
-    }
-    v.count--
-    if (v.count === 0) {
-      this.storage.delete(handler)
-    }
-    return v.event
-  }
-}
-
-const id =
-  (document?.querySelector('script[data-extid]') as HTMLElement)?.dataset
-    ?.extid ?? ''
-
-function eventHandler(event: any) {
-  const {
-    target: { className },
-    type,
-    value,
-  } = event
-
-  const message = {
-    id,
-    type: EVENT_INTERCEPTED,
-    payload: { id: uuid(), className, type, value },
-  }
-  try {
-    window.postMessage(message)
-  } catch {}
-}
 
 const a = window.EventTarget.prototype.addEventListener
 const r = window.EventTarget.prototype.removeEventListener
@@ -68,10 +11,44 @@ const r = window.EventTarget.prototype.removeEventListener
 const handlersCache = new HandlersCache()
 
 let shouldSendMessage = false
+let highLightElement: HTMLDivElement | null = null
 
 window.addEventListener('message', ({ data }) => {
   if (data.type === ENABLE_RECORDER) {
     shouldSendMessage = data.isRecorderEnabled
+  }
+
+  if (data.type === HIGHLIGHT_ELEMENT) {
+    const selector: string = data.selector
+    if (!highLightElement && selector) {
+      const el = document.createElement('div')
+      el.style.position = 'absolute'
+      el.style.backgroundColor = '#0080ff'
+      el.style.opacity = '0.7'
+      el.style.display = 'none'
+      document.body.append(el)
+      highLightElement = el
+    }
+
+    if (!highLightElement) {
+      return
+    }
+
+    if (selector) {
+      const { top, left, width, height } = document
+        .querySelector(selector)
+        ?.getBoundingClientRect() ?? { top: 0, bottom: 0, left: 0, right: 0 }
+      if (top && width && left && height) {
+        highLightElement.style.top = top + 'px'
+        highLightElement.style.width = width + 'px'
+        highLightElement.style.left = left + 'px'
+        highLightElement.style.height = height + 'px'
+        highLightElement.style.display = 'block'
+        highLightElement.style.zIndex = '999999999'
+      }
+    } else {
+      highLightElement.style.display = 'none'
+    }
   }
 })
 

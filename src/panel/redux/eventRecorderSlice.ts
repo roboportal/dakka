@@ -5,18 +5,20 @@ import eventsList from '../constants/eventsList'
 export interface EventRecorderState {
   isRecorderEnabled: boolean
   activeTabID: number
-  events: Record<number, Array<Record<string, any>>>
+  events: Record<number, Array<IEventPayload>>
   eventsToTrack: Record<string, boolean>
+}
+
+interface IEventPayload {
+  id: string
+  selector: string
+  type: string
 }
 
 export interface IEventRecord {
   id: string
   type: string
-  payload: {
-    id: string
-    className: string
-    type: string
-  }
+  payload: IEventPayload
 }
 
 export interface IRecordEventPayload {
@@ -53,7 +55,7 @@ export const eventRecorderSlice = createSlice({
       { payload: { tabId, eventRecord } }: PayloadAction<IRecordEventPayload>,
     ) => {
       if (tabId > -1 && eventsToTrack[eventRecord.payload.type]) {
-        events[tabId] = [...(events[tabId] ?? []), eventRecord]
+        events[tabId] = [...(events[tabId] ?? []), eventRecord.payload]
       }
     },
     clearEvents: ({ events }, { payload: { tabId } }) => {

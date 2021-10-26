@@ -13,13 +13,31 @@ export default function App() {
     isRecorderEnabled,
     handleIsRecordEnabledChange,
     handleClearEventsByTabId,
+    toggleHighlightedElement,
   } = useEventRecorder()
 
   const eventsList = useMemo(() => {
     if (activeTabID > -1) {
-      return events[activeTabID]?.map(({ payload }) => (
-        <div key={payload.id}>{JSON.stringify(payload)}</div>
-      ))
+      return events[activeTabID]?.map((record, index) => {
+        const { id, selector, type } = record
+        return (
+          <div
+            key={id}
+            css={css`
+              border: 1px solid #eee;
+              margin-bottom: 2px;
+              cursor: pointer;
+
+              :hover {
+                background-color: #444;
+              }
+            `}
+            data-event_list_index={index}
+          >
+            {JSON.stringify({ selector, type })}
+          </div>
+        )
+      })
     }
     return null
   }, [activeTabID, events])
@@ -38,7 +56,12 @@ export default function App() {
           justify-content: space-between;
         `}
       >
-        <div>{eventsList}</div>
+        <div
+          onMouseOver={toggleHighlightedElement}
+          onMouseOut={toggleHighlightedElement}
+        >
+          {eventsList}
+        </div>
         <EventsMask />
       </Box>
     </div>

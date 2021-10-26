@@ -1,4 +1,4 @@
-import { ENABLE_RECORDER } from '../constants/messageTypes'
+import { shouldProcessMessage } from './utils'
 
 console.log('Content script attached')
 
@@ -20,7 +20,7 @@ window.addEventListener('message', ({ data }) => {
 })
 
 chrome.runtime.onMessage.addListener((message) => {
-  if (message.type === ENABLE_RECORDER) {
+  if (shouldProcessMessage(message.type)) {
     window.postMessage(message)
   }
 })
