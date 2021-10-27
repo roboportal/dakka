@@ -1,9 +1,10 @@
-import { useMemo } from 'react'
 import { css } from '@emotion/react'
 import Box from '@mui/material/Box'
 
 import EventsMask from './components/EventsMask/EventsMask'
 import ControlPanel from './components/ControlPanel/ControlPanel'
+import EventsList from './components/EventsList'
+
 import useEventRecorder from './hooks/useEventRecorder'
 
 export default function App() {
@@ -15,32 +16,6 @@ export default function App() {
     handleClearEventsByTabId,
     toggleHighlightedElement,
   } = useEventRecorder()
-
-  const eventsList = useMemo(() => {
-    if (activeTabID > -1) {
-      return events[activeTabID]?.map((record, index) => {
-        const { id, selector, type } = record
-        return (
-          <div
-            key={id}
-            css={css`
-              border: 1px solid #eee;
-              margin-bottom: 2px;
-              cursor: pointer;
-
-              :hover {
-                background-color: #444;
-              }
-            `}
-            data-event_list_index={index}
-          >
-            {JSON.stringify({ selector, type })}
-          </div>
-        )
-      })
-    }
-    return null
-  }, [activeTabID, events])
 
   return (
     <div>
@@ -57,10 +32,18 @@ export default function App() {
         `}
       >
         <div
+          css={css`
+            display: flex;
+            justify-content: row;
+            width: 80vw;
+            overflow-x: scroll;
+            padding-left: 8px;
+            padding-right: 8px;
+          `}
           onMouseOver={toggleHighlightedElement}
           onMouseOut={toggleHighlightedElement}
         >
-          {eventsList}
+          <EventsList events={events[activeTabID]} />
         </div>
         <EventsMask />
       </Box>
