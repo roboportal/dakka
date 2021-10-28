@@ -15,7 +15,9 @@ import {
 import { SLICE_NAMES, RootState } from '../redux'
 
 export default function useEventRecorder() {
-  const [highlightedEventIndex, setHighlightedEventIndex] = useState<number>(-1)
+  const [highlightedEventIndexes, setHighlightedEventIndexes] = useState<
+    number[]
+  >([])
 
   const { isRecorderEnabled, activeTabID, events } = useSelector(
     (state: RootState) => state[SLICE_NAMES.eventRecorder],
@@ -35,16 +37,15 @@ export default function useEventRecorder() {
     dispatch(clearEvents({ tabId: activeTabID }))
 
   const toggleHighlightedElement: MouseEventHandler = (e) => {
-    const eventId = Number(
-      (e?.target as HTMLElement)?.dataset?.event_list_index,
-    )
-    if (!Number.isFinite(eventId)) {
-      return
-    }
-    if (eventId === highlightedEventIndex) {
-      setHighlightedEventIndex(-1)
+    const eventIds: number[] =
+      (e?.target as HTMLElement)?.dataset?.event_list_index
+        ?.split('.')
+        .map((it) => Number(it)) ?? []
+
+    if (JSON.stringify(eventIds) === JSON.stringify(highlightedEventIndexes)) {
+      setHighlightedEventIndexes([])
     } else {
-      setHighlightedEventIndex(eventId)
+      setHighlightedEventIndexes(eventIds)
     }
   }
 
@@ -56,11 +57,18 @@ export default function useEventRecorder() {
       type: HIGHLIGHT_ELEMENT,
       selector: null,
     }
-    if (highlightedEventIndex > -1) {
-      payload.selector = events[activeTabID][highlightedEventIndex].selector
+
+    if (highlightedEventIndexes.length) {
+      const item = events[activeTabID][highlightedEventIndexes[0]]
+      if (Array.isArray(item)) {
+        payload.selector = item[highlightedEventIndexes[1]]?.selector ?? null
+      } else {
+        payload.selector = item?.selector ?? null
+      }
     }
+
     chrome.tabs.sendMessage(activeTabID, payload)
-  }, [highlightedEventIndex])
+  }, [highlightedEventIndexes])
 
   useEffect(() => {
     chrome.runtime.onMessage.addListener(

@@ -22,10 +22,12 @@ window.addEventListener('message', ({ data }) => {
     const selector: string = data.selector
     if (!highLightElement && selector) {
       const el = document.createElement('div')
-      el.style.position = 'absolute'
+      el.style.position = 'fixed'
       el.style.backgroundColor = '#0080ff'
-      el.style.opacity = '0.7'
+      el.style.opacity = '0.5'
       el.style.display = 'none'
+      el.style.border = '1px dashed gold'
+
       document.body.append(el)
       highLightElement = el
     }
