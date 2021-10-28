@@ -35,7 +35,6 @@ export default function App() {
           css={css`
             display: flex;
             justify-content: row;
-            width: 80vw;
             overflow-x: scroll;
             padding-left: 8px;
             padding-right: 8px;

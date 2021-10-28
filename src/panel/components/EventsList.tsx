@@ -52,6 +52,34 @@ function EventEntity({
   )
 }
 
+function Break({ delta }: { delta: number }) {
+  if (!delta || delta < 100) {
+    return null
+  }
+  return (
+    <div
+      css={css`
+        height: 100%;
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      `}
+    >
+      <div
+        css={css`
+          width: 200px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        `}
+      >
+        {delta}
+      </div>
+    </div>
+  )
+}
+
 function EventsList({ events }: IEventsListProps) {
   if (!events) {
     return null
@@ -61,50 +89,58 @@ function EventsList({ events }: IEventsListProps) {
       {events?.map((record, index) => {
         if (Array.isArray(record)) {
           const records = record as IEventPayload[]
+          const delta = records[0].deltaTime > 100 ? 0 : records[0].deltaTime
           return (
-            <div
-              key={records[0].id}
-              css={css`
-                display: flex;
-                flex-direction: column;
-                margin-left: ${records[0].deltaTime || 2}px;
-              `}
-            >
+            <>
+              <Break key={records[0].id + '_'} delta={records[0].deltaTime} />
               <div
+                key={records[0].id}
                 css={css`
-                  text-align: center;
+                  display: flex;
+                  flex-direction: column;
+                  margin-left: ${delta + 2}px;
                 `}
               >
-                {records[0].triggeredAt}
+                <div
+                  css={css`
+                    text-align: center;
+                  `}
+                >
+                  {records[0].triggeredAt}
+                </div>
+                {records.map((record, _index) => (
+                  <EventEntity
+                    key={record.id}
+                    record={record}
+                    index={`${index}.${_index}`}
+                  />
+                ))}
               </div>
-              {records.map((record, _index) => (
-                <EventEntity
-                  key={record.id}
-                  record={record}
-                  index={`${index}.${_index}`}
-                />
-              ))}
-            </div>
+            </>
           )
         } else {
+          const delta = record.deltaTime > 100 ? 0 : record.deltaTime
           return (
-            <div
-              key={record.id}
-              css={css`
-                display: flex;
-                flex-direction: column;
-                margin-left: ${record.deltaTime || 2}px;
-              `}
-            >
+            <>
+              <Break key={record.id + '_'} delta={record.deltaTime} />
               <div
+                key={record.id}
                 css={css`
-                  text-align: center;
+                  display: flex;
+                  flex-direction: column;
+                  margin-left: ${delta + 2}px;
                 `}
               >
-                {record.triggeredAt}
+                <div
+                  css={css`
+                    text-align: center;
+                  `}
+                >
+                  {record.triggeredAt}
+                </div>
+                <EventEntity record={record} index={index.toString()} />
               </div>
-              <EventEntity record={record} index={index.toString()} />
-            </div>
+            </>
           )
         }
       })}

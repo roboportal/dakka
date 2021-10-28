@@ -75,11 +75,10 @@ function calculateDeltaTime(
   currentEvent: IEventPayload,
 ) {
   const delta =
-    (currentEvent.triggeredAt -
-      ((prevEvent as IEventPayload[])[0]?.triggeredAt ??
-        (prevEvent as IEventPayload)?.triggeredAt)) /
-    2
-  return Number.isFinite(delta) ? delta : delta ?? 0
+    currentEvent.triggeredAt -
+    ((prevEvent as IEventPayload[])[0]?.triggeredAt ??
+      (prevEvent as IEventPayload)?.triggeredAt)
+  return (Number.isFinite(delta) ? delta : delta) ?? 0
 }
 
 function composeEvents(
