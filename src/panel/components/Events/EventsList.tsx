@@ -1,7 +1,7 @@
-import { memo } from 'react'
+import { Fragment, memo } from 'react'
 import { css } from '@emotion/react'
 
-import { IEventPayload } from '../redux/eventRecorderSlice'
+import { IEventPayload } from '../../redux/eventRecorderSlice'
 
 interface IEventsListProps {
   events: IEventPayload[]
@@ -89,12 +89,12 @@ function EventsList({ events }: IEventsListProps) {
       {events?.map((record, index) => {
         if (Array.isArray(record)) {
           const records = record as IEventPayload[]
-          const delta = records[0].deltaTime > 100 ? 0 : records[0].deltaTime
+          // const delta = records[0].deltaTime > 100 ? 0 : records[0].deltaTime
+          const delta = records[0].deltaTime
           return (
-            <>
-              <Break key={records[0].id + '_'} delta={records[0].deltaTime} />
+            <Fragment key={records[0].id}>
+              <Break delta={records[0].deltaTime} />
               <div
-                key={records[0].id}
                 css={css`
                   display: flex;
                   flex-direction: column;
@@ -108,23 +108,25 @@ function EventsList({ events }: IEventsListProps) {
                 >
                   {records[0].triggeredAt}
                 </div>
-                {records.map((record, _index) => (
-                  <EventEntity
-                    key={record.id}
-                    record={record}
-                    index={`${index}.${_index}`}
-                  />
-                ))}
+                {records.map((record, _index) => {
+                  return (
+                    <EventEntity
+                      key={record.id}
+                      record={record}
+                      index={`${index}.${_index}`}
+                    />
+                  )
+                })}
               </div>
-            </>
+            </Fragment>
           )
         } else {
-          const delta = record.deltaTime > 100 ? 0 : record.deltaTime
+          // const delta = record.deltaTime > 100 ? 0 : record.deltaTime
+          const delta = record.deltaTime
           return (
-            <>
-              <Break key={record.id + '_'} delta={record.deltaTime} />
+            <Fragment key={record.id}>
+              <Break delta={record.deltaTime} />
               <div
-                key={record.id}
                 css={css`
                   display: flex;
                   flex-direction: column;
@@ -140,7 +142,7 @@ function EventsList({ events }: IEventsListProps) {
                 </div>
                 <EventEntity record={record} index={index.toString()} />
               </div>
-            </>
+            </Fragment>
           )
         }
       })}
