@@ -1,4 +1,4 @@
-import { MouseEventHandler, useEffect, useState } from 'react'
+import { MouseEventHandler, useEffect, useState, useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import {
   setActiveTabID,
@@ -25,29 +25,36 @@ export default function useEventRecorder() {
 
   const dispatch = useDispatch()
 
-  const handleIsRecordEnabledChange = () => {
+  const handleIsRecordEnabledChange = useCallback(() => {
     chrome.tabs.sendMessage(activeTabID, {
       type: ENABLE_RECORDER,
       isRecorderEnabled: !isRecorderEnabled,
     })
     dispatch(toggleIsRecorderEnabled())
-  }
+  }, [activeTabID, isRecorderEnabled, dispatch, toggleIsRecorderEnabled])
 
-  const handleClearEventsByTabId = () =>
-    dispatch(clearEvents({ tabId: activeTabID }))
+  const handleClearEventsByTabId = useCallback(
+    () => dispatch(clearEvents({ tabId: activeTabID })),
+    [dispatch, clearEvents, activeTabID],
+  )
 
-  const toggleHighlightedElement: MouseEventHandler = (e) => {
-    const eventIds: number[] =
-      (e?.target as HTMLElement)?.dataset?.event_list_index
-        ?.split('.')
-        .map((it) => Number(it)) ?? []
+  const toggleHighlightedElement: MouseEventHandler = useCallback(
+    (e) => {
+      const eventIds: number[] =
+        (e?.target as HTMLElement)?.dataset?.event_list_index
+          ?.split('.')
+          .map((it) => Number(it)) ?? []
 
-    if (JSON.stringify(eventIds) === JSON.stringify(highlightedEventIndexes)) {
-      setHighlightedEventIndexes([])
-    } else {
-      setHighlightedEventIndexes(eventIds)
-    }
-  }
+      if (
+        JSON.stringify(eventIds) === JSON.stringify(highlightedEventIndexes)
+      ) {
+        setHighlightedEventIndexes([])
+      } else {
+        setHighlightedEventIndexes(eventIds)
+      }
+    },
+    [highlightedEventIndexes, setHighlightedEventIndexes],
+  )
 
   useEffect(() => {
     if (activeTabID === -1) {

@@ -3,7 +3,7 @@ import Box from '@mui/material/Box'
 
 import EventsMask from './components/EventsMask/EventsMask'
 import ControlPanel from './components/ControlPanel/ControlPanel'
-import EventsList from './components/EventsList'
+import Events from './components/Events/Events'
 
 import useEventRecorder from './hooks/useEventRecorder'
 
@@ -31,19 +31,10 @@ export default function App() {
           justify-content: space-between;
         `}
       >
-        <div
-          css={css`
-            display: flex;
-            justify-content: row;
-            overflow-x: scroll;
-            padding-left: 8px;
-            padding-right: 8px;
-          `}
-          onMouseOver={toggleHighlightedElement}
-          onMouseOut={toggleHighlightedElement}
-        >
-          <EventsList events={events[activeTabID]} />
-        </div>
+        <Events
+          events={events[activeTabID]}
+          toggleHighlightedElement={toggleHighlightedElement}
+        />
         <EventsMask />
       </Box>
     </div>
