@@ -9,6 +9,8 @@ interface IScrollProps {
   scrollPosition: number
 }
 
+const ORIGINAL_BAR_WIDTH = 88
+
 function Scroll({ events, wrapper, scrollPosition }: IScrollProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
 
@@ -23,15 +25,10 @@ function Scroll({ events, wrapper, scrollPosition }: IScrollProps) {
     const { width } = wrapper.getBoundingClientRect()
     const scrollWidth = wrapper.scrollWidth
 
-    const lastTriggeredAt =
-      (events[events.length - 1] as IEventPayload[])?.[0]?.triggeredAt ??
-      (events[events.length - 1] as IEventPayload)?.triggeredAt
+    const scaleFactor = width / scrollWidth
+    const slidingWindowSize = width * scaleFactor
 
-    const factor = width / lastTriggeredAt
-    const scrollFactor = width / scrollWidth
-    const slidingWindowSize = (width * width) / scrollWidth
-
-    setScrollLeftOffset(scrollPosition * scrollFactor)
+    setScrollLeftOffset(scrollPosition * scaleFactor)
     setScrollWindowSize(slidingWindowSize)
 
     if (ctx) {
@@ -42,18 +39,20 @@ function Scroll({ events, wrapper, scrollPosition }: IScrollProps) {
 
       ctx.fillStyle = '#eee'
 
-      events.forEach((it, index, arr) => {
-        const triggeredAt =
-          (it as IEventPayload[])?.[0]?.triggeredAt ??
-          (it as IEventPayload)?.triggeredAt ??
+      const barWidth = Math.floor(ORIGINAL_BAR_WIDTH * scaleFactor)
+
+      let prevOffset = 0
+
+      events.forEach((it) => {
+        const deltaTime =
+          (it as IEventPayload[])?.[0]?.deltaTime ??
+          (it as IEventPayload)?.deltaTime ??
           0
 
-        const v =
-          arr.length == index + 1
-            ? triggeredAt * factor - 10
-            : triggeredAt * factor
+        const offset = prevOffset + deltaTime
 
-        ctx.fillRect(v, 0, 5, 30)
+        ctx.fillRect(offset * scaleFactor, 0, barWidth, 30)
+        prevOffset = offset + ORIGINAL_BAR_WIDTH
       })
     }
   }, [events, scrollPosition])

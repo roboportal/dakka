@@ -37,8 +37,6 @@ export default function Events({
         css={css`
           display: flex;
           justify-content: row;
-          padding-left: 8px;
-          padding-right: 8px;
           overflow-x: scroll;
           width: 80vw;
 
