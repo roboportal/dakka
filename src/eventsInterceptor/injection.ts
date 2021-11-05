@@ -66,7 +66,7 @@ window.EventTarget.prototype.addEventListener = function (
     if (typeof callback === 'function') {
       callback.call(this, e)
     } else if (typeof callback === 'object') {
-      callback?.handleEvent.call(this, e)
+      callback?.handleEvent(e)
     }
     if (shouldSendMessage && !EVENTS_TO_IGNORE.includes(type)) {
       eventHandler(e)
