@@ -96,7 +96,7 @@ function composeEvents(
       const l = previousEvents.length
       event.deltaTime = calculateDeltaTime(previousEvents[0], event)
       if (event.triggeredAt === previousEvents[l - 1].triggeredAt) {
-        previousEvents.push(event)
+        ;(events[events.length - 1] as IEventPayload[]).push(event)
       } else {
         events.push(event)
       }
@@ -159,12 +159,8 @@ export const eventRecorderSlice = createSlice({
       }
 
       eventRecord.payload.eventRecordIndex = state.currentEventIndex
-
-      composeEvents(
-        events[tabId],
-        eventRecord.payload,
-        state.currentEventIndex++,
-      )
+      composeEvents(events[tabId], eventRecord.payload, state.currentEventIndex)
+      state.currentEventIndex++
     },
     clearEvents: (state, { payload: { tabId } }) => {
       state.events[tabId] = []

@@ -57,32 +57,31 @@ window.addEventListener('message', ({ data }) => {
 window.EventTarget.prototype.addEventListener = function (
   type,
   callback,
-  ...rest
+  options,
 ) {
   if (!callback) {
     return
   }
-  function eventCallbackWrapper(e: any) {
+  function eventCallbackWrapper(this: any, e: any) {
+    if (typeof callback === 'function') {
+      callback.call(this, e)
+    } else if (typeof callback === 'object') {
+      callback?.handleEvent(e)
+    }
     if (shouldSendMessage && !EVENTS_TO_IGNORE.includes(type)) {
       eventHandler(e)
     }
-    if (typeof callback === 'function') {
-      callback(e)
-      return
-    }
-    if (typeof callback === 'object') {
-      callback?.handleEvent(e)
-    }
   }
+
   handlersCache.set(callback, eventCallbackWrapper)
 
-  a.call(this, type, eventCallbackWrapper, ...rest)
+  a.call(this, type, eventCallbackWrapper, options)
 }
 
 window.EventTarget.prototype.removeEventListener = function (
   type,
   callback,
-  ...rest
+  options,
 ) {
   if (!callback) {
     return
@@ -91,5 +90,5 @@ window.EventTarget.prototype.removeEventListener = function (
   if (!c) {
     return
   }
-  r.call(this, type, c, ...rest)
+  r.call(this, type, c, options)
 }

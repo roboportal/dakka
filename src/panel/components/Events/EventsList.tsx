@@ -19,6 +19,7 @@ function EventEntity({
     <div
       data-event_list_index={index}
       css={css`
+        width: 88px;
         border: 1px solid #eee;
         cursor: pointer;
         display: flex;
@@ -52,34 +53,6 @@ function EventEntity({
   )
 }
 
-function Break({ delta }: { delta: number }) {
-  if (!delta || delta < 100) {
-    return null
-  }
-  return (
-    <div
-      css={css`
-        height: 100%;
-        color: white;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      `}
-    >
-      <div
-        css={css`
-          width: 200px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        `}
-      >
-        {delta}
-      </div>
-    </div>
-  )
-}
-
 function EventsList({ events }: IEventsListProps) {
   if (!events) {
     return null
@@ -89,16 +62,14 @@ function EventsList({ events }: IEventsListProps) {
       {events?.map((record, index) => {
         if (Array.isArray(record)) {
           const records = record as IEventPayload[]
-          // const delta = records[0].deltaTime > 100 ? 0 : records[0].deltaTime
           const delta = records[0].deltaTime
           return (
             <Fragment key={records[0].id}>
-              <Break delta={records[0].deltaTime} />
               <div
                 css={css`
                   display: flex;
                   flex-direction: column;
-                  margin-left: ${delta + 2}px;
+                  margin-left: ${delta}px;
                 `}
               >
                 <div
@@ -121,16 +92,14 @@ function EventsList({ events }: IEventsListProps) {
             </Fragment>
           )
         } else {
-          // const delta = record.deltaTime > 100 ? 0 : record.deltaTime
           const delta = record.deltaTime
           return (
             <Fragment key={record.id}>
-              <Break delta={record.deltaTime} />
               <div
                 css={css`
                   display: flex;
                   flex-direction: column;
-                  margin-left: ${delta + 2}px;
+                  margin-left: ${delta}px;
                 `}
               >
                 <div
