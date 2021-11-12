@@ -9,6 +9,14 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
     tab?.url?.indexOf('chrome://') === -1
 
   if (shouldExecuteInterceptor) {
-    await chrome.tabs.sendMessage(tabId, 'started')
+    await chrome.tabs.sendMessage(tabId, {
+      type: 'started',
+      payload: {
+        url: tab.url,
+        id: tabId,
+        triggeredAt: Date.now(),
+        type: `Regirect: ${tab.url}`,
+      },
+    })
   }
 })

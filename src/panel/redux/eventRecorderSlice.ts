@@ -128,6 +128,16 @@ export const eventRecorderSlice = createSlice({
     ) => {
       const { events, eventsToTrack } = state
 
+      // console.log('33333', eventRecord.payload)
+      // if (eventRecord.type === 'started') {
+      //   composeEvents(
+      //     events[tabId],
+      //     eventRecord.payload,
+      //     state.currentEventIndex++,
+      //   )
+      //   return
+      // }
+
       const hasInValidTabIdOrEventShouldNotBeRecorded =
         tabId < 0 || !eventsToTrack[eventRecord.payload.type]
 
@@ -149,6 +159,7 @@ export const eventRecorderSlice = createSlice({
       }
 
       eventRecord.payload.eventRecordIndex = state.currentEventIndex
+
       composeEvents(
         events[tabId],
         eventRecord.payload,

@@ -13,13 +13,27 @@ function injectCode(src: string) {
 
 injectCode(chrome.runtime.getURL('/eventsInterceptor/injection.js'))
 
-window.addEventListener('message', ({ data }) => {
+window.addEventListener('message', (p) => {
+  const { data } = p
+  if (data?.type === 'started') {
+    console.log(
+      'Content script received message',
+      data,
+      chrome.runtime.id,
+      data.id,
+    )
+    chrome.runtime.sendMessage(data)
+  }
+
   if (data.id === chrome.runtime.id) {
     chrome.runtime.sendMessage(data)
   }
 })
 
 chrome.runtime.onMessage.addListener((message) => {
+  if (message.type === 'started') {
+    window.postMessage(message)
+  }
   if (shouldProcessMessage(message.type)) {
     window.postMessage(message)
   }

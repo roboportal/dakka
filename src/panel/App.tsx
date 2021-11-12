@@ -17,6 +17,7 @@ export default function App() {
     toggleHighlightedElement,
   } = useEventRecorder()
 
+  console.log('events', events)
   return (
     <div>
       <ControlPanel
