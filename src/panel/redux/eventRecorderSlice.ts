@@ -89,6 +89,7 @@ function composeEvents(
   if (index === 0) {
     events.push(event)
   }
+
   if (index > 0) {
     const previous = events[events.length - 1]
     if (Array.isArray(previous)) {
@@ -127,16 +128,6 @@ export const eventRecorderSlice = createSlice({
       { payload: { tabId, eventRecord } }: PayloadAction<IRecordEventPayload>,
     ) => {
       const { events, eventsToTrack } = state
-
-      // console.log('33333', eventRecord.payload)
-      // if (eventRecord.type === 'started') {
-      //   composeEvents(
-      //     events[tabId],
-      //     eventRecord.payload,
-      //     state.currentEventIndex++,
-      //   )
-      //   return
-      // }
 
       const hasInValidTabIdOrEventShouldNotBeRecorded =
         tabId < 0 || !eventsToTrack[eventRecord.payload.type]

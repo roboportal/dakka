@@ -1,4 +1,5 @@
 import { shouldProcessMessage } from './utils'
+import { REDIRECT_STARTED } from '../constants/messageTypes'
 
 console.log('Content script attached')
 
@@ -15,25 +16,13 @@ injectCode(chrome.runtime.getURL('/eventsInterceptor/injection.js'))
 
 window.addEventListener('message', (p) => {
   const { data } = p
-  if (data?.type === 'started') {
-    console.log(
-      'Content script received message',
-      data,
-      chrome.runtime.id,
-      data.id,
-    )
-    chrome.runtime.sendMessage(data)
-  }
 
-  if (data.id === chrome.runtime.id) {
+  if (data.id === chrome.runtime.id || data?.type === REDIRECT_STARTED) {
     chrome.runtime.sendMessage(data)
   }
 })
 
 chrome.runtime.onMessage.addListener((message) => {
-  if (message.type === 'started') {
-    window.postMessage(message)
-  }
   if (shouldProcessMessage(message.type)) {
     window.postMessage(message)
   }

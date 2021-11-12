@@ -15,7 +15,8 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
         url: tab.url,
         id: tabId,
         triggeredAt: Date.now(),
-        type: `Regirect: ${tab.url}`,
+        type: 'redirect',
+        selector: tab.url,
       },
     })
   }

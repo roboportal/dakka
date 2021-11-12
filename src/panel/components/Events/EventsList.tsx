@@ -15,11 +15,13 @@ function EventEntity({
   index: string
 }) {
   const { selector, type } = record
+
   return (
     <div
       data-event_list_index={index}
       css={css`
-        width: 88px;
+        word-wrap: break-word;
+        width: ${type === 'redirect' ? '120px' : '88px'};
         border: 1px solid #eee;
         cursor: pointer;
         display: flex;
@@ -27,7 +29,7 @@ function EventEntity({
         padding: 4px;
         border-radius: 4px;
         margin-bottom: 4px;
-        background-color: #673ab7;
+        background-color: ${type === 'redirect' ? '#316e9f' : '#673ab7'};
         :hover {
           background-color: #9575cd;
         }
@@ -57,6 +59,7 @@ function EventsList({ events }: IEventsListProps) {
   if (!events) {
     return null
   }
+
   return (
     <>
       {events?.map((record, index) => {
