@@ -5,10 +5,11 @@ import {
   EVENT_INTERCEPTED,
   ENABLE_RECORDER,
   HIGHLIGHT_ELEMENT,
+  REDIRECT_STARTED,
 } from '../constants/messageTypes'
 
 export const shouldProcessMessage = (type: string) =>
-  [ENABLE_RECORDER, HIGHLIGHT_ELEMENT].includes(type)
+  [ENABLE_RECORDER, HIGHLIGHT_ELEMENT, REDIRECT_STARTED].includes(type)
 
 export class HandlersCache {
   storage: Map<

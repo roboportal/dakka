@@ -89,6 +89,7 @@ function composeEvents(
   if (index === 0) {
     events.push(event)
   }
+
   if (index > 0) {
     const previous = events[events.length - 1]
     if (Array.isArray(previous)) {

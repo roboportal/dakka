@@ -13,6 +13,12 @@ const eventsList: Array<IEventGroupItem> = [
     groupName: 'Common',
     events: [
       {
+        key: 'redirect',
+        title: 'redirect',
+        about: 'https://www.w3schools.com/jsref/obj_location.asp',
+        defaultSelected: true,
+      },
+      {
         key: 'error',
         title: 'error',
         about: 'https://www.w3schools.com/jsref/event_onerror.asp',
