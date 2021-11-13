@@ -6,8 +6,6 @@ import { store } from './redux'
 
 import App from './App'
 
-import './index.css'
-
 render(
   <StylesProvider>
     <Provider store={store}>
@@ -16,3 +14,8 @@ render(
   </StylesProvider>,
   document.getElementById('root'),
 )
+
+const m = module as any
+if (m.hot) {
+  m.hot.accept()
+}
