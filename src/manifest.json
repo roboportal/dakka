@@ -3,9 +3,9 @@
   "description": "Record user actions to create e2e test cases",
   "version": "1.0",
   "manifest_version": 3,
-  "devtools_page": "./devTools/devTools.html",
+  "devtools_page": "./devTools.html",
   "background": {
-    "service_worker": "./background/background.js"
+    "service_worker": "./background.bundle.js"
   },
   "host_permissions": ["http://*/*", "https://*/*", "file://*/*", "ws://*/*"],
   "permissions": ["tabs", "nativeMessaging", "scripting"],
@@ -13,7 +13,7 @@
     {
       "matches": ["https://*/*", "http://*/*"],
       "run_at": "document_start",
-      "js": ["./eventsInterceptor/contentScript.js"]
+      "js": ["./contentScript.bundle.js"]
     }
   ],
   "web_accessible_resources": [

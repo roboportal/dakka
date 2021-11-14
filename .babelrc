@@ -1,3 +1,6 @@
 {
-  "plugins": ["@emotion/babel-plugin"]
+  "presets": [
+    "react-app"
+  ],
+  "plugins": ["react-hot-loader/babel", "@emotion/babel-plugin"]
 }

@@ -12,7 +12,7 @@ function injectCode(src: string) {
   doc?.prepend(script)
 }
 
-injectCode(chrome.runtime.getURL('/eventsInterceptor/injection.js'))
+injectCode(chrome.runtime.getURL('/injection.bundle.js'))
 
 window.addEventListener('message', (p) => {
   const { data } = p
