@@ -10,6 +10,7 @@ import {
 import {
   ENABLE_RECORDER,
   HIGHLIGHT_ELEMENT,
+  REDIRECT_STARTED,
 } from '../../constants/messageTypes'
 
 import { SLICE_NAMES, RootState } from '../redux'
@@ -98,6 +99,21 @@ export default function useEventRecorder() {
       .query({ active: true })
       .then((tab) => dispatch(setActiveTabID(tab[0]?.id ?? -1)))
   }, [])
+
+  useEffect(() => {
+    chrome.runtime.onMessage.addListener(
+      (eventRecord: IEventRecord, sender) => {
+        const tabId = sender?.tab?.id ?? -1
+
+        if (eventRecord?.type === REDIRECT_STARTED && isRecorderEnabled) {
+          chrome.tabs.sendMessage(tabId, {
+            type: ENABLE_RECORDER,
+            isRecorderEnabled: true,
+          })
+        }
+      },
+    )
+  }, [isRecorderEnabled])
 
   return {
     events,
