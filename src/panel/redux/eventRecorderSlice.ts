@@ -11,6 +11,12 @@ export interface EventRecorderState {
   currentEventIndex: number
 }
 
+export interface ISelector {
+  name: string
+  value: string
+  ariaLabel?: string
+}
+
 export interface IEventPayload {
   id: string
   selector: string
@@ -18,6 +24,9 @@ export interface IEventPayload {
   triggeredAt: number
   eventRecordIndex: number
   deltaTime: number
+  validSelectors: ISelector[]
+  selectedSelector: ISelector
+  url?: string
 }
 
 export interface IEventRecord {
@@ -158,6 +167,20 @@ export const eventRecorderSlice = createSlice({
       state.firstEventStartedAt = 0
       state.currentEventIndex = 0
     },
+    selectEventSelector: (
+      { events },
+      { payload: { record, selectedSelector, tabId } },
+    ) => {
+      const matechedRecords = events[tabId].filter(
+        (item) => item.selector === record.selector,
+      )
+
+      if (matechedRecords.length > 0) {
+        matechedRecords.forEach((item) => {
+          item.selectedSelector = selectedSelector
+        })
+      }
+    },
     toggleEventToTrack: (
       { eventsToTrack },
       { payload }: PayloadAction<string>,
@@ -168,6 +191,7 @@ export const eventRecorderSlice = createSlice({
 })
 
 export const {
+  selectEventSelector,
   setActiveTabID,
   toggleIsRecorderEnabled,
   recordEvent,

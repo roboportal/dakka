@@ -6,6 +6,7 @@ import {
   recordEvent,
   clearEvents,
   IEventRecord,
+  selectEventSelector,
 } from '../redux/eventRecorderSlice'
 import {
   ENABLE_RECORDER,
@@ -33,6 +34,15 @@ export default function useEventRecorder() {
     })
     dispatch(toggleIsRecorderEnabled())
   }, [activeTabID, isRecorderEnabled, dispatch, toggleIsRecorderEnabled])
+
+  const handleSelectSelector = useCallback(
+    ({ record, selectedSelector }) => {
+      dispatch(
+        selectEventSelector({ record, selectedSelector, tabId: activeTabID }),
+      )
+    },
+    [dispatch, selectEventSelector, activeTabID],
+  )
 
   const handleClearEventsByTabId = useCallback(
     () => dispatch(clearEvents({ tabId: activeTabID })),
@@ -122,5 +132,6 @@ export default function useEventRecorder() {
     handleIsRecordEnabledChange,
     handleClearEventsByTabId,
     toggleHighlightedElement,
+    handleSelectSelector,
   }
 }

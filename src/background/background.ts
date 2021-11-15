@@ -1,3 +1,5 @@
+import { v4 as uuid } from 'uuid'
+
 console.log('Background SW')
 
 chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
@@ -13,10 +15,9 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
       type: 'started',
       payload: {
         url: tab.url,
-        id: tabId,
+        id: uuid(),
         triggeredAt: Date.now(),
         type: 'redirect',
-        selector: tab.url,
       },
     })
   }
