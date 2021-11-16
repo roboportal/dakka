@@ -1,3 +1,5 @@
+import { REDIRECT_STARTED } from '../../constants/messageTypes'
+
 export interface IEventGroupItem {
   groupName: string
   events: Array<{
@@ -13,8 +15,8 @@ const eventsList: Array<IEventGroupItem> = [
     groupName: 'Common',
     events: [
       {
-        key: 'redirect',
-        title: 'redirect',
+        key: REDIRECT_STARTED,
+        title: REDIRECT_STARTED,
         about: 'https://www.w3schools.com/jsref/obj_location.asp',
         defaultSelected: true,
       },

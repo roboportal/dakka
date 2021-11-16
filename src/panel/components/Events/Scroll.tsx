@@ -51,7 +51,6 @@ function Scroll({ events, wrapper, scrollPosition }: IScrollProps) {
           0
 
         const offset = prevOffset + deltaTime
-
         ctx.fillRect(offset * scaleFactor, 0, barWidth, 30)
         prevOffset = offset + ORIGINAL_BAR_WIDTH
       })

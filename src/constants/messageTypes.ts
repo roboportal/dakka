@@ -1,4 +1,4 @@
 export const EVENT_INTERCEPTED = 'EVENT_INTERCEPTED'
 export const ENABLE_RECORDER = 'ENABLE_RECORDER'
 export const HIGHLIGHT_ELEMENT = 'HIGHLIGHT_ELEMENT'
-export const REDIRECT_STARTED = 'started'
+export const REDIRECT_STARTED = '_redirect'
