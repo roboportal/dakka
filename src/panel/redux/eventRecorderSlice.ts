@@ -24,8 +24,8 @@ export interface IEventPayload {
   triggeredAt: number
   eventRecordIndex: number
   deltaTime: number
-  validSelectors: ISelector[]
-  selectedSelector: ISelector
+  validSelectors?: ISelector[]
+  selectedSelector?: ISelector
   url?: string
 }
 

@@ -65,6 +65,7 @@ function EventsList({ events }: IEventsListProps) {
                 <div
                   css={css`
                     text-align: center;
+                    width: 88px;
                   `}
                 >
                   <span>{record.triggeredAt}</span>
