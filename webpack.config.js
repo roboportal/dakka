@@ -37,6 +37,7 @@ const options = {
     injection: path.resolve(__dirname, 'src/contentScript/injection.ts'),
     devTools: path.resolve(__dirname, 'src/devTools/devTools.ts'),
     panel: path.resolve(__dirname, 'src/panel/index.tsx'),
+    testPage: path.resolve(__dirname, 'src/testPage/index.ts'),
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -105,6 +106,12 @@ const options = {
       template: path.join(__dirname, 'src/panel/panel.html'),
       filename: 'panel.html',
       chunks: ['panel'],
+      cache: false,
+    }),
+    new HtmlWebpackPlugin({
+      template: path.join(__dirname, 'src/testPage/index.html'),
+      filename: 'testPage.html',
+      chunks: ['testPage'],
       cache: false,
     }),
   ],
