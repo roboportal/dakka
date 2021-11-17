@@ -29,6 +29,7 @@ export default function App() {
     <div
       css={css`
         height: 100vh;
+        width: 100vw;
         overflow: hidden;
       `}
     >

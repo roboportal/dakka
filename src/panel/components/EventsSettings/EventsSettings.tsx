@@ -24,7 +24,6 @@ export default function EventsSettings() {
         min-width: 240px;
         height: 100%;
         overflow-y: auto;
-        z-index: 999;
       `}
     >
       {eventsList.map((group) => (

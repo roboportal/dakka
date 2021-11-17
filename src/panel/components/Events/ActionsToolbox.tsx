@@ -18,7 +18,7 @@ export default function ActionsToolbox() {
       ariaLabel="Add Element"
       css={css`
         position: absolute;
-        bottom: 16px;
+        bottom: 44px;
         right: 16px;
       `}
       icon={<SpeedDialIcon />}

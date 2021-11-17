@@ -35,7 +35,7 @@ export default function Events({
         display: flex;
         flex-direction: column;
         position: relative;
-        width: ${isWideScreen ? '100vw' : '80vw'};
+        width: ${isWideScreen ? '100%' : '80vw'};
       `}
     >
       <div
