@@ -19,3 +19,12 @@ const m = module as any
 if (m.hot) {
   m.hot.accept()
 }
+
+const errorHandler = (e: any) => {
+  e.preventDefault()
+  e.stopPropagation()
+  console.log('Fatal error', e)
+}
+
+window.onerror = errorHandler
+window.onunhandledrejection = errorHandler

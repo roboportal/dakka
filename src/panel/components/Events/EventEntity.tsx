@@ -1,6 +1,7 @@
 import { css } from '@emotion/react'
 
 import { IEventPayload } from '../../redux/eventRecorderSlice'
+import { REDIRECT_STARTED } from '../../../constants/messageTypes'
 
 export function EventEntity({
   record,
@@ -16,7 +17,7 @@ export function EventEntity({
       data-event_list_index={index}
       css={css`
         word-wrap: break-word;
-        width: ${type === 'redirect' ? '120px' : '88px'};
+        width: ${type === REDIRECT_STARTED ? '120px' : '88px'};
         border: 1px solid #eee;
         cursor: pointer;
         display: flex;
@@ -24,7 +25,7 @@ export function EventEntity({
         padding: 4px;
         border-radius: 4px;
         margin-bottom: 4px;
-        background-color: ${type === 'redirect' ? '#316e9f' : '#673ab7'};
+        background-color: ${type === REDIRECT_STARTED ? '#316e9f' : '#673ab7'};
         :hover {
           background-color: #9575cd;
         }
@@ -44,7 +45,7 @@ export function EventEntity({
           pointer-events: none;
         `}
       >
-        {type === 'redirect' ? (
+        {type === REDIRECT_STARTED ? (
           <span>{url}</span>
         ) : (
           <span>

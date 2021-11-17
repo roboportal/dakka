@@ -1,5 +1,4 @@
 import { shouldProcessMessage } from './utils'
-import { REDIRECT_STARTED } from '../constants/messageTypes'
 
 console.log('Content script attached')
 
@@ -17,8 +16,10 @@ injectCode(chrome.runtime.getURL('/injection.bundle.js'))
 window.addEventListener('message', (p) => {
   const { data } = p
 
-  if (data.id === chrome.runtime.id || data?.type === REDIRECT_STARTED) {
-    chrome.runtime.sendMessage(data)
+  if (data.id === chrome.runtime.id) {
+    try {
+      chrome.runtime.sendMessage(data)
+    } catch {}
   }
 })
 
@@ -27,3 +28,12 @@ chrome.runtime.onMessage.addListener((message) => {
     window.postMessage(message)
   }
 })
+
+const errorHandler = (e: any) => {
+  e.preventDefault()
+  e.stopPropagation()
+  console.log('Fatal error', e)
+}
+
+window.onerror = errorHandler
+window.onunhandledrejection = errorHandler
