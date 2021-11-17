@@ -30,8 +30,8 @@ chrome.runtime.onMessage.addListener((message) => {
 })
 
 const errorHandler = (e: any) => {
-  e.preventDefault()
-  e.stopPropagation()
+  e?.preventDefault?.()
+  e?.stopPropagation?.()
   console.log('Fatal error', e)
 }
 

@@ -6,7 +6,7 @@ import CollapsibleGroupItem from './CollapsibleGroupItem'
 import GroupEventsItem from './GroupEventsItem'
 import useEventMask from '../../hooks/useEventMask'
 
-export default function EventsMask() {
+export default function EventsSettings() {
   const {
     eventsList,
     collapseState,
@@ -22,6 +22,9 @@ export default function EventsMask() {
       css={css`
         width: 20vw;
         min-width: 240px;
+        height: 100%;
+        overflow-y: auto;
+        z-index: 999;
       `}
     >
       {eventsList.map((group) => (
