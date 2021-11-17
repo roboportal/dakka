@@ -38,7 +38,6 @@ const options = {
     devTools: path.resolve(__dirname, 'src/devTools/devTools.ts'),
     panel: path.resolve(__dirname, 'src/panel/index.tsx'),
   },
-  cache: false,
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].bundle.js',
@@ -122,9 +121,6 @@ if (mode === 'development') {
     client: false,
     host: 'localhost',
     port: port,
-    static: {
-      directory: path.resolve(__dirname, 'dist'),
-    },
     devMiddleware: {
       publicPath: `http://localhost:${port}/`,
       writeToDisk: true,

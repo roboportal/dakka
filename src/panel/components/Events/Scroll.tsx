@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState, memo } from 'react'
+import { useRef, useEffect, useState, memo, useMemo } from 'react'
 import { css } from '@emotion/react'
 
 import { IEventPayload } from '../../redux/eventRecorderSlice'
@@ -13,6 +13,7 @@ const ORIGINAL_BAR_WIDTH = 88
 
 function Scroll({ events, wrapper, scrollPosition }: IScrollProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
+  const scaleFactorRef = useRef<number>(1)
 
   const [scrollLeftOffset, setScrollLeftOffset] = useState(0)
   const [scrollWindowSize, setScrollWindowSize] = useState(0)
@@ -24,8 +25,8 @@ function Scroll({ events, wrapper, scrollPosition }: IScrollProps) {
     const ctx = canvasRef.current.getContext('2d')
     const { width } = wrapper.getBoundingClientRect()
     const scrollWidth = wrapper.scrollWidth
-
     const scaleFactor = width / scrollWidth
+    scaleFactorRef.current = scaleFactor
     const slidingWindowSize = width * scaleFactor
 
     setScrollLeftOffset(scrollPosition * scaleFactor)
@@ -57,6 +58,19 @@ function Scroll({ events, wrapper, scrollPosition }: IScrollProps) {
     }
   }, [events, scrollPosition])
 
+  const handleScrollClick: React.MouseEventHandler<HTMLDivElement> = (e) => {
+    if (wrapper) {
+      wrapper.scrollLeft =
+        (e.pageX - scrollWindowSize / 2) / scaleFactorRef.current
+    }
+  }
+
+  const HandleScrollWheel: React.WheelEventHandler<HTMLDivElement> = (e) => {
+    if (wrapper) {
+      wrapper.scrollLeft += e.deltaX / scaleFactorRef.current
+    }
+  }
+
   const isScrollVisible = !!events && !!events.length
 
   if (!isScrollVisible) {
@@ -69,7 +83,10 @@ function Scroll({ events, wrapper, scrollPosition }: IScrollProps) {
         position: relative;
         padding-top: 8px;
         padding-bottom: 8px;
+        cursor: pointer;
       `}
+      onClick={handleScrollClick}
+      onWheel={HandleScrollWheel}
     >
       <div
         css={css`

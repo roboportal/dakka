@@ -26,6 +26,7 @@ export default function App() {
       />
       <Box
         css={css`
+          overflow-x: hidden;
           display: flex;
           flex-direction: row;
           justify-content: space-between;
