@@ -1,22 +1,25 @@
+import { v4 as uuid } from 'uuid'
+
+import { REDIRECT_STARTED } from '../constants/messageTypes'
+
 console.log('Background SW')
 
 chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
-  console.log('onUpdated', tabId, changeInfo, tab)
-
-  const shouldExecuteInterceptor =
-    changeInfo.status == 'complete' &&
+  const shouldLogRedirect =
+    tab.status === 'complete' &&
     tab.active &&
     tab?.url?.indexOf('chrome://') === -1
 
-  if (shouldExecuteInterceptor) {
-    await chrome.tabs.sendMessage(tabId, {
-      type: 'started',
+  if (shouldLogRedirect) {
+    await chrome.runtime.sendMessage({
+      type: REDIRECT_STARTED,
+      id: chrome.runtime.id,
       payload: {
-        url: tab.url,
-        id: tabId,
+        url: tab?.url,
+        id: uuid(),
         triggeredAt: Date.now(),
-        type: 'redirect',
-        selector: tab.url,
+        type: REDIRECT_STARTED,
+        selector: tab?.url,
       },
     })
   }

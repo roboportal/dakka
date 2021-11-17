@@ -76,9 +76,9 @@ function calculateDeltaTime(
 ) {
   const delta =
     currentEvent.triggeredAt -
-    ((prevEvent as IEventPayload[])[0]?.triggeredAt ??
+    ((prevEvent as IEventPayload[])?.[0]?.triggeredAt ??
       (prevEvent as IEventPayload)?.triggeredAt)
-  return (Number.isFinite(delta) ? delta : delta) ?? 0
+  return Number.isFinite(delta) ? delta : 0
 }
 
 function composeEvents(
@@ -87,7 +87,7 @@ function composeEvents(
   index: number,
 ) {
   if (index === 0) {
-    events.push(event)
+    events.push({ ...event, deltaTime: 0 })
   }
 
   if (index > 0) {
@@ -104,7 +104,7 @@ function composeEvents(
     } else {
       const previousEvent = previous as IEventPayload
       event.deltaTime = calculateDeltaTime(previousEvent, event)
-      if (event.triggeredAt === previousEvent.triggeredAt) {
+      if (event?.triggeredAt === previousEvent?.triggeredAt) {
         events[events.length - 1] = [previousEvent, event]
       } else {
         events.push(event)
@@ -127,13 +127,17 @@ export const eventRecorderSlice = createSlice({
       state,
       { payload: { tabId, eventRecord } }: PayloadAction<IRecordEventPayload>,
     ) => {
-      const { events, eventsToTrack } = state
+      const { events, eventsToTrack, isRecorderEnabled } = state
+
+      if (!isRecorderEnabled) {
+        return state
+      }
 
       const hasInValidTabIdOrEventShouldNotBeRecorded =
         tabId < 0 || !eventsToTrack[eventRecord.payload.type]
 
       if (hasInValidTabIdOrEventShouldNotBeRecorded) {
-        return
+        return state
       }
 
       const isFirstEventRecordedForTab = !events[tabId] || !events[tabId].length
@@ -142,11 +146,14 @@ export const eventRecorderSlice = createSlice({
         state.firstEventStartedAt = eventRecord.payload.triggeredAt
         events[tabId] = []
       }
-
       eventRecord.payload.triggeredAt -= state.firstEventStartedAt
 
+      if (!Number.isFinite(eventRecord.payload.triggeredAt)) {
+        eventRecord.payload.triggeredAt = 0
+      }
+
       if (checkIsDuplicatedEvent(events[tabId], eventRecord)) {
-        return
+        return state
       }
 
       eventRecord.payload.eventRecordIndex = state.currentEventIndex

@@ -5,11 +5,10 @@ import {
   EVENT_INTERCEPTED,
   ENABLE_RECORDER,
   HIGHLIGHT_ELEMENT,
-  REDIRECT_STARTED,
 } from '../constants/messageTypes'
 
 export const shouldProcessMessage = (type: string) =>
-  [ENABLE_RECORDER, HIGHLIGHT_ELEMENT, REDIRECT_STARTED].includes(type)
+  [ENABLE_RECORDER, HIGHLIGHT_ELEMENT].includes(type)
 
 export class HandlersCache {
   storage: Map<
@@ -45,6 +44,10 @@ export class HandlersCache {
     return v.event
   }
 }
+
+const id =
+  (document?.querySelector('script[data-extid]') as HTMLElement)?.dataset
+    ?.extid ?? ''
 
 export function eventHandler(event: any) {
   try {
@@ -92,10 +95,6 @@ export function eventHandler(event: any) {
       touches,
       which, // mouse button
     } = event
-
-    const id =
-      (document?.querySelector('script[data-extid]') as HTMLElement)?.dataset
-        ?.extid ?? ''
 
     const message = {
       id,
