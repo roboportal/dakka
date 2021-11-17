@@ -31,6 +31,7 @@ export default function App() {
         height: 100vh;
         width: 100vw;
         overflow: hidden;
+        background-color: #0a1929;
       `}
     >
       <ControlPanel
