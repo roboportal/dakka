@@ -41,13 +41,14 @@ const ControlPanel = ({
               },
             }}
           >
-            <RadioButtonChecked fontSize="inherit" />
+            <RadioButtonChecked fontSize="small" />
             <Typography
               sx={{
                 textTransform: 'none',
                 color: grey[600],
                 marginLeft: '0.2rem',
                 width: 60,
+                fontSize: '0.7rem',
               }}
               variant="caption"
             >
@@ -65,9 +66,10 @@ const ControlPanel = ({
             }}
             variant="text"
           >
-            <DeleteIcon sx={{ color: grey[500] }} fontSize="inherit" />
+            <DeleteIcon sx={{ color: grey[500] }} fontSize="small" />
             <Typography
               sx={{
+                fontSize: '0.7rem',
                 textTransform: 'none',
                 color: grey[600],
                 marginLeft: '0.2rem',
