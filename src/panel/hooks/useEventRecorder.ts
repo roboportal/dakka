@@ -36,11 +36,8 @@ export default function useEventRecorder() {
   }, [activeTabID, isRecorderEnabled, dispatch, toggleIsRecorderEnabled])
 
   const handleSelectSelector = useCallback(
-    ({ record, selectedSelector }) => {
-      dispatch(
-        selectEventSelector({ record, selectedSelector, tabId: activeTabID }),
-      )
-    },
+    (payload) =>
+      dispatch(selectEventSelector({ ...payload, tabId: activeTabID })),
     [dispatch, selectEventSelector, activeTabID],
   )
 

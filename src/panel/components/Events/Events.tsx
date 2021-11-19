@@ -4,16 +4,18 @@ import { css } from '@emotion/react'
 import EventsList from './EventsList'
 import Scroll from './Scroll'
 
-import { IEventPayload } from '../../redux/eventRecorderSlice'
+import { IEventPayload, ISelectorPayload } from '../../redux/eventRecorderSlice'
 
 interface IEventsProps {
   events: IEventPayload[]
   toggleHighlightedElement: React.MouseEventHandler<Element>
+  handleSelectSelector: (payload: ISelectorPayload) => void
 }
 
 export default function Events({
   events,
   toggleHighlightedElement,
+  handleSelectSelector,
 }: IEventsProps) {
   const wrapperRef = useRef<HTMLDivElement | null>(null)
   const [eventsListScroll, setEventsListScroll] = useState(0)
@@ -49,7 +51,10 @@ export default function Events({
         onMouseOut={toggleHighlightedElement}
         ref={wrapperRef}
       >
-        <EventsList events={events} />
+        <EventsList
+          events={events}
+          handleSelectSelector={handleSelectSelector}
+        />
       </div>
       <Scroll
         wrapper={wrapperRef.current}

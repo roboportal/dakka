@@ -17,6 +17,11 @@ export interface ISelector {
   ariaLabel?: string
 }
 
+export interface ISelectorPayload {
+  selectedSelector: ISelector
+  record: IEventPayload
+}
+
 export interface IEventPayload {
   id: string
   selector: string
@@ -178,15 +183,19 @@ export const eventRecorderSlice = createSlice({
       { events },
       { payload: { record, selectedSelector, tabId } },
     ) => {
-      const matechedRecords = events[tabId].filter(
-        (item) => item.selector === record.selector,
-      )
-
-      if (matechedRecords.length > 0) {
-        matechedRecords.forEach((item) => {
-          item.selectedSelector = selectedSelector
-        })
+      const updateSelector = (eventRecord: IEventPayload) => {
+        if (eventRecord.selector === record.selector) {
+          eventRecord.selectedSelector = selectedSelector
+        }
       }
+
+      events[tabId].forEach((event) => {
+        if (Array.isArray(event)) {
+          event.forEach((childEvent) => updateSelector(childEvent))
+        } else {
+          updateSelector(event)
+        }
+      })
     },
     toggleEventToTrack: (
       { eventsToTrack },

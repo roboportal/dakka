@@ -1,15 +1,16 @@
 import { Fragment, memo } from 'react'
 import { css } from '@emotion/react'
 
-import { IEventPayload } from '../../redux/eventRecorderSlice'
+import { IEventPayload, ISelectorPayload } from '../../redux/eventRecorderSlice'
 import { EventEntity } from './EventEntity'
-import { Selectors } from './Selectors'
+import { Selector } from './Selector'
 
 interface IEventsListProps {
   events: IEventPayload[]
+  handleSelectSelector: (payload: ISelectorPayload) => void
 }
 
-function EventsList({ events }: IEventsListProps) {
+function EventsList({ events, handleSelectSelector }: IEventsListProps) {
   if (!events) {
     return null
   }
@@ -35,8 +36,17 @@ function EventsList({ events }: IEventsListProps) {
                     text-align: center;
                   `}
                 >
-                  {records[0].triggeredAt}
-                  <Selectors record={records[0]} />
+                  <span
+                    css={css`
+                      display: block;
+                    `}
+                  >
+                    {records[0].triggeredAt}
+                  </span>
+                  <Selector
+                    record={records[0]}
+                    handleSelectSelector={handleSelectSelector}
+                  />
                 </div>
                 {records.map((record, _index) => {
                   return (
@@ -68,8 +78,17 @@ function EventsList({ events }: IEventsListProps) {
                     width: 88px;
                   `}
                 >
-                  <span>{record.triggeredAt}</span>
-                  <Selectors record={record} />
+                  <span
+                    css={css`
+                      display: block;
+                    `}
+                  >
+                    {record.triggeredAt}
+                  </span>
+                  <Selector
+                    record={record}
+                    handleSelectSelector={handleSelectSelector}
+                  />
                 </div>
                 <EventEntity record={record} index={index.toString()} />
               </div>

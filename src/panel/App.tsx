@@ -15,6 +15,7 @@ export default function App() {
     handleIsRecordEnabledChange,
     handleClearEventsByTabId,
     toggleHighlightedElement,
+    handleSelectSelector,
   } = useEventRecorder()
 
   return (
@@ -35,6 +36,7 @@ export default function App() {
         <Events
           events={events[activeTabID]}
           toggleHighlightedElement={toggleHighlightedElement}
+          handleSelectSelector={handleSelectSelector}
         />
         <EventsMask />
       </Box>
