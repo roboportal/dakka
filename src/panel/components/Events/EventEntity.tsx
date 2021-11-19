@@ -20,6 +20,7 @@ export function EventEntity({
     <div
       data-event_list_index={index}
       css={css`
+        font-size: 12px;
         word-wrap: break-word;
         width: ${isRedirect ? '120px' : '88px'};
         border: 1px solid #eee;
