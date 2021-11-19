@@ -1,4 +1,4 @@
-import { eventHandler } from './utils'
+import { eventHandler } from './eventLogger'
 
 const EVENTS_TO_IGNORE = ['message']
 

@@ -3,7 +3,7 @@ export const eventTypes = [
   // "appinstalled",
   // "beforeinstallprompt",
   // "beforexrselect",
-  'abort',
+  // 'abort',
   'blur',
   'cancel',
   'canplay',
