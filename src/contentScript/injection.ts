@@ -1,20 +1,22 @@
 import { eventHandler } from './eventLogger'
-
-const EVENTS_TO_IGNORE = ['message']
+import { eventTypes } from '../constants/browserEvents'
 
 console.log('Script injected')
 
-const a = window.EventTarget.prototype.addEventListener
-const r = window.EventTarget.prototype.removeEventListener
+const eventsToRecordMap = Object.fromEntries(eventTypes.map((it) => [it, true]))
+
+const _addEventListener = window.EventTarget.prototype.addEventListener
+const _removeEventListener = window.EventTarget.prototype.removeEventListener
 
 window.EventTarget.prototype.addEventListener = function (
   type,
   callback,
   options,
 ) {
-  a.call(this, type, callback, options)
-  if (!EVENTS_TO_IGNORE.includes(type)) {
-    a.call(this, type, eventHandler, options)
+  _addEventListener.call(this, type, callback, options)
+
+  if (eventsToRecordMap.hasOwnProperty(type)) {
+    _addEventListener.call(this, type, eventHandler, options)
   }
 }
 
@@ -23,6 +25,6 @@ window.EventTarget.prototype.removeEventListener = function (
   callback,
   options,
 ) {
-  r.call(this, type, callback, options)
-  r.call(this, type, eventHandler, options)
+  _removeEventListener.call(this, type, callback, options)
+  _removeEventListener.call(this, type, eventHandler, options)
 }

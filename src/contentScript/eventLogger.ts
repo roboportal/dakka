@@ -15,8 +15,6 @@ const extensionId =
 
 const alreadyInterceptedSymbol = Symbol('alreadyInterceptedSymbol')
 
-const eventsToRecordMap = Object.fromEntries(eventTypes.map((it) => [it, true]))
-
 let shouldSendMessage = false
 
 let highLightElement: HTMLDivElement | null = null
@@ -117,10 +115,6 @@ export function eventHandler(event: any) {
     touches,
     which, // mouse button
   } = event
-
-  if (!eventsToRecordMap.hasOwnProperty(type)) {
-    return
-  }
 
   try {
     const role = target?.attributes?.role?.value
