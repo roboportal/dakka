@@ -13,13 +13,15 @@ export function EventEntity({
   index: string
 }) {
   const { type, selectedSelector, url } = record
+  const isRedirect = type === REDIRECT_STARTED
+  const selector = `${selectedSelector?.name}: ${selectedSelector?.value}`
 
   return (
     <div
       data-event_list_index={index}
       css={css`
         word-wrap: break-word;
-        width: ${type === REDIRECT_STARTED ? '120px' : '88px'};
+        width: ${isRedirect ? '120px' : '88px'};
         border: 1px solid #eee;
         cursor: pointer;
         display: flex;
@@ -27,9 +29,7 @@ export function EventEntity({
         padding: 4px;
         border-radius: 4px;
         margin-bottom: 4px;
-        background-color: ${type === REDIRECT_STARTED
-          ? indigo[900]
-          : lightBlue[900]};
+        background-color: ${isRedirect ? indigo[900] : lightBlue[900]};
         :hover {
           background-color: ${lightBlue[700]};
         }
@@ -49,13 +49,7 @@ export function EventEntity({
           pointer-events: none;
         `}
       >
-        {type === REDIRECT_STARTED ? (
-          <span>{url}</span>
-        ) : (
-          <span>
-            {selectedSelector?.name}: {selectedSelector?.value}
-          </span>
-        )}
+        <span>{isRedirect ? url : selector}</span>
       </div>
     </div>
   )

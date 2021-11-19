@@ -103,6 +103,7 @@ export function eventHandler(event: any) {
     const className = target?.attributes?.class?.value
     const elementId = target?.attributes?.id?.value
     const testId = target?.attributes?.['data-testid']?.value
+    const uniqueSelector = finder(target)
 
     const selectors = [
       ...[ariaLabel ? { name: 'role', ariaLabel, value: role } : {}],
@@ -112,7 +113,7 @@ export function eventHandler(event: any) {
       { name: 'classname', value: className },
       { name: 'element-id', value: elementId },
       { name: 'test-id', value: testId },
-      { name: 'unique-path', value: finder(target) },
+      { name: 'unique-path', value: uniqueSelector },
     ]
 
     const validSelectors = selectors.filter((item) => item.value)
@@ -124,7 +125,7 @@ export function eventHandler(event: any) {
         id: uuid(),
         validSelectors,
         triggeredAt: Date.now(),
-        selector: finder(target),
+        selector: uniqueSelector,
         selectedSelector: validSelectors[0],
         type,
         altKey,

@@ -1,11 +1,14 @@
 import Select, { SelectChangeEvent } from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
+import { blue } from '@mui/material/colors'
+import { css } from '@emotion/react'
+
 import {
   IEventPayload,
   ISelector,
   ISelectorPayload,
 } from '../../redux/eventRecorderSlice'
-import { css } from '@emotion/react'
+import { useCallback } from 'react'
 
 interface ISelectorProp {
   record: IEventPayload
@@ -17,15 +20,17 @@ export function Selector({ record, handleSelectSelector }: ISelectorProp) {
     return null
   }
 
-  const handleSelectorChange = (
-    e: SelectChangeEvent<string>,
-    { validSelectors }: IEventPayload,
-  ) => {
-    const selector = validSelectors?.find((s) => s.value === e.target.value)
-    if (selector) {
-      handleSelectSelector({ selectedSelector: selector, record })
-    }
-  }
+  const handleSelectorChange = useCallback(
+    (e: SelectChangeEvent<string>) => {
+      const selector = record?.validSelectors?.find(
+        (s) => s.value === e.target.value,
+      )
+      if (selector) {
+        handleSelectSelector({ selectedSelector: selector, record })
+      }
+    },
+    [handleSelectSelector, record],
+  )
 
   return (
     <Select
@@ -33,12 +38,12 @@ export function Selector({ record, handleSelectSelector }: ISelectorProp) {
         width: 88px;
 
         > div {
-          padding: 5px;
+          padding: 4px;
           font-size: 12px;
         }
       `}
       value={record?.selectedSelector?.value}
-      onChange={(e) => handleSelectorChange(e, record)}
+      onChange={handleSelectorChange}
       variant="outlined"
     >
       {record?.validSelectors?.map((item: ISelector) => (
@@ -46,8 +51,8 @@ export function Selector({ record, handleSelectSelector }: ISelectorProp) {
           <span>By {item.name}:</span>
           <span
             css={css`
-              color: #82b1ff;
-              margin-left: 5px;
+              color: ${blue[600]};
+              margin-left: 4px;
             `}
           >
             {item.value}

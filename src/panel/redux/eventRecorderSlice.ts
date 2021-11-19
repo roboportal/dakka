@@ -189,13 +189,7 @@ export const eventRecorderSlice = createSlice({
         }
       }
 
-      events[tabId].forEach((event) => {
-        if (Array.isArray(event)) {
-          event.forEach((childEvent) => updateSelector(childEvent))
-        } else {
-          updateSelector(event)
-        }
-      })
+      events[tabId].flat().forEach(updateSelector)
     },
     toggleEventToTrack: (
       { eventsToTrack },

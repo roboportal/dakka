@@ -1,6 +1,5 @@
 import { Fragment, memo } from 'react'
 import { css } from '@emotion/react'
-import { lightBlue, indigo } from '@mui/material/colors'
 
 import { IEventPayload, ISelectorPayload } from '../../redux/eventRecorderSlice'
 import { EventEntity } from './EventEntity'
@@ -37,13 +36,7 @@ function EventsList({ events, handleSelectSelector }: IEventsListProps) {
                     text-align: center;
                   `}
                 >
-                  <span
-                    css={css`
-                      display: block;
-                    `}
-                  >
-                    {records[0].triggeredAt}
-                  </span>
+                  <div>{records[0].triggeredAt}</div>
                   <Selector
                     record={records[0]}
                     handleSelectSelector={handleSelectSelector}
@@ -79,13 +72,7 @@ function EventsList({ events, handleSelectSelector }: IEventsListProps) {
                     width: 88px;
                   `}
                 >
-                  <span
-                    css={css`
-                      display: block;
-                    `}
-                  >
-                    {record.triggeredAt}
-                  </span>
+                  <div>{record.triggeredAt}</div>
                   <Selector
                     record={record}
                     handleSelectSelector={handleSelectSelector}
