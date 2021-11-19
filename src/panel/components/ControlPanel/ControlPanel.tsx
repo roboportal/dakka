@@ -3,6 +3,8 @@ import Toolbar from '@mui/material/Toolbar'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import DeleteIcon from '@mui/icons-material/Delete'
+import SettingsApplicationsIcon from '@mui/icons-material/SettingsApplications'
+import IconButton from '@mui/material/IconButton'
 import RadioButtonChecked from '@mui/icons-material/RadioButtonChecked'
 import { ControlPanelProps } from './ControlPanel.types'
 import Stack from '@mui/material/Stack'
@@ -13,10 +15,18 @@ const ControlPanel = ({
   isRecorderEnabled,
   onRecordEnabledChange,
   onClearEventsByTabId,
+  onSettingsClick,
+  isSettingsButtonActive,
 }: ControlPanelProps) => {
   return (
-    <AppBar sx={{ marginBottom: '20px' }} position="static">
-      <Toolbar>
+    <AppBar sx={{ marginBottom: '8px' }} position="static">
+      <Toolbar
+        sx={{
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+        }}
+      >
         <Stack
           direction="row"
           divider={<Divider orientation="vertical" flexItem />}
@@ -68,6 +78,16 @@ const ControlPanel = ({
             </Typography>
           </Button>
         </Stack>
+        <IconButton
+          onClick={onSettingsClick}
+          aria-label="toggle-setup"
+          size="small"
+        >
+          <SettingsApplicationsIcon
+            fontSize="small"
+            sx={{ color: isSettingsButtonActive ? grey[50] : grey[600] }}
+          />
+        </IconButton>
       </Toolbar>
     </AppBar>
   )
