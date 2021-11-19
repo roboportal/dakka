@@ -54,26 +54,32 @@ window.addEventListener('message', ({ data }) => {
   }
 })
 
+const nop = () => {}
+
+const alreadyInterceptedSymbol = Symbol('alreadyInterceptedSymbol')
+
 window.EventTarget.prototype.addEventListener = function (
   type,
   callback,
   options,
 ) {
-  if (!callback) {
-    return
-  }
-  function eventCallbackWrapper(this: any, e: any) {
+  const eventCallbackWrapper = (e: any) => {
     if (typeof callback === 'function') {
-      callback.call(this, e)
+      callback?.call?.(this, e)
     } else if (typeof callback === 'object') {
-      callback?.handleEvent(e)
+      callback?.handleEvent?.(e)
     }
-    if (shouldSendMessage && !EVENTS_TO_IGNORE.includes(type)) {
+    if (
+      shouldSendMessage &&
+      !EVENTS_TO_IGNORE.includes(type) &&
+      !e[alreadyInterceptedSymbol]
+    ) {
+      e[alreadyInterceptedSymbol] = true
       eventHandler(e)
     }
   }
 
-  handlersCache.set(callback, eventCallbackWrapper)
+  handlersCache.set(callback ?? nop, eventCallbackWrapper)
 
   a.call(this, type, eventCallbackWrapper, options)
 }

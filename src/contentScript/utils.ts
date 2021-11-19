@@ -169,5 +169,7 @@ export function eventHandler(event: any) {
       },
     }
     window.postMessage(message)
-  } catch {}
+  } catch (error) {
+    console.log('Error sending recorded event:', error)
+  }
 }
