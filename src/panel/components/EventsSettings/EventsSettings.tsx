@@ -6,7 +6,7 @@ import CollapsibleGroupItem from './CollapsibleGroupItem'
 import GroupEventsItem from './GroupEventsItem'
 import useEventMask from '../../hooks/useEventMask'
 
-export default function EventsMask() {
+export default function EventsSettings() {
   const {
     eventsList,
     collapseState,
@@ -17,11 +17,22 @@ export default function EventsMask() {
 
   return (
     <List
-      subheader={<ListSubheader>Events to track</ListSubheader>}
+      subheader={
+        <ListSubheader
+          css={css`
+            background-color: transparent;
+            color: inherit;
+          `}
+        >
+          <h3>Events to track</h3>
+        </ListSubheader>
+      }
       disablePadding
       css={css`
         width: 20vw;
         min-width: 240px;
+        height: 100%;
+        overflow-y: auto;
       `}
     >
       {eventsList.map((group) => (

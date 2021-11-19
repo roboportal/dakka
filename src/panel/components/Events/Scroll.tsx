@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState, memo, useMemo } from 'react'
+import { useRef, useEffect, useState, memo } from 'react'
 import { css } from '@emotion/react'
 
 import { IEventPayload } from '../../redux/eventRecorderSlice'
@@ -7,11 +7,17 @@ interface IScrollProps {
   events: Array<IEventPayload | IEventPayload[]>
   wrapper: HTMLDivElement | null
   scrollPosition: number
+  isWideScreen: boolean
 }
 
 const ORIGINAL_BAR_WIDTH = 88
 
-function Scroll({ events, wrapper, scrollPosition }: IScrollProps) {
+function Scroll({
+  events,
+  wrapper,
+  scrollPosition,
+  isWideScreen,
+}: IScrollProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const scaleFactorRef = useRef<number>(1)
 
@@ -55,7 +61,7 @@ function Scroll({ events, wrapper, scrollPosition }: IScrollProps) {
         prevOffset = offset + ORIGINAL_BAR_WIDTH
       })
     }
-  }, [events, scrollPosition])
+  }, [events, scrollPosition, isWideScreen])
 
   const handleScrollClick: React.MouseEventHandler<HTMLDivElement> = (e) => {
     if (wrapper) {
@@ -83,6 +89,7 @@ function Scroll({ events, wrapper, scrollPosition }: IScrollProps) {
         padding-top: 8px;
         padding-bottom: 8px;
         cursor: pointer;
+        height: 38px;
       `}
       onClick={handleScrollClick}
       onWheel={HandleScrollWheel}

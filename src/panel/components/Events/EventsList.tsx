@@ -1,5 +1,6 @@
 import { Fragment, memo } from 'react'
 import { css } from '@emotion/react'
+import { lightBlue, indigo } from '@mui/material/colors'
 
 import { IEventPayload, ISelectorPayload } from '../../redux/eventRecorderSlice'
 import { EventEntity } from './EventEntity'

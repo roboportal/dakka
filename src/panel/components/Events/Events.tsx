@@ -3,10 +3,12 @@ import { css } from '@emotion/react'
 
 import EventsList from './EventsList'
 import Scroll from './Scroll'
+import ActionsToolbox from './ActionsToolbox'
 
 import { IEventPayload, ISelectorPayload } from '../../redux/eventRecorderSlice'
 
 interface IEventsProps {
+  isWideScreen: boolean
   events: IEventPayload[]
   toggleHighlightedElement: React.MouseEventHandler<Element>
   handleSelectSelector: (payload: ISelectorPayload) => void
@@ -16,6 +18,7 @@ export default function Events({
   events,
   toggleHighlightedElement,
   handleSelectSelector,
+  isWideScreen,
 }: IEventsProps) {
   const wrapperRef = useRef<HTMLDivElement | null>(null)
   const [eventsListScroll, setEventsListScroll] = useState(0)
@@ -33,6 +36,8 @@ export default function Events({
       css={css`
         display: flex;
         flex-direction: column;
+        position: relative;
+        width: ${isWideScreen ? '100%' : '80vw'};
       `}
     >
       <div
@@ -40,8 +45,8 @@ export default function Events({
           display: flex;
           justify-content: row;
           overflow-x: scroll;
-          width: 80vw;
 
+          height: calc(100% - 44px);
           &::-webkit-scrollbar {
             display: none;
           }
@@ -60,7 +65,9 @@ export default function Events({
         wrapper={wrapperRef.current}
         events={events}
         scrollPosition={eventsListScroll}
+        isWideScreen={isWideScreen}
       />
+      <ActionsToolbox />
     </div>
   )
 }

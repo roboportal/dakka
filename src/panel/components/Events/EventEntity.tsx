@@ -1,5 +1,7 @@
 import { css } from '@emotion/react'
 
+import { lightBlue, indigo } from '@mui/material/colors'
+
 import { IEventPayload } from '../../redux/eventRecorderSlice'
 import { REDIRECT_STARTED } from '../../../constants/messageTypes'
 
@@ -25,9 +27,11 @@ export function EventEntity({
         padding: 4px;
         border-radius: 4px;
         margin-bottom: 4px;
-        background-color: ${type === REDIRECT_STARTED ? '#316e9f' : '#673ab7'};
+        background-color: ${type === REDIRECT_STARTED
+          ? indigo[900]
+          : lightBlue[900]};
         :hover {
-          background-color: #9575cd;
+          background-color: ${lightBlue[700]};
         }
         height: 100%;
       `}
