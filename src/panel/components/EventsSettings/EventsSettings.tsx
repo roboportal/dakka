@@ -20,7 +20,7 @@ export default function EventsSettings() {
       subheader={
         <ListSubheader
           css={css`
-            background-color: transparent;
+            background-color: #0a1929;
             color: inherit;
           `}
         >

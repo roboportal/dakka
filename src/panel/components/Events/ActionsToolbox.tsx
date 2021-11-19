@@ -16,12 +16,13 @@ export default function ActionsToolbox() {
   return (
     <SpeedDial
       ariaLabel="Add Element"
+      FabProps={{ size: 'medium' }}
       css={css`
         position: absolute;
         bottom: 44px;
         right: 16px;
       `}
-      icon={<SpeedDialIcon />}
+      icon={<SpeedDialIcon sx={{ display: 'flex', alignItems: 'center' }} />}
     >
       {actions.map((action) => (
         <SpeedDialAction

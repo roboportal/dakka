@@ -39,7 +39,6 @@ export function Selector({ record, handleSelectSelector }: ISelectorProp) {
 
         > div {
           padding: 4px;
-          font-size: 12px;
         }
       `}
       value={record?.selectedSelector?.value}

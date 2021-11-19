@@ -15,6 +15,9 @@ export default function StylesProvider({ children }: DarkThemeProps) {
   const theme = useMemo(
     () =>
       createTheme({
+        typography: {
+          fontSize: 12,
+        },
         palette: {
           mode: prefersDarkMode ? 'dark' : 'light',
         },
