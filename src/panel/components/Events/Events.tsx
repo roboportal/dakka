@@ -5,17 +5,19 @@ import EventsList from './EventsList'
 import Scroll from './Scroll'
 import ActionsToolbox from './ActionsToolbox'
 
-import { IEventPayload } from '../../redux/eventRecorderSlice'
+import { IEventPayload, ISelectorPayload } from '../../redux/eventRecorderSlice'
 
 interface IEventsProps {
   isWideScreen: boolean
   events: IEventPayload[]
   toggleHighlightedElement: React.MouseEventHandler<Element>
+  handleSelectSelector: (payload: ISelectorPayload) => void
 }
 
 export default function Events({
   events,
   toggleHighlightedElement,
+  handleSelectSelector,
   isWideScreen,
 }: IEventsProps) {
   const wrapperRef = useRef<HTMLDivElement | null>(null)
@@ -54,7 +56,10 @@ export default function Events({
         onMouseOut={toggleHighlightedElement}
         ref={wrapperRef}
       >
-        <EventsList events={events} />
+        <EventsList
+          events={events}
+          handleSelectSelector={handleSelectSelector}
+        />
       </div>
       <Scroll
         wrapper={wrapperRef.current}

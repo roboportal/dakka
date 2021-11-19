@@ -1,65 +1,16 @@
 import { Fragment, memo } from 'react'
 import { css } from '@emotion/react'
-import { lightBlue, indigo } from '@mui/material/colors'
 
-import { IEventPayload } from '../../redux/eventRecorderSlice'
-import { REDIRECT_STARTED } from '../../../constants/messageTypes'
+import { IEventPayload, ISelectorPayload } from '../../redux/eventRecorderSlice'
+import { EventEntity } from './EventEntity'
+import { Selector } from './Selector'
 
 interface IEventsListProps {
   events: IEventPayload[]
+  handleSelectSelector: (payload: ISelectorPayload) => void
 }
 
-function EventEntity({
-  record,
-  index,
-}: {
-  record: IEventPayload
-  index: string
-}) {
-  const { selector, type } = record
-
-  return (
-    <div
-      data-event_list_index={index}
-      css={css`
-        word-wrap: break-word;
-        width: ${type === REDIRECT_STARTED ? '120px' : '88px'};
-        border: 1px solid #eee;
-        cursor: pointer;
-        display: flex;
-        flex-direction: column;
-        padding: 4px;
-        border-radius: 4px;
-        margin-bottom: 4px;
-        background-color: ${type === REDIRECT_STARTED
-          ? indigo[900]
-          : lightBlue[900]};
-        :hover {
-          background-color: ${lightBlue[700]};
-        }
-        height: 100%;
-      `}
-    >
-      <div
-        css={css`
-          pointer-events: none;
-          margin-bottom: 8px;
-        `}
-      >
-        {type}
-      </div>
-      <div
-        css={css`
-          pointer-events: none;
-        `}
-      >
-        {selector}
-      </div>
-    </div>
-  )
-}
-
-function EventsList({ events }: IEventsListProps) {
+function EventsList({ events, handleSelectSelector }: IEventsListProps) {
   if (!events) {
     return null
   }
@@ -70,6 +21,7 @@ function EventsList({ events }: IEventsListProps) {
         if (Array.isArray(record)) {
           const records = record as IEventPayload[]
           const delta = records[0].deltaTime
+
           return (
             <Fragment key={records[0].id}>
               <div
@@ -84,7 +36,11 @@ function EventsList({ events }: IEventsListProps) {
                     text-align: center;
                   `}
                 >
-                  {records[0].triggeredAt}
+                  <div>{records[0].triggeredAt}</div>
+                  <Selector
+                    record={records[0]}
+                    handleSelectSelector={handleSelectSelector}
+                  />
                 </div>
                 {records.map((record, _index) => {
                   return (
@@ -100,6 +56,7 @@ function EventsList({ events }: IEventsListProps) {
           )
         } else {
           const delta = record.deltaTime
+
           return (
             <Fragment key={record.id}>
               <div
@@ -112,9 +69,14 @@ function EventsList({ events }: IEventsListProps) {
                 <div
                   css={css`
                     text-align: center;
+                    width: 88px;
                   `}
                 >
-                  {record.triggeredAt}
+                  <div>{record.triggeredAt}</div>
+                  <Selector
+                    record={record}
+                    handleSelectSelector={handleSelectSelector}
+                  />
                 </div>
                 <EventEntity record={record} index={index.toString()} />
               </div>

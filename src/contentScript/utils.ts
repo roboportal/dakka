@@ -96,13 +96,37 @@ export function eventHandler(event: any) {
       which, // mouse button
     } = event
 
+    const role = target?.attributes?.role?.value
+    const ariaLabel = target?.ariaLabel
+    const placeholder = target?.attributes?.placeholder?.value
+    const textContent = target?.outerText
+    const className = target?.attributes?.class?.value
+    const elementId = target?.attributes?.id?.value
+    const testId = target?.attributes?.['data-testid']?.value
+    const uniqueSelector = finder(target)
+
+    const selectors = [
+      ...[ariaLabel ? { name: 'role', ariaLabel, value: role } : {}],
+      { name: 'label-text', value: ariaLabel },
+      { name: 'placeholder', value: placeholder },
+      { name: 'text', value: textContent },
+      { name: 'classname', value: className },
+      { name: 'element-id', value: elementId },
+      { name: 'test-id', value: testId },
+      { name: 'unique-path', value: uniqueSelector },
+    ]
+
+    const validSelectors = selectors.filter((item) => item.value)
+
     const message = {
       id,
       type: EVENT_INTERCEPTED,
       payload: {
         id: uuid(),
+        validSelectors,
         triggeredAt: Date.now(),
-        selector: finder(target),
+        selector: uniqueSelector,
+        selectedSelector: validSelectors[0],
         type,
         altKey,
         animationName,
