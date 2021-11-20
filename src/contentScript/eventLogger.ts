@@ -127,18 +127,19 @@ export function eventHandler(event: any) {
     const uniqueSelector = finder(target)
 
     const selectors = [
-      ...[ariaLabel && role ? { name: 'role', ariaLabel, value: role } : {}],
-      ...[ariaLabel ? { name: 'label-text', value: ariaLabel } : {}],
-      ...[placeholder ? { name: 'placeholder', value: placeholder } : {}],
-      ...[textContent ? { name: 'text', value: textContent } : {}],
-      ...[className ? { name: 'classname', value: className } : {}],
-      ...[elementId ? { name: 'element-id', value: elementId } : {}],
-      ...[testId ? { name: 'test-id', value: testId } : {}],
+      ariaLabel && role && { name: 'role', ariaLabel, value: role },
+      ariaLabel && { name: 'label-text', value: ariaLabel },
+      placeholder && { name: 'placeholder', value: placeholder },
+      textContent && { name: 'text', value: textContent },
+      className && { name: 'classname', value: className },
+      elementId && { name: 'element-id', value: elementId },
+      testId && { name: 'test-id', value: testId },
       { name: 'unique-path', value: uniqueSelector },
-    ]
+    ].filter((sel) => !!sel)
 
     const validSelectors = selectors.filter((item) => item.value)
-
+    console.log('typee', type)
+    console.log('target', target)
     const message = {
       id: extensionId,
       type: EVENT_INTERCEPTED,
