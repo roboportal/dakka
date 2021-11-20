@@ -138,8 +138,7 @@ export function eventHandler(event: any) {
     ].filter((sel) => !!sel)
 
     const validSelectors = selectors.filter((item) => item.value)
-    console.log('typee', type)
-    console.log('target', target)
+
     const message = {
       id: extensionId,
       type: EVENT_INTERCEPTED,
