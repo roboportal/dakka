@@ -106,14 +106,14 @@ export function eventHandler(event: any) {
     const uniqueSelector = finder(target)
 
     const selectors = [
-      ...[ariaLabel ? { name: 'role', ariaLabel, value: role } : {}],
-      { name: 'label-text', value: ariaLabel },
-      { name: 'placeholder', value: placeholder },
-      { name: 'text', value: textContent },
-      { name: 'classname', value: className },
-      { name: 'element-id', value: elementId },
-      { name: 'test-id', value: testId },
-      { name: 'unique-path', value: uniqueSelector },
+      ...[ariaLabel && role ? { name: 'role', ariaLabel, value: role } : {}],
+      ...[ariaLabel ? { name: 'label-text', value: ariaLabel } : {}],
+      ...[placeholder ? { name: 'placeholder', value: placeholder } : {}],
+      ...[textContent ? { name: 'text', value: textContent } : {}],
+      ...[className ? { name: 'classname', value: className } : {}],
+      ...[elementId ? { name: 'element-id', value: elementId } : {}],
+      ...[testId ? { name: 'test-id', value: testId } : {}],
+      ...[uniqueSelector ? { name: 'unique-path', value: uniqueSelector } : {}],
     ]
 
     const validSelectors = selectors.filter((item) => item.value)
