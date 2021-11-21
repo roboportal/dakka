@@ -2,7 +2,10 @@ import { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
 import eventsList from '../constants/eventsList'
-import { toggleEventToTrack } from '../redux/eventRecorderSlice'
+import {
+  toggleEventToTrack,
+  togglellEventsToTrack,
+} from '../redux/eventRecorderSlice'
 
 import { SLICE_NAMES, RootState } from '../redux'
 
@@ -27,11 +30,15 @@ export default function useEventMask() {
     dispatch(toggleEventToTrack(name))
   }
 
+  const handleSelectAllEvents = (checked: boolean) =>
+    dispatch(togglellEventsToTrack(checked))
+
   return {
     eventsList,
     collapseState,
     eventsToTrack,
     handleCollapseChange,
     handleActiveChange,
+    handleSelectAllEvents,
   }
 }
