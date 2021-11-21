@@ -36,7 +36,7 @@ export default function EventsSettings() {
           css={css`
             background-color: #0a1929;
             color: inherit;
-            padding: 10px;
+            padding: 12px;
           `}
         >
           <h3
