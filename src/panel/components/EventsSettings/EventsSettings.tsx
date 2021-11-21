@@ -1,10 +1,13 @@
 import { css } from '@emotion/react'
 import List from '@mui/material/List'
 import ListSubheader from '@mui/material/ListSubheader'
+import Button from '@mui/material/Button'
+import Box from '@mui/material/Box'
 
 import CollapsibleGroupItem from './CollapsibleGroupItem'
 import GroupEventsItem from './GroupEventsItem'
 import useEventMask from '../../hooks/useEventMask'
+import { useCallback } from 'react'
 
 export default function EventsSettings() {
   const {
@@ -12,8 +15,19 @@ export default function EventsSettings() {
     collapseState,
     eventsToTrack,
     handleCollapseChange,
+    handleSelectAllEvents,
     handleActiveChange,
   } = useEventMask()
+
+  const toggleSelectAll = useCallback(
+    () => handleSelectAllEvents(true),
+    [handleSelectAllEvents],
+  )
+
+  const toggleDeselectAll = useCallback(
+    () => handleSelectAllEvents(false),
+    [handleSelectAllEvents],
+  )
 
   return (
     <List
@@ -22,9 +36,40 @@ export default function EventsSettings() {
           css={css`
             background-color: #0a1929;
             color: inherit;
+            padding: 10px;
           `}
         >
-          <h3>Events to track</h3>
+          <h3
+            css={css`
+              margin: 0px;
+            `}
+          >
+            Events to track
+          </h3>
+          <Box
+            css={css`
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+            `}
+          >
+            <Button
+              css={css`
+                font-size: 0.6rem;
+              `}
+              onClick={toggleSelectAll}
+            >
+              Select All
+            </Button>
+            <Button
+              css={css`
+                font-size: 0.5rem;
+              `}
+              onClick={toggleDeselectAll}
+            >
+              Deselect All
+            </Button>
+          </Box>
         </ListSubheader>
       }
       disablePadding

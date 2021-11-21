@@ -197,10 +197,19 @@ export const eventRecorderSlice = createSlice({
     ) => {
       eventsToTrack[payload] = !eventsToTrack[payload]
     },
+    togglellEventsToTrack: (
+      { eventsToTrack },
+      { payload }: PayloadAction<boolean>,
+    ) => {
+      Object.keys(eventsToTrack).forEach(
+        (key) => (eventsToTrack[key] = payload),
+      )
+    },
   },
 })
 
 export const {
+  togglellEventsToTrack,
   selectEventSelector,
   setActiveTabID,
   toggleIsRecorderEnabled,
