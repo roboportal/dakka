@@ -4,4 +4,6 @@ export type ControlPanelProps = {
   onRecordEnabledChange: () => void
   onClearEventsByTabId: () => void
   onSettingsClick: () => void
+  onAutoScrollToggle: () => void
+  isAutoScrollEnabled: boolean
 }

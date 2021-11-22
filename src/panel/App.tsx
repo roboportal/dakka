@@ -1,4 +1,3 @@
-import { useState, useCallback } from 'react'
 import { css } from '@emotion/react'
 import Box from '@mui/material/Box'
 import Collapse from '@mui/material/Collapse'
@@ -8,13 +7,11 @@ import ControlPanel from './components/ControlPanel/ControlPanel'
 import Events from './components/Events/Events'
 
 import useEventRecorder from './hooks/useEventRecorder'
-
+import useToggle from './hooks/useToggle'
 export default function App() {
-  const [isSidePanelVisible, setIsSidePanelVisible] = useState(false)
-  const toggleSidePanel = useCallback(
-    () => setIsSidePanelVisible((v) => !v),
-    [],
-  )
+  const [isSidePanelVisible, toggleSidePanel] = useToggle(false)
+
+  const [isAutoScrollEnabled, toggleAutoScroll] = useToggle(true)
 
   const {
     events,
@@ -41,6 +38,8 @@ export default function App() {
         onClearEventsByTabId={handleClearEventsByTabId}
         onSettingsClick={toggleSidePanel}
         isSettingsButtonActive={isSidePanelVisible}
+        onAutoScrollToggle={toggleAutoScroll}
+        isAutoScrollEnabled={isAutoScrollEnabled}
       />
       <Box
         css={css`
@@ -58,6 +57,7 @@ export default function App() {
           toggleHighlightedElement={toggleHighlightedElement}
           handleSelectSelector={handleSelectSelector}
           isWideScreen={!isSidePanelVisible}
+          autoScroll={isAutoScrollEnabled}
         />
         <Collapse in={isSidePanelVisible} orientation="horizontal">
           <EventsSettings />
