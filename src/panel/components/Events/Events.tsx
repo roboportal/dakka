@@ -24,13 +24,21 @@ export default function Events({
 }: IEventsProps) {
   const wrapperRef = useRef<HTMLDivElement | null>(null)
   const [eventsListScroll, setEventsListScroll] = useState(0)
+  const prevEventCounterRef = useRef(0)
 
   useEffect(() => {
-    if (!wrapperRef.current || !autoScroll) {
+    const nEvents = events?.length ?? 0
+    if (
+      !wrapperRef.current ||
+      !autoScroll ||
+      prevEventCounterRef.current >= nEvents
+    ) {
+      prevEventCounterRef.current = nEvents
       return
     }
+    prevEventCounterRef.current = nEvents
     wrapperRef.current.scrollTo(wrapperRef.current.scrollWidth, 0)
-  }, [events])
+  }, [events?.length])
 
   const handleEventsScroll = useCallback(
     (e: React.UIEvent<HTMLDivElement>) => {
