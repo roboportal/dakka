@@ -1,3 +1,4 @@
+import { useCallback } from 'react'
 import Select, { SelectChangeEvent } from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
 import { blue } from '@mui/material/colors'
@@ -8,7 +9,6 @@ import {
   ISelector,
   ISelectorPayload,
 } from '../../redux/eventRecorderSlice'
-import { useCallback } from 'react'
 
 interface ISelectorProp {
   record: IEventPayload
