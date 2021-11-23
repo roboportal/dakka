@@ -212,7 +212,6 @@ export const eventRecorderSlice = createSlice({
         payload: { eventIds, tabId },
       }: PayloadAction<{ eventIds: number[]; tabId: number }>,
     ) => {
-      console.log(eventIds, tabId)
       const [first, second] = eventIds
       if (Array.isArray(state.events[tabId][first])) {
         const it = state.events[tabId][first] as unknown as WritableDraft<
