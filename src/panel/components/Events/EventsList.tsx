@@ -7,10 +7,10 @@ import { Selector } from './Selector'
 
 interface IEventsListProps {
   events: IEventPayload[]
-  handleSelectSelector: (payload: ISelectorPayload) => void
+  onSelectSelector: (payload: ISelectorPayload) => void
 }
 
-function EventsList({ events, handleSelectSelector }: IEventsListProps) {
+function EventsList({ events, onSelectSelector }: IEventsListProps) {
   if (!events) {
     return null
   }
@@ -39,7 +39,7 @@ function EventsList({ events, handleSelectSelector }: IEventsListProps) {
                   <div>{records[0].triggeredAt}</div>
                   <Selector
                     record={records[0]}
-                    handleSelectSelector={handleSelectSelector}
+                    onSelectSelector={onSelectSelector}
                   />
                 </div>
                 {records.map((record, _index) => {
@@ -75,7 +75,7 @@ function EventsList({ events, handleSelectSelector }: IEventsListProps) {
                   <div>{record.triggeredAt}</div>
                   <Selector
                     record={record}
-                    handleSelectSelector={handleSelectSelector}
+                    onSelectSelector={onSelectSelector}
                   />
                 </div>
                 <EventEntity record={record} index={index.toString()} />

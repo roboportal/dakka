@@ -1,6 +1,8 @@
 import { css } from '@emotion/react'
+import Button from '@mui/material/Button'
+import DeleteIcon from '@mui/icons-material/Delete'
 
-import { lightBlue, indigo } from '@mui/material/colors'
+import { lightBlue, indigo, grey } from '@mui/material/colors'
 
 import { IEventPayload } from '../../redux/eventRecorderSlice'
 import { REDIRECT_STARTED } from '../../../constants/messageTypes'
@@ -26,6 +28,7 @@ export function EventEntity({
         cursor: pointer;
         display: flex;
         flex-direction: column;
+        justify-content: space-between;
         padding: 4px;
         border-radius: 4px;
         margin-bottom: 4px;
@@ -36,21 +39,49 @@ export function EventEntity({
         height: 100%;
       `}
     >
-      <div
-        css={css`
-          pointer-events: none;
-          margin-bottom: 8px;
-        `}
-      >
-        {type}
+      <div>
+        <div
+          css={css`
+            pointer-events: none;
+            margin-bottom: 8px;
+          `}
+        >
+          {type}
+        </div>
+        <div
+          css={css`
+            pointer-events: none;
+          `}
+        >
+          <span>{isRedirect ? url : selector}</span>
+        </div>
       </div>
-      <div
+      <Button
+        data-event_list_index={index}
+        data-event_list_action="remove"
         css={css`
-          pointer-events: none;
+          color: ${grey[500]};
+
+          :hover {
+            .MuiSvgIcon-root {
+              color: #eee;
+            }
+          }
+
+          .MuiButtonBase-root:hover {
+            background-color: 'transparent';
+          }
         `}
+        variant="text"
       >
-        <span>{isRedirect ? url : selector}</span>
-      </div>
+        <DeleteIcon
+          css={css`
+            pointer-events: none;
+            color: ${grey[500]};
+          `}
+          fontSize="small"
+        />
+      </Button>
     </div>
   )
 }

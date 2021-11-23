@@ -12,14 +12,16 @@ interface IEventsProps {
   autoScroll: boolean
   events: IEventPayload[]
   toggleHighlightedElement: React.MouseEventHandler<Element>
-  handleSelectSelector: (payload: ISelectorPayload) => void
+  onSelectSelector: (payload: ISelectorPayload) => void
+  onEventClick: React.MouseEventHandler<Element>
 }
 
 export default function Events({
   events,
   autoScroll,
   toggleHighlightedElement,
-  handleSelectSelector,
+  onSelectSelector,
+  onEventClick,
   isWideScreen,
 }: IEventsProps) {
   const wrapperRef = useRef<HTMLDivElement | null>(null)
@@ -71,12 +73,10 @@ export default function Events({
         onScroll={handleEventsScroll}
         onMouseOver={toggleHighlightedElement}
         onMouseOut={toggleHighlightedElement}
+        onClick={onEventClick}
         ref={wrapperRef}
       >
-        <EventsList
-          events={events}
-          handleSelectSelector={handleSelectSelector}
-        />
+        <EventsList events={events} onSelectSelector={onSelectSelector} />
       </div>
       <Scroll
         wrapper={wrapperRef.current}
