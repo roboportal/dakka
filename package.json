@@ -4,7 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "NODE_ENV=development PORT=8080 webpack serve"
+    "start": "rm -r ./dist/* && npm run start:dev",
+    "remove-dist": "rm -r ./dist/*",
+    "start:dev": "npm run serve:panel & npm run watch:scripts",
+    "serve:panel": "NODE_ENV=development PORT=8080 webpack serve --config webpack.panel.config.js",
+    "watch:scripts": "NODE_ENV=development webpack watch --config webpack.scripts.config.js"
   },
   "author": "",
   "license": "ISC",
@@ -20,7 +24,6 @@
     "@types/uuid": "^8.3.1",
     "babel-loader": "^8.2.3",
     "babel-preset-react-app": "^10.0.0",
-    "clean-webpack-plugin": "^4.0.0",
     "copy-webpack-plugin": "^9.1.0",
     "html-loader": "^3.0.1",
     "html-webpack-plugin": "^5.5.0",
