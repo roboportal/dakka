@@ -12,10 +12,10 @@ import {
 
 interface ISelectorProp {
   record: IEventPayload
-  handleSelectSelector: (payload: ISelectorPayload) => void
+  onSelectSelector: (payload: ISelectorPayload) => void
 }
 
-export function Selector({ record, handleSelectSelector }: ISelectorProp) {
+export function Selector({ record, onSelectSelector }: ISelectorProp) {
   if (!record?.validSelectors?.length) {
     return null
   }
@@ -26,10 +26,10 @@ export function Selector({ record, handleSelectSelector }: ISelectorProp) {
         (s) => s.value === e.target.value,
       )
       if (selector) {
-        handleSelectSelector({ selectedSelector: selector, record })
+        onSelectSelector({ selectedSelector: selector, record })
       }
     },
-    [handleSelectSelector, record],
+    [onSelectSelector, record],
   )
 
   return (

@@ -7,6 +7,7 @@ import {
   clearEvents,
   IEventRecord,
   selectEventSelector,
+  removeEvent,
 } from '../redux/eventRecorderSlice'
 import {
   ENABLE_RECORDER,
@@ -68,6 +69,23 @@ export default function useEventRecorder() {
       }
     },
     [highlightedEventIndexes, setHighlightedEventIndexes],
+  )
+
+  const handleEventClick: MouseEventHandler = useCallback(
+    (e) => {
+      const target = e?.target as HTMLElement
+
+      const eventIds: number[] =
+        target?.dataset?.event_list_index?.split('.').map((it) => Number(it)) ??
+        []
+
+      const action = target?.dataset?.event_list_action
+
+      if (action === 'remove') {
+        dispatch(removeEvent({ eventIds }))
+      }
+    },
+    [removeEvent, activeTabID],
   )
 
   useEffect(() => {
@@ -181,5 +199,6 @@ export default function useEventRecorder() {
     handleClearEventsByTabId,
     toggleHighlightedElement,
     handleSelectSelector,
+    handleEventClick,
   }
 }

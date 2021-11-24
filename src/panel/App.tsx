@@ -21,6 +21,7 @@ export default function App() {
     handleClearEventsByTabId,
     toggleHighlightedElement,
     handleSelectSelector,
+    handleEventClick,
   } = useEventRecorder()
 
   return (
@@ -55,9 +56,10 @@ export default function App() {
         <Events
           events={events[activeTabID]}
           toggleHighlightedElement={toggleHighlightedElement}
-          handleSelectSelector={handleSelectSelector}
+          onSelectSelector={handleSelectSelector}
           isWideScreen={!isSidePanelVisible}
           autoScroll={isAutoScrollEnabled}
+          onEventClick={handleEventClick}
         />
         <Collapse in={isSidePanelVisible} orientation="horizontal">
           <EventsSettings />
