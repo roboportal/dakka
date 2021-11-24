@@ -82,7 +82,7 @@ export default function useEventRecorder() {
       const action = target?.dataset?.event_list_action
 
       if (action === 'remove') {
-        dispatch(removeEvent({ eventIds, tabId: activeTabID }))
+        dispatch(removeEvent({ eventIds }))
       }
     },
     [removeEvent, activeTabID],
