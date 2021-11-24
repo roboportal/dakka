@@ -137,7 +137,6 @@ if (mode === 'development') {
   ]
 
   options.entry.panel.import = [...hot, options.entry.panel.import]
-  console.log('options.entry.panel.import', options.entry.panel.import)
 } else {
   options.optimization = {
     minimize: true,
