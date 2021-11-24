@@ -1,7 +1,9 @@
 import { useCallback, useRef } from 'react'
 import { css } from '@emotion/react'
+import Button from '@mui/material/Button'
+import DeleteIcon from '@mui/icons-material/Delete'
 
-import { lightBlue, indigo } from '@mui/material/colors'
+import { lightBlue, indigo, grey } from '@mui/material/colors'
 
 import { IEventPayload } from '../../redux/eventRecorderSlice'
 import { REDIRECT_STARTED } from '../../../constants/messageTypes'
@@ -27,27 +29,19 @@ export function EventEntity({
     <div
       css={css`
         display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 4px;
+        border-radius: 4px;
+        margin-bottom: 4px;
+        background-color: ${isRedirect ? indigo[900] : lightBlue[900]};
+        :hover {
+          background-color: ${lightBlue[700]};
+        }
+        height: 100%;
       `}
     >
-      <div
-        data-event_list_index={index}
-        css={css`
-          word-wrap: break-word;
-          width: ${isRedirect ? '120px' : '88px'};
-          border: 1px solid #eee;
-          cursor: pointer;
-          display: flex;
-          flex-direction: column;
-          padding: 4px;
-          border-radius: 4px;
-          margin-bottom: 4px;
-          background-color: ${isRedirect ? indigo[900] : lightBlue[900]};
-          :hover {
-            background-color: ${lightBlue[700]};
-          }
-          height: 100%;
-        `}
-      >
+      <div>
         <div
           css={css`
             pointer-events: none;
@@ -64,6 +58,32 @@ export function EventEntity({
           <span>{isRedirect ? url : selector}</span>
         </div>
       </div>
+      <Button
+        data-event_list_index={index}
+        data-event_list_action="remove"
+        css={css`
+          color: ${grey[500]};
+
+          :hover {
+            .MuiSvgIcon-root {
+              color: #eee;
+            }
+          }
+
+          .MuiButtonBase-root:hover {
+            background-color: 'transparent';
+          }
+        `}
+        variant="text"
+      >
+        <DeleteIcon
+          css={css`
+            pointer-events: none;
+            color: ${grey[500]};
+          `}
+          fontSize="small"
+        />
+      </Button>
       <div
         ref={ref}
         css={css`

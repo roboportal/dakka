@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { WritableDraft } from 'immer/dist/internal'
 
 import eventsList from '../constants/eventsList'
 
@@ -197,7 +198,7 @@ export const eventRecorderSlice = createSlice({
     ) => {
       eventsToTrack[payload] = !eventsToTrack[payload]
     },
-    togglellEventsToTrack: (
+    toggleEventsToTrack: (
       { eventsToTrack },
       { payload }: PayloadAction<boolean>,
     ) => {
@@ -205,17 +206,55 @@ export const eventRecorderSlice = createSlice({
         (key) => (eventsToTrack[key] = payload),
       )
     },
+    removeEvent: (
+      state,
+      { payload: { eventIds } }: PayloadAction<{ eventIds: number[] }>,
+    ) => {
+      const tabId = state.activeTabID
+      const [first, second] = eventIds
+      if (Array.isArray(state.events[tabId][first])) {
+        const it = state.events[tabId][first] as unknown as WritableDraft<
+          IEventPayload[]
+        >
+        it.splice(second, 1)
+        if (it.length === 1) {
+          state.events[tabId][first] = it[0]
+        }
+        if (it.length === 0) {
+          state.events[tabId].splice(first, 1)
+        }
+      } else {
+        state.events[tabId].splice(first, 1)
+      }
+
+      state.currentEventIndex -= 1
+      state.firstEventStartedAt =
+        (
+          state.events[tabId][0] as unknown as WritableDraft<IEventPayload[]>
+        )?.[0]?.triggeredAt ?? state.events[tabId][0]?.triggeredAt
+
+      if (state.events[tabId].length > 1) {
+        state.events[tabId].flat().forEach((it, index, arr) => {
+          if (index === 0) {
+            it.deltaTime = 0
+            return
+          }
+          it.deltaTime = calculateDeltaTime(arr[index - 1], it)
+        })
+      }
+    },
   },
 })
 
 export const {
-  togglellEventsToTrack,
+  toggleEventsToTrack,
   selectEventSelector,
   setActiveTabID,
   toggleIsRecorderEnabled,
   recordEvent,
   clearEvents,
   toggleEventToTrack,
+  removeEvent,
 } = eventRecorderSlice.actions
 
 export default eventRecorderSlice.reducer

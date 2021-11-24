@@ -1,4 +1,4 @@
-import { useRef, useState, useCallback } from 'react'
+import { useRef, useState, useCallback, useEffect } from 'react'
 import { css } from '@emotion/react'
 
 import EventsList from './EventsList'
@@ -9,19 +9,38 @@ import { IEventPayload, ISelectorPayload } from '../../redux/eventRecorderSlice'
 
 interface IEventsProps {
   isWideScreen: boolean
+  autoScroll: boolean
   events: IEventPayload[]
   toggleHighlightedElement: React.MouseEventHandler<Element>
-  handleSelectSelector: (payload: ISelectorPayload) => void
+  onSelectSelector: (payload: ISelectorPayload) => void
+  onEventClick: React.MouseEventHandler<Element>
 }
 
 export default function Events({
   events,
+  autoScroll,
   toggleHighlightedElement,
-  handleSelectSelector,
+  onSelectSelector,
+  onEventClick,
   isWideScreen,
 }: IEventsProps) {
   const wrapperRef = useRef<HTMLDivElement | null>(null)
   const [eventsListScroll, setEventsListScroll] = useState(0)
+  const prevEventCounterRef = useRef(0)
+
+  useEffect(() => {
+    const nEvents = events?.length ?? 0
+    if (
+      !wrapperRef.current ||
+      !autoScroll ||
+      prevEventCounterRef.current >= nEvents
+    ) {
+      prevEventCounterRef.current = nEvents
+      return
+    }
+    prevEventCounterRef.current = nEvents
+    wrapperRef.current.scrollTo(wrapperRef.current.scrollWidth, 0)
+  }, [events?.length])
 
   const handleEventsScroll = useCallback(
     (e: React.UIEvent<HTMLDivElement>) => {
@@ -54,12 +73,10 @@ export default function Events({
         onScroll={handleEventsScroll}
         onMouseOver={toggleHighlightedElement}
         onMouseOut={toggleHighlightedElement}
+        onClick={onEventClick}
         ref={wrapperRef}
       >
-        <EventsList
-          events={events}
-          handleSelectSelector={handleSelectSelector}
-        />
+        <EventsList events={events} onSelectSelector={onSelectSelector} />
       </div>
       <Scroll
         wrapper={wrapperRef.current}

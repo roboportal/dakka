@@ -1,15 +1,26 @@
 import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
 import Button from '@mui/material/Button'
+import Switch from '@mui/material/Switch'
 import Typography from '@mui/material/Typography'
 import DeleteIcon from '@mui/icons-material/Delete'
 import SettingsApplicationsIcon from '@mui/icons-material/SettingsApplications'
 import IconButton from '@mui/material/IconButton'
+import FormControlLabel from '@mui/material/FormControlLabel'
 import RadioButtonChecked from '@mui/icons-material/RadioButtonChecked'
-import { ControlPanelProps } from './ControlPanel.types'
 import Stack from '@mui/material/Stack'
 import { grey, green, red } from '@mui/material/colors'
 import Divider from '@mui/material/Divider'
+
+export type IControlPanelProps = {
+  isRecorderEnabled: boolean
+  isSettingsButtonActive: boolean
+  onRecordEnabledChange: () => void
+  onClearEventsByTabId: () => void
+  onSettingsClick: () => void
+  onAutoScrollToggle: () => void
+  isAutoScrollEnabled: boolean
+}
 
 const ControlPanel = ({
   isRecorderEnabled,
@@ -17,7 +28,9 @@ const ControlPanel = ({
   onClearEventsByTabId,
   onSettingsClick,
   isSettingsButtonActive,
-}: ControlPanelProps) => {
+  onAutoScrollToggle,
+  isAutoScrollEnabled,
+}: IControlPanelProps) => {
   return (
     <AppBar sx={{ marginBottom: '8px' }} position="static">
       <Toolbar
@@ -79,6 +92,26 @@ const ControlPanel = ({
               Clear
             </Typography>
           </Button>
+          <FormControlLabel
+            control={
+              <Switch
+                size="small"
+                checked={isAutoScrollEnabled}
+                onChange={onAutoScrollToggle}
+              />
+            }
+            label={
+              <Typography
+                sx={{
+                  fontSize: '0.7rem',
+                  marginLeft: '0.2rem',
+                  color: grey[600],
+                }}
+              >
+                Auto scroll
+              </Typography>
+            }
+          />
         </Stack>
         <IconButton
           onClick={onSettingsClick}

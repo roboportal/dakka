@@ -1,3 +1,4 @@
+import { useCallback } from 'react'
 import { css } from '@emotion/react'
 import List from '@mui/material/List'
 import ListSubheader from '@mui/material/ListSubheader'
@@ -7,7 +8,6 @@ import Box from '@mui/material/Box'
 import CollapsibleGroupItem from './CollapsibleGroupItem'
 import GroupEventsItem from './GroupEventsItem'
 import useEventMask from '../../hooks/useEventMask'
-import { useCallback } from 'react'
 
 export default function EventsSettings() {
   const {
