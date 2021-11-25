@@ -1,3 +1,4 @@
+import { v4 as uuid } from 'uuid'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { WritableDraft } from 'immer/dist/internal'
 
@@ -26,8 +27,10 @@ export interface ISelectorPayload {
 export interface IEventBlock {
   type: string
   id: string
-  index: number
+  eventRecordIndex: number
   eventId: string
+  triggeredAt: number
+  deltaTime: number
 }
 
 export interface IEventPayload {
@@ -253,15 +256,20 @@ export const eventRecorderSlice = createSlice({
         })
       }
     },
-    insertBlock: (state, { payload: { blockId, eventIndex, eventId } }) => {
+    insertBlock: (
+      state,
+      { payload: { blockId, eventIndex, eventId, newDelta, newTriggeredAt } },
+    ) => {
       const tabId = state.activeTabID
       const events = state.events[tabId]
       const blockIndex = eventIndex + 1
       const block = {
-        id: blockId,
-        type: 'block',
-        index: blockIndex,
+        id: uuid(),
+        type: blockId,
+        eventRecordIndex: blockIndex,
         eventId,
+        triggeredAt: newTriggeredAt,
+        deltaTime: newDelta,
       } as WritableDraft<IEventBlock>
 
       events.splice(blockIndex, 0, block)

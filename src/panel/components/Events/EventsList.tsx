@@ -1,4 +1,4 @@
-import { memo } from 'react'
+import { memo, useState } from 'react'
 import { css } from '@emotion/react'
 
 import {
@@ -9,6 +9,7 @@ import {
 import { EventEntity } from './EventEntity'
 import { Selector } from './Selector'
 import Record from './Record'
+
 interface IEventsListProps {
   events: (IEventPayload | IEventPayload[] | IEventBlock)[]
   onSelectSelector: (payload: ISelectorPayload) => void
@@ -20,6 +21,8 @@ function EventsList({
   onSelectSelector,
   onInsertBlock,
 }: IEventsListProps) {
+  const [dragOverIndex, setDragOverIndex] = useState(-1)
+
   if (!events) {
     return null
   }
@@ -63,7 +66,7 @@ function EventsList({
             </div>
           )
         } else {
-          const delta = (record as IEventPayload).deltaTime
+          const delta = record.deltaTime
 
           return (
             <Record
@@ -73,6 +76,8 @@ function EventsList({
               record={record}
               onSelectSelector={onSelectSelector}
               delta={delta}
+              setDragOverIndex={setDragOverIndex}
+              dragOverIndex={dragOverIndex}
             />
           )
         }

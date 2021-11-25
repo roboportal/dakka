@@ -9,7 +9,6 @@ import {
   IEventRecord,
   selectEventSelector,
   removeEvent,
-  toggleEventsToTrack,
   insertBlock,
 } from '../redux/eventRecorderSlice'
 import {
