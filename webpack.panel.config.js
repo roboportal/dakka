@@ -118,7 +118,9 @@ if (mode === 'development') {
   options.devServer = {
     https: false,
     hot: true,
-    client: false,
+    client: {
+      overlay: { errors: true, warnings: false },
+    },
     host: 'localhost',
     port: port,
     devMiddleware: {
