@@ -22,8 +22,9 @@ export default function App() {
     toggleHighlightedElement,
     handleSelectSelector,
     handleEventClick,
+    handleInsertBlock,
   } = useEventRecorder()
-
+  console.log('events', events)
   return (
     <div
       css={css`
@@ -54,6 +55,7 @@ export default function App() {
         `}
       >
         <Events
+          onInsertBlock={handleInsertBlock}
           events={events[activeTabID]}
           toggleHighlightedElement={toggleHighlightedElement}
           onSelectSelector={handleSelectSelector}

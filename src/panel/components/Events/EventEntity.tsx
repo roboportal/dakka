@@ -12,21 +12,41 @@ import { useDrop } from '../../hooks/dnd/useDrop'
 export function EventEntity({
   record,
   index,
+  onInsertBlock,
 }: {
   record: IEventPayload
   index: string
+  onInsertBlock?: (payload: any) => void
 }) {
   const ref = useRef<any>()
-  const handleDrop = useCallback((e) => {
-    console.log('handleDrop', e)
+  const refIndex = useRef<any>(null)
+
+  const handleDrop = useCallback((id) => {
+    if (onInsertBlock && id) {
+      onInsertBlock({ blockId: id, eventIndex: refIndex?.current })
+    }
   }, [])
-  useDrop({ ref, onDrop: handleDrop })
+
+  const handleDropOver = useCallback((event: any) => {
+    const clientRect = ref.current.getBoundingClientRect()
+    const pivot = clientRect.x + clientRect.width / 2
+
+    if (event.x > pivot) {
+      refIndex.current = record.eventRecordIndex
+    } else {
+      refIndex.current = record.eventRecordIndex - 1
+    }
+  }, [])
+
+  useDrop({ ref, onDrop: handleDrop, onDropOver: handleDropOver })
+
   const { type, selectedSelector, url } = record
   const isRedirect = type === REDIRECT_STARTED
   const selector = `${selectedSelector?.name}: ${selectedSelector?.value}`
 
   return (
     <div
+      ref={ref}
       css={css`
         display: flex;
         flex-direction: column;
@@ -55,7 +75,11 @@ export function EventEntity({
             pointer-events: none;
           `}
         >
-          <span>{isRedirect ? url : selector}</span>
+          {record.type === 'block' ? (
+            <div>Block</div>
+          ) : (
+            <span>{isRedirect ? url : selector}</span>
+          )}
         </div>
       </div>
       <Button
@@ -84,13 +108,6 @@ export function EventEntity({
           fontSize="small"
         />
       </Button>
-      <div
-        ref={ref}
-        css={css`
-          background-color: red;
-          width: 40px;
-        `}
-      ></div>
     </div>
   )
 }

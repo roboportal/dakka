@@ -3,18 +3,19 @@ import { useEffect, useState } from 'react'
 interface DropProps {
   ref: any
   onDrop: any
+  onDropOver: any
 }
 
-export const useDrop = ({ ref, onDrop }: DropProps) => {
+export const useDrop = ({ ref, onDrop, onDropOver }: DropProps) => {
   const [dropState, setDropState] = useState('droppable')
 
   const dropOver = (event: any) => {
     event.preventDefault()
     setDropState('dropping over')
+    onDropOver(event)
   }
 
   const drop = (event: any) => {
-    console.log('drop', event.dataTransfer)
     onDrop(event.dataTransfer.getData('source'))
     setDropState('dropped')
   }
@@ -25,7 +26,7 @@ export const useDrop = ({ ref, onDrop }: DropProps) => {
     if (!element) {
       return
     }
-    console.log('element', element)
+
     element.addEventListener('dragover', dropOver)
     element.addEventListener('drop', drop)
 

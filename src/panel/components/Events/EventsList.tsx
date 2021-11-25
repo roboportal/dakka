@@ -1,16 +1,25 @@
-import { Fragment, memo } from 'react'
+import { memo } from 'react'
 import { css } from '@emotion/react'
 
-import { IEventPayload, ISelectorPayload } from '../../redux/eventRecorderSlice'
+import {
+  IEventPayload,
+  ISelectorPayload,
+  IEventBlock,
+} from '../../redux/eventRecorderSlice'
 import { EventEntity } from './EventEntity'
 import { Selector } from './Selector'
-
+import Record from './Record'
 interface IEventsListProps {
-  events: IEventPayload[]
+  events: (IEventPayload | IEventPayload[] | IEventBlock)[]
   onSelectSelector: (payload: ISelectorPayload) => void
+  onInsertBlock: (payload: any) => void
 }
 
-function EventsList({ events, onSelectSelector }: IEventsListProps) {
+function EventsList({
+  events,
+  onSelectSelector,
+  onInsertBlock,
+}: IEventsListProps) {
   if (!events) {
     return null
   }
@@ -23,64 +32,48 @@ function EventsList({ events, onSelectSelector }: IEventsListProps) {
           const delta = records[0].deltaTime
 
           return (
-            <Fragment key={records[0].id}>
+            <div
+              key={records[0].id}
+              css={css`
+                display: flex;
+                flex-direction: column;
+                margin-left: ${delta}px;
+              `}
+            >
               <div
                 css={css`
-                  display: flex;
-                  flex-direction: column;
-                  margin-left: ${delta}px;
+                  text-align: center;
                 `}
               >
-                <div
-                  css={css`
-                    text-align: center;
-                  `}
-                >
-                  <div>{records[0].triggeredAt}</div>
-                  <Selector
-                    record={records[0]}
-                    onSelectSelector={onSelectSelector}
-                  />
-                </div>
-                {records.map((record, _index) => {
-                  return (
-                    <EventEntity
-                      key={record.id}
-                      record={record}
-                      index={`${index}.${_index}`}
-                    />
-                  )
-                })}
+                <div>{records[0].triggeredAt}</div>
+                <Selector
+                  record={records[0]}
+                  onSelectSelector={onSelectSelector}
+                />
               </div>
-            </Fragment>
+              {records.map((record, _index) => {
+                return (
+                  <EventEntity
+                    key={record.id}
+                    record={record}
+                    index={`${index}.${_index}`}
+                  />
+                )
+              })}
+            </div>
           )
         } else {
-          const delta = record.deltaTime
+          const delta = (record as IEventPayload).deltaTime
 
           return (
-            <Fragment key={record.id}>
-              <div
-                css={css`
-                  display: flex;
-                  flex-direction: column;
-                  margin-left: ${delta}px;
-                `}
-              >
-                <div
-                  css={css`
-                    text-align: center;
-                    width: 88px;
-                  `}
-                >
-                  <div>{record.triggeredAt}</div>
-                  <Selector
-                    record={record}
-                    onSelectSelector={onSelectSelector}
-                  />
-                </div>
-                <EventEntity record={record} index={index.toString()} />
-              </div>
-            </Fragment>
+            <Record
+              index={index.toString()}
+              onInsertBlock={onInsertBlock}
+              key={record.id}
+              record={record}
+              onSelectSelector={onSelectSelector}
+              delta={delta}
+            />
           )
         }
       })}

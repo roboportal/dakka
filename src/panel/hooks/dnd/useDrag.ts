@@ -22,7 +22,6 @@ export const useDrag = ({
   const dragStart = (event: any) => {
     setDragState('dragStart')
     event.dataTransfer.effectAllowed = effect
-    console.log('id', id)
     event.dataTransfer.setData('source', id)
     onDragStart?.()
   }

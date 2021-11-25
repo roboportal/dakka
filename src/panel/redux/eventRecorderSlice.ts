@@ -6,7 +6,7 @@ import eventsList from '../constants/eventsList'
 export interface EventRecorderState {
   isRecorderEnabled: boolean
   activeTabID: number
-  events: Record<number, Array<IEventPayload | IEventPayload>>
+  events: Record<number, Array<IEventPayload | IEventPayload[] | IEventBlock>>
   eventsToTrack: Record<string, boolean>
   firstEventStartedAt: number
   currentEventIndex: number
@@ -21,6 +21,13 @@ export interface ISelector {
 export interface ISelectorPayload {
   selectedSelector: ISelector
   record: IEventPayload
+}
+
+export interface IEventBlock {
+  type: string
+  id: string
+  index: number
+  eventId: string
 }
 
 export interface IEventPayload {
@@ -63,7 +70,7 @@ const initialState: EventRecorderState = {
 }
 
 function checkIsDuplicatedEvent(
-  events: Array<IEventPayload[] | IEventPayload>,
+  events: Array<IEventPayload[] | IEventPayload | IEventBlock>,
   eventRecord: IEventRecord,
 ) {
   const currentIndex = (events.length ?? 1) - 1
@@ -86,7 +93,7 @@ function checkIsDuplicatedEvent(
 }
 
 function calculateDeltaTime(
-  prevEvent: IEventPayload | IEventPayload[],
+  prevEvent: IEventPayload | IEventPayload[] | IEventBlock,
   currentEvent: IEventPayload,
 ) {
   const delta =
@@ -97,7 +104,7 @@ function calculateDeltaTime(
 }
 
 function composeEvents(
-  events: Array<IEventPayload | IEventPayload[]>,
+  events: Array<IEventPayload | IEventPayload[] | IEventBlock>,
   event: IEventPayload,
   index: number,
 ) {
@@ -184,7 +191,7 @@ export const eventRecorderSlice = createSlice({
       { events },
       { payload: { record, selectedSelector, tabId } },
     ) => {
-      const updateSelector = (eventRecord: IEventPayload) => {
+      const updateSelector = (eventRecord: any) => {
         if (eventRecord.selector === record.selector) {
           eventRecord.selectedSelector = selectedSelector
         }
@@ -229,19 +236,35 @@ export const eventRecorderSlice = createSlice({
 
       state.currentEventIndex -= 1
       state.firstEventStartedAt =
-        (
-          state.events[tabId][0] as unknown as WritableDraft<IEventPayload[]>
-        )?.[0]?.triggeredAt ?? state.events[tabId][0]?.triggeredAt
+        (state.events[tabId][0] as WritableDraft<IEventPayload[]>)?.[0]
+          ?.triggeredAt ??
+        (state.events[tabId][0] as WritableDraft<IEventPayload>)?.triggeredAt
 
       if (state.events[tabId].length > 1) {
         state.events[tabId].flat().forEach((it, index, arr) => {
           if (index === 0) {
-            it.deltaTime = 0
+            ;(it as WritableDraft<IEventPayload>).deltaTime = 0
             return
           }
-          it.deltaTime = calculateDeltaTime(arr[index - 1], it)
+          ;(it as WritableDraft<IEventPayload>).deltaTime = calculateDeltaTime(
+            arr[index - 1],
+            it as WritableDraft<IEventPayload>,
+          )
         })
       }
+    },
+    insertBlock: (state, { payload: { blockId, eventIndex, eventId } }) => {
+      const tabId = state.activeTabID
+      const events = state.events[tabId]
+      const blockIndex = eventIndex + 1
+      const block = {
+        id: blockId,
+        type: 'block',
+        index: blockIndex,
+        eventId,
+      } as WritableDraft<IEventBlock>
+
+      events.splice(blockIndex, 0, block)
     },
   },
 })
@@ -255,6 +278,7 @@ export const {
   clearEvents,
   toggleEventToTrack,
   removeEvent,
+  insertBlock,
 } = eventRecorderSlice.actions
 
 export default eventRecorderSlice.reducer
