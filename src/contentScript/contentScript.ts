@@ -14,7 +14,7 @@ function injectCode(src: string) {
 
 injectCode(chrome.runtime.getURL('./contentScript/injection.bundle.js'))
 
-let shouldSendMessage = false || false
+let shouldSendMessage = false
 
 window.addEventListener('message', (p) => {
   if (!shouldSendMessage) {
