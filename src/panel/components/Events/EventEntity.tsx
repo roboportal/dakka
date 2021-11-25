@@ -3,7 +3,6 @@ import Button from '@mui/material/Button'
 import DeleteIcon from '@mui/icons-material/Delete'
 
 import { lightBlue, indigo, grey } from '@mui/material/colors'
-
 import { IEventPayload } from '../../redux/eventRecorderSlice'
 import { REDIRECT_STARTED } from '../../../constants/messageTypes'
 

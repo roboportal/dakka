@@ -6,9 +6,9 @@ import {
   ISelectorPayload,
   IEventBlock,
 } from '../../redux/eventRecorderSlice'
+import Record from './Record'
 import { EventEntity } from './EventEntity'
 import { Selector } from './Selector'
-import Record from './Record'
 
 interface IEventsListProps {
   events: (IEventPayload | IEventPayload[] | IEventBlock)[]
@@ -35,50 +35,73 @@ function EventsList({
           const delta = records[0].deltaTime
 
           return (
-            <div
+            <Record
               key={records[0].id}
-              css={css`
-                display: flex;
-                flex-direction: column;
-                margin-left: ${delta}px;
-              `}
+              record={records[0]}
+              delta={delta}
+              onInsertBlock={onInsertBlock}
+              setDragOverIndex={setDragOverIndex}
+              dragOverIndex={dragOverIndex}
             >
               <div
                 css={css`
                   text-align: center;
+                  flex-direction: column;
+                  display: flex;
                 `}
               >
-                <div>{records[0].triggeredAt}</div>
-                <Selector
-                  record={records[0]}
-                  onSelectSelector={onSelectSelector}
-                />
-              </div>
-              {records.map((record, _index) => {
-                return (
-                  <EventEntity
-                    key={record.id}
-                    record={record}
-                    index={`${index}.${_index}`}
+                <div
+                  css={css`
+                    text-align: center;
+                  `}
+                >
+                  <div>{records[0].triggeredAt}</div>
+                  <Selector
+                    record={records[0]}
+                    onSelectSelector={onSelectSelector}
                   />
-                )
-              })}
-            </div>
+                </div>
+                {records.map((record, _index) => {
+                  return (
+                    <EventEntity
+                      key={record.id}
+                      record={record}
+                      index={`${index}.${_index}`}
+                    />
+                  )
+                })}
+              </div>
+            </Record>
           )
         } else {
           const delta = record.deltaTime
 
           return (
             <Record
-              index={index.toString()}
               onInsertBlock={onInsertBlock}
               key={record.id}
               record={record}
-              onSelectSelector={onSelectSelector}
               delta={delta}
               setDragOverIndex={setDragOverIndex}
               dragOverIndex={dragOverIndex}
-            />
+            >
+              <div
+                css={css`
+                  text-align: center;
+                  width: 88px;
+                `}
+              >
+                <div>{record.triggeredAt}</div>
+                <Selector
+                  record={record as IEventPayload}
+                  onSelectSelector={onSelectSelector}
+                />
+                <EventEntity
+                  record={record as IEventPayload}
+                  index={index.toString()}
+                />
+              </div>
+            </Record>
           )
         }
       })}

@@ -2,28 +2,24 @@ import { memo, useRef, useCallback, useState } from 'react'
 import { css } from '@emotion/react'
 
 import { IEventPayload, IEventBlock } from '../../redux/eventRecorderSlice'
-import { EventEntity } from './EventEntity'
-import { Selector } from './Selector'
 import { useDrop } from '../../hooks/dnd/useDrop'
 
 interface IRecordProps {
   record: IEventPayload | IEventBlock
   delta: any
-  onSelectSelector: any
-  index: any
   onInsertBlock: any
   setDragOverIndex: any
   dragOverIndex: any
+  children: any
 }
 
 function Record({
   record,
   delta,
-  onSelectSelector,
-  index,
   onInsertBlock,
   setDragOverIndex,
   dragOverIndex,
+  children,
 }: IRecordProps) {
   const ref = useRef<any>()
   const refIndex = useRef<any>(null)
@@ -36,7 +32,7 @@ function Record({
         onInsertBlock({
           blockId: id,
           eventIndex: refIndex?.current?.eventIndex,
-          newDelta: delta,
+          newDelta: 10,
           newTriggeredAt: refIndex?.current?.triggeredAt,
         })
       }
@@ -77,7 +73,6 @@ function Record({
   return (
     <div
       ref={ref}
-      key={record.id}
       css={css`
         display: flex;
       `}
@@ -91,22 +86,7 @@ function Record({
           border-radius: ${isOver ? '10px' : '0px'};
         `}
       />
-      <div
-        css={css`
-          text-align: center;
-          width: 88px;
-        `}
-      >
-        <div>{record.triggeredAt}</div>
-        <Selector
-          record={record as IEventPayload}
-          onSelectSelector={onSelectSelector}
-        />
-        <EventEntity
-          record={record as IEventPayload}
-          index={index.toString()}
-        />
-      </div>
+      {children}
     </div>
   )
 }

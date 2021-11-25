@@ -28,7 +28,6 @@ export interface IEventBlock {
   type: string
   id: string
   eventRecordIndex: number
-  eventId: string
   triggeredAt: number
   deltaTime: number
 }
@@ -258,21 +257,20 @@ export const eventRecorderSlice = createSlice({
     },
     insertBlock: (
       state,
-      { payload: { blockId, eventIndex, eventId, newDelta, newTriggeredAt } },
+      { payload: { blockId, eventIndex, newDelta, newTriggeredAt } },
     ) => {
       const tabId = state.activeTabID
-      const events = state.events[tabId]
       const blockIndex = eventIndex + 1
       const block = {
         id: uuid(),
         type: blockId,
         eventRecordIndex: blockIndex,
-        eventId,
         triggeredAt: newTriggeredAt,
         deltaTime: newDelta,
       } as WritableDraft<IEventBlock>
 
-      events.splice(blockIndex, 0, block)
+      state.events[tabId].splice(blockIndex, 0, block)
+      state.currentEventIndex += 1
     },
   },
 })
