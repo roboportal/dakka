@@ -12,3 +12,12 @@
 ## Development
 
 Run `npm i` and `npm start` to start development. It will run webpack dev server on the 8080 port. To get the test page use: `http://localhost:8080/testPage.html`
+
+## Build details
+
+There are two webpack configs to bundle the extension:
+
+- `webpack.panel.config.js` - builds devTool and panel pages. This config supports HMR.
+- `webpack.scripts.config.js`- builds background, content and injection scripts. This part doesn't use HMR cause it leads to the behaviour when the panel app stops receiving chrome.runtime messages from content and background scripts.
+
+It's noticed, that when multiple webpack processes work concurrently, it might cause a stale dev-server port after stopping the processes. To clean up such a process use `kill:stale-dev-server`.

@@ -8,6 +8,7 @@ import Events from './components/Events/Events'
 
 import useEventRecorder from './hooks/useEventRecorder'
 import useToggle from './hooks/useToggle'
+
 export default function App() {
   const [isSidePanelVisible, toggleSidePanel] = useToggle(false)
 

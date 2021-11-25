@@ -1,13 +1,7 @@
 import { v4 as uuid } from 'uuid'
 import { finder } from '@medv/finder'
 
-import { eventTypes } from '../constants/browserEvents'
-
-import {
-  EVENT_INTERCEPTED,
-  ENABLE_RECORDER,
-  HIGHLIGHT_ELEMENT,
-} from '../constants/messageTypes'
+import { EVENT_INTERCEPTED, HIGHLIGHT_ELEMENT } from '../constants/messageTypes'
 
 const extensionId =
   (document?.querySelector('script[data-extid]') as HTMLElement)?.dataset
@@ -15,15 +9,9 @@ const extensionId =
 
 const alreadyInterceptedSymbol = Symbol('alreadyInterceptedSymbol')
 
-let shouldSendMessage = false
-
 let highLightElement: HTMLDivElement | null = null
 
 window.addEventListener('message', ({ data }) => {
-  if (data.type === ENABLE_RECORDER) {
-    shouldSendMessage = data.isRecorderEnabled
-  }
-
   if (data.type === HIGHLIGHT_ELEMENT) {
     const selector: string = data.selector
     if (!highLightElement && selector) {
@@ -61,10 +49,6 @@ window.addEventListener('message', ({ data }) => {
 })
 
 export function eventHandler(event: any) {
-  if (!shouldSendMessage) {
-    return
-  }
-
   if (event[alreadyInterceptedSymbol]) {
     return
   }
