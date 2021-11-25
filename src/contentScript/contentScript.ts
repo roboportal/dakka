@@ -1,4 +1,5 @@
 import { shouldProcessMessage } from './utils'
+import { ENABLE_RECORDER } from '../constants/messageTypes'
 
 console.log('Content script attached')
 
@@ -11,19 +12,27 @@ function injectCode(src: string) {
   doc?.prepend(script)
 }
 
-injectCode(chrome.runtime.getURL('/injection.bundle.js'))
+injectCode(chrome.runtime.getURL('./contentScript/injection.bundle.js'))
+
+let shouldSendMessage = false
 
 window.addEventListener('message', (p) => {
+  if (!shouldSendMessage) {
+    return
+  }
+
   const { data } = p
 
   if (data.id === chrome.runtime.id) {
-    try {
-      chrome.runtime.sendMessage(data)
-    } catch {}
+    chrome.runtime.sendMessage(data)
   }
 })
 
 chrome.runtime.onMessage.addListener((message) => {
+  if (message.type === ENABLE_RECORDER) {
+    shouldSendMessage = message.isRecorderEnabled
+    return
+  }
   if (shouldProcessMessage(message.type)) {
     window.postMessage(message)
   }

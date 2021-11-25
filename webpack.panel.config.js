@@ -1,10 +1,8 @@
 const webpack = require('webpack')
 const path = require('path')
 
-const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 const alias = {
   'react-dom': '@hot-loader/react-dom',
@@ -29,21 +27,23 @@ const port = process.env.PORT
 const options = {
   mode,
   entry: {
-    background: path.resolve(__dirname, 'src/background/background.ts'),
-    contentScript: path.resolve(
-      __dirname,
-      'src/contentScript/contentScript.ts',
-    ),
-    injection: path.resolve(__dirname, 'src/contentScript/injection.ts'),
-    devTools: path.resolve(__dirname, 'src/devTools/devTools.ts'),
-    panel: path.resolve(__dirname, 'src/panel/index.tsx'),
-    testPage: path.resolve(__dirname, 'src/testPage/index.ts'),
+    devTools: {
+      import: path.resolve(__dirname, 'src/devTools/devTools.ts'),
+      filename: 'devTools/[name].bundle.js',
+    },
+    panel: {
+      import: path.resolve(__dirname, 'src/panel/index.tsx'),
+      filename: 'devTools/[name].bundle.js',
+    },
+    testPage: {
+      import: path.resolve(__dirname, 'src/testPage/index.ts'),
+      filename: 'testPage/[name].bundle.js',
+    },
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].bundle.js',
-    clean: true,
-    publicPath: '',
+    publicPath: '/',
   },
   module: {
     rules: [
@@ -78,40 +78,33 @@ const options = {
     ],
   },
   resolve: {
-    alias: alias,
+    alias,
     extensions: fileExtensions
       .map((extension) => '.' + extension)
       .concat(['.js', '.jsx', '.ts', '.tsx', '.css']),
   },
   plugins: [
     new webpack.ProgressPlugin(),
-    new CleanWebpackPlugin(),
-    new CopyWebpackPlugin({
-      patterns: [
-        {
-          from: path.resolve(__dirname, 'src/manifest.json'),
-          to: path.join(__dirname, 'dist'),
-          force: true,
-        },
-      ],
-    }),
 
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, 'src/devTools/devTools.html'),
-      filename: 'devTools.html',
+      filename: 'devTools/devTools.html',
       chunks: ['devTools'],
+      publicPath: '..',
       cache: false,
     }),
     new HtmlWebpackPlugin({
       template: path.join(__dirname, 'src/panel/panel.html'),
-      filename: 'panel.html',
+      filename: 'devTools/panel.html',
       chunks: ['panel'],
+      publicPath: '..',
       cache: false,
     }),
     new HtmlWebpackPlugin({
       template: path.join(__dirname, 'src/testPage/index.html'),
-      filename: 'testPage.html',
+      filename: 'testPage/testPage.html',
       chunks: ['testPage'],
+      publicPath: '..',
       cache: false,
     }),
   ],
@@ -121,11 +114,13 @@ const options = {
 }
 
 if (mode === 'development') {
-  options.devtool = 'cheap-module-source-map'
+  options.devtool = 'inline-cheap-source-map'
   options.devServer = {
     https: false,
-    hot: false,
-    client: false,
+    hot: true,
+    client: {
+      overlay: { errors: true, warnings: false },
+    },
     host: 'localhost',
     port: port,
     devMiddleware: {
@@ -137,14 +132,13 @@ if (mode === 'development') {
     },
     allowedHosts: 'all',
   }
-  options.plugins.push(new webpack.HotModuleReplacementPlugin())
 
   const hot = [
     'webpack/hot/dev-server',
     `webpack-dev-server/client?hot=true&hostname=localhost&port=${port}`,
   ]
 
-  options.entry.panel = [...hot, options.entry.panel]
+  options.entry.panel.import = [...hot, options.entry.panel.import]
 } else {
   options.optimization = {
     minimize: true,
