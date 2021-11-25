@@ -1,8 +1,10 @@
-import { memo, useRef, useCallback, useState } from 'react'
+import { useRef, useCallback } from 'react'
 import { css } from '@emotion/react'
 
 import { IEventPayload, IEventBlock } from '../../redux/eventRecorderSlice'
 import { useDrop } from '../../hooks/dnd/useDrop'
+
+const RECORD_WIDTH = 88
 
 interface IRecordProps {
   record: IEventPayload | IEventBlock
@@ -13,7 +15,7 @@ interface IRecordProps {
   children: any
 }
 
-function Record({
+export function Record({
   record,
   delta,
   onInsertBlock,
@@ -24,44 +26,43 @@ function Record({
   const ref = useRef<any>()
   const refIndex = useRef<any>(null)
   const isOver = record.eventRecordIndex === dragOverIndex
+  const currentIndex = record.eventRecordIndex
 
   const handleDrop = useCallback(
     (id) => {
-      if (onInsertBlock && id) {
-        setDragOverIndex(-1)
-        onInsertBlock({
-          blockId: id,
-          eventIndex: refIndex?.current?.eventIndex,
-          newDelta: 10,
-          newTriggeredAt: refIndex?.current?.triggeredAt,
-        })
-      }
+      if (!id) return
+
+      setDragOverIndex(-1)
+      onInsertBlock({
+        blockId: id,
+        eventIndex: refIndex?.current,
+        newDelta: 10,
+      })
+      refIndex.current = null
     },
     [onInsertBlock, setDragOverIndex],
   )
 
-  const handleDropOver = useCallback((event: any) => {
-    const clientRect = ref.current.getBoundingClientRect()
-    const pivot = clientRect.x + 88 / 2 + delta
-
-    if (event.x > pivot) {
-      refIndex.current = {
-        eventIndex: (record as IEventPayload).eventRecordIndex,
-        triggeredAt: record.triggeredAt + 1,
+  const handleDropOver = useCallback(
+    (event: any) => {
+      const clientRect = ref.current.getBoundingClientRect()
+      const pivot = clientRect.x + RECORD_WIDTH / 2 + delta
+      console.log('record', currentIndex)
+      if (event.x > pivot) {
+        refIndex.current = currentIndex
+        setDragOverIndex(currentIndex + 1)
+      } else {
+        refIndex.current = currentIndex - 1
+        setDragOverIndex(currentIndex)
       }
-      setDragOverIndex((record as IEventPayload).eventRecordIndex + 1)
-    } else {
-      refIndex.current = {
-        eventIndex: (record as IEventPayload).eventRecordIndex - 1,
-        triggeredAt: record.triggeredAt - 1,
-      }
-      setDragOverIndex((record as IEventPayload).eventRecordIndex)
-    }
-  }, [])
+    },
+    [currentIndex, setDragOverIndex],
+  )
 
-  const handleDropLeave = useCallback(() => {
-    setDragOverIndex(-1)
-  }, [])
+  const handleDropLeave = useCallback(
+    () => setDragOverIndex(-1),
+    [setDragOverIndex],
+  )
 
   useDrop({
     ref,
@@ -77,12 +78,13 @@ function Record({
         display: flex;
       `}
     >
+      <div>{record.eventRecordIndex}</div>
       <div
         css={css`
           height: 100%;
           background: ${isOver ? 'rgb(144, 202, 249)' : 'transparent'};
           width: ${delta}px;
-          opacity: ${isOver ? '0.1' : '1'};
+          opacity: ${isOver ? '0.2' : '1'};
           border-radius: ${isOver ? '10px' : '0px'};
         `}
       />
@@ -90,5 +92,3 @@ function Record({
     </div>
   )
 }
-
-export default memo(Record)

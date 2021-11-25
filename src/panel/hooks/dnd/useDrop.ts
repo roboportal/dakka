@@ -45,10 +45,10 @@ export const useDrop = ({
 
     return () => {
       element.removeEventListener('dragover', dropOver)
-      element.addEventListener('dragleave', dropLeave)
+      element.removeEventListener('dragleave', dropLeave)
       element.removeEventListener('drop', drop)
     }
-  }, [ref, ref?.current])
+  }, [])
 
   return { dropState }
 }

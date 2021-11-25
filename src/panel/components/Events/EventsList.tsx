@@ -6,7 +6,7 @@ import {
   ISelectorPayload,
   IEventBlock,
 } from '../../redux/eventRecorderSlice'
-import Record from './Record'
+import { Record } from './Record'
 import { EventEntity } from './EventEntity'
 import { Selector } from './Selector'
 
@@ -91,7 +91,7 @@ function EventsList({
                   width: 88px;
                 `}
               >
-                <div>{record.triggeredAt}</div>
+                <div>{(record as IEventPayload).triggeredAt}</div>
                 <Selector
                   record={record as IEventPayload}
                   onSelectSelector={onSelectSelector}
