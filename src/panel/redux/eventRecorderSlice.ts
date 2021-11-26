@@ -192,13 +192,15 @@ export const eventRecorderSlice = createSlice({
       { events },
       { payload: { record, selectedSelector, tabId } },
     ) => {
-      const updateSelector = (eventRecord: any) => {
+      const updateSelector = (eventRecord: WritableDraft<IEventPayload>) => {
         if (eventRecord.selector === record.selector) {
           eventRecord.selectedSelector = selectedSelector
         }
       }
 
-      events[tabId].flat().forEach(updateSelector)
+      events[tabId]
+        .flat()
+        .forEach((e) => updateSelector(e as WritableDraft<IEventPayload>))
     },
     toggleEventToTrack: (
       { eventsToTrack },

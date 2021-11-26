@@ -43,7 +43,7 @@ export function Record({
   )
 
   const handleDropOver = useCallback(
-    (event: any) => {
+    (event: DragEvent) => {
       const clientRect = ref.current?.getBoundingClientRect()
 
       if (clientRect) {
