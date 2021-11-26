@@ -1,49 +1,38 @@
-import { useEffect, useState } from 'react'
+import { useEffect, Ref, MutableRefObject } from 'react'
 
 interface DropProps {
-  ref: any
+  ref: Ref<HTMLElement>
   onDrop: any
   onDropOver: any
-  onDropLeave?: any
 }
 
-export const useDrop = ({
-  ref,
-  onDrop,
-  onDropOver,
-  onDropLeave,
-}: DropProps) => {
-  const dropOver = (event: any) => {
+export const useDrop = ({ ref, onDrop, onDropOver }: DropProps) => {
+  const dropOver = (event: DragEvent) => {
     event.preventDefault()
     onDropOver(event)
   }
 
-  const dropLeave = (event: any) => {
-    event.preventDefault()
-    onDropLeave()
-  }
-
-  const drop = (event: any) => {
-    onDrop(event.dataTransfer.getData('source'))
+  const drop = (event: DragEvent) => {
+    if (event.dataTransfer) {
+      onDrop(event.dataTransfer.getData('source'))
+    }
   }
 
   useEffect(() => {
-    const element = ref?.current
+    const element = (ref as MutableRefObject<HTMLElement>)?.current
 
     if (!element) {
       return
     }
 
     element.addEventListener('dragover', dropOver)
-    element.addEventListener('dragleave', dropLeave)
     element.addEventListener('drop', drop)
 
     return () => {
       element.removeEventListener('dragover', dropOver)
-      element.removeEventListener('dragleave', dropLeave)
       element.removeEventListener('drop', drop)
     }
-  }, [onDrop, onDropOver, onDropLeave])
+  }, [onDrop, onDropOver])
 
   return null
 }

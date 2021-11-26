@@ -1,4 +1,4 @@
-import { useRef, useCallback } from 'react'
+import React, { useRef, useCallback } from 'react'
 import { css } from '@emotion/react'
 
 import { IEventPayload, IEventBlock } from '../../redux/eventRecorderSlice'
@@ -7,13 +7,12 @@ import { useDrop } from '../../hooks/dnd/useDrop'
 const RECORD_WIDTH = 88
 
 interface IRecordProps {
-  delta: any
-  onInsertBlock: any
-  setDragOverIndex: any
-  dragOverIndex: any
-  children: any
-  index: any
-  record: any
+  delta: number
+  onInsertBlock: (value: any) => void
+  setDragOverIndex: (value: number) => void
+  dragOverIndex: number
+  children: React.ReactNode
+  index: number
 }
 
 export function Record({
@@ -24,10 +23,10 @@ export function Record({
   children,
   index: currentIndex,
 }: IRecordProps) {
-  const ref = useRef<any>(null)
+  const ref = useRef<HTMLDivElement>(null)
   const refIndex = useRef<number | null>(null)
   const isOver = currentIndex === dragOverIndex
-  console.log('dragOverIndex', dragOverIndex)
+
   const handleDrop = useCallback(
     (id) => {
       if (!id) return
@@ -46,32 +45,29 @@ export function Record({
   const handleDropOver = useCallback(
     (event: any) => {
       const clientRect = ref.current?.getBoundingClientRect()
-      const pivot = clientRect?.x + RECORD_WIDTH / 2 + delta
-      if (event.x > pivot) {
-        refIndex.current = currentIndex
-        if (currentIndex + 1 !== dragOverIndex) {
-          setDragOverIndex(currentIndex + 1)
-        }
-      } else {
-        refIndex.current = currentIndex - 1
-        if (currentIndex - 1 !== dragOverIndex) {
-          setDragOverIndex(currentIndex)
+
+      if (clientRect) {
+        const pivot = clientRect?.x + RECORD_WIDTH / 2 + delta
+        if (event.x > pivot) {
+          refIndex.current = currentIndex
+          if (currentIndex + 1 !== dragOverIndex) {
+            setDragOverIndex(currentIndex + 1)
+          }
+        } else {
+          refIndex.current = currentIndex - 1
+          if (currentIndex - 1 !== dragOverIndex) {
+            setDragOverIndex(currentIndex)
+          }
         }
       }
     },
     [currentIndex, setDragOverIndex],
   )
 
-  const handleDropLeave = useCallback(
-    () => {}, //setDragOverIndex(-1),
-    [setDragOverIndex],
-  )
-
   useDrop({
     ref,
     onDrop: handleDrop,
     onDropOver: handleDropOver,
-    onDropLeave: handleDropLeave,
   })
 
   return (

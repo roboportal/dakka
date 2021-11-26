@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 
 interface DragProps {
   ref: any
-  effect: any
+  effect: string
   id: any
   onDragStart: any
   onDragOver: any

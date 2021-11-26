@@ -38,7 +38,6 @@ function EventsList({
             <Record
               index={index}
               key={records[0].id}
-              record={records[0]}
               delta={delta}
               onInsertBlock={onInsertBlock}
               setDragOverIndex={setDragOverIndex}
@@ -82,7 +81,6 @@ function EventsList({
               index={index}
               onInsertBlock={onInsertBlock}
               key={record.id}
-              record={record}
               delta={delta}
               setDragOverIndex={setDragOverIndex}
               dragOverIndex={dragOverIndex}
