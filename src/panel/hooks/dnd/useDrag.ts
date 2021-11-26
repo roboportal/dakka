@@ -1,9 +1,17 @@
-import { useEffect, useState } from 'react'
+import { useEffect, Ref, MutableRefObject } from 'react'
 
 interface DragProps {
-  ref: any
-  effect: string
-  id: any
+  ref: Ref<HTMLElement>
+  effect:
+    | 'none'
+    | 'copy'
+    | 'copyLink'
+    | 'copyMove'
+    | 'link'
+    | 'linkMove'
+    | 'move'
+    | 'all'
+  id: string
   onDragStart: any
   onDragOver: any
   onDragEnd: any
@@ -17,10 +25,12 @@ export const useDrag = ({
   onDragOver,
   onDragEnd,
 }: DragProps) => {
-  const dragStart = (event: any) => {
-    event.dataTransfer.effectAllowed = effect
-    event.dataTransfer.setData('source', id)
-    onDragStart?.()
+  const dragStart = (event: DragEvent) => {
+    if (event.dataTransfer) {
+      event.dataTransfer.effectAllowed = effect
+      event.dataTransfer.setData('source', id)
+      onDragStart?.()
+    }
   }
 
   const dragOver = () => {
@@ -32,13 +42,13 @@ export const useDrag = ({
   }
 
   useEffect(() => {
-    const element = ref?.current
+    const element = (ref as MutableRefObject<HTMLElement>)?.current
 
     if (!element) {
       return
     }
 
-    element.setAttribute('draggable', true)
+    element.setAttribute('draggable', 'true')
     element.addEventListener('dragstart', dragStart)
     element.addEventListener('dragover', dragOver)
     element.addEventListener('dragend', dragEnd)
