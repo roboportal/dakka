@@ -2,8 +2,8 @@ import { useEffect, Ref, MutableRefObject } from 'react'
 
 interface DropProps {
   ref: Ref<HTMLElement>
-  onDrop: any
-  onDropOver: any
+  onDrop: (value: string) => void
+  onDropOver: (event: DragEvent) => void
 }
 
 export const useDrop = ({ ref, onDrop, onDropOver }: DropProps) => {

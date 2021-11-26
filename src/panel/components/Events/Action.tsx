@@ -14,7 +14,7 @@ export const SpeedAction = ({
   isOpen,
   onDragEnd,
 }: SpeedActionProps) => {
-  const ref = useRef<React.Ref<unknown>>()
+  const ref = useRef<HTMLElement>(null)
 
   const handleDragEnd = useCallback(() => {
     onDragEnd(false)
@@ -24,8 +24,6 @@ export const SpeedAction = ({
     effect: 'all',
     ref,
     id: action.name,
-    onDragStart: () => {},
-    onDragOver: () => {},
     onDragEnd: handleDragEnd,
   })
 

@@ -12,9 +12,9 @@ interface DragProps {
     | 'move'
     | 'all'
   id: string
-  onDragStart: any
-  onDragOver: any
-  onDragEnd: any
+  onDragStart?: (event: DragEvent) => void
+  onDragOver?: (event: DragEvent) => void
+  onDragEnd?: (event: DragEvent) => void
 }
 
 export const useDrag = ({
@@ -29,16 +29,16 @@ export const useDrag = ({
     if (event.dataTransfer) {
       event.dataTransfer.effectAllowed = effect
       event.dataTransfer.setData('source', id)
-      onDragStart?.()
+      onDragStart?.(event)
     }
   }
 
-  const dragOver = () => {
-    onDragOver?.()
+  const dragOver = (event: DragEvent) => {
+    onDragOver?.(event)
   }
 
-  const dragEnd = () => {
-    onDragEnd?.()
+  const dragEnd = (event: DragEvent) => {
+    onDragEnd?.(event)
   }
 
   useEffect(() => {
