@@ -36,6 +36,7 @@ function EventsList({
 
           return (
             <Record
+              index={index}
               key={records[0].id}
               record={records[0]}
               delta={delta}
@@ -78,6 +79,7 @@ function EventsList({
 
           return (
             <Record
+              index={index}
               onInsertBlock={onInsertBlock}
               key={record.id}
               record={record}

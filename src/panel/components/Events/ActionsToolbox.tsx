@@ -8,7 +8,7 @@ import KeyboardTabIcon from '@mui/icons-material/KeyboardTab'
 import HelpCenterIcon from '@mui/icons-material/HelpCenter'
 import { SpeedAction } from './Action'
 
-const actions = [
+export const actions = [
   { icon: <KeyboardTabIcon />, name: 'Wait For Element' },
   { icon: <HelpCenterIcon />, name: 'Assertion' },
 ]
@@ -18,7 +18,9 @@ export default function ActionsToolbox() {
 
   return (
     <SpeedDial
+      open={isOpen}
       onOpen={() => setOpen(!isOpen)}
+      onClose={() => setOpen(!isOpen)}
       ariaLabel="Add Element"
       FabProps={{ size: 'medium' }}
       css={css`
@@ -29,7 +31,12 @@ export default function ActionsToolbox() {
       icon={<SpeedDialIcon sx={{ display: 'flex', alignItems: 'center' }} />}
     >
       {actions.map((action) => (
-        <SpeedAction key={action.name} action={action} isOpen={isOpen} />
+        <SpeedAction
+          key={action.name}
+          action={action}
+          isOpen={isOpen}
+          onDragEnd={setOpen}
+        />
       ))}
     </SpeedDial>
   )

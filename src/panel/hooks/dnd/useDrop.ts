@@ -13,23 +13,18 @@ export const useDrop = ({
   onDropOver,
   onDropLeave,
 }: DropProps) => {
-  const [dropState, setDropState] = useState('droppable')
-
   const dropOver = (event: any) => {
     event.preventDefault()
-    setDropState('dropping over')
     onDropOver(event)
   }
 
   const dropLeave = (event: any) => {
     event.preventDefault()
-    setDropState('drop leave')
     onDropLeave()
   }
 
   const drop = (event: any) => {
     onDrop(event.dataTransfer.getData('source'))
-    setDropState('dropped')
   }
 
   useEffect(() => {
@@ -48,7 +43,7 @@ export const useDrop = ({
       element.removeEventListener('dragleave', dropLeave)
       element.removeEventListener('drop', drop)
     }
-  }, [])
+  }, [onDrop, onDropOver, onDropLeave])
 
-  return { dropState }
+  return null
 }

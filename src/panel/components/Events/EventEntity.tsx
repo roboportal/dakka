@@ -19,6 +19,7 @@ export function EventEntity({
 
   return (
     <div
+      data-event_list_index={index}
       css={css`
         height: 95%;
         display: flex;

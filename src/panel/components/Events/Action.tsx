@@ -1,17 +1,32 @@
-import { useRef } from 'react'
+import { useCallback, useRef } from 'react'
 import SpeedDialAction from '@mui/material/SpeedDialAction'
 import { useDrag } from '../../hooks/dnd/useDrag'
-import KeyboardTabIcon from '@mui/icons-material/KeyboardTab'
+import { actions } from './ActionsToolbox'
 
-export const SpeedAction = ({ action, isOpen }: any) => {
-  const ref = useRef<any>()
+type SpeedActionProps = {
+  onDragEnd: (value: boolean) => void
+  isOpen: boolean
+  action: typeof actions[number]
+}
+
+export const SpeedAction = ({
+  action,
+  isOpen,
+  onDragEnd,
+}: SpeedActionProps) => {
+  const ref = useRef<React.Ref<unknown>>()
+
+  const handleDragEnd = useCallback(() => {
+    onDragEnd(false)
+  }, [onDragEnd])
+
   useDrag({
-    effect: 'copy',
+    effect: 'all',
     ref,
     id: action.name,
     onDragStart: () => {},
     onDragOver: () => {},
-    onDragEnd: () => {},
+    onDragEnd: handleDragEnd,
   })
 
   return (

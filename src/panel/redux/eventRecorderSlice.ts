@@ -264,13 +264,12 @@ export const eventRecorderSlice = createSlice({
         deltaTime: newDelta,
       } as WritableDraft<IEventBlock>
 
-      state.events[tabId].flat().forEach((it) => {
-        if (it.eventRecordIndex >= blockIndex) {
-          it.eventRecordIndex += 1
-        }
+      state.events[tabId].splice(blockIndex, 0, block)
+
+      state.events[tabId].flat().forEach((it, index) => {
+        it.eventRecordIndex = index
       })
 
-      state.events[tabId].splice(blockIndex, 0, block)
       state.currentEventIndex += 1
     },
   },

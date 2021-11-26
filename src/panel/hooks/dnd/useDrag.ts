@@ -17,22 +17,17 @@ export const useDrag = ({
   onDragOver,
   onDragEnd,
 }: DragProps) => {
-  const [dragState, setDragState] = useState('draggable')
-
   const dragStart = (event: any) => {
-    setDragState('dragStart')
     event.dataTransfer.effectAllowed = effect
     event.dataTransfer.setData('source', id)
     onDragStart?.()
   }
 
   const dragOver = () => {
-    setDragState('dragging')
     onDragOver?.()
   }
 
   const dragEnd = () => {
-    setDragState('draggable')
     onDragEnd?.()
   }
 
@@ -53,7 +48,7 @@ export const useDrag = ({
       element.removeEventListener('dragover', dragOver)
       element.removeEventListener('dragend', dragEnd)
     }
-  }, [])
+  }, [id, effect, onDragStart, onDragOver, onDragEnd])
 
-  return { dragState }
+  return null
 }
