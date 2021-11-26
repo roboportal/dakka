@@ -21,7 +21,6 @@ export function EventEntity({
     <div
       data-event_list_index={index}
       css={css`
-        height: 95%;
         display: flex;
         flex-direction: column;
         justify-content: space-between;

@@ -75,11 +75,11 @@ export function Record({
       ref={ref}
       css={css`
         display: flex;
+        height: inherit;
       `}
     >
       <div
         css={css`
-          height: 100%;
           background: ${isOver ? 'rgb(144, 202, 249)' : 'transparent'};
           width: ${delta}px;
           opacity: ${isOver ? '0.2' : '1'};
