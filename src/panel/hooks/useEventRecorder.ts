@@ -5,9 +5,12 @@ import {
   toggleIsRecorderEnabled,
   recordEvent,
   clearEvents,
+  IEventPayload,
   IEventRecord,
   selectEventSelector,
   removeEvent,
+  insertBlock,
+  IEventBlockPayload,
 } from '../redux/eventRecorderSlice'
 import {
   ENABLE_RECORDER,
@@ -46,6 +49,9 @@ export default function useEventRecorder() {
     () => dispatch(clearEvents({ tabId: activeTabID })),
     [dispatch, clearEvents, activeTabID],
   )
+
+  const handleInsertBlock = (payload: IEventBlockPayload) =>
+    dispatch(insertBlock(payload))
 
   const toggleHighlightedElement: MouseEventHandler = useCallback(
     (e) => {
@@ -102,7 +108,7 @@ export default function useEventRecorder() {
       if (Array.isArray(item)) {
         payload.selector = item[highlightedEventIndexes[1]]?.selector ?? null
       } else {
-        payload.selector = item?.selector ?? null
+        payload.selector = (item as IEventPayload)?.selector ?? null
       }
     }
 
@@ -200,5 +206,6 @@ export default function useEventRecorder() {
     toggleHighlightedElement,
     handleSelectSelector,
     handleEventClick,
+    handleInsertBlock,
   }
 }

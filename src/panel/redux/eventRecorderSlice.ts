@@ -1,3 +1,4 @@
+import { v4 as uuid } from 'uuid'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { WritableDraft } from 'immer/dist/internal'
 
@@ -6,7 +7,7 @@ import eventsList from '../constants/eventsList'
 export interface EventRecorderState {
   isRecorderEnabled: boolean
   activeTabID: number
-  events: Record<number, Array<IEventPayload | IEventPayload>>
+  events: Record<number, Array<IEventPayload | IEventPayload[] | IEventBlock>>
   eventsToTrack: Record<string, boolean>
   firstEventStartedAt: number
   currentEventIndex: number
@@ -23,6 +24,22 @@ export interface ISelectorPayload {
   record: IEventPayload
 }
 
+export interface IEventBlock {
+  type: string
+  id: string
+  eventRecordIndex: number
+  deltaTime: number
+  triggeredAt: number
+  variant: string
+}
+
+export interface IEventBlockPayload {
+  type: string
+  triggeredAt: number
+  eventIndex: number
+  deltaTime: number
+}
+
 export interface IEventPayload {
   id: string
   selector: string
@@ -33,6 +50,7 @@ export interface IEventPayload {
   validSelectors?: ISelector[]
   selectedSelector?: ISelector
   url?: string
+  variant: string
 }
 
 export interface IEventRecord {
@@ -63,7 +81,7 @@ const initialState: EventRecorderState = {
 }
 
 function checkIsDuplicatedEvent(
-  events: Array<IEventPayload[] | IEventPayload>,
+  events: Array<IEventPayload[] | IEventPayload | IEventBlock>,
   eventRecord: IEventRecord,
 ) {
   const currentIndex = (events.length ?? 1) - 1
@@ -86,7 +104,7 @@ function checkIsDuplicatedEvent(
 }
 
 function calculateDeltaTime(
-  prevEvent: IEventPayload | IEventPayload[],
+  prevEvent: IEventPayload | IEventPayload[] | IEventBlock,
   currentEvent: IEventPayload,
 ) {
   const delta =
@@ -97,7 +115,7 @@ function calculateDeltaTime(
 }
 
 function composeEvents(
-  events: Array<IEventPayload | IEventPayload[]>,
+  events: Array<IEventPayload | IEventPayload[] | IEventBlock>,
   event: IEventPayload,
   index: number,
 ) {
@@ -184,13 +202,15 @@ export const eventRecorderSlice = createSlice({
       { events },
       { payload: { record, selectedSelector, tabId } },
     ) => {
-      const updateSelector = (eventRecord: IEventPayload) => {
+      const updateSelector = (eventRecord: WritableDraft<IEventPayload>) => {
         if (eventRecord.selector === record.selector) {
           eventRecord.selectedSelector = selectedSelector
         }
       }
 
-      events[tabId].flat().forEach(updateSelector)
+      events[tabId]
+        .flat()
+        .forEach((e) => updateSelector(e as WritableDraft<IEventPayload>))
     },
     toggleEventToTrack: (
       { eventsToTrack },
@@ -229,19 +249,45 @@ export const eventRecorderSlice = createSlice({
 
       state.currentEventIndex -= 1
       state.firstEventStartedAt =
-        (
-          state.events[tabId][0] as unknown as WritableDraft<IEventPayload[]>
-        )?.[0]?.triggeredAt ?? state.events[tabId][0]?.triggeredAt
+        (state.events[tabId][0] as WritableDraft<IEventPayload[]>)?.[0]
+          ?.triggeredAt ??
+        (state.events[tabId][0] as WritableDraft<IEventPayload>)?.triggeredAt
 
       if (state.events[tabId].length > 1) {
         state.events[tabId].flat().forEach((it, index, arr) => {
           if (index === 0) {
-            it.deltaTime = 0
+            ;(it as WritableDraft<IEventPayload>).deltaTime = 0
             return
           }
-          it.deltaTime = calculateDeltaTime(arr[index - 1], it)
+          ;(it as WritableDraft<IEventPayload>).deltaTime = calculateDeltaTime(
+            arr[index - 1],
+            it as WritableDraft<IEventPayload>,
+          )
         })
       }
+    },
+    insertBlock: (
+      state,
+      { payload: { type, eventIndex, deltaTime, triggeredAt } },
+    ) => {
+      const tabId = state.activeTabID
+      const index = eventIndex + 1
+      const block = {
+        id: uuid(),
+        eventRecordIndex: index,
+        type,
+        variant: 'InteractiveElement',
+        triggeredAt,
+        deltaTime,
+      } as WritableDraft<IEventBlock>
+
+      state.events[tabId].splice(index, 0, block)
+
+      state.events[tabId].flat().forEach((it, index) => {
+        it.eventRecordIndex = index
+      })
+
+      state.currentEventIndex += 1
     },
   },
 })
@@ -255,6 +301,7 @@ export const {
   clearEvents,
   toggleEventToTrack,
   removeEvent,
+  insertBlock,
 } = eventRecorderSlice.actions
 
 export default eventRecorderSlice.reducer

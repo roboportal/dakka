@@ -1,16 +1,29 @@
-import { Fragment, memo } from 'react'
+import { memo, useState } from 'react'
 import { css } from '@emotion/react'
 
-import { IEventPayload, ISelectorPayload } from '../../redux/eventRecorderSlice'
+import {
+  IEventPayload,
+  ISelectorPayload,
+  IEventBlock,
+  IEventBlockPayload,
+} from '../../redux/eventRecorderSlice'
+import { Record } from './Record'
 import { EventEntity } from './EventEntity'
 import { Selector } from './Selector'
 
 interface IEventsListProps {
-  events: IEventPayload[]
+  events: (IEventPayload | IEventPayload[] | IEventBlock)[]
   onSelectSelector: (payload: ISelectorPayload) => void
+  onInsertBlock: (payload: IEventBlockPayload) => void
 }
 
-function EventsList({ events, onSelectSelector }: IEventsListProps) {
+function EventsList({
+  events,
+  onSelectSelector,
+  onInsertBlock,
+}: IEventsListProps) {
+  const [dragOverIndex, setDragOverIndex] = useState(-2)
+
   if (!events) {
     return null
   }
@@ -23,12 +36,20 @@ function EventsList({ events, onSelectSelector }: IEventsListProps) {
           const delta = records[0].deltaTime
 
           return (
-            <Fragment key={records[0].id}>
+            <Record
+              key={records[0].id}
+              onInsertBlock={onInsertBlock}
+              setDragOverIndex={setDragOverIndex}
+              dragOverIndex={dragOverIndex}
+              events={events}
+              record={records[0]}
+              currentIndex={index}
+            >
               <div
                 css={css`
-                  display: flex;
+                  text-align: center;
                   flex-direction: column;
-                  margin-left: ${delta}px;
+                  display: flex;
                 `}
               >
                 <div
@@ -52,35 +73,40 @@ function EventsList({ events, onSelectSelector }: IEventsListProps) {
                   )
                 })}
               </div>
-            </Fragment>
+            </Record>
           )
         } else {
           const delta = record.deltaTime
 
           return (
-            <Fragment key={record.id}>
+            <Record
+              onInsertBlock={onInsertBlock}
+              key={record.id}
+              setDragOverIndex={setDragOverIndex}
+              dragOverIndex={dragOverIndex}
+              events={events}
+              record={record}
+              currentIndex={index}
+            >
               <div
                 css={css`
+                  text-align: center;
+                  width: 88px;
                   display: flex;
                   flex-direction: column;
-                  margin-left: ${delta}px;
                 `}
               >
-                <div
-                  css={css`
-                    text-align: center;
-                    width: 88px;
-                  `}
-                >
-                  <div>{record.triggeredAt}</div>
-                  <Selector
-                    record={record}
-                    onSelectSelector={onSelectSelector}
-                  />
-                </div>
-                <EventEntity record={record} index={index.toString()} />
+                <div>{record.triggeredAt}</div>
+                <Selector
+                  record={record as IEventPayload}
+                  onSelectSelector={onSelectSelector}
+                />
+                <EventEntity
+                  record={record as IEventPayload}
+                  index={index.toString()}
+                />
               </div>
-            </Fragment>
+            </Record>
           )
         }
       })}

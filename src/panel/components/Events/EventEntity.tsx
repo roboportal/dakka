@@ -3,7 +3,6 @@ import Button from '@mui/material/Button'
 import DeleteIcon from '@mui/icons-material/Delete'
 
 import { lightBlue, indigo, grey } from '@mui/material/colors'
-
 import { IEventPayload } from '../../redux/eventRecorderSlice'
 import { REDIRECT_STARTED } from '../../../constants/messageTypes'
 
@@ -22,10 +21,7 @@ export function EventEntity({
     <div
       data-event_list_index={index}
       css={css`
-        word-wrap: break-word;
-        width: ${isRedirect ? '120px' : '88px'};
-        border: 1px solid #eee;
-        cursor: pointer;
+        height: 100%;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
@@ -36,7 +32,6 @@ export function EventEntity({
         :hover {
           background-color: ${lightBlue[700]};
         }
-        height: 100%;
       `}
     >
       <div>
@@ -53,7 +48,9 @@ export function EventEntity({
             pointer-events: none;
           `}
         >
-          <span>{isRedirect ? url : selector}</span>
+          {record.variant !== 'InteractiveElement' && (
+            <span>{isRedirect ? url : selector}</span>
+          )}
         </div>
       </div>
       <Button

@@ -23,6 +23,7 @@ export default function App() {
     toggleHighlightedElement,
     handleSelectSelector,
     handleEventClick,
+    handleInsertBlock,
   } = useEventRecorder()
 
   return (
@@ -55,6 +56,7 @@ export default function App() {
         `}
       >
         <Events
+          onInsertBlock={handleInsertBlock}
           events={events[activeTabID]}
           toggleHighlightedElement={toggleHighlightedElement}
           onSelectSelector={handleSelectSelector}
