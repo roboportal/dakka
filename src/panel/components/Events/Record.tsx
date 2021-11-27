@@ -105,7 +105,7 @@ export function Record({
       ref={ref}
       css={css`
         display: flex;
-        height: inherit;
+        height: 100%;
       `}
     >
       <DropZone

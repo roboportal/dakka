@@ -92,6 +92,8 @@ function EventsList({
                 css={css`
                   text-align: center;
                   width: 88px;
+                  display: flex;
+                  flex-direction: column;
                 `}
               >
                 <div>{record.triggeredAt}</div>
