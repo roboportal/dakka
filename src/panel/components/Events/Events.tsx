@@ -9,6 +9,7 @@ import {
   IEventPayload,
   ISelectorPayload,
   IEventBlock,
+  IEventBlockPayload,
 } from '../../redux/eventRecorderSlice'
 
 interface IEventsProps {
@@ -18,7 +19,7 @@ interface IEventsProps {
   toggleHighlightedElement: React.MouseEventHandler<Element>
   onSelectSelector: (payload: ISelectorPayload) => void
   onEventClick: React.MouseEventHandler<Element>
-  onInsertBlock: (payload: any) => void
+  onInsertBlock: (payload: IEventBlockPayload) => void
 }
 
 export default function Events({

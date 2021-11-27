@@ -5,6 +5,7 @@ import {
   IEventPayload,
   ISelectorPayload,
   IEventBlock,
+  IEventBlockPayload,
 } from '../../redux/eventRecorderSlice'
 import { Record } from './Record'
 import { EventEntity } from './EventEntity'
@@ -13,7 +14,7 @@ import { Selector } from './Selector'
 interface IEventsListProps {
   events: (IEventPayload | IEventPayload[] | IEventBlock)[]
   onSelectSelector: (payload: ISelectorPayload) => void
-  onInsertBlock: (payload: any) => void
+  onInsertBlock: (payload: IEventBlockPayload) => void
 }
 
 function EventsList({
@@ -36,15 +37,13 @@ function EventsList({
 
           return (
             <Record
-              triggeredAt={records[0].triggeredAt}
-              index={index}
               key={records[0].id}
-              delta={delta}
               onInsertBlock={onInsertBlock}
               setDragOverIndex={setDragOverIndex}
               dragOverIndex={dragOverIndex}
               events={events}
-              record={record}
+              record={records[0]}
+              currentIndex={index}
             >
               <div
                 css={css`
@@ -81,15 +80,13 @@ function EventsList({
 
           return (
             <Record
-              triggeredAt={record.triggeredAt}
-              index={index}
               onInsertBlock={onInsertBlock}
               key={record.id}
-              delta={delta}
               setDragOverIndex={setDragOverIndex}
               dragOverIndex={dragOverIndex}
               events={events}
               record={record}
+              currentIndex={index}
             >
               <div
                 css={css`

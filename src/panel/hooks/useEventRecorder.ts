@@ -10,6 +10,7 @@ import {
   selectEventSelector,
   removeEvent,
   insertBlock,
+  IEventBlockPayload,
 } from '../redux/eventRecorderSlice'
 import {
   ENABLE_RECORDER,
@@ -49,7 +50,8 @@ export default function useEventRecorder() {
     [dispatch, clearEvents, activeTabID],
   )
 
-  const handleInsertBlock = (payload: any) => dispatch(insertBlock(payload))
+  const handleInsertBlock = (payload: IEventBlockPayload) =>
+    dispatch(insertBlock(payload))
 
   const toggleHighlightedElement: MouseEventHandler = useCallback(
     (e) => {

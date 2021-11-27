@@ -38,7 +38,6 @@ export const useDrag = ({
   }
 
   const dragEnd = () => {
-    console.log('dragEnd')
     onDragEnd?.()
   }
 

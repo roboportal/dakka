@@ -33,6 +33,13 @@ export interface IEventBlock {
   variant: string
 }
 
+export interface IEventBlockPayload {
+  type: string
+  triggeredAt: number
+  eventIndex: number
+  deltaTime: number
+}
+
 export interface IEventPayload {
   id: string
   selector: string
