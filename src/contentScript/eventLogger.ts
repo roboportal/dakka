@@ -1,7 +1,10 @@
 import { v4 as uuid } from 'uuid'
 import { finder } from '@medv/finder'
 
-import { EVENT_INTERCEPTED, HIGHLIGHT_ELEMENT } from '../constants/messageTypes'
+import {
+  EVENT_INTERCEPTED,
+  HIGHLIGHT_ELEMENT,
+} from '../globalConstants/messageTypes'
 
 const extensionId =
   (document?.querySelector('script[data-extid]') as HTMLElement)?.dataset

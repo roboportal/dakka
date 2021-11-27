@@ -1,5 +1,5 @@
 import { eventHandler } from './eventLogger'
-import { eventTypes } from '../constants/browserEvents'
+import { eventTypes } from '../globalConstants/browserEvents'
 
 console.log('Script injected')
 

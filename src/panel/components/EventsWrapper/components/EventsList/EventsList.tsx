@@ -2,17 +2,18 @@ import { memo, useState } from 'react'
 import { css } from '@emotion/react'
 
 import {
+  EventListItem,
   IEventPayload,
   ISelectorPayload,
-  IEventBlock,
   IEventBlockPayload,
-} from '../../redux/eventRecorderSlice'
-import { Record } from './Record'
-import { EventEntity } from './EventEntity'
-import { Selector } from './Selector'
+} from 'store/eventRecorderSlice'
+
+import { Record } from './components/Record/Record'
+import { EventEntity } from './components/EventEntity'
+import { Selector } from './components/Selector'
 
 interface IEventsListProps {
-  events: (IEventPayload | IEventPayload[] | IEventBlock)[]
+  events: EventListItem[]
   onSelectSelector: (payload: ISelectorPayload) => void
   onInsertBlock: (payload: IEventBlockPayload) => void
 }

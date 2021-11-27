@@ -5,9 +5,9 @@ import ListSubheader from '@mui/material/ListSubheader'
 import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
 
-import CollapsibleGroupItem from './CollapsibleGroupItem'
-import GroupEventsItem from './GroupEventsItem'
-import useEventMask from '../../hooks/useEventMask'
+import CollapsibleGroupItem from './components/CollapsibleGroupItem'
+import GroupEventsItem from './components/GroupEventsItem'
+import useEventMask from './hooks/useEventMask'
 
 export default function EventsSettings() {
   const {

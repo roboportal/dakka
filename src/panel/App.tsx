@@ -2,12 +2,12 @@ import { css } from '@emotion/react'
 import Box from '@mui/material/Box'
 import Collapse from '@mui/material/Collapse'
 
-import EventsSettings from './components/EventsSettings/EventsSettings'
-import ControlPanel from './components/ControlPanel/ControlPanel'
-import Events from './components/Events/Events'
+import EventsSettings from 'components/EventsSettings/EventsSettings'
+import ControlPanel from 'components/ControlPanel'
+import EventsWrapper from 'components/EventsWrapper/EventsWrapper'
 
-import useEventRecorder from './hooks/useEventRecorder'
-import useToggle from './hooks/useToggle'
+import useEventRecorder from 'hooks/useEventRecorder'
+import useToggle from 'hooks/useToggle'
 
 export default function App() {
   const [isSidePanelVisible, toggleSidePanel] = useToggle(false)
@@ -55,7 +55,7 @@ export default function App() {
           padding-right: 8px;
         `}
       >
-        <Events
+        <EventsWrapper
           onInsertBlock={handleInsertBlock}
           events={events[activeTabID]}
           toggleHighlightedElement={toggleHighlightedElement}
