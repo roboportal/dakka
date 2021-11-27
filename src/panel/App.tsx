@@ -25,7 +25,7 @@ export default function App() {
     handleEventClick,
     handleInsertBlock,
   } = useEventRecorder()
-  console.log('events', events)
+
   return (
     <div
       css={css`

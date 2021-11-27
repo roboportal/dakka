@@ -29,6 +29,8 @@ export interface IEventBlock {
   id: string
   eventRecordIndex: number
   deltaTime: number
+  triggeredAt: number
+  variant: string
 }
 
 export interface IEventPayload {
@@ -41,6 +43,7 @@ export interface IEventPayload {
   validSelectors?: ISelector[]
   selectedSelector?: ISelector
   url?: string
+  variant: string
 }
 
 export interface IEventRecord {
@@ -256,17 +259,22 @@ export const eventRecorderSlice = createSlice({
         })
       }
     },
-    insertBlock: (state, { payload: { blockId, eventIndex, newDelta } }) => {
+    insertBlock: (
+      state,
+      { payload: { type, eventIndex, deltaTime, triggeredAt } },
+    ) => {
       const tabId = state.activeTabID
-      const blockIndex = eventIndex + 1
+      const index = eventIndex + 1
       const block = {
         id: uuid(),
-        type: blockId,
-        eventRecordIndex: blockIndex,
-        deltaTime: newDelta,
+        eventRecordIndex: index,
+        type,
+        variant: 'InteractiveElement',
+        triggeredAt,
+        deltaTime,
       } as WritableDraft<IEventBlock>
 
-      state.events[tabId].splice(blockIndex, 0, block)
+      state.events[tabId].splice(index, 0, block)
 
       state.events[tabId].flat().forEach((it, index) => {
         it.eventRecordIndex = index

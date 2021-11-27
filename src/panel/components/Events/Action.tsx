@@ -1,10 +1,10 @@
-import { useCallback, useRef } from 'react'
+import { useRef } from 'react'
 import SpeedDialAction from '@mui/material/SpeedDialAction'
 import { useDrag } from '../../hooks/dnd/useDrag'
 import { actions } from './ActionsToolbox'
 
 type SpeedActionProps = {
-  onDragEnd: (value: boolean) => void
+  onDragEnd: () => void
   isOpen: boolean
   action: typeof actions[number]
 }
@@ -16,15 +16,11 @@ export const SpeedAction = ({
 }: SpeedActionProps) => {
   const ref = useRef<HTMLElement>(null)
 
-  const handleDragEnd = useCallback(() => {
-    onDragEnd(false)
-  }, [onDragEnd])
-
   useDrag({
     effect: 'all',
     ref,
     id: action.name,
-    onDragEnd: handleDragEnd,
+    onDragEnd: onDragEnd,
   })
 
   return (

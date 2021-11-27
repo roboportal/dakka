@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { css } from '@emotion/react'
 
 import SpeedDial from '@mui/material/SpeedDial'
@@ -16,11 +16,14 @@ export const actions = [
 export default function ActionsToolbox() {
   const [isOpen, setOpen] = useState(false)
 
+  const handleOpen = useCallback(() => setOpen(true), [])
+  const handleClose = useCallback(() => setOpen(false), [])
+
   return (
     <SpeedDial
       open={isOpen}
-      onOpen={() => setOpen(!isOpen)}
-      onClose={() => setOpen(!isOpen)}
+      onOpen={handleOpen}
+      onClose={handleClose}
       ariaLabel="Add Element"
       FabProps={{ size: 'medium' }}
       css={css`
@@ -35,7 +38,7 @@ export default function ActionsToolbox() {
           key={action.name}
           action={action}
           isOpen={isOpen}
-          onDragEnd={setOpen}
+          onDragEnd={handleClose}
         />
       ))}
     </SpeedDial>

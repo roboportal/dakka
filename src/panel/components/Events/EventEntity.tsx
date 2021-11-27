@@ -47,9 +47,7 @@ export function EventEntity({
             pointer-events: none;
           `}
         >
-          {record.type === 'block' ? (
-            <div>Block</div>
-          ) : (
+          {record.variant !== 'InteractiveElement' && (
             <span>{isRedirect ? url : selector}</span>
           )}
         </div>

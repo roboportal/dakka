@@ -14,7 +14,7 @@ interface DragProps {
   id: string
   onDragStart?: (event: DragEvent) => void
   onDragOver?: (event: DragEvent) => void
-  onDragEnd?: (event: DragEvent) => void
+  onDragEnd?: () => void
 }
 
 export const useDrag = ({
@@ -37,8 +37,9 @@ export const useDrag = ({
     onDragOver?.(event)
   }
 
-  const dragEnd = (event: DragEvent) => {
-    onDragEnd?.(event)
+  const dragEnd = () => {
+    console.log('dragEnd')
+    onDragEnd?.()
   }
 
   useEffect(() => {

@@ -21,7 +21,7 @@ function EventsList({
   onSelectSelector,
   onInsertBlock,
 }: IEventsListProps) {
-  const [dragOverIndex, setDragOverIndex] = useState(-1)
+  const [dragOverIndex, setDragOverIndex] = useState(-2)
 
   if (!events) {
     return null
@@ -36,12 +36,15 @@ function EventsList({
 
           return (
             <Record
+              triggeredAt={records[0].triggeredAt}
               index={index}
               key={records[0].id}
               delta={delta}
               onInsertBlock={onInsertBlock}
               setDragOverIndex={setDragOverIndex}
               dragOverIndex={dragOverIndex}
+              events={events}
+              record={record}
             >
               <div
                 css={css`
@@ -78,12 +81,15 @@ function EventsList({
 
           return (
             <Record
+              triggeredAt={record.triggeredAt}
               index={index}
               onInsertBlock={onInsertBlock}
               key={record.id}
               delta={delta}
               setDragOverIndex={setDragOverIndex}
               dragOverIndex={dragOverIndex}
+              events={events}
+              record={record}
             >
               <div
                 css={css`
@@ -91,7 +97,7 @@ function EventsList({
                   width: 88px;
                 `}
               >
-                <div>{(record as IEventPayload).triggeredAt}</div>
+                <div>{record.triggeredAt}</div>
                 <Selector
                   record={record as IEventPayload}
                   onSelectSelector={onSelectSelector}
