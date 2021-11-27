@@ -4,14 +4,8 @@ import { css } from '@emotion/react'
 import SpeedDial from '@mui/material/SpeedDial'
 import SpeedDialIcon from '@mui/material/SpeedDialIcon'
 
-import KeyboardTabIcon from '@mui/icons-material/KeyboardTab'
-import HelpCenterIcon from '@mui/icons-material/HelpCenter'
-import { SpeedAction } from './Action'
-
-export const actions = [
-  { icon: <KeyboardTabIcon />, name: 'Wait For Element' },
-  { icon: <HelpCenterIcon />, name: 'Assertion' },
-]
+import { SpeedAction } from './components/Action'
+import actions from './components/actions'
 
 export default function ActionsToolbox() {
   const [isOpen, setOpen] = useState(false)

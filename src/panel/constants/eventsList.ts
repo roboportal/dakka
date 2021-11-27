@@ -1,4 +1,4 @@
-import { REDIRECT_STARTED } from '../../constants/messageTypes'
+import { REDIRECT_STARTED } from 'constants/messageTypes'
 
 export interface IEventGroupItem {
   groupName: string

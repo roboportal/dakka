@@ -6,6 +6,10 @@ const TerserPlugin = require('terser-webpack-plugin')
 
 const alias = {
   'react-dom': '@hot-loader/react-dom',
+  components: path.resolve(__dirname, 'src/panel/components'),
+  constants: path.resolve(__dirname, 'src/panel/constants'),
+  hooks: path.resolve(__dirname, 'src/panel/hooks'),
+  store: path.resolve(__dirname, 'src/panel/store'),
 }
 
 const fileExtensions = [

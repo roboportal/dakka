@@ -1,6 +1,6 @@
 import { v4 as uuid } from 'uuid'
 
-import { REDIRECT_STARTED } from '../constants/messageTypes'
+import { REDIRECT_STARTED } from '../globalConstants/messageTypes'
 
 console.log('Background SW')
 

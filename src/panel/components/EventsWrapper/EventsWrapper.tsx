@@ -1,28 +1,27 @@
 import { useRef, useState, useCallback, useEffect } from 'react'
 import { css } from '@emotion/react'
 
-import EventsList from './EventsList'
-import Scroll from './Scroll'
-import ActionsToolbox from './ActionsToolbox'
-
 import {
-  IEventPayload,
+  EventListItem,
   ISelectorPayload,
-  IEventBlock,
   IEventBlockPayload,
-} from '../../redux/eventRecorderSlice'
+} from 'store/eventRecorderSlice'
 
-interface IEventsProps {
+import EventsList from './components/EventsList/EventsList'
+import Scroll from './components/Scroll'
+import ActionsToolbox from './components/ActionsToolbox/ActionsToolbox'
+
+interface IEventsWrapperProps {
   isWideScreen: boolean
   autoScroll: boolean
-  events: (IEventPayload | IEventPayload[] | IEventBlock)[]
+  events: EventListItem[]
   toggleHighlightedElement: React.MouseEventHandler<Element>
   onSelectSelector: (payload: ISelectorPayload) => void
   onEventClick: React.MouseEventHandler<Element>
   onInsertBlock: (payload: IEventBlockPayload) => void
 }
 
-export default function Events({
+export default function EventsWrapper({
   events,
   autoScroll,
   toggleHighlightedElement,
@@ -30,7 +29,7 @@ export default function Events({
   onEventClick,
   isWideScreen,
   onInsertBlock,
-}: IEventsProps) {
+}: IEventsWrapperProps) {
   const wrapperRef = useRef<HTMLDivElement | null>(null)
   const [eventsListScroll, setEventsListScroll] = useState(0)
   const prevEventCounterRef = useRef(0)

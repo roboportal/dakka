@@ -1,13 +1,13 @@
 import { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
-import eventsList from '../constants/eventsList'
+import eventsList from 'constants/eventsList'
 import {
   toggleEventToTrack,
   toggleEventsToTrack,
-} from '../redux/eventRecorderSlice'
+} from 'store/eventRecorderSlice'
 
-import { SLICE_NAMES, RootState } from '../redux'
+import { SLICE_NAMES, RootState } from 'store/index'
 
 const defaultCollapseState = Object.fromEntries(
   Object.entries(eventsList).map(([, { groupName }]) => [groupName, false]),

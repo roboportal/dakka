@@ -1,41 +1,26 @@
 import React, { useRef, useCallback } from 'react'
 import { css } from '@emotion/react'
-import { useDrop } from '../../hooks/dnd/useDrop'
+
+import { useDrop } from 'hooks/dnd/useDrop'
 import {
+  EventListItem,
   IEventPayload,
   IEventBlock,
   IEventBlockPayload,
-} from '../../redux/eventRecorderSlice'
+} from 'store/eventRecorderSlice'
 
-const RECORD_WIDTH = 88
-const DEFAULT_DELTA_TIME = 10
+import { RECORD_WIDTH, DEFAULT_DELTA_TIME } from './constants/defaults'
+
+import { DropZone } from './components/DropZone'
 
 interface IRecordProps {
   onInsertBlock: (value: IEventBlockPayload) => void
   setDragOverIndex: (value: number) => void
   dragOverIndex: number
   children: React.ReactNode
-  events: (IEventPayload | IEventPayload[] | IEventBlock)[]
+  events: EventListItem[]
   record: IEventPayload | IEventBlock
   currentIndex: number
-}
-
-interface DropZone {
-  isOver?: boolean
-  deltaTime?: number
-}
-
-export function DropZone({ isOver, deltaTime = DEFAULT_DELTA_TIME }: DropZone) {
-  return (
-    <div
-      css={css`
-        background: ${isOver ? 'rgb(144, 202, 249)' : 'transparent'};
-        width: ${deltaTime}px;
-        opacity: ${isOver ? '0.2' : '1'};
-        border-radius: ${isOver ? '10px' : '0px'};
-      `}
-    />
-  )
 }
 
 export function Record({

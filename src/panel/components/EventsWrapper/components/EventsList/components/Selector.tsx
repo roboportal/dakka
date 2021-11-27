@@ -8,7 +8,7 @@ import {
   IEventPayload,
   ISelector,
   ISelectorPayload,
-} from '../../redux/eventRecorderSlice'
+} from 'store/eventRecorderSlice'
 
 interface ISelectorProp {
   record: IEventPayload

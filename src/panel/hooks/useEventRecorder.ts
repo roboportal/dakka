@@ -11,14 +11,15 @@ import {
   removeEvent,
   insertBlock,
   IEventBlockPayload,
-} from '../redux/eventRecorderSlice'
+} from 'store/eventRecorderSlice'
+
 import {
   ENABLE_RECORDER,
   HIGHLIGHT_ELEMENT,
   REDIRECT_STARTED,
-} from '../../constants/messageTypes'
+} from 'constants/messageTypes'
 
-import { SLICE_NAMES, RootState } from '../redux'
+import { SLICE_NAMES, RootState } from '../store'
 
 export default function useEventRecorder() {
   const [highlightedEventIndexes, setHighlightedEventIndexes] = useState<

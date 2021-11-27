@@ -1,10 +1,10 @@
 import { useRef, useEffect, useState, memo } from 'react'
 import { css } from '@emotion/react'
 
-import { IEventPayload, IEventBlock } from '../../redux/eventRecorderSlice'
+import { IEventPayload, EventListItem } from 'store/eventRecorderSlice'
 
 interface IScrollProps {
-  events: Array<IEventPayload | IEventPayload[] | IEventBlock>
+  events: EventListItem[]
   wrapper: HTMLDivElement | null
   scrollPosition: number
   isWideScreen: boolean

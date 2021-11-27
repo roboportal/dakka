@@ -2,12 +2,14 @@ import { v4 as uuid } from 'uuid'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { WritableDraft } from 'immer/dist/internal'
 
-import eventsList from '../constants/eventsList'
+import eventsList from 'constants/eventsList'
+
+export type EventListItem = IEventPayload | IEventPayload[] | IEventBlock
 
 export interface EventRecorderState {
   isRecorderEnabled: boolean
   activeTabID: number
-  events: Record<number, Array<IEventPayload | IEventPayload[] | IEventBlock>>
+  events: Record<number, EventListItem[]>
   eventsToTrack: Record<string, boolean>
   firstEventStartedAt: number
   currentEventIndex: number
@@ -81,7 +83,7 @@ const initialState: EventRecorderState = {
 }
 
 function checkIsDuplicatedEvent(
-  events: Array<IEventPayload[] | IEventPayload | IEventBlock>,
+  events: EventListItem[],
   eventRecord: IEventRecord,
 ) {
   const currentIndex = (events.length ?? 1) - 1
@@ -104,7 +106,7 @@ function checkIsDuplicatedEvent(
 }
 
 function calculateDeltaTime(
-  prevEvent: IEventPayload | IEventPayload[] | IEventBlock,
+  prevEvent: EventListItem,
   currentEvent: IEventPayload,
 ) {
   const delta =
@@ -115,7 +117,7 @@ function calculateDeltaTime(
 }
 
 function composeEvents(
-  events: Array<IEventPayload | IEventPayload[] | IEventBlock>,
+  events: EventListItem[],
   event: IEventPayload,
   index: number,
 ) {

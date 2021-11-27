@@ -1,5 +1,5 @@
 import { shouldProcessMessage } from './utils'
-import { ENABLE_RECORDER } from '../constants/messageTypes'
+import { ENABLE_RECORDER } from '../globalConstants/messageTypes'
 
 console.log('Content script attached')
 
