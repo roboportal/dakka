@@ -16,15 +16,17 @@ interface IEventsListProps {
   events: EventListItem[]
   onSelectSelector: (payload: ISelectorPayload) => void
   onInsertBlock: (payload: IEventBlockPayload) => void
+  setDragOverIndex: (value: number) => void
+  dragOverIndex: number
 }
 
 function EventsList({
   events,
   onSelectSelector,
   onInsertBlock,
+  setDragOverIndex,
+  dragOverIndex,
 }: IEventsListProps) {
-  const [dragOverIndex, setDragOverIndex] = useState(-2)
-
   if (!events) {
     return null
   }

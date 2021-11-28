@@ -34,6 +34,7 @@ export default function EventsWrapper({
 }: IEventsWrapperProps) {
   const wrapperRef = useRef<HTMLDivElement | null>(null)
   const [eventsListScroll, setEventsListScroll] = useState(0)
+  const [dragOverIndex, setDragOverIndex] = useState(Number.MIN_SAFE_INTEGER)
   const prevEventCounterRef = useRef(0)
 
   useEffect(() => {
@@ -87,6 +88,8 @@ export default function EventsWrapper({
         ref={wrapperRef}
       >
         <EventsList
+          setDragOverIndex={setDragOverIndex}
+          dragOverIndex={dragOverIndex}
           onInsertBlock={onInsertBlock}
           events={events}
           onSelectSelector={onSelectSelector}
@@ -98,7 +101,7 @@ export default function EventsWrapper({
         scrollPosition={eventsListScroll}
         isWideScreen={isWideScreen}
       />
-      <ActionsToolbox />
+      <ActionsToolbox setDragOverIndex={setDragOverIndex} />
     </div>
   )
 }

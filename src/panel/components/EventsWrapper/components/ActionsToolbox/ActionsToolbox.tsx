@@ -7,11 +7,18 @@ import SpeedDialIcon from '@mui/material/SpeedDialIcon'
 import { SpeedAction } from './components/Action'
 import actions from './components/actions'
 
-export default function ActionsToolbox() {
+interface IActionsToolbox {
+  setDragOverIndex: (value: number) => void
+}
+
+export default function ActionsToolbox({ setDragOverIndex }: IActionsToolbox) {
   const [isOpen, setOpen] = useState(false)
 
   const handleOpen = useCallback(() => setOpen(true), [])
-  const handleClose = useCallback(() => setOpen(false), [])
+  const handleClose = useCallback(() => {
+    setDragOverIndex(Number.MIN_SAFE_INTEGER)
+    setOpen(false)
+  }, [setDragOverIndex])
 
   return (
     <SpeedDial
