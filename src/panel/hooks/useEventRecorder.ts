@@ -1,7 +1,8 @@
-import { MouseEventHandler, useEffect, useState, useCallback } from 'react'
+import { MouseEventHandler, useEffect, useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import {
   setActiveTabID,
+  EventListItem,
   toggleIsRecorderEnabled,
   recordEvent,
   clearEvents,
@@ -21,11 +22,32 @@ import {
 
 import { SLICE_NAMES, RootState } from '../store'
 
-export default function useEventRecorder() {
-  const [highlightedEventIndexes, setHighlightedEventIndexes] = useState<
-    number[]
-  >([])
+function highlightElement(
+  tabId: number,
+  highlightedEventIndexes: number[],
+  events: Record<number, EventListItem[]>,
+) {
+  if (tabId === -1) {
+    return
+  }
+  const payload: { type: string; selector: string | null } = {
+    type: HIGHLIGHT_ELEMENT,
+    selector: null,
+  }
 
+  if (highlightedEventIndexes.length) {
+    const item = events[tabId][highlightedEventIndexes[0]]
+    if (Array.isArray(item)) {
+      payload.selector = item[highlightedEventIndexes[1]]?.selector ?? null
+    } else {
+      payload.selector = (item as IEventPayload)?.selector ?? null
+    }
+  }
+
+  chrome.tabs.sendMessage(tabId, payload)
+}
+
+export default function useEventRecorder() {
   const { isRecorderEnabled, activeTabID, events } = useSelector(
     (state: RootState) => state[SLICE_NAMES.eventRecorder],
   )
@@ -54,29 +76,21 @@ export default function useEventRecorder() {
   const handleInsertBlock = (payload: IEventBlockPayload) =>
     dispatch(insertBlock(payload))
 
-  const toggleHighlightedElement: MouseEventHandler = useCallback(
-    (e) => {
-      const eventIds: number[] =
-        (e?.target as HTMLElement)?.dataset?.event_list_index
-          ?.split('.')
-          .map((it) => Number(it)) ?? []
+  const toggleHighlightedElement: MouseEventHandler = useCallback((e) => {
+    const eventIds: number[] =
+      (e?.target as HTMLElement)?.dataset?.event_list_index
+        ?.split('.')
+        .map((it) => Number(it)) ?? []
 
-      const shouldSkipHighlight: boolean =
-        !!eventIds.length &&
-        eventIds.reduce((acc: any, id) => acc?.[id], events?.[activeTabID])
-          ?.type === REDIRECT_STARTED
+    const shouldHighlight: boolean =
+      !!eventIds.length &&
+      eventIds.reduce((acc: any, id) => acc?.[id], events?.[activeTabID])
+        ?.type !== REDIRECT_STARTED
 
-      if (
-        JSON.stringify(eventIds) === JSON.stringify(highlightedEventIndexes) ||
-        shouldSkipHighlight
-      ) {
-        setHighlightedEventIndexes([])
-      } else {
-        setHighlightedEventIndexes(eventIds)
-      }
-    },
-    [highlightedEventIndexes, setHighlightedEventIndexes],
-  )
+    const ids = shouldHighlight ? eventIds : []
+
+    highlightElement(activeTabID, ids, events)
+  }, [])
 
   const handleEventClick: MouseEventHandler = useCallback(
     (e) => {
@@ -94,27 +108,6 @@ export default function useEventRecorder() {
     },
     [removeEvent, activeTabID],
   )
-
-  useEffect(() => {
-    if (activeTabID === -1) {
-      return
-    }
-    const payload: { type: string; selector: string | null } = {
-      type: HIGHLIGHT_ELEMENT,
-      selector: null,
-    }
-
-    if (highlightedEventIndexes.length) {
-      const item = events[activeTabID][highlightedEventIndexes[0]]
-      if (Array.isArray(item)) {
-        payload.selector = item[highlightedEventIndexes[1]]?.selector ?? null
-      } else {
-        payload.selector = (item as IEventPayload)?.selector ?? null
-      }
-    }
-
-    chrome.tabs.sendMessage(activeTabID, payload)
-  }, [highlightedEventIndexes])
 
   useEffect(() => {
     const messageHandler = (
