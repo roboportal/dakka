@@ -13,6 +13,8 @@ import { RECORD_WIDTH, DEFAULT_DELTA_TIME } from './constants/defaults'
 
 import { DropZone } from './components/DropZone'
 
+const RIGHT_DROP_ZONE_CLASS_NAME = 'right_drop'
+
 interface IRecordProps {
   onInsertBlock: (value: IEventBlockPayload) => void
   setDragOverIndex: (value: number) => void
@@ -91,6 +93,12 @@ export function Record({
       css={css`
         display: flex;
         height: 100%;
+
+        &:last-child {
+          .${RIGHT_DROP_ZONE_CLASS_NAME} {
+            width: 100%;
+          }
+        }
       `}
     >
       <DropZone
@@ -102,6 +110,7 @@ export function Record({
         <DropZone
           isOver={dragOverIndex === events.length}
           deltaTime={DEFAULT_DELTA_TIME}
+          className={RIGHT_DROP_ZONE_CLASS_NAME}
         />
       )}
     </div>
