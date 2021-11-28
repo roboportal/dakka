@@ -9,7 +9,8 @@
     "start:dev": "npm run serve:panel & npm run watch:scripts",
     "serve:panel": "NODE_ENV=development PORT=8080 webpack serve --config webpack.panel.config.js",
     "watch:scripts": "NODE_ENV=development webpack watch --config webpack.scripts.config.js",
-    "kill:stale-dev-server": "PORT=8080 kill $(lsof -ti:$PORT)"
+    "kill:stale-dev-server": "PORT=8080 kill $(lsof -ti:$PORT)",
+    "devtools": "react-devtools & redux-devtools --open"
   },
   "author": "",
   "license": "ISC",
@@ -19,16 +20,20 @@
     "@babel/preset-typescript": "^7.16.0",
     "@emotion/babel-plugin": "^11.3.0",
     "@hot-loader/react-dom": "^17.0.1",
+    "@redux-devtools/cli": "^1.0.0-10",
     "@types/chrome": "^0.0.159",
     "@types/react": "^17.0.31",
     "@types/react-dom": "^17.0.10",
+    "@types/remote-redux-devtools": "^0.5.5",
     "@types/uuid": "^8.3.1",
     "babel-loader": "^8.2.3",
     "babel-preset-react-app": "^10.0.0",
     "copy-webpack-plugin": "^9.1.0",
     "html-loader": "^3.0.1",
     "html-webpack-plugin": "^5.5.0",
+    "react-devtools": "^4.21.0",
     "react-hot-loader": "^4.13.0",
+    "redux-devtools": "^3.7.0",
     "source-map-loader": "^3.0.0",
     "terser-webpack-plugin": "^5.2.5",
     "ts-loader": "^9.2.6",
@@ -44,9 +49,10 @@
     "@mui/icons-material": "^5.0.4",
     "@mui/material": "^5.0.4",
     "@reduxjs/toolkit": "^1.6.2",
-    "react": "^17.0.1",
+    "react": "17.0.1",
     "react-dom": "^17.0.1",
     "react-redux": "^7.2.5",
+    "remote-redux-devtools": "^0.5.16",
     "uuid": "^8.3.2"
   }
 }
