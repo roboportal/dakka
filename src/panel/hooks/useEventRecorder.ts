@@ -82,12 +82,12 @@ export default function useEventRecorder() {
         ?.split('.')
         .map((it) => Number(it)) ?? []
 
-    const shouldSkipHighlight: boolean =
+    const shouldHighlight: boolean =
       !!eventIds.length &&
       eventIds.reduce((acc: any, id) => acc?.[id], events?.[activeTabID])
         ?.type === REDIRECT_STARTED
 
-    const ids = shouldSkipHighlight ? [] : eventIds
+    const ids = shouldHighlight ? [] : eventIds
 
     highlightElement(activeTabID, ids, events)
   }, [])
