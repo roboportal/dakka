@@ -13,6 +13,7 @@ export interface EventRecorderState {
   eventsToTrack: Record<string, boolean>
   firstEventStartedAt: number
   currentEventIndex: number
+  isManualEventInsert: boolean
 }
 
 export interface ISelector {
@@ -80,6 +81,7 @@ const initialState: EventRecorderState = {
   eventsToTrack: defaultEventsToTrack,
   firstEventStartedAt: 0,
   currentEventIndex: 0,
+  isManualEventInsert: false,
 }
 
 function checkIsDuplicatedEvent(
@@ -194,6 +196,7 @@ export const eventRecorderSlice = createSlice({
       eventRecord.payload.eventRecordIndex = state.currentEventIndex
       composeEvents(events[tabId], eventRecord.payload, state.currentEventIndex)
       state.currentEventIndex++
+      state.isManualEventInsert = false
     },
     clearEvents: (state, { payload: { tabId } }) => {
       state.events[tabId] = []
@@ -288,7 +291,7 @@ export const eventRecorderSlice = createSlice({
       state.events[tabId].flat().forEach((it, index) => {
         it.eventRecordIndex = index
       })
-
+      state.isManualEventInsert = true
       state.currentEventIndex += 1
     },
   },

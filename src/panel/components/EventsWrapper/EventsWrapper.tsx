@@ -18,6 +18,7 @@ interface IEventsWrapperProps {
   toggleHighlightedElement: React.MouseEventHandler<Element>
   onSelectSelector: (payload: ISelectorPayload) => void
   onEventClick: React.MouseEventHandler<Element>
+  isManualEventInsert: boolean
   onInsertBlock: (payload: IEventBlockPayload) => void
 }
 
@@ -29,6 +30,7 @@ export default function EventsWrapper({
   onEventClick,
   isWideScreen,
   onInsertBlock,
+  isManualEventInsert,
 }: IEventsWrapperProps) {
   const wrapperRef = useRef<HTMLDivElement | null>(null)
   const [eventsListScroll, setEventsListScroll] = useState(0)
@@ -39,14 +41,16 @@ export default function EventsWrapper({
     if (
       !wrapperRef.current ||
       !autoScroll ||
-      prevEventCounterRef.current >= nEvents
+      prevEventCounterRef.current >= nEvents ||
+      isManualEventInsert
     ) {
       prevEventCounterRef.current = nEvents
       return
     }
+
     prevEventCounterRef.current = nEvents
     wrapperRef.current.scrollTo(wrapperRef.current.scrollWidth, 0)
-  }, [events?.length])
+  }, [events?.length, isManualEventInsert])
 
   const handleEventsScroll = useCallback(
     (e: React.UIEvent<HTMLDivElement>) => {
