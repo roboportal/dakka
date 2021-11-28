@@ -16,6 +16,7 @@ export default function App() {
 
   const {
     events,
+    isManualEventInsert,
     activeTabID,
     isRecorderEnabled,
     handleIsRecordEnabledChange,
@@ -56,6 +57,7 @@ export default function App() {
         `}
       >
         <EventsWrapper
+          isManualEventInsert={isManualEventInsert}
           onInsertBlock={handleInsertBlock}
           events={events[activeTabID]}
           toggleHighlightedElement={toggleHighlightedElement}

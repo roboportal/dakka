@@ -48,9 +48,8 @@ function highlightElement(
 }
 
 export default function useEventRecorder() {
-  const { isRecorderEnabled, activeTabID, events } = useSelector(
-    (state: RootState) => state[SLICE_NAMES.eventRecorder],
-  )
+  const { isRecorderEnabled, activeTabID, events, isManualEventInsert } =
+    useSelector((state: RootState) => state[SLICE_NAMES.eventRecorder])
 
   const dispatch = useDispatch()
 
@@ -195,6 +194,7 @@ export default function useEventRecorder() {
     events,
     isRecorderEnabled,
     activeTabID,
+    isManualEventInsert,
     handleIsRecordEnabledChange,
     handleClearEventsByTabId,
     toggleHighlightedElement,
