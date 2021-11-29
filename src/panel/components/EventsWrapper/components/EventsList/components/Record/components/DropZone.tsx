@@ -18,7 +18,7 @@ export function DropZone({
       className={className}
       css={css`
         background: ${isOver ? 'rgb(144, 202, 249)' : 'transparent'};
-        width: ${deltaTime}px;
+        min-width: ${deltaTime}px;
         opacity: ${isOver ? '0.2' : '1'};
         border-radius: ${isOver ? '10px' : '0px'};
       `}

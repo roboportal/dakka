@@ -106,7 +106,7 @@ export function Record({
       css={css`
         display: flex;
         height: 100%;
-
+        flex: ${currentIndex === events.length - 1 ? 1 : 0};
         &:last-child {
           .${RIGHT_DROP_ZONE_CLASS_NAME} {
             width: 100%;
