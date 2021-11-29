@@ -138,6 +138,7 @@ if (mode === 'development') {
   }
 
   const hot = [
+    'react-devtools',
     'webpack/hot/dev-server',
     `webpack-dev-server/client?hot=true&hostname=localhost&port=${port}`,
   ]
