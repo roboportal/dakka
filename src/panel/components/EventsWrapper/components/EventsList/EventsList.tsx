@@ -1,4 +1,4 @@
-import { memo, useState } from 'react'
+import { memo } from 'react'
 import { css } from '@emotion/react'
 
 import {
@@ -36,8 +36,6 @@ function EventsList({
       {events?.map((record, index) => {
         if (Array.isArray(record)) {
           const records = record as IEventPayload[]
-          const delta = records[0].deltaTime
-
           return (
             <Record
               key={records[0].id}
@@ -79,8 +77,6 @@ function EventsList({
             </Record>
           )
         } else {
-          const delta = record.deltaTime
-
           return (
             <Record
               onInsertBlock={onInsertBlock}

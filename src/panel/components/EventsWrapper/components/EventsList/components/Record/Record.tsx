@@ -34,7 +34,7 @@ export function Record({
   record,
   currentIndex,
 }: IRecordProps) {
-  const { deltaTime, triggeredAt } = record
+  const { deltaTime } = record
   const ref = useRef<HTMLDivElement>(null)
   const refIndex = useRef<number | null>(null)
   const isOver = currentIndex === dragOverIndex
@@ -58,14 +58,7 @@ export function Record({
       })
       refIndex.current = null
     },
-    [
-      onInsertBlock,
-      setDragOverIndex,
-      events,
-      record,
-      triggeredAt,
-      currentIndex,
-    ],
+    [onInsertBlock, setDragOverIndex, events],
   )
 
   const handleDropOver = useCallback(
@@ -74,7 +67,7 @@ export function Record({
 
       if (!clientRect) return
 
-      let newDelta = deltaTime === 0 ? DEFAULT_DELTA_TIME : deltaTime
+      const newDelta = deltaTime === 0 ? DEFAULT_DELTA_TIME : deltaTime
       const pivot = clientRect?.x + RECORD_WIDTH / 2 + newDelta
 
       if (event.x > pivot) {
@@ -91,7 +84,7 @@ export function Record({
         }
       }
     },
-    [currentIndex, setDragOverIndex],
+    [currentIndex, setDragOverIndex, deltaTime, dragOverIndex],
   )
 
   useDrop({

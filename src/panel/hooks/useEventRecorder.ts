@@ -59,17 +59,17 @@ export default function useEventRecorder() {
       isRecorderEnabled: !isRecorderEnabled,
     })
     dispatch(toggleIsRecorderEnabled())
-  }, [activeTabID, isRecorderEnabled, dispatch, toggleIsRecorderEnabled])
+  }, [activeTabID, isRecorderEnabled, dispatch])
 
   const handleSelectSelector = useCallback(
     (payload) =>
       dispatch(selectEventSelector({ ...payload, tabId: activeTabID })),
-    [dispatch, selectEventSelector, activeTabID],
+    [dispatch, activeTabID],
   )
 
   const handleClearEventsByTabId = useCallback(
     () => dispatch(clearEvents({ tabId: activeTabID })),
-    [dispatch, clearEvents, activeTabID],
+    [dispatch, activeTabID],
   )
 
   const handleInsertBlock = (payload: IEventBlockPayload) =>
@@ -108,7 +108,7 @@ export default function useEventRecorder() {
         dispatch(removeEvent({ eventIds }))
       }
     },
-    [removeEvent, activeTabID],
+    [dispatch],
   )
 
   useEffect(() => {
@@ -149,7 +149,7 @@ export default function useEventRecorder() {
       chrome.runtime.onMessage.removeListener(messageHandler)
       chrome.tabs.onActivated.removeListener(activeTabChangeHandler)
     }
-  }, [])
+  }, [dispatch])
 
   useEffect(() => {
     const sendEnableRecorderMessage = (tabId: number) =>
@@ -191,7 +191,7 @@ export default function useEventRecorder() {
       chrome.runtime.onMessage.removeListener(messageHandler)
       chrome.tabs.onUpdated.removeListener(activeTabChangeHandler)
     }
-  }, [isRecorderEnabled])
+  }, [isRecorderEnabled, activeTabID])
 
   return {
     events,

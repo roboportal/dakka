@@ -43,7 +43,7 @@ export default function StylesProvider({ children }: DarkThemeProps) {
           },
         },
       }),
-    [prefersDarkMode],
+    [prefersDarkMode, defaultTheme.breakpoints],
   )
 
   return (

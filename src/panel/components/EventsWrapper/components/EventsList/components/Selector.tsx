@@ -16,10 +16,6 @@ interface ISelectorProp {
 }
 
 export function Selector({ record, onSelectSelector }: ISelectorProp) {
-  if (!record?.validSelectors?.length) {
-    return null
-  }
-
   const handleSelectorChange = useCallback(
     (e: SelectChangeEvent<string>) => {
       const selector = record?.validSelectors?.find(
@@ -31,6 +27,10 @@ export function Selector({ record, onSelectSelector }: ISelectorProp) {
     },
     [onSelectSelector, record],
   )
+
+  if (!record?.validSelectors?.length) {
+    return null
+  }
 
   return (
     <Select
