@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "rm -r ./dist/* && npm run start:dev",
-    "remove-dist": "rm -r ./dist/*",
+    "start": "npm run remove-dist && npm run start:dev",
+    "remove-dist": "rm -rf ./dist/*",
     "start:dev": "npm run serve:panel & npm run watch:scripts",
     "serve:panel": "NODE_ENV=development PORT=8080 webpack serve --config webpack.panel.config.js",
     "watch:scripts": "NODE_ENV=development webpack watch --config webpack.scripts.config.js",
