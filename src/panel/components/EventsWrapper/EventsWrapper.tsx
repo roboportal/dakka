@@ -51,11 +51,11 @@ export default function EventsWrapper({
 
     prevEventCounterRef.current = nEvents
     wrapperRef.current.scrollTo(wrapperRef.current.scrollWidth, 0)
-  }, [events?.length, isManualEventInsert])
+  }, [events?.length, isManualEventInsert, autoScroll])
 
   const handleEventsScroll = useCallback(
     (e: React.UIEvent<HTMLDivElement>) => {
-      const scrollPosition = (e.target as any).scrollLeft
+      const scrollPosition = (e.target as HTMLDivElement).scrollLeft
       setEventsListScroll(scrollPosition)
     },
     [setEventsListScroll],

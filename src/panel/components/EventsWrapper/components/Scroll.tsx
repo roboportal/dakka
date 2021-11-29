@@ -61,7 +61,7 @@ function Scroll({
         prevOffset = offset + ORIGINAL_BAR_WIDTH
       })
     }
-  }, [events, scrollPosition, isWideScreen])
+  }, [events, scrollPosition, isWideScreen, wrapper])
 
   const handleScrollClick: React.MouseEventHandler<HTMLDivElement> = (e) => {
     if (wrapper) {
