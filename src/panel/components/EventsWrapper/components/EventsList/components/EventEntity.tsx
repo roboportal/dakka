@@ -35,10 +35,13 @@ export function EventEntity({
         }
       `}
     >
-      <div>
+      <div
+        css={css`
+          pointer-events: none;
+        `}
+      >
         <div
           css={css`
-            pointer-events: none;
             margin-bottom: 8px;
           `}
         >

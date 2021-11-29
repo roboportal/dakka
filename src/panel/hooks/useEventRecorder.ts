@@ -75,21 +75,24 @@ export default function useEventRecorder() {
   const handleInsertBlock = (payload: IEventBlockPayload) =>
     dispatch(insertBlock(payload))
 
-  const toggleHighlightedElement: MouseEventHandler = useCallback((e) => {
-    const eventIds: number[] =
-      (e?.target as HTMLElement)?.dataset?.event_list_index
-        ?.split('.')
-        .map((it) => Number(it)) ?? []
+  const toggleHighlightedElement: MouseEventHandler = useCallback(
+    (e) => {
+      const eventIds: number[] =
+        (e?.target as HTMLElement)?.dataset?.event_list_index
+          ?.split('.')
+          .map((it) => Number(it)) ?? []
 
-    const shouldHighlight: boolean =
-      !!eventIds.length &&
-      eventIds.reduce((acc: any, id) => acc?.[id], events?.[activeTabID])
-        ?.type !== REDIRECT_STARTED
+      const shouldHighlight: boolean =
+        !!eventIds.length &&
+        eventIds.reduce((acc: any, id) => acc?.[id], events?.[activeTabID])
+          ?.type !== REDIRECT_STARTED
 
-    const ids = shouldHighlight ? eventIds : []
+      const ids = shouldHighlight ? eventIds : []
 
-    highlightElement(activeTabID, ids, events)
-  }, [])
+      highlightElement(activeTabID, ids, events)
+    },
+    [activeTabID, events],
+  )
 
   const handleEventClick: MouseEventHandler = useCallback(
     (e) => {

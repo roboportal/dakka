@@ -260,6 +260,7 @@ export const eventRecorderSlice = createSlice({
 
       if (state.events[tabId].length > 1) {
         state.events[tabId].flat().forEach((it, index, arr) => {
+          it.eventRecordIndex = index
           if (index === 0) {
             ;(it as WritableDraft<IEventPayload>).deltaTime = 0
             return
@@ -289,6 +290,7 @@ export const eventRecorderSlice = createSlice({
       state.events[tabId].splice(index, 0, block)
 
       state.events[tabId].flat().reduce((prev, it, index) => {
+        it.eventRecordIndex = index
         if (index === 0) {
           it.triggeredAt = 0
           return it.triggeredAt
@@ -302,7 +304,9 @@ export const eventRecorderSlice = createSlice({
         return it.triggeredAt
       }, 0)
 
-      state.isManualEventInsert = true
+      const shouldPreventAutoScroll = index !== state.events[tabId].length - 1
+
+      state.isManualEventInsert = shouldPreventAutoScroll
       state.currentEventIndex += 1
     },
   },
