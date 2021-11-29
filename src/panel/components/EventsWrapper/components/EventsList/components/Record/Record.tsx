@@ -44,12 +44,10 @@ export function Record({
       if (!type || refIndex?.current === null) return
 
       const event = events[refIndex?.current]
-      let newtriggeredAt = 0
-      if (Array.isArray(event)) {
-        newtriggeredAt = event[0].triggeredAt + DEFAULT_DELTA_TIME
-      } else {
-        newtriggeredAt = event ? event.triggeredAt + DEFAULT_DELTA_TIME : 0
-      }
+      const newtriggeredAt = event
+        ? ((event as IEventPayload[])?.[0] ?? event).triggeredAt +
+          DEFAULT_DELTA_TIME
+        : 0
 
       setDragOverIndex(Number.MAX_SAFE_INTEGER)
       onInsertBlock({
