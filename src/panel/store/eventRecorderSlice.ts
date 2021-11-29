@@ -288,8 +288,15 @@ export const eventRecorderSlice = createSlice({
 
       state.events[tabId].splice(index, 0, block)
 
+      let prevTrigerredAt = 0
       state.events[tabId].flat().forEach((it, index) => {
         it.eventRecordIndex = index
+        if (index === 0) {
+          it.triggeredAt = 0
+        } else if (it.triggeredAt === prevTrigerredAt) {
+          it.triggeredAt += 1
+        }
+        prevTrigerredAt = it.triggeredAt
       })
       state.isManualEventInsert = true
       state.currentEventIndex += 1

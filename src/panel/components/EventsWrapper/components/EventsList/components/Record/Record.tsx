@@ -43,16 +43,31 @@ export function Record({
     (type) => {
       if (!type || refIndex?.current === null) return
 
-      setDragOverIndex(-1)
+      const event = events[refIndex?.current]
+      let newtriggeredAt = 0
+      if (Array.isArray(event)) {
+        newtriggeredAt = event[0].triggeredAt + DEFAULT_DELTA_TIME
+      } else {
+        newtriggeredAt = event ? event.triggeredAt + DEFAULT_DELTA_TIME : 0
+      }
+
+      setDragOverIndex(Number.MAX_SAFE_INTEGER)
       onInsertBlock({
         type,
         eventIndex: refIndex?.current,
         deltaTime: DEFAULT_DELTA_TIME,
-        triggeredAt: triggeredAt + DEFAULT_DELTA_TIME,
+        triggeredAt: newtriggeredAt,
       })
       refIndex.current = null
     },
-    [onInsertBlock, setDragOverIndex],
+    [
+      onInsertBlock,
+      setDragOverIndex,
+      events,
+      record,
+      triggeredAt,
+      currentIndex,
+    ],
   )
 
   const handleDropOver = useCallback(
@@ -71,9 +86,9 @@ export function Record({
           setDragOverIndex(nextIndex)
         }
       } else {
-        const nextIndex = currentIndex - 1
-        refIndex.current = nextIndex
-        if (nextIndex !== dragOverIndex) {
+        const prevIndex = currentIndex - 1
+        refIndex.current = prevIndex
+        if (prevIndex !== dragOverIndex) {
           setDragOverIndex(currentIndex)
         }
       }
