@@ -34,80 +34,35 @@ function EventsList({
   return (
     <>
       {events?.map((record, index) => {
-        if (Array.isArray(record)) {
-          const records = record as IEventPayload[]
-          return (
-            <Record
-              key={records[0].id}
-              onInsertBlock={onInsertBlock}
-              setDragOverIndex={setDragOverIndex}
-              dragOverIndex={dragOverIndex}
-              events={events}
-              record={records[0]}
-              currentIndex={index}
+        return (
+          <Record
+            onInsertBlock={onInsertBlock}
+            key={record.id}
+            setDragOverIndex={setDragOverIndex}
+            dragOverIndex={dragOverIndex}
+            events={events}
+            record={record}
+            currentIndex={index}
+          >
+            <div
+              css={css`
+                text-align: center;
+                width: 88px;
+                display: flex;
+                flex-direction: column;
+              `}
             >
-              <div
-                css={css`
-                  text-align: center;
-                  flex-direction: column;
-                  display: flex;
-                `}
-              >
-                <div
-                  css={css`
-                    text-align: center;
-                  `}
-                >
-                  <div>{records[0].triggeredAt}</div>
-                  <Selector
-                    record={records[0]}
-                    onSelectSelector={onSelectSelector}
-                  />
-                </div>
-                {records.map((record, _index) => {
-                  return (
-                    <EventEntity
-                      key={record.id}
-                      record={record}
-                      index={`${index}.${_index}`}
-                    />
-                  )
-                })}
-              </div>
-            </Record>
-          )
-        } else {
-          return (
-            <Record
-              onInsertBlock={onInsertBlock}
-              key={record.id}
-              setDragOverIndex={setDragOverIndex}
-              dragOverIndex={dragOverIndex}
-              events={events}
-              record={record}
-              currentIndex={index}
-            >
-              <div
-                css={css`
-                  text-align: center;
-                  width: 88px;
-                  display: flex;
-                  flex-direction: column;
-                `}
-              >
-                <div>{record.triggeredAt}</div>
-                <Selector
-                  record={record as IEventPayload}
-                  onSelectSelector={onSelectSelector}
-                />
-                <EventEntity
-                  record={record as IEventPayload}
-                  index={index.toString()}
-                />
-              </div>
-            </Record>
-          )
-        }
+              <Selector
+                record={record as IEventPayload}
+                onSelectSelector={onSelectSelector}
+              />
+              <EventEntity
+                record={record as IEventPayload}
+                index={index.toString()}
+              />
+            </div>
+          </Record>
+        )
       })}
     </>
   )

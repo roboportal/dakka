@@ -1,4 +1,4 @@
-import { v4 as uuid } from 'uuid'
+import { nanoid } from 'nanoid'
 
 import { REDIRECT_STARTED } from '../globalConstants/messageTypes'
 
@@ -16,7 +16,7 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
       id: chrome.runtime.id,
       payload: {
         url: tab?.url,
-        id: uuid(),
+        id: nanoid(),
         triggeredAt: Date.now(),
         type: REDIRECT_STARTED,
         selector: tab?.url,

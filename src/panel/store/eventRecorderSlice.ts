@@ -1,18 +1,19 @@
-import { v4 as uuid } from 'uuid'
+import { nanoid } from 'nanoid'
+
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { WritableDraft } from 'immer/dist/internal'
 
 import eventsList from 'constants/eventsList'
 
-export type EventListItem = IEventPayload | IEventPayload[] | IEventBlock
+import { process } from './utils/eventProcessor'
+
+export type EventListItem = IEventPayload | IEventBlock
 
 export interface EventRecorderState {
   isRecorderEnabled: boolean
   activeTabID: number
   events: Record<number, EventListItem[]>
   eventsToTrack: Record<string, boolean>
-  firstEventStartedAt: number
-  currentEventIndex: number
   isManualEventInsert: boolean
 }
 
@@ -30,17 +31,13 @@ export interface ISelectorPayload {
 export interface IEventBlock {
   type: string
   id: string
-  eventRecordIndex: number
-  deltaTime: number
   triggeredAt: number
   variant: string
 }
 
 export interface IEventBlockPayload {
   type: string
-  triggeredAt: number
   eventIndex: number
-  deltaTime: number
 }
 
 export interface IEventPayload {
@@ -48,12 +45,14 @@ export interface IEventPayload {
   selector: string
   type: string
   triggeredAt: number
-  eventRecordIndex: number
-  deltaTime: number
   validSelectors?: ISelector[]
   selectedSelector?: ISelector
   url?: string
   variant: string
+  key?: string
+  data?: string
+  repeat?: boolean
+  composedEvents?: IEventPayload[]
 }
 
 export interface IEventRecord {
@@ -79,75 +78,7 @@ const initialState: EventRecorderState = {
   activeTabID: -1,
   events: {},
   eventsToTrack: defaultEventsToTrack,
-  firstEventStartedAt: 0,
-  currentEventIndex: 0,
   isManualEventInsert: false,
-}
-
-function checkIsDuplicatedEvent(
-  events: EventListItem[],
-  eventRecord: IEventRecord,
-) {
-  const currentIndex = (events.length ?? 1) - 1
-
-  const prevEvents = events?.[currentIndex] as IEventPayload[]
-
-  const { triggeredAt, selector, type } = ((Array.isArray(
-    events?.[currentIndex],
-  )
-    ? prevEvents[prevEvents.length - 1]
-    : events?.[currentIndex]) ?? {}) as IEventPayload
-
-  const isDuplicatedEvent =
-    currentIndex >= 1 &&
-    triggeredAt === eventRecord.payload.triggeredAt &&
-    selector === eventRecord.payload.selector &&
-    type === eventRecord.payload.type
-
-  return isDuplicatedEvent
-}
-
-function calculateDeltaTime(
-  prevEvent: EventListItem,
-  currentEvent: IEventPayload,
-) {
-  const delta =
-    currentEvent.triggeredAt -
-    ((prevEvent as IEventPayload[])?.[0]?.triggeredAt ??
-      (prevEvent as IEventPayload)?.triggeredAt)
-  return Number.isFinite(delta) ? delta : 0
-}
-
-function composeEvents(
-  events: EventListItem[],
-  event: IEventPayload,
-  index: number,
-) {
-  if (index === 0) {
-    events.push({ ...event, deltaTime: 0 })
-  }
-
-  if (index > 0) {
-    const previous = events[events.length - 1]
-    if (Array.isArray(previous)) {
-      const previousEvents = previous as IEventPayload[]
-      const l = previousEvents.length
-      event.deltaTime = calculateDeltaTime(previousEvents[0], event)
-      if (event.triggeredAt === previousEvents[l - 1].triggeredAt) {
-        ;(events[events.length - 1] as IEventPayload[]).push(event)
-      } else {
-        events.push(event)
-      }
-    } else {
-      const previousEvent = previous as IEventPayload
-      event.deltaTime = calculateDeltaTime(previousEvent, event)
-      if (event?.triggeredAt === previousEvent?.triggeredAt) {
-        events[events.length - 1] = [previousEvent, event]
-      } else {
-        events.push(event)
-      }
-    }
-  }
 }
 
 export const eventRecorderSlice = createSlice({
@@ -180,28 +111,15 @@ export const eventRecorderSlice = createSlice({
       const isFirstEventRecordedForTab = !events[tabId] || !events[tabId].length
 
       if (isFirstEventRecordedForTab) {
-        state.firstEventStartedAt = eventRecord.payload.triggeredAt
         events[tabId] = []
       }
-      eventRecord.payload.triggeredAt -= state.firstEventStartedAt
 
-      if (!Number.isFinite(eventRecord.payload.triggeredAt)) {
-        eventRecord.payload.triggeredAt = 0
-      }
+      process(events[tabId], eventRecord.payload)
 
-      if (checkIsDuplicatedEvent(events[tabId], eventRecord)) {
-        return state
-      }
-
-      eventRecord.payload.eventRecordIndex = state.currentEventIndex
-      composeEvents(events[tabId], eventRecord.payload, state.currentEventIndex)
-      state.currentEventIndex++
       state.isManualEventInsert = false
     },
     clearEvents: (state, { payload: { tabId } }) => {
       state.events[tabId] = []
-      state.firstEventStartedAt = 0
-      state.currentEventIndex = 0
     },
     selectEventSelector: (
       { events },
@@ -212,10 +130,9 @@ export const eventRecorderSlice = createSlice({
           eventRecord.selectedSelector = selectedSelector
         }
       }
-
-      events[tabId]
-        .flat()
-        .forEach((e) => updateSelector(e as WritableDraft<IEventPayload>))
+      events[tabId].forEach((e) =>
+        updateSelector(e as WritableDraft<IEventPayload>),
+      )
     },
     toggleEventToTrack: (
       { eventsToTrack },
@@ -251,63 +168,23 @@ export const eventRecorderSlice = createSlice({
       } else {
         state.events[tabId].splice(first, 1)
       }
-
-      state.currentEventIndex -= 1
-      state.firstEventStartedAt =
-        (state.events[tabId][0] as WritableDraft<IEventPayload[]>)?.[0]
-          ?.triggeredAt ??
-        (state.events[tabId][0] as WritableDraft<IEventPayload>)?.triggeredAt
-
-      if (state.events[tabId].length > 1) {
-        state.events[tabId].flat().forEach((it, index, arr) => {
-          it.eventRecordIndex = index
-          if (index === 0) {
-            ;(it as WritableDraft<IEventPayload>).deltaTime = 0
-            return
-          }
-          ;(it as WritableDraft<IEventPayload>).deltaTime = calculateDeltaTime(
-            arr[index - 1],
-            it as WritableDraft<IEventPayload>,
-          )
-        })
-      }
     },
-    insertBlock: (
-      state,
-      { payload: { type, eventIndex, deltaTime, triggeredAt } },
-    ) => {
+    insertBlock: (state, { payload: { type, eventIndex, triggeredAt } }) => {
       const tabId = state.activeTabID
       const index = eventIndex + 1
       const block = {
-        id: uuid(),
+        id: nanoid(),
         eventRecordIndex: index,
         type,
         variant: 'InteractiveElement',
         triggeredAt,
-        deltaTime,
       } as WritableDraft<IEventBlock>
 
       state.events[tabId].splice(index, 0, block)
 
-      state.events[tabId].flat().reduce((prev, it, index) => {
-        it.eventRecordIndex = index
-        if (index === 0) {
-          it.triggeredAt = 0
-          return it.triggeredAt
-        }
-
-        if (it.triggeredAt === prev) {
-          it.triggeredAt += 1
-          return it.triggeredAt
-        }
-
-        return it.triggeredAt
-      }, 0)
-
       const shouldPreventAutoScroll = index !== state.events[tabId].length - 1
 
       state.isManualEventInsert = shouldPreventAutoScroll
-      state.currentEventIndex += 1
     },
   },
 })

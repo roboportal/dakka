@@ -31,10 +31,8 @@ export function Record({
   dragOverIndex,
   children,
   events,
-  record,
   currentIndex,
 }: IRecordProps) {
-  const { deltaTime } = record
   const ref = useRef<HTMLDivElement>(null)
   const refIndex = useRef<number | null>(null)
   const isOver = currentIndex === dragOverIndex
@@ -43,22 +41,14 @@ export function Record({
     (type) => {
       if (!type || refIndex?.current === null) return
 
-      const event = events[refIndex?.current]
-      const newtriggeredAt = event
-        ? ((event as IEventPayload[])?.[0] ?? event).triggeredAt +
-          DEFAULT_DELTA_TIME
-        : 0
-
       setDragOverIndex(Number.MAX_SAFE_INTEGER)
       onInsertBlock({
         type,
         eventIndex: refIndex?.current,
-        deltaTime: DEFAULT_DELTA_TIME,
-        triggeredAt: newtriggeredAt,
       })
       refIndex.current = null
     },
-    [onInsertBlock, setDragOverIndex, events],
+    [onInsertBlock, setDragOverIndex],
   )
 
   const handleDropOver = useCallback(
@@ -67,8 +57,7 @@ export function Record({
 
       if (!clientRect) return
 
-      const newDelta = deltaTime === 0 ? DEFAULT_DELTA_TIME : deltaTime
-      const pivot = clientRect?.x + RECORD_WIDTH / 2 + newDelta
+      const pivot = clientRect?.x + RECORD_WIDTH / 2 + DEFAULT_DELTA_TIME
 
       if (event.x > pivot) {
         refIndex.current = currentIndex
@@ -84,7 +73,7 @@ export function Record({
         }
       }
     },
-    [currentIndex, setDragOverIndex, deltaTime, dragOverIndex],
+    [currentIndex, setDragOverIndex, dragOverIndex],
   )
 
   useDrop({
@@ -107,10 +96,7 @@ export function Record({
         }
       `}
     >
-      <DropZone
-        isOver={isOver}
-        deltaTime={currentIndex === 0 ? DEFAULT_DELTA_TIME : deltaTime}
-      />
+      <DropZone isOver={isOver} deltaTime={DEFAULT_DELTA_TIME} />
       {children}
       {events.length - 1 === currentIndex && (
         <DropZone

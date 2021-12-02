@@ -11,7 +11,7 @@
 
 ## Development
 
-Run `npm i` and `npm start` to start development. It will run webpack dev server on the 8080 port. To get the test page use: `http://localhost:8080/testPage.html`
+Run `npm i` and `npm start` to start development. It will run webpack dev server on the 8080 port. To get the test page use: `http://localhost:8080/testPage/testPage.html`
 
 ## Build details
 
