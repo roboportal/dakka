@@ -30,7 +30,8 @@ class KeyboardAggregator extends EventAggregator {
       }
 
       const isMatch =
-        (e.key ?? e.data) === (event.key ?? event.data) &&
+        (this.isMatchingKeyModifiers(e, event) ||
+          (e.key ?? e.data) === (event.key ?? event.data)) &&
         e.selector === event.selector
 
       if (isMatch) {
@@ -81,6 +82,25 @@ class KeyboardAggregator extends EventAggregator {
   ) {
     const lastEvent = events[events.length - 1]
 
+    if (this.checkIsLastEventOurClient(event, lastEvent)) {
+      if (!this.checkIsUtilityKey(event)) {
+        this.processLastEvent(event, lastEvent, eventTypes)
+      } else {
+        if (
+          !eventTypes.includes(
+            this.findLastCorrespondingEvent(
+              event,
+              lastEvent.composedEvents ?? [],
+            ).type,
+          )
+        ) {
+          events.push(event)
+        }
+      }
+
+      return
+    }
+
     if (
       this.checkIsUtilityKey(event) &&
       !eventTypes.includes(this.findLastCorrespondingEvent(event, events).type)
@@ -89,16 +109,39 @@ class KeyboardAggregator extends EventAggregator {
       return
     }
 
-    if (this.checkIsLastEventOurClient(event, lastEvent)) {
-      this.processLastEvent(event, lastEvent, eventTypes)
-      return
-    }
-
     if (
+      !this.checkIsUtilityKey(event) &&
       !eventTypes.includes(this.findLastCorrespondingEvent(event, events).type)
     ) {
       events.push(this.keyboardEventFactory(event))
     }
+  }
+
+  private isMatchingKeyModifiers(
+    event: IEventPayload,
+    lastEvent: IEventPayload,
+  ) {
+    return (
+      (event?.altKey && lastEvent?.key === 'Alt') ||
+      (event?.ctrlKey && lastEvent?.key === 'Control') ||
+      (event?.metaKey && lastEvent?.key === 'Meta') ||
+      (event?.shiftKey && lastEvent?.key === 'Shift')
+    )
+  }
+
+  private processHoldUtilityKeyCase(
+    event: IEventPayload,
+    events: IEventPayload[],
+  ) {
+    const lastEvent = events[events.length - 1]
+
+    const isMatch = this.isMatchingKeyModifiers(event, lastEvent)
+
+    if (isMatch) {
+      events.pop()
+    }
+
+    return isMatch
   }
 
   private handlersMap: Record<
@@ -109,17 +152,23 @@ class KeyboardAggregator extends EventAggregator {
       const lastEvent = events[events.length - 1]
 
       if (this.checkIsUtilityKey(event) && !event.repeat) {
+        this.processHoldUtilityKeyCase(event, events)
         events.push(event)
         return
       }
 
       if (this.checkIsLastEventOurClient(event, lastEvent) && !event.repeat) {
+        this.processHoldUtilityKeyCase(event, events)
         this.processLastEvent(event, lastEvent)
         return
       }
 
       if (!event.repeat) {
-        events.push(this.keyboardEventFactory(event))
+        if (this.processHoldUtilityKeyCase(event, events)) {
+          this.handlersMap[event.type]?.(event, events)
+        } else {
+          events.push(this.keyboardEventFactory(event))
+        }
       }
     },
     keypress: (event: IEventPayload, events: IEventPayload[]) => {

@@ -16,8 +16,8 @@ setTimeout(() => {
       testButton?.removeEventListener('click', handler1)
     }
   })
-  // textInput?.addEventListener('keypress', console.log)
-  // textInput?.addEventListener('keydown', console.log)
-  // textInput?.addEventListener('keyup', console.log)
+  textInput?.addEventListener('keypress', console.log)
+  textInput?.addEventListener('keydown', console.log)
+  textInput?.addEventListener('keyup', console.log)
   textInput?.addEventListener('input', console.log)
 }, 0)

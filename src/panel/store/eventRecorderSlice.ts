@@ -53,6 +53,10 @@ export interface IEventPayload {
   data?: string
   repeat?: boolean
   composedEvents?: IEventPayload[]
+  altKey?: boolean
+  ctrlKey?: boolean
+  metaKey?: boolean
+  shiftKey?: boolean
 }
 
 export interface IEventRecord {
