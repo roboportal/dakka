@@ -1,5 +1,5 @@
 import { EventListItem, IEventPayload } from '../eventRecorderSlice'
-import { UTILITY_KEYS } from './constants'
+import { UTILITY_KEYS, INPUT_TYPE_TO_KEY_MAP } from './constants'
 
 abstract class EventAggregator {
   abstract aggregatedEventName: string
@@ -192,6 +192,9 @@ class KeyboardAggregator extends EventAggregator {
   }
 
   process(event: IEventPayload, events: IEventPayload[]): void {
+    if (event.inputType) {
+      event.key = INPUT_TYPE_TO_KEY_MAP[event.inputType]
+    }
     this.handlersMap[event.type]?.(event, events)
   }
 }

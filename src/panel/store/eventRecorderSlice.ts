@@ -57,6 +57,7 @@ export interface IEventPayload {
   ctrlKey?: boolean
   metaKey?: boolean
   shiftKey?: boolean
+  inputType?: string
 }
 
 export interface IEventRecord {
