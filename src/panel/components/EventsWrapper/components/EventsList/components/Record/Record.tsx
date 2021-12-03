@@ -9,7 +9,7 @@ import {
   IEventBlockPayload,
 } from 'store/eventRecorderSlice'
 
-import { RECORD_WIDTH, DEFAULT_DELTA_TIME } from './constants/defaults'
+import { RECORD_WIDTH, GAP_BETWEEN_RECORDS } from './constants/defaults'
 
 import { DropZone } from './components/DropZone'
 
@@ -57,7 +57,7 @@ export function Record({
 
       if (!clientRect) return
 
-      const pivot = clientRect?.x + RECORD_WIDTH / 2 + DEFAULT_DELTA_TIME
+      const pivot = clientRect?.x + RECORD_WIDTH / 2 + GAP_BETWEEN_RECORDS
 
       if (event.x > pivot) {
         refIndex.current = currentIndex
@@ -96,12 +96,12 @@ export function Record({
         }
       `}
     >
-      <DropZone isOver={isOver} deltaTime={DEFAULT_DELTA_TIME} />
+      <DropZone isOver={isOver} gap={GAP_BETWEEN_RECORDS} />
       {children}
       {events.length - 1 === currentIndex && (
         <DropZone
           isOver={dragOverIndex === events.length}
-          deltaTime={DEFAULT_DELTA_TIME}
+          gap={GAP_BETWEEN_RECORDS}
           className={RIGHT_DROP_ZONE_CLASS_NAME}
         />
       )}

@@ -1,6 +1,20 @@
 import { EventListItem, IEventPayload } from '../eventRecorderSlice'
 import { UTILITY_KEYS, INPUT_TYPE_TO_KEY_MAP } from './constants'
 
+enum keyboardEvents {
+  keydown = 'keydown',
+  keypress = 'keypress',
+  keyup = 'keyup',
+  input = 'input',
+}
+
+enum mouseEvents {
+  mousedown = 'mousedown',
+  click = 'click',
+  mouseup = 'mouseup',
+  dblclick = 'dblclick',
+}
+
 abstract class EventAggregator {
   abstract aggregatedEventName: string
   abstract shouldProcess(event: IEventPayload): boolean
@@ -10,7 +24,7 @@ abstract class EventAggregator {
 class KeyboardAggregator extends EventAggregator {
   aggregatedEventName = 'keyboard'
   shouldProcess(event: IEventPayload): boolean {
-    const supportedTypes = ['keydown', 'keypress', 'keyup', 'input']
+    const supportedTypes: string[] = Object.values(keyboardEvents)
     return supportedTypes.includes(event.type)
   }
 
@@ -29,10 +43,12 @@ class KeyboardAggregator extends EventAggregator {
         return result
       }
 
+      const areSelectorsMatching = e.selector === event.selector
+      const isDataMatching = (e.key ?? e.data) === (event.key ?? event.data)
+
       const isMatch =
-        (this.isMatchingKeyModifiers(e, event) ||
-          (e.key ?? e.data) === (event.key ?? event.data)) &&
-        e.selector === event.selector
+        (this.isMatchingKeyModifiers(e, event) || isDataMatching) &&
+        areSelectorsMatching
 
       if (isMatch) {
         return index
@@ -61,13 +77,11 @@ class KeyboardAggregator extends EventAggregator {
     lastEvent: IEventPayload,
     eventTypes: string[] = [],
   ) {
-    if (
-      !eventTypes.length ||
-      !eventTypes.includes(
-        this.findLastCorrespondingEvent(event, lastEvent.composedEvents ?? [])
-          .type,
-      )
-    ) {
+    const isCorrespondingEventMatchEventTypes = eventTypes.includes(
+      this.findLastCorrespondingEvent(event, lastEvent.composedEvents ?? [])
+        .type,
+    )
+    if (!eventTypes.length || !isCorrespondingEventMatchEventTypes) {
       lastEvent.key =
         (lastEvent.key ?? lastEvent.data ?? '') +
         (event.key ?? event.data ?? '')
@@ -82,18 +96,19 @@ class KeyboardAggregator extends EventAggregator {
   ) {
     const lastEvent = events[events.length - 1]
 
+    const isUtilKey = this.checkIsUtilityKey(event)
+
     if (this.checkIsLastEventOurClient(event, lastEvent)) {
-      if (!this.checkIsUtilityKey(event)) {
+      if (!isUtilKey) {
         this.processLastEvent(event, lastEvent, eventTypes)
       } else {
-        if (
-          !eventTypes.includes(
-            this.findLastCorrespondingEvent(
-              event,
-              lastEvent.composedEvents ?? [],
-            ).type,
-          )
-        ) {
+        const correspondingEventTypeFromComposedEvents =
+          this.findLastCorrespondingEvent(
+            event,
+            lastEvent.composedEvents ?? [],
+          ).type
+
+        if (!eventTypes.includes(correspondingEventTypeFromComposedEvents)) {
           events.push(event)
         }
       }
@@ -101,18 +116,16 @@ class KeyboardAggregator extends EventAggregator {
       return
     }
 
-    if (
-      this.checkIsUtilityKey(event) &&
-      !eventTypes.includes(this.findLastCorrespondingEvent(event, events).type)
-    ) {
+    const isCorrespondingEventTypeMatchEventTypes = eventTypes.includes(
+      this.findLastCorrespondingEvent(event, events).type,
+    )
+
+    if (isUtilKey && !isCorrespondingEventTypeMatchEventTypes) {
       events.push(event)
       return
     }
 
-    if (
-      !this.checkIsUtilityKey(event) &&
-      !eventTypes.includes(this.findLastCorrespondingEvent(event, events).type)
-    ) {
+    if (!isUtilKey && !isCorrespondingEventTypeMatchEventTypes) {
       events.push(this.keyboardEventFactory(event))
     }
   }
@@ -172,21 +185,23 @@ class KeyboardAggregator extends EventAggregator {
       }
     },
     keypress: (event: IEventPayload, events: IEventPayload[]) => {
-      this.handleNonKeydownEventComposition(event, events, ['keydown'])
+      this.handleNonKeydownEventComposition(event, events, [
+        keyboardEvents.keydown,
+      ])
     },
 
     input: (event: IEventPayload, events: IEventPayload[]) => {
       this.handleNonKeydownEventComposition(event, events, [
-        'keydown',
-        'keypress',
+        keyboardEvents.keydown,
+        keyboardEvents.keypress,
       ])
     },
 
     keyup: (event: IEventPayload, events: IEventPayload[]) => {
       this.handleNonKeydownEventComposition(event, events, [
-        'keydown',
-        'keypress',
-        'input',
+        keyboardEvents.keydown,
+        keyboardEvents.keypress,
+        keyboardEvents.input,
       ])
     },
   }
@@ -203,7 +218,7 @@ class MouseClickAggregator extends EventAggregator {
   aggregatedEventName = 'mouseClick'
 
   shouldProcess(event: IEventPayload): boolean {
-    const supportedTypes = ['mousedown', 'click', 'mouseup', 'dblclick']
+    const supportedTypes: string[] = Object.values(mouseEvents)
     return supportedTypes.includes(event.type)
   }
 
