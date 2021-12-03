@@ -14,7 +14,7 @@ export function EventEntity({
   record: IEventPayload
   index: string
 }) {
-  const { type, selectedSelector, url } = record
+  const { type, selectedSelector, url, key } = record
   const isRedirect = type === REDIRECT_STARTED
   const selector = `${selectedSelector?.name}: ${selectedSelector?.value}`
 
@@ -45,7 +45,7 @@ export function EventEntity({
             margin-bottom: 8px;
           `}
         >
-          {type}
+          {type} {key}
         </div>
         <div
           css={css`

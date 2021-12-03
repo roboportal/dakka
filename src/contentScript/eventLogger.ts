@@ -1,4 +1,4 @@
-import { v4 as uuid } from 'uuid'
+import { nanoid } from 'nanoid'
 import { finder } from '@medv/finder'
 
 import {
@@ -83,6 +83,7 @@ export function eventHandler(event: any) {
     inputType,
     isTrusted, // is invoked by user
     key, // keyboard
+    repeat, //keyboard
     keyCode, // keyboard
     location, // keyboard
     metaKey, // mouse and keyboard
@@ -130,7 +131,7 @@ export function eventHandler(event: any) {
       id: extensionId,
       type: EVENT_INTERCEPTED,
       payload: {
-        id: uuid(),
+        id: nanoid(),
         validSelectors,
         triggeredAt: Date.now(),
         selector: uniqueSelector,
@@ -158,6 +159,7 @@ export function eventHandler(event: any) {
         inputType,
         isTrusted,
         key,
+        repeat,
         keyCode,
         location,
         metaKey,

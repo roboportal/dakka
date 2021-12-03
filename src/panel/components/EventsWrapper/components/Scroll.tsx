@@ -1,7 +1,7 @@
 import { useRef, useEffect, useState, memo } from 'react'
 import { css } from '@emotion/react'
 
-import { IEventPayload, EventListItem } from 'store/eventRecorderSlice'
+import { EventListItem } from 'store/eventRecorderSlice'
 
 interface IScrollProps {
   events: EventListItem[]
@@ -11,6 +11,7 @@ interface IScrollProps {
 }
 
 const ORIGINAL_BAR_WIDTH = 88
+const ORIGINAL_GAP = 4
 
 function Scroll({
   events,
@@ -48,18 +49,11 @@ function Scroll({
 
       const barWidth = Math.floor(ORIGINAL_BAR_WIDTH * scaleFactor)
 
-      let prevOffset = 0
-
-      events.forEach((it) => {
-        const deltaTime =
-          (it as IEventPayload[])?.[0]?.deltaTime ??
-          (it as IEventPayload)?.deltaTime ??
-          0
-
-        const offset = prevOffset + deltaTime
+      events.reduce((prevOffset) => {
+        const offset = prevOffset + ORIGINAL_GAP
         ctx.fillRect(offset * scaleFactor, 0, barWidth, 30)
-        prevOffset = offset + ORIGINAL_BAR_WIDTH
-      })
+        return offset + ORIGINAL_BAR_WIDTH
+      }, 0)
     }
   }, [events, scrollPosition, isWideScreen, wrapper])
 

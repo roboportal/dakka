@@ -15,7 +15,7 @@ window.EventTarget.prototype.addEventListener = function (
 ) {
   _addEventListener.call(this, type, callback, options)
 
-  if (eventsToRecordMap.hasOwnProperty(type)) {
+  if (Object.prototype.hasOwnProperty.call(eventsToRecordMap, type)) {
     _addEventListener.call(this, type, eventHandler, options)
   }
 }

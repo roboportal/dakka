@@ -9,7 +9,7 @@ import {
   IEventBlockPayload,
 } from 'store/eventRecorderSlice'
 
-import { RECORD_WIDTH, DEFAULT_DELTA_TIME } from './constants/defaults'
+import { RECORD_WIDTH, GAP_BETWEEN_RECORDS } from './constants/defaults'
 
 import { DropZone } from './components/DropZone'
 
@@ -31,10 +31,8 @@ export function Record({
   dragOverIndex,
   children,
   events,
-  record,
   currentIndex,
 }: IRecordProps) {
-  const { deltaTime } = record
   const ref = useRef<HTMLDivElement>(null)
   const refIndex = useRef<number | null>(null)
   const isOver = currentIndex === dragOverIndex
@@ -43,22 +41,14 @@ export function Record({
     (type) => {
       if (!type || refIndex?.current === null) return
 
-      const event = events[refIndex?.current]
-      const newtriggeredAt = event
-        ? ((event as IEventPayload[])?.[0] ?? event).triggeredAt +
-          DEFAULT_DELTA_TIME
-        : 0
-
       setDragOverIndex(Number.MAX_SAFE_INTEGER)
       onInsertBlock({
         type,
         eventIndex: refIndex?.current,
-        deltaTime: DEFAULT_DELTA_TIME,
-        triggeredAt: newtriggeredAt,
       })
       refIndex.current = null
     },
-    [onInsertBlock, setDragOverIndex, events],
+    [onInsertBlock, setDragOverIndex],
   )
 
   const handleDropOver = useCallback(
@@ -67,8 +57,7 @@ export function Record({
 
       if (!clientRect) return
 
-      const newDelta = deltaTime === 0 ? DEFAULT_DELTA_TIME : deltaTime
-      const pivot = clientRect?.x + RECORD_WIDTH / 2 + newDelta
+      const pivot = clientRect?.x + RECORD_WIDTH / 2 + GAP_BETWEEN_RECORDS
 
       if (event.x > pivot) {
         refIndex.current = currentIndex
@@ -84,7 +73,7 @@ export function Record({
         }
       }
     },
-    [currentIndex, setDragOverIndex, deltaTime, dragOverIndex],
+    [currentIndex, setDragOverIndex, dragOverIndex],
   )
 
   useDrop({
@@ -107,15 +96,12 @@ export function Record({
         }
       `}
     >
-      <DropZone
-        isOver={isOver}
-        deltaTime={currentIndex === 0 ? DEFAULT_DELTA_TIME : deltaTime}
-      />
+      <DropZone isOver={isOver} gap={GAP_BETWEEN_RECORDS} />
       {children}
       {events.length - 1 === currentIndex && (
         <DropZone
           isOver={dragOverIndex === events.length}
-          deltaTime={DEFAULT_DELTA_TIME}
+          gap={GAP_BETWEEN_RECORDS}
           className={RIGHT_DROP_ZONE_CLASS_NAME}
         />
       )}

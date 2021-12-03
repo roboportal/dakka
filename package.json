@@ -10,7 +10,7 @@
     "serve:panel": "NODE_ENV=development PORT=8080 webpack serve --config webpack.panel.config.js",
     "watch:scripts": "NODE_ENV=development webpack watch --config webpack.scripts.config.js",
     "kill:stale-dev-server": "PORT=8080 kill $(lsof -ti:$PORT)",
-    "devtools": "react-devtools & redux-devtools --open"
+    "devtools": "react-devtools & npx @redux-devtools/cli --open"
   },
   "author": "",
   "license": "ISC",
@@ -20,12 +20,10 @@
     "@babel/preset-typescript": "^7.16.0",
     "@emotion/babel-plugin": "^11.3.0",
     "@hot-loader/react-dom": "^17.0.1",
-    "@redux-devtools/cli": "^1.0.0-10",
     "@types/chrome": "^0.0.159",
     "@types/react": "^17.0.31",
     "@types/react-dom": "^17.0.10",
     "@types/remote-redux-devtools": "^0.5.5",
-    "@types/uuid": "^8.3.1",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
     "babel-loader": "^8.2.3",
@@ -54,10 +52,10 @@
     "@mui/icons-material": "^5.0.4",
     "@mui/material": "^5.0.4",
     "@reduxjs/toolkit": "^1.6.2",
+    "nanoid": "^3.1.30",
     "react": "17.0.1",
     "react-dom": "^17.0.1",
     "react-redux": "^7.2.5",
-    "remote-redux-devtools": "^0.5.16",
-    "uuid": "^8.3.2"
+    "remote-redux-devtools": "^0.5.16"
   }
 }
