@@ -125,6 +125,7 @@ const eventsList: Array<IEventGroupItem> = [
         key: 'mousedown',
         title: 'mousedown',
         about: 'https://www.w3schools.com/jsref/event_onmousedown.asp',
+        defaultSelected: true,
       },
       {
         key: 'mouseenter',
@@ -155,6 +156,7 @@ const eventsList: Array<IEventGroupItem> = [
         key: 'mouseup',
         title: 'mouseup',
         about: 'https://www.w3schools.com/jsref/event_onmouseup.asp',
+        defaultSelected: true,
       },
     ],
   },

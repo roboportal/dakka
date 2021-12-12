@@ -1,5 +1,7 @@
 const checkbox = document.querySelector('input[type=checkbox]')
-const testButton = document.querySelector('button')
+const testButton = document.querySelector('#test')
+const clickTestButton = document.querySelector('#click_test')
+
 const textInput = document.querySelector('input[type=text]')
 
 setTimeout(() => {
@@ -20,4 +22,9 @@ setTimeout(() => {
   textInput?.addEventListener('keydown', console.log)
   textInput?.addEventListener('keyup', console.log)
   textInput?.addEventListener('input', console.log)
+
+  clickTestButton?.addEventListener('mousedown', console.log)
+  clickTestButton?.addEventListener('click', console.log)
+  clickTestButton?.addEventListener('mouseup', console.log)
+  clickTestButton?.addEventListener('dblclick', console.log)
 }, 0)

@@ -161,7 +161,10 @@ class KeyboardAggregator extends EventAggregator {
     string,
     (event: IEventPayload, events: IEventPayload[]) => void
   > = {
-    keydown: (event: IEventPayload, events: IEventPayload[]) => {
+    [keyboardEvents.keydown]: (
+      event: IEventPayload,
+      events: IEventPayload[],
+    ) => {
       const lastEvent = events[events.length - 1]
 
       if (this.checkIsUtilityKey(event) && !event.repeat) {
@@ -184,20 +187,23 @@ class KeyboardAggregator extends EventAggregator {
         }
       }
     },
-    keypress: (event: IEventPayload, events: IEventPayload[]) => {
+    [keyboardEvents.keypress]: (
+      event: IEventPayload,
+      events: IEventPayload[],
+    ) => {
       this.handleNonKeydownEventComposition(event, events, [
         keyboardEvents.keydown,
       ])
     },
 
-    input: (event: IEventPayload, events: IEventPayload[]) => {
+    [keyboardEvents.input]: (event: IEventPayload, events: IEventPayload[]) => {
       this.handleNonKeydownEventComposition(event, events, [
         keyboardEvents.keydown,
         keyboardEvents.keypress,
       ])
     },
 
-    keyup: (event: IEventPayload, events: IEventPayload[]) => {
+    [keyboardEvents.keyup]: (event: IEventPayload, events: IEventPayload[]) => {
       this.handleNonKeydownEventComposition(event, events, [
         keyboardEvents.keydown,
         keyboardEvents.keypress,
@@ -217,13 +223,85 @@ class KeyboardAggregator extends EventAggregator {
 class MouseClickAggregator extends EventAggregator {
   aggregatedEventName = 'mouseClick'
 
+  private mouseEventFactory(event: IEventPayload) {
+    return { ...event, type: this.aggregatedEventName, composedEvents: [event] }
+  }
+
   shouldProcess(event: IEventPayload): boolean {
     const supportedTypes: string[] = Object.values(mouseEvents)
     return supportedTypes.includes(event.type)
   }
 
+  private findCorrespondingEventIndex(
+    event: IEventPayload,
+    events: IEventPayload[],
+  ) {
+    const correspondingMouseEventIndex: number | undefined = (
+      events ?? []
+    ).reduceRight((result: number | undefined, e, index) => {
+      if (Number.isFinite(result)) {
+        return result
+      }
+
+      if (
+        event.selector === e.selector &&
+        e.type === this.aggregatedEventName
+      ) {
+        return index
+      }
+    }, undefined)
+
+    return correspondingMouseEventIndex ?? -1
+  }
+
+  private handleClickAndMouseUp = (
+    event: IEventPayload,
+    events: IEventPayload[],
+  ) => {
+    const prevEventIndex = this.findCorrespondingEventIndex(event, events)
+    const prevEvent = events[prevEventIndex] ?? {}
+    if (
+      prevEvent.type === this.aggregatedEventName &&
+      event.selector === prevEvent.selector
+    ) {
+      prevEvent.composedEvents?.push(event)
+      return
+    }
+    events.push(this.mouseEventFactory(event))
+  }
+
+  private handlersMap: Record<
+    string,
+    (event: IEventPayload, events: IEventPayload[]) => void
+  > = {
+    [mouseEvents.mousedown]: (
+      event: IEventPayload,
+      events: IEventPayload[],
+    ) => {
+      events.push(this.mouseEventFactory(event))
+    },
+
+    [mouseEvents.mouseup]: this.handleClickAndMouseUp,
+
+    [mouseEvents.click]: this.handleClickAndMouseUp,
+
+    [mouseEvents.dblclick]: (event: IEventPayload, events: IEventPayload[]) => {
+      const DOUBLE_CLICK_COUNT = 2
+      Array(DOUBLE_CLICK_COUNT)
+        .fill(null)
+        .forEach(() => {
+          const eventIndex = this.findCorrespondingEventIndex(event, events)
+          if (eventIndex > -1) {
+            events.splice(eventIndex, 1)
+          }
+        })
+
+      events.push(event)
+    },
+  }
+
   process(event: IEventPayload, events: IEventPayload[]): void {
-    events.push(event)
+    this.handlersMap[event.type]?.(event, events)
   }
 }
 
