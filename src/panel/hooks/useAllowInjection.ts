@@ -6,6 +6,7 @@ import {
   IS_INJECTION_ALLOWED,
   ALLOW_INJECTING,
   INJECTION_ALLOWED_STATUS,
+  REDIRECT_STARTED,
 } from 'constants/messageTypes'
 
 import { SLICE_NAMES, RootState } from '../store'
@@ -29,6 +30,11 @@ export default function useAllowInjection() {
       eventRecord: IEventRecord,
       sender: chrome.runtime.MessageSender,
     ) => {
+      if (eventRecord.type === REDIRECT_STARTED) {
+        chrome.tabs.sendMessage(activeTabID, {
+          type: IS_INJECTION_ALLOWED,
+        })
+      }
       if (eventRecord.type === INJECTION_ALLOWED_STATUS) {
         const tabId = sender?.tab?.id
         dispatch(
