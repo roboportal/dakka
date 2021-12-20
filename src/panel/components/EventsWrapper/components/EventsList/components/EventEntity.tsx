@@ -17,6 +17,11 @@ export function EventEntity({
   const { type, selectedSelector, url, key } = record
   const isRedirect = type === REDIRECT_STARTED
   const selector = `${selectedSelector?.name}: ${selectedSelector?.value}`
+  const isInteractive = record.variant === 'InteractiveElement'
+
+  const handleSelectWaitForElement = () => {
+    console.log('handleSelectWaitForElement')
+  }
 
   return (
     <div
@@ -57,6 +62,9 @@ export function EventEntity({
           )}
         </div>
       </div>
+      {isInteractive && (
+        <Button onClick={handleSelectWaitForElement}>Select Element</Button>
+      )}
       <Button
         data-event_list_index={index}
         data-event_list_action="remove"

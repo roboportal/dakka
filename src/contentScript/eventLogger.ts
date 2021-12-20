@@ -4,6 +4,8 @@ import { finder } from '@medv/finder'
 import {
   EVENT_INTERCEPTED,
   HIGHLIGHT_ELEMENT,
+  SELECT_WAIT_FOR_ELEMENT,
+  ELEMENT_SELECTED,
 } from '../globalConstants/messageTypes'
 
 const extensionId =
@@ -13,6 +15,7 @@ const extensionId =
 const alreadyInterceptedSymbol = Symbol('alreadyInterceptedSymbol')
 
 let highLightElement: HTMLDivElement | null = null
+let selectElement = false
 
 window.addEventListener('message', ({ data }) => {
   if (data.type === HIGHLIGHT_ELEMENT) {
@@ -49,9 +52,14 @@ window.addEventListener('message', ({ data }) => {
       highLightElement.style.display = 'none'
     }
   }
+
+  if (data.type === SELECT_WAIT_FOR_ELEMENT) {
+    selectElement = true
+  }
 })
 
 export function eventHandler(event: any) {
+  console.log('eventHandler', event)
   if (event[alreadyInterceptedSymbol]) {
     return
   }
@@ -129,7 +137,7 @@ export function eventHandler(event: any) {
 
     const message = {
       id: extensionId,
-      type: EVENT_INTERCEPTED,
+      type: selectElement ? ELEMENT_SELECTED : EVENT_INTERCEPTED,
       payload: {
         id: nanoid(),
         validSelectors,
