@@ -15,6 +15,7 @@ export interface EventRecorderState {
   events: Record<number, EventListItem[]>
   eventsToTrack: Record<string, boolean>
   isManualEventInsert: boolean
+  allowedInjections: Record<number, boolean>
 }
 
 export interface ISelector {
@@ -58,6 +59,7 @@ export interface IEventPayload {
   metaKey?: boolean
   shiftKey?: boolean
   inputType?: string
+  isInjectingAllowed?: boolean
 }
 
 export interface IEventRecord {
@@ -84,6 +86,7 @@ const initialState: EventRecorderState = {
   events: {},
   eventsToTrack: defaultEventsToTrack,
   isManualEventInsert: false,
+  allowedInjections: {},
 }
 
 export const eventRecorderSlice = createSlice({
@@ -191,6 +194,13 @@ export const eventRecorderSlice = createSlice({
 
       state.isManualEventInsert = shouldPreventAutoScroll
     },
+
+    setIsInjectionAllowed: (
+      state,
+      { payload: { tabId, isInjectingAllowed } },
+    ) => {
+      state.allowedInjections[tabId] = isInjectingAllowed
+    },
   },
 })
 
@@ -204,6 +214,7 @@ export const {
   toggleEventToTrack,
   removeEvent,
   insertBlock,
+  setIsInjectionAllowed,
 } = eventRecorderSlice.actions
 
 export default eventRecorderSlice.reducer
