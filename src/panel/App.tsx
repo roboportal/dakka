@@ -5,8 +5,10 @@ import Collapse from '@mui/material/Collapse'
 import EventsSettings from 'components/EventsSettings/EventsSettings'
 import ControlPanel from 'components/ControlPanel'
 import EventsWrapper from 'components/EventsWrapper/EventsWrapper'
+import AllowInjection from 'components/AllowInjection'
 
 import useEventRecorder from 'hooks/useEventRecorder'
+import useAllowInjection from 'hooks/useAllowInjection'
 import useToggle from 'hooks/useToggle'
 
 export default function App() {
@@ -26,6 +28,12 @@ export default function App() {
     handleEventClick,
     handleInsertBlock,
   } = useEventRecorder()
+
+  const { isInjectionAllowed, allowInjection } = useAllowInjection()
+
+  if (!isInjectionAllowed) {
+    return <AllowInjection allowInjection={allowInjection} />
+  }
 
   return (
     <div
