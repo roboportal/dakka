@@ -20,6 +20,9 @@ interface IEventsWrapperProps {
   onEventClick: React.MouseEventHandler<Element>
   isManualEventInsert: boolean
   onInsertBlock: (payload: IEventBlockPayload) => void
+  enableSelectElement: () => void
+  handleSetActiveBlockId: (id: string) => void
+  activeBlockId: string | null
 }
 
 export default function EventsWrapper({
@@ -31,6 +34,9 @@ export default function EventsWrapper({
   isWideScreen,
   onInsertBlock,
   isManualEventInsert,
+  enableSelectElement,
+  handleSetActiveBlockId,
+  activeBlockId,
 }: IEventsWrapperProps) {
   const wrapperRef = useRef<HTMLDivElement | null>(null)
   const [eventsListScroll, setEventsListScroll] = useState(0)
@@ -88,6 +94,9 @@ export default function EventsWrapper({
         ref={wrapperRef}
       >
         <EventsList
+          activeBlockId={activeBlockId}
+          handleSetActiveBlockId={handleSetActiveBlockId}
+          enableSelectElement={enableSelectElement}
           setDragOverIndex={setDragOverIndex}
           dragOverIndex={dragOverIndex}
           onInsertBlock={onInsertBlock}

@@ -1,34 +1,52 @@
-import { useCallback } from 'react'
+import { useCallback, useMemo } from 'react'
 import Select, { SelectChangeEvent } from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
 import { blue } from '@mui/material/colors'
 import { css } from '@emotion/react'
 
 import {
+  IEventBlock,
   IEventPayload,
   ISelector,
   ISelectorPayload,
 } from 'store/eventRecorderSlice'
+import { INTERACTIVE_ELEMENT } from 'constants/messageTypes'
 
 interface ISelectorProp {
-  record: IEventPayload
+  record: IEventPayload | IEventBlock
   onSelectSelector: (payload: ISelectorPayload) => void
 }
 
 export function Selector({ record, onSelectSelector }: ISelectorProp) {
+  const validSelectors = useMemo(
+    () =>
+      record?.variant === INTERACTIVE_ELEMENT
+        ? (record as IEventBlock)?.element?.validSelectors
+        : (record as IEventPayload).validSelectors,
+    [record],
+  )
+
+  const selectedSelector = useMemo(
+    () =>
+      record?.variant === INTERACTIVE_ELEMENT
+        ? (record as IEventBlock)?.element?.selectedSelector?.value
+        : (record as IEventPayload)?.selectedSelector?.value,
+    [record],
+  )
+
   const handleSelectorChange = useCallback(
     (e: SelectChangeEvent<string>) => {
-      const selector = record?.validSelectors?.find(
-        (s) => s.value === e.target.value,
+      const selector = validSelectors?.find(
+        (s: { value: string }) => s.value === e.target.value,
       )
       if (selector) {
         onSelectSelector({ selectedSelector: selector, record })
       }
     },
-    [onSelectSelector, record],
+    [onSelectSelector, record, validSelectors],
   )
 
-  if (!record?.validSelectors?.length) {
+  if (!validSelectors?.length) {
     return null
   }
 
@@ -41,11 +59,11 @@ export function Selector({ record, onSelectSelector }: ISelectorProp) {
           padding: 4px;
         }
       `}
-      value={record?.selectedSelector?.value}
+      value={selectedSelector}
       onChange={handleSelectorChange}
       variant="outlined"
     >
-      {record?.validSelectors?.map((item: ISelector) => (
+      {validSelectors?.map((item: ISelector) => (
         <MenuItem value={item.value} key={`${item.name}${item.value}`}>
           <span>By {item.name}:</span>
           <span

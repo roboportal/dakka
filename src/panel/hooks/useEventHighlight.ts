@@ -1,6 +1,10 @@
 import { MouseEventHandler, useCallback } from 'react'
 
-import { EventListItem, IEventPayload } from 'store/eventRecorderSlice'
+import {
+  EventListItem,
+  IEventPayload,
+  IEventBlock,
+} from 'store/eventRecorderSlice'
 
 import { HIGHLIGHT_ELEMENT, REDIRECT_STARTED } from 'constants/messageTypes'
 
@@ -22,7 +26,10 @@ function highlightElement(
     if (Array.isArray(item)) {
       payload.selector = item[highlightedEventIndexes[1]]?.selector ?? null
     } else {
-      payload.selector = (item as IEventPayload)?.selector ?? null
+      const selector =
+        (item as IEventBlock).element?.selector ||
+        (item as IEventPayload).selector
+      payload.selector = selector ?? null
     }
   }
 

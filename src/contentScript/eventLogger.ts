@@ -1,11 +1,10 @@
-import { nanoid } from 'nanoid'
-import { finder } from '@medv/finder'
+import { composeEvent } from './composeEvent'
 
 import {
   EVENT_INTERCEPTED,
   HIGHLIGHT_ELEMENT,
-  SELECT_WAIT_FOR_ELEMENT,
   ELEMENT_SELECTED,
+  HOVER_ELEMENT,
 } from '../globalConstants/messageTypes'
 
 const extensionId =
@@ -15,19 +14,24 @@ const extensionId =
 const alreadyInterceptedSymbol = Symbol('alreadyInterceptedSymbol')
 
 let highLightElement: HTMLDivElement | null = null
-let selectElement = false
 
 window.addEventListener('message', ({ data }) => {
-  if (data.type === HIGHLIGHT_ELEMENT) {
-    const selector: string = data.selector
+  if (data?.type === ELEMENT_SELECTED && highLightElement) {
+    highLightElement.style.display = 'none'
+    return
+  }
+
+  const isElementSelect = data?.type === HOVER_ELEMENT
+
+  if (data.type === HIGHLIGHT_ELEMENT || isElementSelect) {
+    const selector: string = data.selector || data?.payload?.selector
+
     if (!highLightElement && selector) {
       const el = document.createElement('div')
       el.style.position = 'fixed'
-      el.style.backgroundColor = '#0080ff'
       el.style.opacity = '0.5'
       el.style.display = 'none'
       el.style.border = '1px dashed gold'
-
       document.body.append(el)
       highLightElement = el
     }
@@ -35,6 +39,11 @@ window.addEventListener('message', ({ data }) => {
     if (!highLightElement) {
       return
     }
+
+    highLightElement.style.pointerEvents = isElementSelect ? 'none' : 'auto'
+    highLightElement.style.backgroundColor = isElementSelect
+      ? '#18A558'
+      : '#0080ff'
 
     if (selector) {
       const { top, left, width, height } = document
@@ -52,140 +61,23 @@ window.addEventListener('message', ({ data }) => {
       highLightElement.style.display = 'none'
     }
   }
-
-  if (data.type === SELECT_WAIT_FOR_ELEMENT) {
-    selectElement = true
-  }
 })
 
 export function eventHandler(event: any) {
-  console.log('eventHandler', event)
   if (event[alreadyInterceptedSymbol]) {
     return
   }
 
   event[alreadyInterceptedSymbol] = true
-
-  const {
-    target,
-    type,
-    altKey, // mouse and keyboard
-    animationName, // animation
-    bubbles, // can bubble or not
-    button, // which button was pressed
-    buttons, // which buttons were pressed
-    cancelable,
-    charCode, // keyboard
-    clientX, // mouse
-    clientY, // mouse
-    code, // keyboard
-    ctrlKey, // mouse and keyboard
-    data, // input events
-    deltaX, // scroll
-    deltaY, // scroll
-    deltaZ, // scroll
-    deltaMode, // scroll
-    detail,
-    elapsedTime, // animation
-    eventPhase,
-    inputType,
-    isTrusted, // is invoked by user
-    key, // keyboard
-    repeat, //keyboard
-    keyCode, // keyboard
-    location, // keyboard
-    metaKey, // mouse and keyboard
-    newURL, // hash change
-    oldURL, // hash change
-    pageX,
-    pageY,
-    persisted, // is loaded from cache
-    propertyName, // css prop in transition
-    // relatedTarget, // related element for mouse
-    screenX, // mouse
-    screenY, // mouse
-    shiftKey, // keyboard
-    defaultPrevented,
-    //targetTouches, // all target's for touch event
-    timeStamp, // ms since document loaded
-    touches,
-    which, // mouse button
-  } = event
+  const { type, target } = event
 
   try {
-    const role = target?.attributes?.role?.value
-    const ariaLabel = target?.ariaLabel
-    const placeholder = target?.attributes?.placeholder?.value
-    const textContent = target?.outerText
-    const className = target?.attributes?.class?.value
-    const elementId = target?.attributes?.id?.value
-    const testId = target?.attributes?.['data-testid']?.value
-    const uniqueSelector = finder(target)
+    const message = composeEvent({
+      event,
+      extensionId,
+      eventType: EVENT_INTERCEPTED,
+    })
 
-    const selectors = [
-      ariaLabel && role && { name: 'role', ariaLabel, value: role },
-      ariaLabel && { name: 'label-text', value: ariaLabel },
-      placeholder && { name: 'placeholder', value: placeholder },
-      textContent && { name: 'text', value: textContent },
-      className && { name: 'classname', value: className },
-      elementId && { name: 'element-id', value: elementId },
-      testId && { name: 'test-id', value: testId },
-      { name: 'unique-path', value: uniqueSelector },
-    ].filter((sel) => !!sel)
-
-    const validSelectors = selectors.filter((item) => item.value)
-
-    const message = {
-      id: extensionId,
-      type: selectElement ? ELEMENT_SELECTED : EVENT_INTERCEPTED,
-      payload: {
-        id: nanoid(),
-        validSelectors,
-        triggeredAt: Date.now(),
-        selector: uniqueSelector,
-        selectedSelector: validSelectors[0],
-        type,
-        altKey,
-        animationName,
-        bubbles,
-        button,
-        buttons,
-        cancelable,
-        charCode,
-        clientX,
-        clientY,
-        code,
-        ctrlKey,
-        data,
-        deltaX,
-        deltaY,
-        deltaZ,
-        deltaMode,
-        detail,
-        elapsedTime,
-        eventPhase,
-        inputType,
-        isTrusted,
-        key,
-        repeat,
-        keyCode,
-        location,
-        metaKey,
-        newURL,
-        oldURL,
-        pageX,
-        pageY,
-        persisted,
-        propertyName,
-        screenX,
-        screenY,
-        shiftKey,
-        defaultPrevented,
-        timeStamp,
-        touches,
-        which,
-      },
-    }
     window.postMessage(message)
   } catch (error) {
     console.log('Error sending recorded event:', error, type, target)
