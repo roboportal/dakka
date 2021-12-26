@@ -18,6 +18,9 @@ interface IEventsListProps {
   onInsertBlock: (payload: IEventBlockPayload) => void
   setDragOverIndex: (value: number) => void
   dragOverIndex: number
+  enableSelectElement: () => void
+  handleSetActiveBlockId: (id: string) => void
+  activeBlockId: string | null
 }
 
 function EventsList({
@@ -26,6 +29,9 @@ function EventsList({
   onInsertBlock,
   setDragOverIndex,
   dragOverIndex,
+  enableSelectElement,
+  handleSetActiveBlockId,
+  activeBlockId,
 }: IEventsListProps) {
   if (!events) {
     return null
@@ -57,8 +63,11 @@ function EventsList({
                 onSelectSelector={onSelectSelector}
               />
               <EventEntity
+                handleSetActiveBlockId={handleSetActiveBlockId}
+                enableSelectElement={enableSelectElement}
                 record={record as IEventPayload}
                 index={index.toString()}
+                activeBlockId={activeBlockId}
               />
             </div>
           </Record>

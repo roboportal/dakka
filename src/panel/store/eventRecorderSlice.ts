@@ -4,7 +4,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { WritableDraft } from 'immer/dist/internal'
 
 import eventsList from 'constants/eventsList'
-
+import { INTERACTIVE_ELEMENT, ELEMENT_SELECTED } from 'constants/messageTypes'
 import { process } from './utils/eventProcessor'
 
 export type EventListItem = IEventPayload | IEventBlock
@@ -16,6 +16,7 @@ export interface EventRecorderState {
   eventsToTrack: Record<string, boolean>
   isManualEventInsert: boolean
   allowedInjections: Record<number, boolean>
+  activeBlockId: string | null
 }
 
 export interface ISelector {
@@ -26,7 +27,7 @@ export interface ISelector {
 
 export interface ISelectorPayload {
   selectedSelector: ISelector
-  record: IEventPayload
+  record: IEventPayload | IEventBlock
 }
 
 export interface IEventBlock {
@@ -34,6 +35,7 @@ export interface IEventBlock {
   id: string
   triggeredAt: number
   variant: string
+  element: IEventPayload | null
 }
 
 export interface IEventBlockPayload {
@@ -87,6 +89,7 @@ const initialState: EventRecorderState = {
   eventsToTrack: defaultEventsToTrack,
   isManualEventInsert: false,
   allowedInjections: {},
+  activeBlockId: null,
 }
 
 export const eventRecorderSlice = createSlice({
@@ -103,7 +106,17 @@ export const eventRecorderSlice = createSlice({
       state,
       { payload: { tabId, eventRecord } }: PayloadAction<IRecordEventPayload>,
     ) => {
-      const { events, eventsToTrack, isRecorderEnabled } = state
+      const { events, eventsToTrack, isRecorderEnabled, activeBlockId } = state
+
+      if (eventRecord?.type === ELEMENT_SELECTED && activeBlockId) {
+        const block = events[tabId].find(
+          (item) => item.id === activeBlockId,
+        ) as IEventBlock
+
+        block.element = eventRecord.payload
+        state.activeBlockId = null
+        return state
+      }
 
       if (!isRecorderEnabled) {
         return state
@@ -133,13 +146,32 @@ export const eventRecorderSlice = createSlice({
       { events },
       { payload: { record, selectedSelector, tabId } },
     ) => {
-      const updateSelector = (eventRecord: WritableDraft<IEventPayload>) => {
-        if (eventRecord.selector === record.selector) {
-          eventRecord.selectedSelector = selectedSelector
+      const updateSelector = (
+        eventRecord: WritableDraft<IEventPayload | IEventBlock>,
+      ) => {
+        if (
+          eventRecord.variant === INTERACTIVE_ELEMENT &&
+          (eventRecord as WritableDraft<IEventBlock>).element?.selector ===
+            (record as WritableDraft<IEventBlock>).element?.selector
+        ) {
+          const element = (eventRecord as WritableDraft<IEventBlock>).element
+          if (element !== null) {
+            element.selectedSelector = selectedSelector
+          }
+
+          return
+        }
+
+        if (
+          (eventRecord as WritableDraft<IEventPayload>)?.selector ===
+          (record as WritableDraft<IEventPayload>)?.selector
+        ) {
+          ;(eventRecord as WritableDraft<IEventPayload>).selectedSelector =
+            selectedSelector
         }
       }
       events[tabId].forEach((e) =>
-        updateSelector(e as WritableDraft<IEventPayload>),
+        updateSelector(e as WritableDraft<IEventPayload | IEventBlock>),
       )
     },
     toggleEventToTrack: (
@@ -155,6 +187,9 @@ export const eventRecorderSlice = createSlice({
       Object.keys(eventsToTrack).forEach(
         (key) => (eventsToTrack[key] = payload),
       )
+    },
+    setActiveBlockId: (state, { payload }: PayloadAction<string>) => {
+      state.activeBlockId = payload
     },
     removeEvent: (
       state,
@@ -184,8 +219,9 @@ export const eventRecorderSlice = createSlice({
         id: nanoid(),
         eventRecordIndex: index,
         type,
-        variant: 'InteractiveElement',
+        variant: INTERACTIVE_ELEMENT,
         triggeredAt,
+        element: null,
       } as WritableDraft<IEventBlock>
 
       state.events[tabId].splice(index, 0, block)
@@ -215,6 +251,7 @@ export const {
   removeEvent,
   insertBlock,
   setIsInjectionAllowed,
+  setActiveBlockId,
 } = eventRecorderSlice.actions
 
 export default eventRecorderSlice.reducer

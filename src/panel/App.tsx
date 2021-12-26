@@ -9,6 +9,7 @@ import AllowInjection from 'components/AllowInjection'
 
 import useEventRecorder from 'hooks/useEventRecorder'
 import useAllowInjection from 'hooks/useAllowInjection'
+import useElementSelect from 'hooks/useElementSelect'
 import useToggle from 'hooks/useToggle'
 
 export default function App() {
@@ -27,9 +28,12 @@ export default function App() {
     handleSelectSelector,
     handleEventClick,
     handleInsertBlock,
+    handleSetActiveBlockId,
+    activeBlockId,
   } = useEventRecorder()
 
   const { isInjectionAllowed, allowInjection } = useAllowInjection()
+  const { enableSelectElement } = useElementSelect()
 
   if (!isInjectionAllowed) {
     return <AllowInjection allowInjection={allowInjection} />
@@ -65,6 +69,9 @@ export default function App() {
         `}
       >
         <EventsWrapper
+          activeBlockId={activeBlockId}
+          handleSetActiveBlockId={handleSetActiveBlockId}
+          enableSelectElement={enableSelectElement}
           isManualEventInsert={isManualEventInsert}
           onInsertBlock={handleInsertBlock}
           events={events[activeTabID]}

@@ -9,6 +9,7 @@ import {
   selectEventSelector,
   removeEvent,
   insertBlock,
+  setActiveBlockId,
   IEventBlockPayload,
 } from 'store/eventRecorderSlice'
 
@@ -19,8 +20,13 @@ import { SLICE_NAMES, RootState } from '../store'
 import useEventHighlight from './useEventHighlight'
 
 export default function useEventRecorder() {
-  const { isRecorderEnabled, activeTabID, events, isManualEventInsert } =
-    useSelector((state: RootState) => state[SLICE_NAMES.eventRecorder])
+  const {
+    isRecorderEnabled,
+    activeTabID,
+    events,
+    isManualEventInsert,
+    activeBlockId,
+  } = useSelector((state: RootState) => state[SLICE_NAMES.eventRecorder])
 
   const dispatch = useDispatch()
 
@@ -45,6 +51,9 @@ export default function useEventRecorder() {
 
   const handleInsertBlock = (payload: IEventBlockPayload) =>
     dispatch(insertBlock(payload))
+
+  const handleSetActiveBlockId = (payload: string) =>
+    dispatch(setActiveBlockId(payload))
 
   const handleEventClick: MouseEventHandler = useCallback(
     (e) => {
@@ -152,11 +161,13 @@ export default function useEventRecorder() {
     isRecorderEnabled,
     activeTabID,
     isManualEventInsert,
+    activeBlockId,
     handleIsRecordEnabledChange,
     handleClearEventsByTabId,
     toggleHighlightedElement,
     handleSelectSelector,
     handleEventClick,
     handleInsertBlock,
+    handleSetActiveBlockId,
   }
 }

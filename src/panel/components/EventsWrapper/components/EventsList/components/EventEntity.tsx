@@ -4,19 +4,31 @@ import DeleteIcon from '@mui/icons-material/Delete'
 
 import { lightBlue, indigo, grey } from '@mui/material/colors'
 
-import { IEventPayload } from 'store/eventRecorderSlice'
-import { REDIRECT_STARTED } from 'constants/messageTypes'
+import { IEventPayload, IEventBlock } from 'store/eventRecorderSlice'
+import { REDIRECT_STARTED, INTERACTIVE_ELEMENT } from 'constants/messageTypes'
+import { useCallback } from 'react'
 
 export function EventEntity({
   record,
   index,
+  enableSelectElement,
+  handleSetActiveBlockId,
+  activeBlockId,
 }: {
-  record: IEventPayload
+  record: IEventPayload | IEventBlock
   index: string
+  enableSelectElement: () => void
+  handleSetActiveBlockId: (id: string) => void
+  activeBlockId: string | null
 }) {
-  const { type, selectedSelector, url, key } = record
+  const { type, selectedSelector, url, key } = record as IEventPayload
   const isRedirect = type === REDIRECT_STARTED
   const selector = `${selectedSelector?.name}: ${selectedSelector?.value}`
+
+  const handleSelectWaitForElement = useCallback(() => {
+    handleSetActiveBlockId(record.id)
+    enableSelectElement()
+  }, [enableSelectElement, handleSetActiveBlockId, record])
 
   return (
     <div
@@ -47,16 +59,27 @@ export function EventEntity({
         >
           {type} {key}
         </div>
-        <div
-          css={css`
-            pointer-events: none;
-          `}
-        >
-          {record.variant !== 'InteractiveElement' && (
-            <span>{isRedirect ? url : selector}</span>
-          )}
-        </div>
+
+        {record.variant === INTERACTIVE_ELEMENT ? (
+          <span>
+            {(record as IEventBlock)?.element?.selectedSelector?.name}{' '}
+            {(record as IEventBlock)?.element?.selectedSelector?.value}
+          </span>
+        ) : (
+          <div
+            css={css`
+              pointer-events: none;
+            `}
+          >
+            {record.variant !== INTERACTIVE_ELEMENT && (
+              <span>{isRedirect ? url : selector}</span>
+            )}
+          </div>
+        )}
       </div>
+      {record.variant === INTERACTIVE_ELEMENT && !activeBlockId && (
+        <Button onClick={handleSelectWaitForElement}>Select Element</Button>
+      )}
       <Button
         data-event_list_index={index}
         data-event_list_action="remove"
