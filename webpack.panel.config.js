@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
+
 const webpack = require('webpack')
 const path = require('path')
 
@@ -25,7 +27,7 @@ const fileExtensions = [
   'woff2',
 ]
 
-const mode = process.env.NODE_ENV
+const mode = process.env.NODE_ENV ?? 'production'
 const port = process.env.PORT
 
 const options = {
@@ -38,10 +40,6 @@ const options = {
     panel: {
       import: path.resolve(__dirname, 'src/panel/index.tsx'),
       filename: 'devTools/[name].bundle.js',
-    },
-    testPage: {
-      import: path.resolve(__dirname, 'src/testPage/index.ts'),
-      filename: 'testPage/[name].bundle.js',
     },
   },
   output: {
@@ -104,13 +102,6 @@ const options = {
       publicPath: '..',
       cache: false,
     }),
-    new HtmlWebpackPlugin({
-      template: path.join(__dirname, 'src/testPage/index.html'),
-      filename: 'testPage/testPage.html',
-      chunks: ['testPage'],
-      publicPath: '..',
-      cache: false,
-    }),
   ],
   infrastructureLogging: {
     level: 'info',
@@ -118,7 +109,23 @@ const options = {
 }
 
 if (mode === 'development') {
+  options.entry.testPage = {
+    import: path.resolve(__dirname, 'src/testPage/index.ts'),
+    filename: 'testPage/[name].bundle.js',
+  }
+
+  options.plugins.push(
+    new HtmlWebpackPlugin({
+      template: path.join(__dirname, 'src/testPage/index.html'),
+      filename: 'testPage/testPage.html',
+      chunks: ['testPage'],
+      publicPath: '..',
+      cache: false,
+    }),
+  )
+
   options.devtool = 'inline-cheap-source-map'
+
   options.devServer = {
     https: false,
     hot: true,
