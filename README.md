@@ -11,7 +11,7 @@
 
 ## Development
 
-Run `npm i` and `npm start` to start development. It will run webpack dev server on the 8080 port. To get the test page use: `http://localhost:8080/testPage/testPage.html`
+Run `npm i` and `npm start` to start development. It will run webpack dev server on the 8080 port. To get the test page use: `http://127.0.0.1:8080/testPage/testPage.html`
 
 ## Build details
 
@@ -25,3 +25,7 @@ It's noticed, that when multiple webpack processes work concurrently, it might c
 ## Using remote devtools
 
 To use React and Redux devtools, start the servers first: `npm run devtools`. In redux-devtools panel open `Settings` and select `use local` option in the `Connection` tab. The hostname should be `localhost`, and the port should be `8000`.
+
+## Building for production
+
+Run to create production build: `npm run build` and `npm run pack` to compress it as zip file.

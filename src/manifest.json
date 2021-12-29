@@ -1,7 +1,7 @@
 {
   "name": "Test Case Recorder",
   "description": "Record user actions to create e2e test cases",
-  "version": "1.0",
+  "version": "0.0.0",
   "manifest_version": 3,
   "devtools_page": "./devTools/devTools.html",
   "background": {

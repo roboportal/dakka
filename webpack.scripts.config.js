@@ -1,10 +1,14 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
+
 const webpack = require('webpack')
 const path = require('path')
 
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
 
-const mode = process.env.NODE_ENV
+const { version } = require('./package.json')
+
+const mode = process.env.NODE_ENV ?? 'production'
 
 const options = {
   mode,
@@ -57,6 +61,11 @@ const options = {
           from: path.resolve(__dirname, 'src/manifest.json'),
           to: path.join(__dirname, 'dist'),
           force: true,
+          transform(content) {
+            const parsed = JSON.parse(content)
+            parsed.version = version
+            return JSON.stringify(parsed, null, 2)
+          },
         },
       ],
     }),
