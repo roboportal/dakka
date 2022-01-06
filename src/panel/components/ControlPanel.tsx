@@ -12,6 +12,9 @@ import Stack from '@mui/material/Stack'
 import { grey, green, red } from '@mui/material/colors'
 import Divider from '@mui/material/Divider'
 
+import ExportPanel from './ExportPanel/ExportPanel'
+import { Tooltip } from '@mui/material'
+
 export type IControlPanelProps = {
   isRecorderEnabled: boolean
   isSettingsButtonActive: boolean
@@ -45,73 +48,80 @@ const ControlPanel = ({
           divider={<Divider orientation="vertical" flexItem />}
           spacing={2}
         >
-          <Button
-            onClick={onRecordEnabledChange}
-            sx={{
-              color: `${isRecorderEnabled ? green.A400 : red.A200}`,
-              '&.MuiButtonBase-root:hover': {
-                bgcolor: 'transparent',
-              },
-            }}
-          >
-            <RadioButtonChecked fontSize="small" />
-            <Typography
+          <Tooltip title="Toggle event recording">
+            <Button
+              onClick={onRecordEnabledChange}
               sx={{
-                textTransform: 'none',
-                color: grey[600],
-                marginLeft: '0.2rem',
-                width: 60,
-                fontSize: '0.7rem',
+                color: `${isRecorderEnabled ? green.A400 : red.A200}`,
+                '&.MuiButtonBase-root:hover': {
+                  bgcolor: 'transparent',
+                },
               }}
-              variant="caption"
             >
-              {isRecorderEnabled ? 'Recording' : 'Record'}
-            </Typography>
-          </Button>
-
-          <Button
-            onClick={onClearEventsByTabId}
-            sx={{
-              color: grey[500],
-              '&.MuiButtonBase-root:hover': {
-                bgcolor: 'transparent',
-              },
-            }}
-            variant="text"
-          >
-            <DeleteIcon sx={{ color: grey[500] }} fontSize="small" />
-            <Typography
+              <RadioButtonChecked fontSize="small" />
+              <Typography
+                sx={{
+                  textTransform: 'none',
+                  color: grey[600],
+                  marginLeft: '0.2rem',
+                  width: 60,
+                  fontSize: '0.7rem',
+                }}
+                variant="caption"
+              >
+                {isRecorderEnabled ? 'Recording' : 'Record'}
+              </Typography>
+            </Button>
+          </Tooltip>
+          <Tooltip title="Clear recorded events">
+            <Button
+              onClick={onClearEventsByTabId}
               sx={{
-                fontSize: '0.7rem',
-                textTransform: 'none',
-                color: grey[600],
-                marginLeft: '0.2rem',
+                color: grey[500],
+                '&.MuiButtonBase-root:hover': {
+                  bgcolor: 'transparent',
+                },
               }}
-              variant="caption"
+              variant="text"
             >
-              Clear
-            </Typography>
-          </Button>
-          <FormControlLabel
-            control={
-              <Switch
-                size="small"
-                checked={isAutoScrollEnabled}
-                onChange={onAutoScrollToggle}
-              />
-            }
-            label={
+              <DeleteIcon sx={{ color: grey[500] }} fontSize="small" />
               <Typography
                 sx={{
                   fontSize: '0.7rem',
-                  marginLeft: '0.2rem',
+                  textTransform: 'none',
                   color: grey[600],
+                  marginLeft: '0.2rem',
                 }}
+                variant="caption"
               >
-                Auto scroll
+                Clear
               </Typography>
-            }
-          />
+            </Button>
+          </Tooltip>
+          <Tooltip title="Toggle Auto Scroll">
+            <FormControlLabel
+              control={
+                <Switch
+                  size="small"
+                  checked={isAutoScrollEnabled}
+                  onChange={onAutoScrollToggle}
+                />
+              }
+              label={
+                <Typography
+                  sx={{
+                    fontSize: '0.7rem',
+                    marginLeft: '0.2rem',
+                    color: grey[600],
+                    width: '56px',
+                  }}
+                >
+                  Auto scroll
+                </Typography>
+              }
+            />
+          </Tooltip>
+          <ExportPanel />
         </Stack>
         <IconButton
           onClick={onSettingsClick}
