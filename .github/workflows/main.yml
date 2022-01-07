@@ -15,7 +15,7 @@ jobs:
       - shell: bash
         run: |
           npm ci
-          npm build
+          npm run build
           npm run pack
       - shell: bash
         env:
