@@ -1,3 +1,4 @@
+import { useCallback } from 'react'
 import { css } from '@emotion/react'
 import Button from '@mui/material/Button'
 import DeleteIcon from '@mui/icons-material/Delete'
@@ -6,7 +7,7 @@ import { lightBlue, indigo, grey } from '@mui/material/colors'
 
 import { IEventPayload, IEventBlock } from 'store/eventRecorderSlice'
 import { REDIRECT_STARTED, INTERACTIVE_ELEMENT } from 'constants/messageTypes'
-import { useCallback } from 'react'
+import { internalEventsMap } from 'constants/internalEventsMap'
 
 export function EventEntity({
   record,
@@ -22,7 +23,7 @@ export function EventEntity({
   activeBlockId: string | null
 }) {
   const { type, selectedSelector, url, key } = record as IEventPayload
-  const isRedirect = type === REDIRECT_STARTED
+  const isRedirect = type === internalEventsMap[REDIRECT_STARTED]
   const selector = `${selectedSelector?.name}: ${selectedSelector?.value}`
 
   const handleSelectWaitForElement = useCallback(() => {

@@ -7,6 +7,7 @@ import {
 } from 'store/eventRecorderSlice'
 
 import { HIGHLIGHT_ELEMENT, REDIRECT_STARTED } from 'constants/messageTypes'
+import { internalEventsMap } from 'constants/internalEventsMap'
 
 function highlightElement(
   tabId: number,
@@ -50,7 +51,7 @@ export default function useEventHighlight(
       const shouldHighlight: boolean =
         !!eventIds.length &&
         eventIds.reduce((acc: any, id) => acc?.[id], events?.[activeTabID])
-          ?.type !== REDIRECT_STARTED
+          ?.type !== internalEventsMap[REDIRECT_STARTED]
 
       const ids = shouldHighlight ? eventIds : []
 

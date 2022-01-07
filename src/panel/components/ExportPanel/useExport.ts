@@ -1,9 +1,10 @@
 import { useCallback, useState } from 'react'
 import { useSelector } from 'react-redux'
 
-import { exportOptions } from './constants'
-
 import { SLICE_NAMES, RootState } from 'store/index'
+
+import { exportOptions } from './constants'
+import exportProcessor from './exportProcessor'
 
 const writeToClipboard = (text: string): Promise<string> =>
   new Promise((resolve, reject) => {
@@ -47,13 +48,13 @@ export default function useExports() {
   })
 
   const handleCopyToClipboard = () => {
-    const text = JSON.stringify(recordedEvents)
+    const { text } = exportProcessor(exportOption, recordedEvents)
     writeToClipboard(text)
   }
 
   const handleSaveToFile = () => {
-    const text = JSON.stringify(recordedEvents)
-    saveFile(text, 'test.js')
+    const { text, fileName } = exportProcessor(exportOption, recordedEvents)
+    saveFile(text, fileName)
   }
 
   const areButtonsDisabled = exportOption === exportOptions.none
