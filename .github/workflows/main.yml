@@ -14,7 +14,9 @@ jobs:
       - uses: actions/checkout@v2
       - shell: bash
         run: |
-          git archive --output=./extension.zip --format=zip HEAD
+          npm ci
+          npm build
+          npm run pack
       - shell: bash
         env:
           CLIENT_ID: ${{ secrets.TEST_RECORDER_CLIENT_ID }}
