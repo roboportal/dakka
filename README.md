@@ -1,4 +1,5 @@
 # Granville
+[![CI/CD](https://github.com/roboportal/granville/actions/workflows/main.yml/badge.svg?branch=master)](https://github.com/roboportal/granville/actions/workflows/main.yml)
 
 ## Package content
 
