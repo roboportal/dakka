@@ -25,6 +25,7 @@ jobs:
         
   build_publish:
     runs-on: ubuntu-latest
+    needs: check_test
     steps:
       - uses: actions/checkout@v2
       - shell: bash
