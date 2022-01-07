@@ -12,6 +12,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - shell: bash
+        run: |
+          git archive --output=./extension.zip --format=zip HEAD
+      - shell: bash
+        env:
+          CLIENT_ID: ${{ secrets.test_recorder_client_id }}
+          CLIENT_SECRET: ${{ secrets.test_recorder_client_secret }}
+          REFRESH_TOKEN: ${{ secrets.test_recorder_refresh_token }}
+          EXTENSION_ID: ${{ secrets.test_recorder_extension_id }}
+        run: |
+          ACCESS_TOKEN=$(curl "https://accounts.google.com/o/oauth2/token" -d "client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&refresh_token=${REFRESH_TOKEN}&grant_type=refresh_token&redirect_uri=urn:ietf:wg:oauth:2.0:oob" | jq -r .access_token)
+          curl -H "Authorization: Bearer ${ACCESS_TOKEN}" -H "x-goog-api-version: 2" -X PUT -T build.zip -v "https://www.googleapis.com/upload/chromewebstore/v1.1/items/${EXTENSION_ID}"
+          curl -H "Authorization: Bearer ${ACCESS_TOKEN}" -H "x-goog-api-version: 2" -H "Content-Length: 0" -X POST -v "https://www.googleapis.com/chromewebstore/v1.1/items/${EXTENSION_ID}/publish"
 
-      - name: Chrome Extension upload & publish
-        uses: Passiverecords/chrome-extension-upload-action@1.4.1
+
