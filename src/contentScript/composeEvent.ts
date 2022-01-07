@@ -87,6 +87,7 @@ export function composeEvent({
       triggeredAt: Date.now(),
       selector: uniqueSelector,
       selectedSelector: validSelectors[0],
+      url: window.location.href,
       type,
       altKey,
       animationName,

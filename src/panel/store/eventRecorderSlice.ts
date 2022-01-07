@@ -135,7 +135,7 @@ export const eventRecorderSlice = createSlice({
         events[tabId] = []
       }
 
-      process(events[tabId], eventRecord.payload)
+      process(events[tabId] as IEventPayload[], eventRecord.payload)
 
       state.isManualEventInsert = false
     },
