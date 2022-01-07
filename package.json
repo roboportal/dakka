@@ -8,7 +8,7 @@
     "remove-dist": "rm -rf ./dist/*",
     "start:dev": "npm run serve:panel & npm run watch:scripts",
     "build": "npm run remove-dist && webpack --config webpack.panel.config.js && webpack --config webpack.scripts.config.js",
-    "pack": "zip -r granville.zip dist/",
+    "pack": "zip -r extension.zip dist/",
     "serve:panel": "NODE_ENV=development PORT=8080 webpack serve --config webpack.panel.config.js",
     "watch:scripts": "NODE_ENV=development webpack watch --config webpack.scripts.config.js",
     "kill:stale-dev-server": "PORT=8080 kill $(lsof -ti:$PORT)",
