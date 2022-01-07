@@ -1,4 +1,4 @@
-name: CD
+name: CI/CD
 
 on:
   push:
@@ -8,7 +8,22 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  check_test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - shell: bash
+        run: |
+          npm ci
+      - shell: bash
+        run: |
+          nm run lint
+      - shell: bash
+        run: |
+          nm run test
+    
+        
+  build_publish:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
