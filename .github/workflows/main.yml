@@ -17,10 +17,10 @@ jobs:
           npm ci
       - shell: bash
         run: |
-          nm run lint
+          npm run lint
       - shell: bash
         run: |
-          nm run test
+          npm run test
     
         
   build_publish:
