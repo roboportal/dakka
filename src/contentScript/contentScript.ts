@@ -73,16 +73,6 @@ const blurHandler = (event: FocusEvent) => {
   event.preventDefault()
 }
 
-const mouseDownHandler = (event: MouseEvent) => {
-  event.stopImmediatePropagation()
-  event.preventDefault()
-}
-
-const mouseUpHandler = (event: MouseEvent) => {
-  event.stopImmediatePropagation()
-  event.preventDefault()
-}
-
 const mouseClickHandler = (event: MouseEvent) => {
   event.stopImmediatePropagation()
   event.preventDefault()
@@ -125,8 +115,6 @@ chrome.runtime.onMessage.addListener((message) => {
       once: true,
       capture: true,
     })
-    window.addEventListener('mousedown', mouseDownHandler, { once: true })
-    window.addEventListener('mouseup', mouseUpHandler, { once: true })
   }
 
   if (shouldProcessMessage(message.type) && !selectElementEnabled) {
