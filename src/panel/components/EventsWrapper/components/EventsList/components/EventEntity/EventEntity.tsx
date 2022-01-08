@@ -58,6 +58,7 @@ export function EventEntity({
         padding: 4px 4px 0px 4px;
         font-size: 0.8rem;
         margin-bottom: 4px;
+        ${isRedirect ? 'margin-top: 28px;' : ''}
         background-color: ${isRedirect ? indigo[900] : lightBlue[900]};
         :hover {
           background-color: ${isRedirect ? indigo[900] : lightBlue[700]};
