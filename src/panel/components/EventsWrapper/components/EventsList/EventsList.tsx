@@ -20,6 +20,8 @@ interface IEventsListProps {
   dragOverIndex: number
   enableSelectElement: () => void
   handleSetActiveBlockId: (id: string) => void
+  handleSetExpandedId: (id: string) => void
+  expandedId: string | null
   activeBlockId: string | null
 }
 
@@ -31,11 +33,14 @@ function EventsList({
   dragOverIndex,
   enableSelectElement,
   handleSetActiveBlockId,
+  handleSetExpandedId,
+  expandedId,
   activeBlockId,
 }: IEventsListProps) {
-  const [expandedId, setExpandedId] = useState('')
-
-  const handleExpand = useCallback((id) => setExpandedId(id), [setExpandedId])
+  const handleExpand = useCallback(
+    (id) => handleSetExpandedId(id),
+    [handleSetExpandedId],
+  )
 
   if (!events) {
     return null
@@ -44,6 +49,8 @@ function EventsList({
   return (
     <>
       {events?.map((record, index) => {
+        const recordWidth = expandedId === record.id ? '340px' : '88px'
+
         return (
           <Record
             onInsertBlock={onInsertBlock}
@@ -57,8 +64,8 @@ function EventsList({
             <div
               css={css`
                 text-align: center;
-                min-width: ${expandedId === record.id ? '340px' : '88px'};
-                max-width: ${expandedId === record.id ? '340px' : '88px'};
+                min-width: ${recordWidth};
+                max-width: ${recordWidth};
                 display: flex;
                 flex-direction: column;
                 min-height: 224px;

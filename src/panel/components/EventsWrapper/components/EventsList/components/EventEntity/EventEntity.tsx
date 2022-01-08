@@ -111,7 +111,7 @@ export function EventEntity({
             css={css`
               max-width: 25px;
               padding: 0;
-              color: ${activeBlockId ? grey[500] : grey[300]};
+              color: ${activeBlockId === record.id ? grey[500] : grey[300]};
               font-size: 12px;
               &.MuiIconButton-root:hover {
                 background: transparent;

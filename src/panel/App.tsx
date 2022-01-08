@@ -22,6 +22,7 @@ export default function App() {
     isManualEventInsert,
     activeTabID,
     isRecorderEnabled,
+    expandedId,
     handleIsRecordEnabledChange,
     handleClearEventsByTabId,
     toggleHighlightedElement,
@@ -29,6 +30,7 @@ export default function App() {
     handleEventClick,
     handleInsertBlock,
     handleSetActiveBlockId,
+    handleSetExpandedId,
     activeBlockId,
   } = useEventRecorder()
 
@@ -71,6 +73,8 @@ export default function App() {
         <EventsWrapper
           activeBlockId={activeBlockId}
           handleSetActiveBlockId={handleSetActiveBlockId}
+          handleSetExpandedId={handleSetExpandedId}
+          expandedId={expandedId}
           enableSelectElement={enableSelectElement}
           isManualEventInsert={isManualEventInsert}
           onInsertBlock={handleInsertBlock}
