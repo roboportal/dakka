@@ -15,9 +15,10 @@ import { INTERACTIVE_ELEMENT } from 'constants/messageTypes'
 interface ISelectorProp {
   record: IEventPayload | IEventBlock
   onSelectSelector: (payload: ISelectorPayload) => void
+  width: string
 }
 
-export function Selector({ record, onSelectSelector }: ISelectorProp) {
+export function Selector({ record, onSelectSelector, width }: ISelectorProp) {
   const validSelectors = useMemo(
     () =>
       record?.variant === INTERACTIVE_ELEMENT
@@ -53,7 +54,7 @@ export function Selector({ record, onSelectSelector }: ISelectorProp) {
   return (
     <Select
       css={css`
-        width: 88px;
+        width: ${width};
 
         > div {
           padding: 4px;

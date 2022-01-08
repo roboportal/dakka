@@ -8,6 +8,7 @@ interface IScrollProps {
   wrapper: HTMLDivElement | null
   scrollPosition: number
   isWideScreen: boolean
+  expandedId: string | null
 }
 
 const ORIGINAL_BAR_WIDTH = 88
@@ -18,6 +19,7 @@ function Scroll({
   wrapper,
   scrollPosition,
   isWideScreen,
+  expandedId,
 }: IScrollProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const scaleFactorRef = useRef<number>(1)

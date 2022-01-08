@@ -1,4 +1,4 @@
-import { memo } from 'react'
+import { memo, useCallback, useState } from 'react'
 import { css } from '@emotion/react'
 
 import {
@@ -9,8 +9,11 @@ import {
 } from 'store/eventRecorderSlice'
 
 import { Record } from './components/Record/Record'
-import { EventEntity } from './components/EventEntity'
+import { EventEntity } from './components/EventEntity/EventEntity'
 import { Selector } from './components/Selector'
+
+const DEFAULT_WIDTH = '88px'
+const EXPANDED_WIDTH = '340px'
 
 interface IEventsListProps {
   events: EventListItem[]
@@ -20,6 +23,8 @@ interface IEventsListProps {
   dragOverIndex: number
   enableSelectElement: () => void
   handleSetActiveBlockId: (id: string) => void
+  handleSetExpandedId: (id: string) => void
+  expandedId: string | null
   activeBlockId: string | null
 }
 
@@ -31,8 +36,15 @@ function EventsList({
   dragOverIndex,
   enableSelectElement,
   handleSetActiveBlockId,
+  handleSetExpandedId,
+  expandedId,
   activeBlockId,
 }: IEventsListProps) {
+  const handleExpand = useCallback(
+    (id) => handleSetExpandedId(id),
+    [handleSetExpandedId],
+  )
+
   if (!events) {
     return null
   }
@@ -40,6 +52,7 @@ function EventsList({
   return (
     <>
       {events?.map((record, index) => {
+        const isExpanded = expandedId === record.id
         return (
           <Record
             onInsertBlock={onInsertBlock}
@@ -53,16 +66,21 @@ function EventsList({
             <div
               css={css`
                 text-align: center;
-                width: 88px;
+                min-width: ${isExpanded ? EXPANDED_WIDTH : DEFAULT_WIDTH};
+                max-width: ${isExpanded ? EXPANDED_WIDTH : DEFAULT_WIDTH};
                 display: flex;
                 flex-direction: column;
+                min-height: 224px;
               `}
             >
               <Selector
+                width={expandedId === record.id ? '100%' : DEFAULT_WIDTH}
                 record={record as IEventPayload}
                 onSelectSelector={onSelectSelector}
               />
               <EventEntity
+                isExpanded={expandedId === record.id}
+                onExpand={handleExpand}
                 handleSetActiveBlockId={handleSetActiveBlockId}
                 enableSelectElement={enableSelectElement}
                 record={record as IEventPayload}

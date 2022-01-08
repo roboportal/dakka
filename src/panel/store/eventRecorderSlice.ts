@@ -17,6 +17,7 @@ export interface EventRecorderState {
   isManualEventInsert: boolean
   allowedInjections: Record<number, boolean>
   activeBlockId: string | null
+  expandedId: string | null
 }
 
 export interface ISelector {
@@ -90,6 +91,7 @@ const initialState: EventRecorderState = {
   isManualEventInsert: false,
   allowedInjections: {},
   activeBlockId: null,
+  expandedId: null,
 }
 
 export const eventRecorderSlice = createSlice({
@@ -191,6 +193,9 @@ export const eventRecorderSlice = createSlice({
     setActiveBlockId: (state, { payload }: PayloadAction<string>) => {
       state.activeBlockId = payload
     },
+    setExpandedId: (state, { payload }: PayloadAction<string>) => {
+      state.expandedId = payload
+    },
     removeEvent: (
       state,
       { payload: { eventIds } }: PayloadAction<{ eventIds: number[] }>,
@@ -252,6 +257,7 @@ export const {
   insertBlock,
   setIsInjectionAllowed,
   setActiveBlockId,
+  setExpandedId,
 } = eventRecorderSlice.actions
 
 export default eventRecorderSlice.reducer

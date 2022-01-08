@@ -10,6 +10,7 @@ import {
   removeEvent,
   insertBlock,
   setActiveBlockId,
+  setExpandedId,
   IEventBlockPayload,
 } from 'store/eventRecorderSlice'
 
@@ -27,6 +28,7 @@ export default function useEventRecorder() {
     events,
     isManualEventInsert,
     activeBlockId,
+    expandedId,
   } = useSelector((state: RootState) => state[SLICE_NAMES.eventRecorder])
 
   const dispatch = useDispatch()
@@ -55,6 +57,9 @@ export default function useEventRecorder() {
 
   const handleSetActiveBlockId = (payload: string) =>
     dispatch(setActiveBlockId(payload))
+
+  const handleSetExpandedId = (payload: string) =>
+    dispatch(setExpandedId(payload))
 
   const handleEventClick: MouseEventHandler = useCallback(
     (e) => {
@@ -164,6 +169,7 @@ export default function useEventRecorder() {
 
   return {
     events,
+    expandedId,
     isRecorderEnabled,
     activeTabID,
     isManualEventInsert,
@@ -175,5 +181,6 @@ export default function useEventRecorder() {
     handleEventClick,
     handleInsertBlock,
     handleSetActiveBlockId,
+    handleSetExpandedId,
   }
 }

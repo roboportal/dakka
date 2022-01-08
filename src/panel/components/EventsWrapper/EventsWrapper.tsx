@@ -22,7 +22,9 @@ interface IEventsWrapperProps {
   onInsertBlock: (payload: IEventBlockPayload) => void
   enableSelectElement: () => void
   handleSetActiveBlockId: (id: string) => void
+  handleSetExpandedId: (id: string) => void
   activeBlockId: string | null
+  expandedId: string | null
 }
 
 export default function EventsWrapper({
@@ -36,6 +38,8 @@ export default function EventsWrapper({
   isManualEventInsert,
   enableSelectElement,
   handleSetActiveBlockId,
+  expandedId,
+  handleSetExpandedId,
   activeBlockId,
 }: IEventsWrapperProps) {
   const wrapperRef = useRef<HTMLDivElement | null>(null)
@@ -96,6 +100,8 @@ export default function EventsWrapper({
         <EventsList
           activeBlockId={activeBlockId}
           handleSetActiveBlockId={handleSetActiveBlockId}
+          handleSetExpandedId={handleSetExpandedId}
+          expandedId={expandedId}
           enableSelectElement={enableSelectElement}
           setDragOverIndex={setDragOverIndex}
           dragOverIndex={dragOverIndex}
@@ -105,6 +111,7 @@ export default function EventsWrapper({
         />
       </div>
       <Scroll
+        expandedId={expandedId}
         wrapper={wrapperRef.current}
         events={events}
         scrollPosition={eventsListScroll}

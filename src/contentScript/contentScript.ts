@@ -66,25 +66,21 @@ const mouseOverHandler = (event: any) => {
 const focusHandler = (event: FocusEvent) => {
   event.stopImmediatePropagation()
   event.preventDefault()
-  window.removeEventListener('focus', focusHandler)
 }
 
 const blurHandler = (event: FocusEvent) => {
   event.stopImmediatePropagation()
   event.preventDefault()
-  window.removeEventListener('blur', blurHandler)
 }
 
 const mouseDownHandler = (event: MouseEvent) => {
   event.stopImmediatePropagation()
   event.preventDefault()
-  window.removeEventListener('mousedown', mouseDownHandler)
 }
 
 const mouseUpHandler = (event: MouseEvent) => {
   event.stopImmediatePropagation()
   event.preventDefault()
-  window.removeEventListener('mouseup', mouseUpHandler)
 }
 
 const mouseClickHandler = (event: MouseEvent) => {
@@ -93,8 +89,12 @@ const mouseClickHandler = (event: MouseEvent) => {
   window.postMessage({ ...hoveredElement, type: ELEMENT_SELECTED })
   selectElementEnabled = false
   hoveredElement = null
-  window.removeEventListener('mouseover', mouseOverHandler)
-  window.removeEventListener('click', mouseClickHandler)
+  window.removeEventListener('mouseover', mouseOverHandler, true)
+  window.removeEventListener('focus', focusHandler, true)
+  window.removeEventListener('blur', blurHandler, true)
+  window.removeEventListener('click', mouseClickHandler, true)
+  window.removeEventListener('mousedown', mouseDownHandler, true)
+  window.removeEventListener('mouseup', mouseUpHandler, true)
 }
 
 chrome.runtime.onMessage.addListener((message) => {
