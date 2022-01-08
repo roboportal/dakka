@@ -9,6 +9,7 @@ import IconButton from '@mui/material/IconButton'
 import Tooltip from '@mui/material/Tooltip'
 import { lightBlue, indigo, grey } from '@mui/material/colors'
 
+import { internalEventsMap } from 'constants/internalEventsMap'
 import { IEventPayload, IEventBlock } from 'store/eventRecorderSlice'
 import { REDIRECT_STARTED, INTERACTIVE_ELEMENT } from 'constants/messageTypes'
 import { EntryRow } from './components/EntryRow'
@@ -32,8 +33,8 @@ export function EventEntity({
   isExpanded: boolean
 }) {
   const { type, selectedSelector, url, key } = record as IEventPayload
-  const isRedirect = type === REDIRECT_STARTED
   const selector = `${selectedSelector?.name}: ${selectedSelector?.value}`
+  const isRedirect = type === internalEventsMap[REDIRECT_STARTED]
 
   const handleSelectWaitForElement = useCallback(() => {
     handleSetActiveBlockId(record.id)
