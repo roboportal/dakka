@@ -1,3 +1,4 @@
+import { internalEventsMap } from 'constants/internalEventsMap'
 import { REDIRECT_STARTED } from 'constants/messageTypes'
 
 export interface IEventGroupItem {
@@ -15,8 +16,8 @@ const eventsList: Array<IEventGroupItem> = [
     groupName: 'Common',
     events: [
       {
-        key: REDIRECT_STARTED,
-        title: REDIRECT_STARTED,
+        key: internalEventsMap[REDIRECT_STARTED],
+        title: internalEventsMap[REDIRECT_STARTED],
         about: 'https://www.w3schools.com/jsref/obj_location.asp',
         defaultSelected: true,
       },

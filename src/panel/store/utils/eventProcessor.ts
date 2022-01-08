@@ -1,5 +1,7 @@
-import { EventListItem, IEventPayload } from '../eventRecorderSlice'
+import { IEventPayload } from '../eventRecorderSlice'
 import { UTILITY_KEYS, INPUT_TYPE_TO_KEY_MAP } from './constants'
+import { REDIRECT_STARTED } from 'constants/messageTypes'
+import { internalEventsMap } from 'constants/internalEventsMap'
 
 enum keyboardEvents {
   keydown = 'keydown',
@@ -327,9 +329,43 @@ function aggregatorSelector(event: IEventPayload) {
   return aggregators.find((aggregator) => aggregator.shouldProcess(event))
 }
 
-export function process(events: EventListItem[], event: EventListItem) {
-  aggregatorSelector(event as IEventPayload)?.process(
-    event as IEventPayload,
-    events as IEventPayload[],
+function shouldSkipRedirectDuplicate(
+  events: IEventPayload[],
+  event: IEventPayload,
+) {
+  const prevEvent = events[events.length - 1] ?? {}
+
+  return (
+    event.type === internalEventsMap[REDIRECT_STARTED] &&
+    prevEvent.type === internalEventsMap[REDIRECT_STARTED] &&
+    event.url === prevEvent.url
   )
+}
+
+function preprocessRedirect(events: IEventPayload[], event: IEventPayload) {
+  if (
+    events.length === 0 &&
+    event.type !== internalEventsMap[REDIRECT_STARTED]
+  ) {
+    const redirectionEvent = {
+      id: event.id + '_0',
+      triggeredAt: event.triggeredAt - 1,
+      url: event.url ?? '',
+      type: internalEventsMap[REDIRECT_STARTED],
+      selector: event.url ?? '',
+      variant: '',
+    }
+
+    events.push(redirectionEvent)
+  }
+}
+
+export function process(events: IEventPayload[], event: IEventPayload) {
+  if (shouldSkipRedirectDuplicate(events, event)) {
+    return
+  }
+
+  preprocessRedirect(events, event)
+
+  aggregatorSelector(event)?.process(event, events)
 }

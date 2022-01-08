@@ -14,6 +14,7 @@ import {
 } from 'store/eventRecorderSlice'
 
 import { ENABLE_RECORDER, REDIRECT_STARTED } from 'constants/messageTypes'
+import { internalEventsMap } from 'constants/internalEventsMap'
 
 import { SLICE_NAMES, RootState } from '../store'
 
@@ -78,6 +79,11 @@ export default function useEventRecorder() {
       sender: chrome.runtime.MessageSender,
     ) => {
       const tabId = sender?.tab?.id
+
+      if (internalEventsMap[eventRecord.type]) {
+        eventRecord.payload.type = internalEventsMap[eventRecord.type]
+      }
+
       if (!tabId) {
         return chrome.tabs.query({ active: true }).then((tab) => {
           dispatch(
