@@ -66,25 +66,21 @@ const mouseOverHandler = (event: any) => {
 const focusHandler = (event: FocusEvent) => {
   event.stopImmediatePropagation()
   event.preventDefault()
-  window.removeEventListener('focus', focusHandler)
 }
 
 const blurHandler = (event: FocusEvent) => {
   event.stopImmediatePropagation()
   event.preventDefault()
-  window.removeEventListener('blur', blurHandler)
 }
 
 const mouseDownHandler = (event: MouseEvent) => {
   event.stopImmediatePropagation()
   event.preventDefault()
-  window.removeEventListener('mousedown', mouseDownHandler)
 }
 
 const mouseUpHandler = (event: MouseEvent) => {
   event.stopImmediatePropagation()
   event.preventDefault()
-  window.removeEventListener('mouseup', mouseUpHandler)
 }
 
 const mouseClickHandler = (event: MouseEvent) => {
@@ -94,7 +90,6 @@ const mouseClickHandler = (event: MouseEvent) => {
   selectElementEnabled = false
   hoveredElement = null
   window.removeEventListener('mouseover', mouseOverHandler)
-  window.removeEventListener('click', mouseClickHandler)
 }
 
 chrome.runtime.onMessage.addListener((message) => {
@@ -121,11 +116,17 @@ chrome.runtime.onMessage.addListener((message) => {
   if (message.type === ENABLE_SELECT_ELEMENT) {
     selectElementEnabled = true
     window.addEventListener('mouseover', mouseOverHandler, true)
-    window.addEventListener('focus', focusHandler, true)
-    window.addEventListener('blur', blurHandler, true)
-    window.addEventListener('click', mouseClickHandler, true)
-    window.addEventListener('mousedown', mouseDownHandler, true)
-    window.addEventListener('mouseup', mouseUpHandler, true)
+    window.addEventListener('focus', focusHandler, {
+      once: true,
+      capture: true,
+    })
+    window.addEventListener('blur', blurHandler, { once: true, capture: true })
+    window.addEventListener('click', mouseClickHandler, {
+      once: true,
+      capture: true,
+    })
+    window.addEventListener('mousedown', mouseDownHandler, { once: true })
+    window.addEventListener('mouseup', mouseUpHandler, { once: true })
   }
 
   if (shouldProcessMessage(message.type) && !selectElementEnabled) {

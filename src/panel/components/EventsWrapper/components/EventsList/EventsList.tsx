@@ -1,4 +1,4 @@
-import { memo } from 'react'
+import { memo, useCallback, useState } from 'react'
 import { css } from '@emotion/react'
 
 import {
@@ -9,7 +9,7 @@ import {
 } from 'store/eventRecorderSlice'
 
 import { Record } from './components/Record/Record'
-import { EventEntity } from './components/EventEntity'
+import { EventEntity } from './components/EventEntity/EventEntity'
 import { Selector } from './components/Selector'
 
 interface IEventsListProps {
@@ -33,6 +33,10 @@ function EventsList({
   handleSetActiveBlockId,
   activeBlockId,
 }: IEventsListProps) {
+  const [expandedId, setExpandedId] = useState('')
+
+  const handleExpand = useCallback((id) => setExpandedId(id), [setExpandedId])
+
   if (!events) {
     return null
   }
@@ -53,16 +57,21 @@ function EventsList({
             <div
               css={css`
                 text-align: center;
-                width: 88px;
+                min-width: ${expandedId === record.id ? '340px' : '88px'};
+                max-width: ${expandedId === record.id ? '340px' : '88px'};
                 display: flex;
                 flex-direction: column;
+                min-height: 224px;
               `}
             >
               <Selector
+                width={expandedId === record.id ? '100%' : '88px'}
                 record={record as IEventPayload}
                 onSelectSelector={onSelectSelector}
               />
               <EventEntity
+                isExpanded={expandedId === record.id}
+                onExpand={handleExpand}
                 handleSetActiveBlockId={handleSetActiveBlockId}
                 enableSelectElement={enableSelectElement}
                 record={record as IEventPayload}
