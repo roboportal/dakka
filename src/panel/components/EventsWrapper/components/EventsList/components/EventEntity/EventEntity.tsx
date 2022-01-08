@@ -40,6 +40,10 @@ export function EventEntity({
     enableSelectElement()
   }, [enableSelectElement, handleSetActiveBlockId, record])
 
+  const handleExpand = useCallback(() => {
+    onExpand(isExpanded ? '' : record.id)
+  }, [onExpand, isExpanded, record.id])
+
   return (
     <div
       data-event_list_index={index}
@@ -69,7 +73,7 @@ export function EventEntity({
         title="Expand Event"
       >
         <Button
-          onClick={() => onExpand(isExpanded ? '' : record.id)}
+          onClick={handleExpand}
           css={css`
             min-width: 25px;
             min-height: 25px;

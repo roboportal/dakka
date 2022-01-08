@@ -12,6 +12,9 @@ import { Record } from './components/Record/Record'
 import { EventEntity } from './components/EventEntity/EventEntity'
 import { Selector } from './components/Selector'
 
+const DEFAULT_WIDTH = '88px'
+const EXPANDED_WIDTH = '340px'
+
 interface IEventsListProps {
   events: EventListItem[]
   onSelectSelector: (payload: ISelectorPayload) => void
@@ -49,8 +52,7 @@ function EventsList({
   return (
     <>
       {events?.map((record, index) => {
-        const recordWidth = expandedId === record.id ? '340px' : '88px'
-
+        const isExpanded = expandedId === record.id
         return (
           <Record
             onInsertBlock={onInsertBlock}
@@ -64,15 +66,15 @@ function EventsList({
             <div
               css={css`
                 text-align: center;
-                min-width: ${recordWidth};
-                max-width: ${recordWidth};
+                min-width: ${isExpanded ? EXPANDED_WIDTH : DEFAULT_WIDTH};
+                max-width: ${isExpanded ? EXPANDED_WIDTH : DEFAULT_WIDTH};
                 display: flex;
                 flex-direction: column;
                 min-height: 224px;
               `}
             >
               <Selector
-                width={expandedId === record.id ? '100%' : '88px'}
+                width={expandedId === record.id ? '100%' : DEFAULT_WIDTH}
                 record={record as IEventPayload}
                 onSelectSelector={onSelectSelector}
               />
