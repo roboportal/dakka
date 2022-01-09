@@ -17,6 +17,22 @@ interface DragProps {
   onDragEnd?: () => void
 }
 
+function getCurrentTarget(e: any) {
+  if (e.toElement) {
+    return e.toElement
+  }
+
+  if (e.currentTarget) {
+    return e.currentTarget
+  }
+
+  if (e.srcElement) {
+    return e.srcElement
+  }
+
+  return null
+}
+
 export const useDrag = ({
   ref,
   effect,
@@ -26,6 +42,12 @@ export const useDrag = ({
   onDragEnd,
 }: DragProps) => {
   const dragStart = (event: DragEvent) => {
+    const element = getCurrentTarget(event)
+    if (element) {
+      element.style.cursor = 'grabbing'
+      element.style.boxShadow = 'none'
+    }
+
     if (event.dataTransfer) {
       event.dataTransfer.effectAllowed = effect
       event.dataTransfer.setData('source', id)
@@ -37,7 +59,9 @@ export const useDrag = ({
     onDragOver?.(event)
   }
 
-  const dragEnd = () => {
+  const dragEnd = (event: DragEvent) => {
+    const element = getCurrentTarget(event)
+    element.style.cursor = 'grab'
     onDragEnd?.()
   }
 
@@ -49,6 +73,7 @@ export const useDrag = ({
     }
 
     element.setAttribute('draggable', 'true')
+    element.style.cursor = 'grab'
     element.addEventListener('dragstart', dragStart)
     element.addEventListener('dragover', dragOver)
     element.addEventListener('dragend', dragEnd)
