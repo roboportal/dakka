@@ -12,6 +12,7 @@ interface IScrollProps {
 }
 
 const ORIGINAL_BAR_WIDTH = 88
+const EXPANDED_BAR_WIDTH = 340
 const ORIGINAL_GAP = 4
 
 function Scroll({
@@ -50,14 +51,21 @@ function Scroll({
       ctx.fillStyle = '#eee'
 
       const barWidth = Math.floor(ORIGINAL_BAR_WIDTH * scaleFactor)
+      const extendedBarWidth = Math.floor(EXPANDED_BAR_WIDTH * scaleFactor)
 
-      events.reduce((prevOffset) => {
+      events.reduce((prevOffset, event) => {
+        const isExpanded = event.id === expandedId
         const offset = prevOffset + ORIGINAL_GAP
-        ctx.fillRect(offset * scaleFactor, 0, barWidth, 30)
-        return offset + ORIGINAL_BAR_WIDTH
+        ctx.fillRect(
+          offset * scaleFactor,
+          0,
+          isExpanded ? extendedBarWidth : barWidth,
+          30,
+        )
+        return offset + (isExpanded ? EXPANDED_BAR_WIDTH : ORIGINAL_BAR_WIDTH)
       }, 0)
     }
-  }, [events, scrollPosition, isWideScreen, wrapper])
+  }, [events, scrollPosition, isWideScreen, wrapper, expandedId])
 
   const handleScrollClick: React.MouseEventHandler<HTMLDivElement> = (e) => {
     if (wrapper) {
