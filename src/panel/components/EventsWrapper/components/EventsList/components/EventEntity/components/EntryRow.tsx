@@ -5,7 +5,6 @@ interface IEventEntityProps {
   value?: string
   isExpanded?: boolean
   isLast?: boolean
-  divider: number
 }
 
 export function EntryRow({
@@ -13,7 +12,6 @@ export function EntryRow({
   value,
   isExpanded,
   isLast,
-  divider = 1,
 }: IEventEntityProps) {
   if (!label && !value) {
     return null
@@ -38,13 +36,8 @@ export function EntryRow({
       </div>
       <div
         css={css`
-          word-wrap: break-word;
           color: #eceff1;
           margin-bottom: 4px;
-          overflow: ${isExpanded ? 'auto' : 'hidden'};
-          height: ${isExpanded
-            ? `calc((100vh - 220px)/${divider})`
-            : 'initial'};
         `}
       >
         {value}
