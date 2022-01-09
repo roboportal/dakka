@@ -63,8 +63,12 @@ export function composeEvent({
   const className = target?.attributes?.class?.value
   const elementId = target?.attributes?.id?.value
   const testId = target?.attributes?.['data-testid']?.value
-  const uniqueSelector = finder(target)
 
+  if (!(target instanceof Element)) {
+    return {}
+  }
+
+  const uniqueSelector = finder(target)
   const selectors = [
     ariaLabel && role && { name: 'role', ariaLabel, value: role },
     ariaLabel && { name: 'label-text', value: ariaLabel },
