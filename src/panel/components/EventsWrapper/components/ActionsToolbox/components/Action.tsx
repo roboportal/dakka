@@ -1,6 +1,5 @@
 import { useRef } from 'react'
 import SpeedDialAction from '@mui/material/SpeedDialAction'
-
 import { useDrag } from 'hooks/dnd/useDrag'
 
 import actions from './actions'
@@ -19,7 +18,7 @@ export const SpeedAction = ({
   const ref = useRef<HTMLElement>(null)
 
   useDrag({
-    effect: 'all',
+    effect: 'move',
     ref,
     id: action.name,
     onDragEnd: onDragEnd,
