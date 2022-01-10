@@ -8,16 +8,16 @@ abstract class ExportProcessor {
   abstract process(events: EventListItem[]): string
 }
 
-class GranvilleProcessor extends ExportProcessor {
-  type = exportOptions.granville
-  fileName = 'granville.yml'
+class DakkaProcessor extends ExportProcessor {
+  type = exportOptions.dakka
+  fileName = 'dakka.yml'
 
   process(events: EventListItem[]) {
     return dump(events)
   }
 }
 
-const processorsEntries = [GranvilleProcessor].map((P) => {
+const processorsEntries = [DakkaProcessor].map((P) => {
   const p = new P()
   return [p.type, p]
 })
@@ -25,7 +25,7 @@ const processorsEntries = [GranvilleProcessor].map((P) => {
 const processorsMap = Object.fromEntries(processorsEntries)
 
 const getProcessor = (type: exportOptions): ExportProcessor =>
-  processorsMap[type] ?? processorsMap[exportOptions.granville]
+  processorsMap[type] ?? processorsMap[exportOptions.dakka]
 
 export default function process(type: exportOptions, events: EventListItem[]) {
   const p = getProcessor(type)
