@@ -1,15 +1,11 @@
 {
   "name": "testplayground",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
   "scripts": {
     "playwright": "playwright test",
     "cypress": "cypress run",
     "puppeteer": "node ./puppeteerRunner.js"
   },
-  "author": "",
-  "license": "ISC",
   "devDependencies": {
     "@playwright/test": "^1.17.2",
     "cypress": "^9.2.1",
