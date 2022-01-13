@@ -25,3 +25,5 @@ yarn-error.log*
 
 tmp
 extension.zip
+testPlayground/cypress
+testPlayground/tests/puppeteer/**/*.png
