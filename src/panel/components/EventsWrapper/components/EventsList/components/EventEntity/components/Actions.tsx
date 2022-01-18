@@ -14,6 +14,7 @@ interface IActionsProps {
   recordId: string
   isExpanded: boolean
   onExpand: () => void
+  prefersDarkMode: boolean
 }
 
 export function Actions({
@@ -23,6 +24,7 @@ export function Actions({
   recordId,
   isExpanded,
   onExpand,
+  prefersDarkMode,
 }: IActionsProps) {
   return (
     <div
@@ -31,7 +33,7 @@ export function Actions({
         justify-content: space-between;
         margin-bottom: 4px;
         padding-bottom: 4px;
-        border-bottom: 1px solid #196194;
+        border-bottom: 1px solid ${prefersDarkMode ? '#196194' : '#455a64'};
       `}
     >
       {isInteractive && (

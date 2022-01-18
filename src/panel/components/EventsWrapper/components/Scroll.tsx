@@ -1,6 +1,5 @@
 import { useRef, useEffect, useState, memo } from 'react'
 import { css } from '@emotion/react'
-
 import { EventListItem } from 'store/eventRecorderSlice'
 
 interface IScrollProps {
@@ -9,6 +8,7 @@ interface IScrollProps {
   scrollPosition: number
   isWideScreen: boolean
   expandedId: string | null
+  prefersDarkMode: boolean
 }
 
 const ORIGINAL_BAR_WIDTH = 88
@@ -21,6 +21,7 @@ function Scroll({
   scrollPosition,
   isWideScreen,
   expandedId,
+  prefersDarkMode,
 }: IScrollProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const scaleFactorRef = useRef<number>(1)
@@ -48,7 +49,7 @@ function Scroll({
 
       ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
 
-      ctx.fillStyle = '#eee'
+      ctx.fillStyle = `${prefersDarkMode ? '#eee' : '#A9A9A9'}`
 
       const barWidth = Math.floor(ORIGINAL_BAR_WIDTH * scaleFactor)
       const extendedBarWidth = Math.floor(EXPANDED_BAR_WIDTH * scaleFactor)
