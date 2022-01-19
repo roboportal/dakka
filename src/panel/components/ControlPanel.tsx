@@ -35,7 +35,10 @@ const ControlPanel = ({
   isAutoScrollEnabled,
 }: IControlPanelProps) => {
   return (
-    <AppBar sx={{ marginBottom: '8px' }} position="static">
+    <AppBar
+      sx={{ backgroundColor: 'background.default', marginBottom: '8px' }}
+      position="static"
+    >
       <Toolbar
         sx={{
           display: 'flex',

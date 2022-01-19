@@ -25,6 +25,7 @@ interface IEventsWrapperProps {
   handleSetExpandedId: (id: string) => void
   activeBlockId: string | null
   expandedId: string | null
+  prefersDarkMode: boolean
 }
 
 export default function EventsWrapper({
@@ -41,6 +42,7 @@ export default function EventsWrapper({
   expandedId,
   handleSetExpandedId,
   activeBlockId,
+  prefersDarkMode,
 }: IEventsWrapperProps) {
   const wrapperRef = useRef<HTMLDivElement | null>(null)
   const [eventsListScroll, setEventsListScroll] = useState(0)
@@ -98,6 +100,7 @@ export default function EventsWrapper({
         ref={wrapperRef}
       >
         <EventsList
+          prefersDarkMode={prefersDarkMode}
           activeBlockId={activeBlockId}
           handleSetActiveBlockId={handleSetActiveBlockId}
           handleSetExpandedId={handleSetExpandedId}
@@ -111,6 +114,7 @@ export default function EventsWrapper({
         />
       </div>
       <Scroll
+        prefersDarkMode={prefersDarkMode}
         expandedId={expandedId}
         wrapper={wrapperRef.current}
         events={events}

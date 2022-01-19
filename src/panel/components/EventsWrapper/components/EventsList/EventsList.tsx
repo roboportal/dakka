@@ -26,6 +26,7 @@ interface IEventsListProps {
   handleSetExpandedId: (id: string) => void
   expandedId: string | null
   activeBlockId: string | null
+  prefersDarkMode: boolean
 }
 
 function EventsList({
@@ -39,6 +40,7 @@ function EventsList({
   handleSetExpandedId,
   expandedId,
   activeBlockId,
+  prefersDarkMode,
 }: IEventsListProps) {
   const handleExpand = useCallback(
     (id) => handleSetExpandedId(id),
@@ -79,6 +81,7 @@ function EventsList({
                 onSelectSelector={onSelectSelector}
               />
               <EventEntity
+                prefersDarkMode={prefersDarkMode}
                 isExpanded={expandedId === record.id}
                 onExpand={handleExpand}
                 handleSetActiveBlockId={handleSetActiveBlockId}

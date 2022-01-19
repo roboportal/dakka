@@ -10,6 +10,26 @@ import { Actions } from './components/Actions'
 import { DeleteAction } from './components/DeleteAction'
 import { truncate } from './helper'
 
+function getBackgroundColor({
+  isHover,
+  isRedirect,
+  prefersDarkMode,
+}: {
+  isRedirect: boolean
+  prefersDarkMode: boolean
+  isHover?: boolean
+}) {
+  if (!prefersDarkMode && isHover && !isRedirect) {
+    return 'black'
+  }
+
+  if (prefersDarkMode) {
+    return isRedirect ? indigo[900] : lightBlue[900]
+  }
+
+  return isRedirect ? 'rgb(26, 32, 39)' : 'rgb(0, 30, 60)'
+}
+
 export function EventEntity({
   record,
   index,
@@ -18,6 +38,7 @@ export function EventEntity({
   activeBlockId,
   onExpand,
   isExpanded,
+  prefersDarkMode,
 }: {
   record: IEventPayload | IEventBlock
   index: string
@@ -26,6 +47,7 @@ export function EventEntity({
   activeBlockId: string | null
   onExpand: (id: string) => void
   isExpanded: boolean
+  prefersDarkMode: boolean
 }) {
   const { type, selectedSelector, url, key, variant } = record as IEventPayload
   const { element } = record as IEventBlock
@@ -54,13 +76,21 @@ export function EventEntity({
         font-size: 0.8rem;
         margin-bottom: 4px;
         ${isRedirect || isInteractive ? 'margin-top: 28px;' : ''}
-        background-color: ${isRedirect ? indigo[900] : lightBlue[900]};
+        background-color: ${getBackgroundColor({
+          isRedirect,
+          prefersDarkMode,
+        })};
         :hover {
-          background-color: ${isRedirect ? indigo[900] : lightBlue[700]};
+          background-color: ${getBackgroundColor({
+            isRedirect,
+            prefersDarkMode,
+            isHover: true,
+          })};
         }
       `}
     >
       <Actions
+        prefersDarkMode={prefersDarkMode}
         isExpanded={isExpanded}
         isInteractive={record.variant === INTERACTIVE_ELEMENT}
         onSelectWaitForElement={handleSelectWaitForElement}
@@ -77,9 +107,14 @@ export function EventEntity({
           overflow: scroll;
         `}
       >
-        <EntryRow label="Event" value={type} />
+        <EntryRow
+          label="Event"
+          value={type}
+          prefersDarkMode={prefersDarkMode}
+        />
         {key && (
           <EntryRow
+            prefersDarkMode={prefersDarkMode}
             isExpanded={isExpanded}
             label="Key"
             value={truncate(key, 7, isExpanded)}
@@ -88,6 +123,7 @@ export function EventEntity({
 
         {record.variant === INTERACTIVE_ELEMENT ? (
           <EntryRow
+            prefersDarkMode={prefersDarkMode}
             isLast={true}
             isExpanded={isExpanded}
             label={(record as IEventBlock)?.element?.selectedSelector?.name}
@@ -99,6 +135,7 @@ export function EventEntity({
           />
         ) : (
           <EntryRow
+            prefersDarkMode={prefersDarkMode}
             isLast={true}
             isExpanded={isExpanded}
             label={isRedirect ? 'URL' : 'Selector'}

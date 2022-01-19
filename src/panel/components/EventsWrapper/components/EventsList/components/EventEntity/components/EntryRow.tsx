@@ -5,6 +5,7 @@ interface IEventEntityProps {
   value?: string
   isExpanded?: boolean
   isLast?: boolean
+  prefersDarkMode: boolean
 }
 
 export function EntryRow({
@@ -12,6 +13,7 @@ export function EntryRow({
   value,
   isExpanded,
   isLast,
+  prefersDarkMode,
 }: IEventEntityProps) {
   if (!label && !value) {
     return null
@@ -20,7 +22,7 @@ export function EntryRow({
   return (
     <div
       css={css`
-        border-bottom: 1px solid #196194;
+        border-bottom: 1px solid ${prefersDarkMode ? '#196194' : '#455a64'};
         text-align: start;
         pointer-events: ${isExpanded ? 'auto' : 'none'};
         margin-bottom: ${isLast ? '0px' : '8px'};
