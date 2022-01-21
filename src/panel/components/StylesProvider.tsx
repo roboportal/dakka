@@ -2,6 +2,7 @@ import { ReactElement, useMemo } from 'react'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
 import useMediaQuery from '@mui/material/useMediaQuery'
+import { grey } from '@mui/material/colors'
 
 interface DarkThemeProps {
   children: ReactElement
@@ -20,6 +21,9 @@ export default function StylesProvider({ children }: DarkThemeProps) {
         },
         palette: {
           mode: prefersDarkMode ? 'dark' : 'light',
+          background: {
+            default: prefersDarkMode ? '#0a1929' : grey.A200,
+          },
         },
         components: {
           MuiToolbar: {

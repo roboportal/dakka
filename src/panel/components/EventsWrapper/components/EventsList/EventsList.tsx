@@ -28,6 +28,7 @@ interface IEventsListProps {
   expandedId: string | null
   activeBlockId: string | null
   onSetAssertProperties: (payload: IAssetionPaylod) => void
+  prefersDarkMode: boolean
 }
 
 function EventsList({
@@ -42,6 +43,7 @@ function EventsList({
   expandedId,
   onSetAssertProperties,
   activeBlockId,
+  prefersDarkMode,
 }: IEventsListProps) {
   const handleExpand = useCallback(
     (id) => handleSetExpandedId(id),
@@ -83,6 +85,7 @@ function EventsList({
               />
               <EventEntity
                 onSetAssertProperties={onSetAssertProperties}
+                prefersDarkMode={prefersDarkMode}
                 isExpanded={expandedId === record.id}
                 onExpand={handleExpand}
                 handleSetActiveBlockId={handleSetActiveBlockId}
