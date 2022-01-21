@@ -33,6 +33,7 @@ export default function App() {
     handleInsertBlock,
     handleSetActiveBlockId,
     handleSetExpandedId,
+    handleSetAssertProperties,
     activeBlockId,
   } = useEventRecorder()
 
@@ -77,6 +78,7 @@ export default function App() {
           activeBlockId={activeBlockId}
           handleSetActiveBlockId={handleSetActiveBlockId}
           handleSetExpandedId={handleSetExpandedId}
+          handleSetAssertProperties={handleSetAssertProperties}
           expandedId={expandedId}
           enableSelectElement={enableSelectElement}
           isManualEventInsert={isManualEventInsert}

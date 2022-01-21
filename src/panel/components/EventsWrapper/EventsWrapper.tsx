@@ -5,6 +5,7 @@ import {
   EventListItem,
   ISelectorPayload,
   IEventBlockPayload,
+  IAssetionPaylod,
 } from 'store/eventRecorderSlice'
 
 import EventsList from './components/EventsList/EventsList'
@@ -25,6 +26,7 @@ interface IEventsWrapperProps {
   handleSetExpandedId: (id: string) => void
   activeBlockId: string | null
   expandedId: string | null
+  handleSetAssertProperties: (payload: IAssetionPaylod) => void
   prefersDarkMode: boolean
 }
 
@@ -41,6 +43,7 @@ export default function EventsWrapper({
   handleSetActiveBlockId,
   expandedId,
   handleSetExpandedId,
+  handleSetAssertProperties,
   activeBlockId,
   prefersDarkMode,
 }: IEventsWrapperProps) {
@@ -100,6 +103,7 @@ export default function EventsWrapper({
         ref={wrapperRef}
       >
         <EventsList
+          onSetAssertProperties={handleSetAssertProperties}
           prefersDarkMode={prefersDarkMode}
           activeBlockId={activeBlockId}
           handleSetActiveBlockId={handleSetActiveBlockId}

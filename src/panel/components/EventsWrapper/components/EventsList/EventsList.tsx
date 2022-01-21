@@ -1,4 +1,4 @@
-import { memo, useCallback, useState } from 'react'
+import { memo, useCallback } from 'react'
 import { css } from '@emotion/react'
 
 import {
@@ -6,6 +6,7 @@ import {
   IEventPayload,
   ISelectorPayload,
   IEventBlockPayload,
+  IAssetionPaylod,
 } from 'store/eventRecorderSlice'
 
 import { Record } from './components/Record/Record'
@@ -26,6 +27,7 @@ interface IEventsListProps {
   handleSetExpandedId: (id: string) => void
   expandedId: string | null
   activeBlockId: string | null
+  onSetAssertProperties: (payload: IAssetionPaylod) => void
   prefersDarkMode: boolean
 }
 
@@ -39,6 +41,7 @@ function EventsList({
   handleSetActiveBlockId,
   handleSetExpandedId,
   expandedId,
+  onSetAssertProperties,
   activeBlockId,
   prefersDarkMode,
 }: IEventsListProps) {
@@ -81,6 +84,7 @@ function EventsList({
                 onSelectSelector={onSelectSelector}
               />
               <EventEntity
+                onSetAssertProperties={onSetAssertProperties}
                 prefersDarkMode={prefersDarkMode}
                 isExpanded={expandedId === record.id}
                 onExpand={handleExpand}

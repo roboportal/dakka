@@ -11,6 +11,7 @@ import {
   insertBlock,
   setActiveBlockId,
   setExpandedId,
+  setAssertionProperties,
   IEventBlockPayload,
 } from 'store/eventRecorderSlice'
 
@@ -60,6 +61,9 @@ export default function useEventRecorder() {
 
   const handleSetExpandedId = (payload: string) =>
     dispatch(setExpandedId(payload))
+
+  const handleSetAssertProperties = (payload: any) =>
+    dispatch(setAssertionProperties(payload))
 
   const handleEventClick: MouseEventHandler = useCallback(
     (e) => {
@@ -182,5 +186,6 @@ export default function useEventRecorder() {
     handleInsertBlock,
     handleSetActiveBlockId,
     handleSetExpandedId,
+    handleSetAssertProperties,
   }
 }
