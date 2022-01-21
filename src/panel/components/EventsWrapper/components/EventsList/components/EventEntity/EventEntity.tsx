@@ -3,8 +3,13 @@ import { css } from '@emotion/react'
 import { lightBlue, indigo } from '@mui/material/colors'
 
 import { internalEventsMap } from 'constants/internalEventsMap'
-import { IEventPayload, IEventBlock } from 'store/eventRecorderSlice'
+import {
+  IEventPayload,
+  IEventBlock,
+  IAssetionPaylod,
+} from 'store/eventRecorderSlice'
 import { REDIRECT_STARTED, INTERACTIVE_ELEMENT } from 'constants/messageTypes'
+import { AssertionSelector } from './components/AssertionSelector'
 import { EntryRow } from './components/EntryRow'
 import { Actions } from './components/Actions'
 import { DeleteAction } from './components/DeleteAction'
@@ -18,6 +23,7 @@ export function EventEntity({
   activeBlockId,
   onExpand,
   isExpanded,
+  onSetAssertProperties,
 }: {
   record: IEventPayload | IEventBlock
   index: string
@@ -26,6 +32,7 @@ export function EventEntity({
   activeBlockId: string | null
   onExpand: (id: string) => void
   isExpanded: boolean
+  onSetAssertProperties: (payload: IAssetionPaylod) => void
 }) {
   const { type, selectedSelector, url, key, variant } = record as IEventPayload
   const { element } = record as IEventBlock
@@ -107,6 +114,13 @@ export function EventEntity({
                 ? truncate(url, 9, isExpanded)
                 : truncate(selector, 9, isExpanded)
             }
+          />
+        )}
+        {record.type === 'Assertion' && !!element && (
+          <AssertionSelector
+            isExpanded={isExpanded}
+            record={record as IEventBlock}
+            onSetAssertProperties={onSetAssertProperties}
           />
         )}
       </div>

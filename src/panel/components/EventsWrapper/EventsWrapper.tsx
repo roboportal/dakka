@@ -5,6 +5,7 @@ import {
   EventListItem,
   ISelectorPayload,
   IEventBlockPayload,
+  IAssetionPaylod,
 } from 'store/eventRecorderSlice'
 
 import EventsList from './components/EventsList/EventsList'
@@ -25,6 +26,7 @@ interface IEventsWrapperProps {
   handleSetExpandedId: (id: string) => void
   activeBlockId: string | null
   expandedId: string | null
+  handleSetAssertProperties: (payload: IAssetionPaylod) => void
 }
 
 export default function EventsWrapper({
@@ -40,6 +42,7 @@ export default function EventsWrapper({
   handleSetActiveBlockId,
   expandedId,
   handleSetExpandedId,
+  handleSetAssertProperties,
   activeBlockId,
 }: IEventsWrapperProps) {
   const wrapperRef = useRef<HTMLDivElement | null>(null)
@@ -98,6 +101,7 @@ export default function EventsWrapper({
         ref={wrapperRef}
       >
         <EventsList
+          onSetAssertProperties={handleSetAssertProperties}
           activeBlockId={activeBlockId}
           handleSetActiveBlockId={handleSetActiveBlockId}
           handleSetExpandedId={handleSetExpandedId}

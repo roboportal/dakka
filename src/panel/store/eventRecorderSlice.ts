@@ -26,6 +26,13 @@ export interface ISelector {
   ariaLabel?: string
 }
 
+export interface IAssetionPaylod {
+  recordId: string
+  assertionValue?: string
+  assertionType?: Record<string, string>
+  assertionAttribute?: string
+}
+
 export interface ISelectorPayload {
   selectedSelector: ISelector
   record: IEventPayload | IEventBlock
@@ -37,6 +44,9 @@ export interface IEventBlock {
   triggeredAt: number
   variant: string
   element: IEventPayload | null
+  assertionAttribute?: string
+  assertionValue?: string
+  assertionType?: Record<string, string>
 }
 
 export interface IEventBlockPayload {
@@ -196,6 +206,28 @@ export const eventRecorderSlice = createSlice({
     setExpandedId: (state, { payload }: PayloadAction<string>) => {
       state.expandedId = payload
     },
+    setAssertionProperties: (
+      state,
+      { payload }: PayloadAction<IAssetionPaylod>,
+    ) => {
+      const { recordId, assertionType, assertionAttribute, assertionValue } =
+        payload
+      const block = state.events[state.activeTabID].find(
+        (item) => item.id === recordId,
+      ) as IEventBlock
+
+      if (assertionAttribute !== undefined) {
+        block.assertionAttribute = assertionAttribute
+      }
+
+      if (assertionValue !== undefined) {
+        block.assertionValue = assertionValue
+      }
+
+      if (assertionType !== undefined) {
+        block.assertionType = assertionType
+      }
+    },
     removeEvent: (
       state,
       { payload: { eventIds } }: PayloadAction<{ eventIds: number[] }>,
@@ -258,6 +290,7 @@ export const {
   setIsInjectionAllowed,
   setActiveBlockId,
   setExpandedId,
+  setAssertionProperties,
 } = eventRecorderSlice.actions
 
 export default eventRecorderSlice.reducer
