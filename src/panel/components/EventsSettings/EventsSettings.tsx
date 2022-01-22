@@ -9,7 +9,11 @@ import CollapsibleGroupItem from './components/CollapsibleGroupItem'
 import GroupEventsItem from './components/GroupEventsItem'
 import useEventMask from './hooks/useEventMask'
 
-export default function EventsSettings() {
+export default function EventsSettings({
+  prefersDarkMode,
+}: {
+  prefersDarkMode: boolean
+}) {
   const {
     eventsList,
     collapseState,
@@ -34,7 +38,7 @@ export default function EventsSettings() {
       subheader={
         <ListSubheader
           css={css`
-            background-color: #0a1929;
+            background-color: ${prefersDarkMode ? '#0a1929' : '#D3D3D3'};
             color: inherit;
             padding: 12px;
           `}

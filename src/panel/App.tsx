@@ -1,6 +1,7 @@
 import { css } from '@emotion/react'
 import Box from '@mui/material/Box'
 import Collapse from '@mui/material/Collapse'
+import useMediaQuery from '@mui/material/useMediaQuery'
 
 import EventsSettings from 'components/EventsSettings/EventsSettings'
 import ControlPanel from 'components/ControlPanel'
@@ -13,6 +14,7 @@ import useElementSelect from 'hooks/useElementSelect'
 import useToggle from 'hooks/useToggle'
 
 export default function App() {
+  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
   const [isSidePanelVisible, toggleSidePanel] = useToggle(false)
 
   const [isAutoScrollEnabled, toggleAutoScroll] = useToggle(true)
@@ -31,6 +33,7 @@ export default function App() {
     handleInsertBlock,
     handleSetActiveBlockId,
     handleSetExpandedId,
+    handleSetAssertProperties,
     activeBlockId,
   } = useEventRecorder()
 
@@ -47,7 +50,7 @@ export default function App() {
         height: 100vh;
         width: 100vw;
         overflow: hidden;
-        background-color: #0a1929;
+        background-color: 'background.default';
       `}
     >
       <ControlPanel
@@ -71,9 +74,11 @@ export default function App() {
         `}
       >
         <EventsWrapper
+          prefersDarkMode={prefersDarkMode}
           activeBlockId={activeBlockId}
           handleSetActiveBlockId={handleSetActiveBlockId}
           handleSetExpandedId={handleSetExpandedId}
+          handleSetAssertProperties={handleSetAssertProperties}
           expandedId={expandedId}
           enableSelectElement={enableSelectElement}
           isManualEventInsert={isManualEventInsert}
@@ -86,7 +91,7 @@ export default function App() {
           onEventClick={handleEventClick}
         />
         <Collapse in={isSidePanelVisible} orientation="horizontal">
-          <EventsSettings />
+          <EventsSettings prefersDarkMode={prefersDarkMode} />
         </Collapse>
       </Box>
     </div>
