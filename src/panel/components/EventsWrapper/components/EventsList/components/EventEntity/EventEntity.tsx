@@ -6,7 +6,7 @@ import { internalEventsMap } from 'constants/internalEventsMap'
 import {
   IEventPayload,
   IEventBlock,
-  IAssetionPaylod,
+  IAssertionPayload,
 } from 'store/eventRecorderSlice'
 import { REDIRECT_STARTED, INTERACTIVE_ELEMENT } from 'constants/messageTypes'
 import { AssertionSelector } from './components/AssertionSelector'
@@ -53,7 +53,7 @@ export function EventEntity({
   activeBlockId: string | null
   onExpand: (id: string) => void
   isExpanded: boolean
-  onSetAssertProperties: (payload: IAssetionPaylod) => void
+  onSetAssertProperties: (payload: IAssertionPayload) => void
   prefersDarkMode: boolean
 }) {
   const { type, selectedSelector, url, key, variant } = record as IEventPayload

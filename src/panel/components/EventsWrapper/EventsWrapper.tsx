@@ -5,7 +5,7 @@ import {
   EventListItem,
   ISelectorPayload,
   IEventBlockPayload,
-  IAssetionPaylod,
+  IAssertionPayload,
 } from 'store/eventRecorderSlice'
 
 import EventsList from './components/EventsList/EventsList'
@@ -26,7 +26,7 @@ interface IEventsWrapperProps {
   handleSetExpandedId: (id: string) => void
   activeBlockId: string | null
   expandedId: string | null
-  handleSetAssertProperties: (payload: IAssetionPaylod) => void
+  handleSetAssertProperties: (payload: IAssertionPayload) => void
   prefersDarkMode: boolean
 }
 

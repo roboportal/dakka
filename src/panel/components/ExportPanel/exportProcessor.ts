@@ -1,6 +1,12 @@
-import { EventListItem, IEventPayload } from 'store/eventRecorderSlice'
+import {
+  EventListItem,
+  IEventBlock,
+  IEventPayload,
+} from 'store/eventRecorderSlice'
 import { exportOptions } from './constants'
 import { dump } from 'js-yaml'
+
+import { assertionTypes } from 'constants/assertion'
 
 enum selectorTypes {
   role = 'role',
@@ -65,11 +71,59 @@ test('${testName}', async ({ page }) => {
     return `await page.goto('${url}')`
   }
 
-  private serializeRecordedEvents(events: IEventPayload[]) {
+  private expectMethodsMap: Record<
+    string,
+    (
+      selector: string,
+      assertionValue?: string,
+      assertionAttribute?: string,
+    ) => string
+  > = {
+    [assertionTypes.contains]: (selector, assertionValue) => {
+      const normalizedSelector = normalizeString(selector)
+      return `  expect(await page.locator('${normalizedSelector}').textContent()).toBe('${assertionValue}')\n`
+    },
+
+    [assertionTypes.notContains]: (selector, assertionValue) => {
+      const normalizedSelector = normalizeString(selector)
+      return `  expect(await page.locator('${normalizedSelector}').textContent()).not.toBe('${assertionValue}')\n`
+    },
+
+    [assertionTypes.inDocument]: (selector) => {
+      const normalizedSelector = normalizeString(selector)
+      return `  expect(await page.locator('${normalizedSelector}')).toBeTruthy()\n`
+    },
+
+    [assertionTypes.notInDocument]: (selector) => {
+      const normalizedSelector = normalizeString(selector)
+      return `  expect(await page.locator('${normalizedSelector}')).not.toBeTruthy()\n`
+    },
+
+    [assertionTypes.hasAttribute]: (
+      selector,
+      assertionValue,
+      assertionAttribute,
+    ) => {
+      const normalizedSelector = normalizeString(selector)
+      return `  expect(await page.locator('${normalizedSelector}').getAttribute('${assertionAttribute}')).toBe('${assertionValue}')`
+    },
+
+    [assertionTypes.notHasAttribute]: (
+      selector,
+      assertionValue,
+      assertionAttribute,
+    ) => {
+      const normalizedSelector = normalizeString(selector)
+      return `expect(await page.locator('${normalizedSelector}').getAttribute('${assertionAttribute}')).not.toBe('${assertionValue}')`
+    },
+  }
+
+  private serializeRecordedEvents(events: IEventBlock[]) {
     return events.reduce((acc, it) => {
       if (it.type === '_redirect') {
         acc += '\n  await page.waitForNavigation()\n'
       }
+
       if (it.selectedSelector) {
         const selector = selectorsFactoryMap[
           it.selectedSelector.name as selectorTypes
@@ -78,21 +132,34 @@ test('${testName}', async ({ page }) => {
           this.methodsMap[it?.type]?.(it) ?? this.methodsMap.default(it)
         }\n`
       }
+
+      if (it.type === 'Assertion') {
+        const element = it.element
+        if (element) {
+          const selector = selectorsFactoryMap[
+            element?.selectedSelector?.name as selectorTypes
+          ](element?.selectedSelector?.value ?? '')
+          acc += this.expectMethodsMap[
+            it?.assertionType?.type as assertionTypes
+          ](selector, it.assertionValue, it.assertionAttribute)
+        }
+      }
+
       return acc
     }, '')
   }
 
-  private getContent(events: IEventPayload[]) {
-    const [firstEvent, ...restEvents] = events as IEventPayload[]
+  private getContent(events: IEventBlock[]) {
+    const [firstEvent, ...restEvents] = events
     return `${this.getGoToTestedPage(firstEvent.url ?? '')}
 ${this.serializeRecordedEvents(restEvents)}`
   }
 
-  process(events: EventListItem[]) {
-    const firstRedirect = events[0] as IEventPayload
+  process(events: IEventBlock[]) {
+    const firstRedirect = events[0]
     const testName = `Testing ${firstRedirect.url}`
 
-    return this.getWrapper(testName, this.getContent(events as IEventPayload[]))
+    return this.getWrapper(testName, this.getContent(events))
   }
 }
 
@@ -106,9 +173,8 @@ const processorsMap = Object.fromEntries(processorsEntries)
 const getProcessor = (type: exportOptions): ExportProcessor =>
   processorsMap[type] ?? processorsMap[exportOptions.dakka]
 
-export default function process(type: exportOptions, events: EventListItem[]) {
+export default function process(type: exportOptions, events: IEventBlock[]) {
   const p = getProcessor(type)
-  console.log(p)
   return {
     text: p.process(events),
     fileName: p.fileName,
