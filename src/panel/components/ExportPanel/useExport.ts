@@ -1,5 +1,6 @@
 import { useCallback, useState } from 'react'
 import { useSelector } from 'react-redux'
+import { IEventBlock } from 'store/eventRecorderSlice'
 
 import { SLICE_NAMES, RootState } from 'store/index'
 
@@ -48,12 +49,18 @@ export default function useExports() {
   })
 
   const handleCopyToClipboard = () => {
-    const { text } = exportProcessor(exportOption, recordedEvents)
+    const { text } = exportProcessor(
+      exportOption,
+      recordedEvents as IEventBlock[],
+    )
     writeToClipboard(text)
   }
 
   const handleSaveToFile = () => {
-    const { text, fileName } = exportProcessor(exportOption, recordedEvents)
+    const { text, fileName } = exportProcessor(
+      exportOption,
+      recordedEvents as IEventBlock[],
+    )
     saveFile(text, fileName)
   }
 

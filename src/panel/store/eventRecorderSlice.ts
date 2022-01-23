@@ -26,7 +26,7 @@ export interface ISelector {
   ariaLabel?: string
 }
 
-export interface IAssetionPaylod {
+export interface IAssertionPayload {
   recordId: string
   assertionValue?: string
   assertionType?: Record<string, string>
@@ -38,11 +38,9 @@ export interface ISelectorPayload {
   record: IEventPayload | IEventBlock
 }
 
-export interface IEventBlock {
+export interface IEventBlock extends IEventPayload {
   type: string
   id: string
-  triggeredAt: number
-  variant: string
   element: IEventPayload | null
   assertionAttribute?: string
   assertionValue?: string
@@ -208,7 +206,7 @@ export const eventRecorderSlice = createSlice({
     },
     setAssertionProperties: (
       state,
-      { payload }: PayloadAction<IAssetionPaylod>,
+      { payload }: PayloadAction<IAssertionPayload>,
     ) => {
       const { recordId, assertionType, assertionAttribute, assertionValue } =
         payload
@@ -259,6 +257,7 @@ export const eventRecorderSlice = createSlice({
         variant: INTERACTIVE_ELEMENT,
         triggeredAt,
         element: null,
+        selector: '',
       } as WritableDraft<IEventBlock>
 
       state.events[tabId].splice(index, 0, block)

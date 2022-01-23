@@ -6,7 +6,7 @@ import {
   IEventPayload,
   ISelectorPayload,
   IEventBlockPayload,
-  IAssetionPaylod,
+  IAssertionPayload,
 } from 'store/eventRecorderSlice'
 
 import { Record } from './components/Record/Record'
@@ -27,7 +27,7 @@ interface IEventsListProps {
   handleSetExpandedId: (id: string) => void
   expandedId: string | null
   activeBlockId: string | null
-  onSetAssertProperties: (payload: IAssetionPaylod) => void
+  onSetAssertProperties: (payload: IAssertionPayload) => void
   prefersDarkMode: boolean
 }
 

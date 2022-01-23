@@ -7,29 +7,24 @@ import Checkbox from '@mui/material/Checkbox'
 import FormControl from '@mui/material/FormControl'
 import FormControlLabel from '@mui/material/FormControlLabel'
 
-import { IEventBlock, IAssetionPaylod } from 'store/eventRecorderSlice'
+import { IEventBlock, IAssertionPayload } from 'store/eventRecorderSlice'
+import {
+  assertionsList,
+  assertionsListNegative,
+  assertionTypes,
+} from 'constants/assertion'
 
 interface IAssertionSelectorProp {
   record: IEventBlock
-  onSetAssertProperties: (payload: IAssetionPaylod) => void
+  onSetAssertProperties: (payload: IAssertionPayload) => void
   isExpanded: boolean
 }
 
-const assertionsList: Record<string, string>[] = [
-  { type: 'in-document', name: 'Is in document' },
-  { type: 'contains', name: 'Contains' },
-  { type: 'equals', name: 'Equals' },
-  { type: 'has-attribute', name: 'Has attribute' },
+const requireInputAsserts = [
+  assertionTypes.contains,
+  // assertionTypes.equals,
+  assertionTypes.hasAttribute,
 ]
-
-const assertionsListNegative: Record<string, string>[] = [
-  { type: 'contains', name: 'Not Contains' },
-  { type: 'in-document', name: 'Is not in document' },
-  { type: 'equals', name: 'Not equals' },
-  { type: 'has-attribute', name: 'Has not attribute' },
-]
-
-const requireInputAsserts = ['contains', 'equals', 'has-attribute']
 
 export function AssertionSelector({
   record,
@@ -44,17 +39,27 @@ export function AssertionSelector({
   const handleCheckbox = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       const { checked } = event.target
-      const assetionList = checked ? assertionsList : assertionsListNegative
+      const assertionList = checked ? assertionsList : assertionsListNegative
+
+      const assertionIndex = assertions.findIndex(
+        (it) => it.type === assertionType?.type,
+      )
       setChecked(checked)
-      setAssertions(assetionList)
+      setAssertions(assertionList)
+
       onSetAssertProperties({
         recordId: record.id,
-        assertionType: assetionList.find(
-          (item) => item.type === assertionType?.type,
-        ),
+        assertionType: assertionList[assertionIndex],
       })
     },
-    [setChecked, setAssertions, assertionType, onSetAssertProperties, record],
+    [
+      setChecked,
+      setAssertions,
+      assertionType,
+      onSetAssertProperties,
+      record,
+      assertions,
+    ],
   )
 
   const handleSelectorChange = useCallback(
@@ -63,9 +68,12 @@ export function AssertionSelector({
       onSetAssertProperties({
         recordId: record.id,
         assertionType: selection || {},
-        assertionValue: selection?.type === 'in-document' ? '' : assertionValue,
+        assertionValue:
+          selection?.type === assertionTypes.inDocument ? '' : assertionValue,
         assertionAttribute:
-          selection?.type === 'has-attribute' ? assertionAttribute : '',
+          selection?.type === assertionTypes.hasAttribute
+            ? assertionAttribute
+            : '',
       })
     },
     [
@@ -159,7 +167,7 @@ export function AssertionSelector({
           justify-content: center;
         `}
       >
-        {assertionType?.type === 'has-attribute' && (
+        {assertionType?.type === assertionTypes.hasAttribute && (
           <TextField
             css={css`
               display: block;
@@ -173,7 +181,9 @@ export function AssertionSelector({
           />
         )}
 
-        {requireInputAsserts.includes(assertionType?.type as string) && (
+        {requireInputAsserts.includes(
+          assertionType?.type as assertionTypes,
+        ) && (
           <TextField
             css={css`
               display: block;
