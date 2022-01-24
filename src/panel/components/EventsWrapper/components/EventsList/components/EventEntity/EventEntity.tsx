@@ -44,6 +44,7 @@ export function EventEntity({
   isExpanded,
   onSetAssertProperties,
   prefersDarkMode,
+  isFirstEntity,
 }: {
   record: IEventPayload | IEventBlock
   index: string
@@ -53,6 +54,7 @@ export function EventEntity({
   isExpanded: boolean
   onSetAssertProperties: (payload: IAssertionPayload) => void
   prefersDarkMode: boolean
+  isFirstEntity: boolean
 }) {
   const { type, selectedSelector, url, key, variant } = record as IEventPayload
   const { element } = record as IEventBlock
@@ -109,6 +111,7 @@ export function EventEntity({
           display: grid;
           flex-grow: 1;
           overflow: scroll;
+          height: calc(100vh - 52px - 68px);
         `}
       >
         <EntryRow
@@ -141,6 +144,7 @@ export function EventEntity({
           <EntryRow
             prefersDarkMode={prefersDarkMode}
             isLast={true}
+            isDividerVisible={!isFirstEntity}
             isExpanded={isExpanded}
             label={isRedirect ? 'URL' : 'Selector'}
             value={
@@ -155,10 +159,11 @@ export function EventEntity({
             isExpanded={isExpanded}
             record={record as IEventBlock}
             onSetAssertProperties={onSetAssertProperties}
+            prefersDarkMode={prefersDarkMode}
           />
         )}
       </div>
-      <DeleteAction index={index} />
+      {!isFirstEntity && <DeleteAction index={index} />}
     </div>
   )
 }

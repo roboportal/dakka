@@ -14,6 +14,7 @@ import { RECORD_WIDTH, GAP_BETWEEN_RECORDS } from './constants/defaults'
 import { DropZone } from './components/DropZone'
 
 const RIGHT_DROP_ZONE_CLASS_NAME = 'right_drop'
+const LEFT_DROP_ZONE_CLASS_NAME = 'left_drop'
 
 interface IRecordProps {
   onInsertBlock: (value: IEventBlockPayload) => void
@@ -23,6 +24,7 @@ interface IRecordProps {
   events: EventListItem[]
   record: IEventPayload | IEventBlock
   currentIndex: number
+  isFirstRecord: boolean
 }
 
 export function Record({
@@ -32,6 +34,7 @@ export function Record({
   children,
   events,
   currentIndex,
+  isFirstRecord,
 }: IRecordProps) {
   const ref = useRef<HTMLDivElement>(null)
   const refIndex = useRef<number | null>(null)
@@ -39,7 +42,7 @@ export function Record({
 
   const handleDrop = useCallback(
     (type) => {
-      if (!type || refIndex?.current === null) return
+      if (!type || refIndex?.current === null || isFirstRecord) return
 
       setDragOverIndex(Number.MAX_SAFE_INTEGER)
       onInsertBlock({
@@ -48,7 +51,7 @@ export function Record({
       })
       refIndex.current = null
     },
-    [onInsertBlock, setDragOverIndex],
+    [onInsertBlock, setDragOverIndex, isFirstRecord],
   )
 
   const handleDropOver = useCallback(
@@ -59,7 +62,7 @@ export function Record({
 
       const pivot = clientRect?.x + RECORD_WIDTH / 2 + GAP_BETWEEN_RECORDS
 
-      if (event.x > pivot) {
+      if (event.x > pivot && !isFirstRecord) {
         refIndex.current = currentIndex
         const nextIndex = currentIndex + 1
         if (nextIndex !== dragOverIndex) {
@@ -73,7 +76,7 @@ export function Record({
         }
       }
     },
-    [currentIndex, setDragOverIndex, dragOverIndex],
+    [currentIndex, setDragOverIndex, dragOverIndex, isFirstRecord],
   )
 
   useDrop({
@@ -87,16 +90,26 @@ export function Record({
       ref={ref}
       css={css`
         display: flex;
-        height: 100%;
+        height: calc(100vh - 52px - 68px);
         flex: ${currentIndex === events.length - 1 ? 1 : 0};
         &:last-child {
           .${RIGHT_DROP_ZONE_CLASS_NAME} {
             width: 100%;
           }
         }
+        .${LEFT_DROP_ZONE_CLASS_NAME} {
+          height: calc(100vh - 68px - 24px);
+        }
+        .${RIGHT_DROP_ZONE_CLASS_NAME} {
+          height: calc(100vh - 68px - 24px);
+        }
       `}
     >
-      <DropZone isOver={isOver} gap={GAP_BETWEEN_RECORDS} />
+      <DropZone
+        isOver={isOver && !isFirstRecord}
+        gap={GAP_BETWEEN_RECORDS}
+        className={LEFT_DROP_ZONE_CLASS_NAME}
+      />
       {children}
       {events.length - 1 === currentIndex && (
         <DropZone

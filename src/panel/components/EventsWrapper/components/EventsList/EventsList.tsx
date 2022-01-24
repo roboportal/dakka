@@ -57,6 +57,7 @@ function EventsList({
     <>
       {events?.map((record, index) => {
         const isExpanded = expandedId === record.id
+        const isFirstEvent = index === 0
         return (
           <Record
             onInsertBlock={onInsertBlock}
@@ -66,6 +67,7 @@ function EventsList({
             events={events}
             record={record}
             currentIndex={index}
+            isFirstRecord={isFirstEvent}
           >
             <div
               css={css`
@@ -74,7 +76,7 @@ function EventsList({
                 max-width: ${isExpanded ? EXPANDED_WIDTH : DEFAULT_WIDTH};
                 display: flex;
                 flex-direction: column;
-                min-height: 224px;
+                height: 100%;
               `}
             >
               <Selector
@@ -91,6 +93,7 @@ function EventsList({
                 enableSelectElement={enableSelectElement}
                 record={record as IEventPayload}
                 index={index.toString()}
+                isFirstEntity={isFirstEvent}
               />
             </div>
           </Record>

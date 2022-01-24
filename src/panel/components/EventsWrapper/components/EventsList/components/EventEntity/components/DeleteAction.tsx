@@ -4,7 +4,7 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import Tooltip from '@mui/material/Tooltip'
 import { grey } from '@mui/material/colors'
 
-export function DeleteAction({ index }: any) {
+export function DeleteAction({ index }: { index: string }) {
   return (
     <Tooltip title="Delete Event">
       <Button
@@ -12,6 +12,7 @@ export function DeleteAction({ index }: any) {
         data-event_list_action="remove"
         css={css`
           width: 100%;
+          height: 30px;
           color: ${grey[500]};
           :hover {
             .MuiSvgIcon-root {
