@@ -103,6 +103,14 @@ test('${testName}', async ({ page }) => {
       return `  expect(page).not.toHaveURL('${assertionValue}')\n`
     },
 
+    [assertionTypes.toBeChecked]: ({ assertionValue }) => {
+      return `  expect(page).toBeChecked('${assertionValue}')\n`
+    },
+
+    [assertionTypes.notToBeChecked]: ({ assertionValue }) => {
+      return `  expect(page).not.toBeChecked('${assertionValue}')\n`
+    },
+
     [assertionTypes.contains]: ({ selector, assertionValue }) => {
       const normalizedSelector = normalizeString(selector)
       return `  expect(await page.locator('${normalizedSelector}').textContent()).toBe('${assertionValue}')\n`
