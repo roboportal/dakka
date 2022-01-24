@@ -34,8 +34,14 @@ const normalizeString = (str: string | undefined) => {
   if (!str) {
     return ''
   }
-  // eslint-disable-next-line
-  str.replaceAll('\\', '\\\\').replaceAll('\n', '\\n').replaceAll(`'`, `\\'`)
+
+  return (
+    str
+      .replaceAll('\\', '\\\\')
+      .replaceAll('\n', '\\n')
+      // eslint-disable-next-line
+      .replaceAll("'", "\\'")
+  )
 }
 
 abstract class ExportProcessor {
