@@ -6,6 +6,7 @@ interface IEventEntityProps {
   isExpanded?: boolean
   isLast?: boolean
   prefersDarkMode: boolean
+  isDividerVisible?: boolean
 }
 
 export function EntryRow({
@@ -14,6 +15,7 @@ export function EntryRow({
   isExpanded,
   isLast,
   prefersDarkMode,
+  isDividerVisible = true,
 }: IEventEntityProps) {
   if (!label && !value) {
     return null
@@ -22,11 +24,16 @@ export function EntryRow({
   return (
     <div
       css={css`
-        border-bottom: 1px solid ${prefersDarkMode ? '#196194' : '#455a64'};
+        ${isDividerVisible
+          ? `border-bottom: 1px solid ${
+              prefersDarkMode ? '#196194' : '#455a64'
+            };`
+          : ''}
         text-align: start;
         pointer-events: ${isExpanded ? 'auto' : 'none'};
         margin-bottom: ${isLast ? '0px' : '8px'};
         word-wrap: break-word;
+        height: 100%;
       `}
     >
       <div

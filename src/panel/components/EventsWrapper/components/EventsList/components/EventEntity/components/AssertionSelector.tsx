@@ -105,12 +105,22 @@ export function AssertionSelector({
     [record, onSetAssertProperties],
   )
 
+  if (!isExpanded) {
+    return (
+      <div
+        css={css`
+          text-align: start;
+        `}
+      >
+        Expand block to setup...
+      </div>
+    )
+  }
   return (
     <div
       css={css`
         width: 100%;
         padding: 0.5rem 1.5rem;
-        filter: blur(${isExpanded ? '0px' : '0.7px'});
       `}
     >
       <div

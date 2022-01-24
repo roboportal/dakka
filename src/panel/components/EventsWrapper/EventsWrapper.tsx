@@ -77,6 +77,7 @@ export default function EventsWrapper({
         flex-direction: column;
         position: relative;
         width: ${isWideScreen ? '100%' : '80vw'};
+        height: calc(100vh - 52px);
       `}
     >
       <div
@@ -84,8 +85,7 @@ export default function EventsWrapper({
           display: flex;
           justify-content: row;
           overflow-x: scroll;
-
-          height: calc(100% - 44px);
+          height: 100%;
           &::-webkit-scrollbar {
             display: none;
           }
