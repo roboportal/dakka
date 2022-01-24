@@ -159,6 +159,7 @@ export function EventEntity({
             isExpanded={isExpanded}
             record={record as IEventBlock}
             onSetAssertProperties={onSetAssertProperties}
+            prefersDarkMode={prefersDarkMode}
           />
         )}
       </div>

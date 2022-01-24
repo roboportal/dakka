@@ -13,11 +13,13 @@ import {
   assertionsListNegative,
   assertionTypes,
 } from 'constants/assertion'
+import { Label } from './Label'
 
 interface IAssertionSelectorProp {
   record: IEventBlock
   onSetAssertProperties: (payload: IAssertionPayload) => void
   isExpanded: boolean
+  prefersDarkMode: boolean
 }
 
 const requireInputAsserts = [
@@ -30,6 +32,7 @@ export function AssertionSelector({
   record,
   onSetAssertProperties,
   isExpanded,
+  prefersDarkMode,
 }: IAssertionSelectorProp) {
   const { assertionType, assertionAttribute, assertionValue } =
     record as IEventBlock
@@ -65,15 +68,23 @@ export function AssertionSelector({
   const handleSelectorChange = useCallback(
     (e: SelectChangeEvent<string>) => {
       const selection = assertions.find((item) => item.name === e.target.value)
+
+      const _assertionValue = ['', assertionTypes.inDocument].includes(
+        selection?.type ?? '',
+      )
+        ? ''
+        : assertionValue
+
+      const _assertionAttribute =
+        selection?.type === assertionTypes.hasAttribute
+          ? assertionAttribute
+          : ''
+
       onSetAssertProperties({
         recordId: record.id,
         assertionType: selection || {},
-        assertionValue:
-          selection?.type === assertionTypes.inDocument ? '' : assertionValue,
-        assertionAttribute:
-          selection?.type === assertionTypes.hasAttribute
-            ? assertionAttribute
-            : '',
+        assertionValue: _assertionValue,
+        assertionAttribute: _assertionAttribute,
       })
     },
     [
@@ -106,13 +117,20 @@ export function AssertionSelector({
   )
 
   if (!isExpanded) {
+    const type = record?.assertionType?.name ?? ''
+    const attribute = record?.assertionAttribute ?? ''
+    const value = record?.assertionValue ?? ''
     return (
       <div
         css={css`
+          border-bottom: 1px solid ${prefersDarkMode ? '#196194' : '#455a64'};
           text-align: start;
+          pointer-events: ${isExpanded ? 'auto' : 'none'};
         `}
       >
-        Expand block to setup...
+        <Label label="Type" value={type} />
+        <Label label="Attribute" value={attribute} />
+        <Label label="Value" value={value} />
       </div>
     )
   }
@@ -121,6 +139,7 @@ export function AssertionSelector({
       css={css`
         width: 100%;
         padding: 0.5rem 1.5rem;
+        border-bottom: 1px solid ${prefersDarkMode ? '#196194' : '#455a64'};
       `}
     >
       <div
@@ -183,6 +202,7 @@ export function AssertionSelector({
               display: block;
             `}
             fullWidth
+            value={record?.assertionAttribute}
             size="small"
             id="value-assert"
             variant="outlined"
@@ -200,6 +220,7 @@ export function AssertionSelector({
               margin-left: 4px;
             `}
             fullWidth
+            value={record?.assertionValue}
             size="small"
             id="value-assert"
             variant="outlined"
