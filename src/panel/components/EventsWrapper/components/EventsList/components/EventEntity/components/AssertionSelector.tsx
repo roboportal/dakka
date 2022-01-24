@@ -22,8 +22,14 @@ interface IAssertionSelectorProp {
 
 const requireInputAsserts = [
   assertionTypes.contains,
+  assertionTypes.notContains,
   // assertionTypes.equals,
   assertionTypes.hasAttribute,
+  assertionTypes.notHasAttribute,
+  assertionTypes.toHaveTitle,
+  assertionTypes.notToHaveTitle,
+  assertionTypes.toHaveURL,
+  assertionTypes.notToHaveURL,
 ]
 
 export function AssertionSelector({
