@@ -1,13 +1,13 @@
 import { useRef, useState, useCallback, useEffect } from 'react'
 import { css } from '@emotion/react'
+import { useSelector } from 'react-redux'
 
 import {
-  EventListItem,
   ISelectorPayload,
   IEventBlockPayload,
   IAssertionPayload,
 } from 'store/eventRecorderSlice'
-
+import { getActiveEvents, getIsManualEventInsert } from 'store/eventSelectors'
 import EventsList from './components/EventsList/EventsList'
 import Scroll from './components/Scroll'
 import ActionsToolbox from './components/ActionsToolbox/ActionsToolbox'
@@ -15,42 +15,36 @@ import ActionsToolbox from './components/ActionsToolbox/ActionsToolbox'
 interface IEventsWrapperProps {
   isWideScreen: boolean
   autoScroll: boolean
-  events: EventListItem[]
   toggleHighlightedElement: React.MouseEventHandler<Element>
   onSelectSelector: (payload: ISelectorPayload) => void
   onEventClick: React.MouseEventHandler<Element>
-  isManualEventInsert: boolean
   onInsertBlock: (payload: IEventBlockPayload) => void
   enableSelectElement: () => void
-  handleSetActiveBlockId: (id: string) => void
-  handleSetExpandedId: (id: string) => void
-  activeBlockId: string | null
-  expandedId: string | null
-  handleSetAssertProperties: (payload: IAssertionPayload) => void
+  onSetActiveBlockId: (id: string) => void
+  onSetExpandedId: (id: string) => void
+  onSetAssertProperties: (payload: IAssertionPayload) => void
   prefersDarkMode: boolean
 }
 
 export default function EventsWrapper({
-  events,
   autoScroll,
   toggleHighlightedElement,
   onSelectSelector,
   onEventClick,
   isWideScreen,
   onInsertBlock,
-  isManualEventInsert,
   enableSelectElement,
-  handleSetActiveBlockId,
-  expandedId,
-  handleSetExpandedId,
-  handleSetAssertProperties,
-  activeBlockId,
+  onSetActiveBlockId,
+  onSetExpandedId,
+  onSetAssertProperties,
   prefersDarkMode,
 }: IEventsWrapperProps) {
   const wrapperRef = useRef<HTMLDivElement | null>(null)
   const [eventsListScroll, setEventsListScroll] = useState(0)
   const [dragOverIndex, setDragOverIndex] = useState(Number.MIN_SAFE_INTEGER)
   const prevEventCounterRef = useRef(0)
+  const events = useSelector(getActiveEvents)
+  const isManualEventInsert = useSelector(getIsManualEventInsert)
 
   useEffect(() => {
     const nEvents = events?.length ?? 0
@@ -103,12 +97,10 @@ export default function EventsWrapper({
         ref={wrapperRef}
       >
         <EventsList
-          onSetAssertProperties={handleSetAssertProperties}
+          onSetAssertProperties={onSetAssertProperties}
           prefersDarkMode={prefersDarkMode}
-          activeBlockId={activeBlockId}
-          handleSetActiveBlockId={handleSetActiveBlockId}
-          handleSetExpandedId={handleSetExpandedId}
-          expandedId={expandedId}
+          onSetActiveBlockId={onSetActiveBlockId}
+          onSetExpandedId={onSetExpandedId}
           enableSelectElement={enableSelectElement}
           setDragOverIndex={setDragOverIndex}
           dragOverIndex={dragOverIndex}
@@ -119,7 +111,6 @@ export default function EventsWrapper({
       </div>
       <Scroll
         prefersDarkMode={prefersDarkMode}
-        expandedId={expandedId}
         wrapper={wrapperRef.current}
         events={events}
         scrollPosition={eventsListScroll}

@@ -39,8 +39,7 @@ export function EventEntity({
   record,
   index,
   enableSelectElement,
-  handleSetActiveBlockId,
-  activeBlockId,
+  onSetActiveBlockId,
   onExpand,
   isExpanded,
   onSetAssertProperties,
@@ -49,8 +48,7 @@ export function EventEntity({
   record: IEventPayload | IEventBlock
   index: string
   enableSelectElement: () => void
-  handleSetActiveBlockId: (id: string) => void
-  activeBlockId: string | null
+  onSetActiveBlockId: (id: string) => void
   onExpand: (id: string) => void
   isExpanded: boolean
   onSetAssertProperties: (payload: IAssertionPayload) => void
@@ -63,9 +61,9 @@ export function EventEntity({
   const isInteractive = variant === INTERACTIVE_ELEMENT && !element
 
   const handleSelectWaitForElement = useCallback(() => {
-    handleSetActiveBlockId(record.id)
+    onSetActiveBlockId(record.id)
     enableSelectElement()
-  }, [enableSelectElement, handleSetActiveBlockId, record])
+  }, [enableSelectElement, onSetActiveBlockId, record])
 
   const handleExpand = useCallback(() => {
     onExpand(isExpanded ? '' : record.id)
@@ -101,7 +99,6 @@ export function EventEntity({
         isExpanded={isExpanded}
         isInteractive={record.variant === INTERACTIVE_ELEMENT}
         onSelectWaitForElement={handleSelectWaitForElement}
-        activeBlockId={activeBlockId}
         recordId={record.id}
         onExpand={handleExpand}
       />

@@ -13,6 +13,7 @@ import {
   setExpandedId,
   setAssertionProperties,
   IEventBlockPayload,
+  IAssertionPayload,
 } from 'store/eventRecorderSlice'
 
 import { ENABLE_RECORDER, REDIRECT_STARTED } from 'constants/messageTypes'
@@ -62,7 +63,7 @@ export default function useEventRecorder() {
   const handleSetExpandedId = (payload: string) =>
     dispatch(setExpandedId(payload))
 
-  const handleSetAssertProperties = (payload: any) =>
+  const handleSetAssertProperties = (payload: IAssertionPayload) =>
     dispatch(setAssertionProperties(payload))
 
   const handleEventClick: MouseEventHandler = useCallback(
@@ -174,7 +175,6 @@ export default function useEventRecorder() {
   return {
     events,
     expandedId,
-    isRecorderEnabled,
     activeTabID,
     isManualEventInsert,
     activeBlockId,
