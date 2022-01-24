@@ -154,7 +154,7 @@ export function EventEntity({
             }
           />
         )}
-        {record.type === 'Assertion' && !!element && (
+        {record.type === 'Assertion' && (
           <AssertionSelector
             isExpanded={isExpanded}
             record={record as IEventBlock}

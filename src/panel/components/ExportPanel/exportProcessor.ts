@@ -30,9 +30,13 @@ const selectorsFactoryMap: Record<selectorTypes, (v: string) => string> = {
   [selectorTypes.uniquePath]: (v) => v,
 }
 
-const normalizeString = (str: string) =>
+const normalizeString = (str: string | undefined) => {
+  if (!str) {
+    return ''
+  }
   // eslint-disable-next-line
   str.replaceAll('\\', '\\\\').replaceAll('\n', '\\n').replaceAll(`'`, `\\'`)
+}
 
 abstract class ExportProcessor {
   abstract type: exportOptions
@@ -73,48 +77,118 @@ test('${testName}', async ({ page }) => {
 
   private expectMethodsMap: Record<
     string,
-    (
-      selector: string,
-      assertionValue?: string,
-      assertionAttribute?: string,
-    ) => string
+    ({
+      selector,
+      assertionValue,
+      assertionAttribute,
+    }: {
+      selector?: string
+      assertionValue?: string
+      assertionAttribute?: string
+    }) => string
   > = {
-    [assertionTypes.contains]: (selector, assertionValue) => {
+    [assertionTypes.toHaveTitle]: ({ assertionValue }) => {
+      return `  expect(page).toHaveTitle('${assertionValue}')\n`
+    },
+
+    [assertionTypes.notToHaveTitle]: ({ assertionValue }) => {
+      return `  expect(page).not.toHaveTitle('${assertionValue}')\n`
+    },
+
+    [assertionTypes.toHaveURL]: ({ assertionValue }) => {
+      return `  expect(page).toHaveURL('${assertionValue}')\n`
+    },
+
+    [assertionTypes.notToHaveURL]: ({ assertionValue }) => {
+      return `  expect(page).not.toHaveURL('${assertionValue}')\n`
+    },
+
+    [assertionTypes.toBeChecked]: ({ selector }) => {
+      const normalizedSelector = normalizeString(selector)
+      return `  expect(await page.locator('${normalizedSelector}')).toBeChecked()\n`
+    },
+
+    [assertionTypes.notToBeChecked]: ({ selector }) => {
+      const normalizedSelector = normalizeString(selector)
+      return `  expect(await page.locator('${normalizedSelector}')).not.toBeChecked()\n`
+    },
+
+    [assertionTypes.contains]: ({ selector, assertionValue }) => {
       const normalizedSelector = normalizeString(selector)
       return `  expect(await page.locator('${normalizedSelector}').textContent()).toBe('${assertionValue}')\n`
     },
 
-    [assertionTypes.notContains]: (selector, assertionValue) => {
+    [assertionTypes.notContains]: ({ selector, assertionValue }) => {
       const normalizedSelector = normalizeString(selector)
       return `  expect(await page.locator('${normalizedSelector}').textContent()).not.toBe('${assertionValue}')\n`
     },
 
-    [assertionTypes.inDocument]: (selector) => {
+    [assertionTypes.inDocument]: ({ selector }) => {
       const normalizedSelector = normalizeString(selector)
       return `  expect(await page.locator('${normalizedSelector}')).toBeTruthy()\n`
     },
 
-    [assertionTypes.notInDocument]: (selector) => {
+    [assertionTypes.notInDocument]: ({ selector }) => {
       const normalizedSelector = normalizeString(selector)
       return `  expect(await page.locator('${normalizedSelector}')).not.toBeTruthy()\n`
     },
 
-    [assertionTypes.hasAttribute]: (
+    [assertionTypes.toBeDisabled]: ({ selector }) => {
+      const normalizedSelector = normalizeString(selector)
+      return `  expect(await page.locator('${normalizedSelector}')).toBeDisabled()\n`
+    },
+
+    [assertionTypes.notToBeDisabled]: ({ selector }) => {
+      const normalizedSelector = normalizeString(selector)
+      return `  expect(await page.locator('${normalizedSelector}')).not.toBeDisabled()\n`
+    },
+
+    [assertionTypes.toBeEnabled]: ({ selector }) => {
+      const normalizedSelector = normalizeString(selector)
+      return `  expect(await page.locator('${normalizedSelector}')).toBeEnabled()\n`
+    },
+
+    [assertionTypes.notToBeEnabled]: ({ selector }) => {
+      const normalizedSelector = normalizeString(selector)
+      return `  expect(await page.locator('${normalizedSelector}')).not.toBeEnabled()\n`
+    },
+
+    [assertionTypes.toBeHidden]: ({ selector }) => {
+      const normalizedSelector = normalizeString(selector)
+      return `  expect(await page.locator('${normalizedSelector}')).toBeHidden()\n`
+    },
+
+    [assertionTypes.notToBeHidden]: ({ selector }) => {
+      const normalizedSelector = normalizeString(selector)
+      return `  expect(await page.locator('${normalizedSelector}')).not.toBeHidden()\n`
+    },
+
+    [assertionTypes.hasAttribute]: ({
       selector,
       assertionValue,
       assertionAttribute,
-    ) => {
+    }) => {
       const normalizedSelector = normalizeString(selector)
       return `  expect(await page.locator('${normalizedSelector}').getAttribute('${assertionAttribute}')).toBe('${assertionValue}')`
     },
 
-    [assertionTypes.notHasAttribute]: (
+    [assertionTypes.notHasAttribute]: ({
       selector,
       assertionValue,
       assertionAttribute,
-    ) => {
+    }) => {
       const normalizedSelector = normalizeString(selector)
       return `expect(await page.locator('${normalizedSelector}').getAttribute('${assertionAttribute}')).not.toBe('${assertionValue}')`
+    },
+
+    [assertionTypes.toHaveLength]: ({ selector, assertionValue }) => {
+      const normalizedSelector = normalizeString(selector)
+      return `  expect(await page.locator('${normalizedSelector}')).toHaveCount('${assertionValue}')\n`
+    },
+
+    [assertionTypes.notToHaveLength]: ({ selector, assertionValue }) => {
+      const normalizedSelector = normalizeString(selector)
+      return `  expect(await page.locator('${normalizedSelector}')).not.toHaveCount('${assertionValue}')\n`
     },
   }
 
@@ -141,7 +215,11 @@ test('${testName}', async ({ page }) => {
           ](element?.selectedSelector?.value ?? '')
           acc += this.expectMethodsMap[
             it?.assertionType?.type as assertionTypes
-          ](selector, it.assertionValue, it.assertionAttribute)
+          ]({
+            selector,
+            assertionValue: it.assertionValue,
+            assertionAttribute: it.assertionAttribute,
+          })
         }
       }
 
