@@ -103,12 +103,14 @@ test('${testName}', async ({ page }) => {
       return `  expect(page).not.toHaveURL('${assertionValue}')\n`
     },
 
-    [assertionTypes.toBeChecked]: ({ assertionValue }) => {
-      return `  expect(page).toBeChecked('${assertionValue}')\n`
+    [assertionTypes.toBeChecked]: ({ selector }) => {
+      const normalizedSelector = normalizeString(selector)
+      return `  expect(await page.locator('${normalizedSelector}')).toBeChecked()\n`
     },
 
-    [assertionTypes.notToBeChecked]: ({ assertionValue }) => {
-      return `  expect(page).not.toBeChecked('${assertionValue}')\n`
+    [assertionTypes.notToBeChecked]: ({ selector }) => {
+      const normalizedSelector = normalizeString(selector)
+      return `  expect(await page.locator('${normalizedSelector}')).not.toBeChecked()\n`
     },
 
     [assertionTypes.contains]: ({ selector, assertionValue }) => {
@@ -177,6 +179,16 @@ test('${testName}', async ({ page }) => {
     }) => {
       const normalizedSelector = normalizeString(selector)
       return `expect(await page.locator('${normalizedSelector}').getAttribute('${assertionAttribute}')).not.toBe('${assertionValue}')`
+    },
+
+    [assertionTypes.toHaveLength]: ({ selector, assertionValue }) => {
+      const normalizedSelector = normalizeString(selector)
+      return `  expect(await page.locator('${normalizedSelector}')).toHaveCount('${assertionValue}')\n`
+    },
+
+    [assertionTypes.notToHaveLength]: ({ selector, assertionValue }) => {
+      const normalizedSelector = normalizeString(selector)
+      return `  expect(await page.locator('${normalizedSelector}')).not.toHaveCount('${assertionValue}')\n`
     },
   }
 

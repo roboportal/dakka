@@ -30,8 +30,8 @@ const requireInputAsserts = [
   assertionTypes.notToHaveTitle,
   assertionTypes.toHaveURL,
   assertionTypes.notToHaveURL,
-  assertionTypes.toBeChecked,
-  assertionTypes.notToBeChecked,
+  assertionTypes.toHaveLength,
+  assertionTypes.notToHaveLength,
 ]
 
 export function AssertionSelector({
