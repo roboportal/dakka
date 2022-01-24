@@ -8,10 +8,12 @@ import {
   IEventBlockPayload,
   IAssertionPayload,
 } from 'store/eventRecorderSlice'
+import { getExpandedEventId } from 'store/eventSelectors'
 
 import { Record } from './components/Record/Record'
 import { EventEntity } from './components/EventEntity/EventEntity'
 import { Selector } from './components/Selector'
+import { useSelector } from 'react-redux'
 
 const DEFAULT_WIDTH = '88px'
 const EXPANDED_WIDTH = '340px'
@@ -23,10 +25,8 @@ interface IEventsListProps {
   setDragOverIndex: (value: number) => void
   dragOverIndex: number
   enableSelectElement: () => void
-  handleSetActiveBlockId: (id: string) => void
-  handleSetExpandedId: (id: string) => void
-  expandedId: string | null
-  activeBlockId: string | null
+  onSetActiveBlockId: (id: string) => void
+  onSetExpandedId: (id: string) => void
   onSetAssertProperties: (payload: IAssertionPayload) => void
   prefersDarkMode: boolean
 }
@@ -38,16 +38,15 @@ function EventsList({
   setDragOverIndex,
   dragOverIndex,
   enableSelectElement,
-  handleSetActiveBlockId,
-  handleSetExpandedId,
-  expandedId,
+  onSetActiveBlockId,
+  onSetExpandedId,
   onSetAssertProperties,
-  activeBlockId,
   prefersDarkMode,
 }: IEventsListProps) {
+  const expandedId = useSelector(getExpandedEventId)
   const handleExpand = useCallback(
-    (id) => handleSetExpandedId(id),
-    [handleSetExpandedId],
+    (id) => onSetExpandedId(id),
+    [onSetExpandedId],
   )
 
   if (!events) {
@@ -88,11 +87,10 @@ function EventsList({
                 prefersDarkMode={prefersDarkMode}
                 isExpanded={expandedId === record.id}
                 onExpand={handleExpand}
-                handleSetActiveBlockId={handleSetActiveBlockId}
+                onSetActiveBlockId={onSetActiveBlockId}
                 enableSelectElement={enableSelectElement}
                 record={record as IEventPayload}
                 index={index.toString()}
-                activeBlockId={activeBlockId}
               />
             </div>
           </Record>

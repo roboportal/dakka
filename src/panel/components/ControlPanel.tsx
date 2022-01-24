@@ -6,17 +6,18 @@ import Typography from '@mui/material/Typography'
 import DeleteIcon from '@mui/icons-material/Delete'
 import SettingsApplicationsIcon from '@mui/icons-material/SettingsApplications'
 import IconButton from '@mui/material/IconButton'
+import { Tooltip } from '@mui/material'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import RadioButtonChecked from '@mui/icons-material/RadioButtonChecked'
 import Stack from '@mui/material/Stack'
 import { grey, green, red } from '@mui/material/colors'
 import Divider from '@mui/material/Divider'
+import { useSelector } from 'react-redux'
 
 import ExportPanel from './ExportPanel/ExportPanel'
-import { Tooltip } from '@mui/material'
+import { getIsRecorderEnabled } from 'store/eventSelectors'
 
 export type IControlPanelProps = {
-  isRecorderEnabled: boolean
   isSettingsButtonActive: boolean
   onRecordEnabledChange: () => void
   onClearEventsByTabId: () => void
@@ -26,7 +27,6 @@ export type IControlPanelProps = {
 }
 
 const ControlPanel = ({
-  isRecorderEnabled,
   onRecordEnabledChange,
   onClearEventsByTabId,
   onSettingsClick,
@@ -34,6 +34,8 @@ const ControlPanel = ({
   onAutoScrollToggle,
   isAutoScrollEnabled,
 }: IControlPanelProps) => {
+  const isRecorderEnabled = useSelector(getIsRecorderEnabled)
+
   return (
     <AppBar
       sx={{ backgroundColor: 'background.default', marginBottom: '8px' }}

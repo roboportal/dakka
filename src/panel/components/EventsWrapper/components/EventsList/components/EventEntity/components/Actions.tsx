@@ -6,11 +6,12 @@ import CloseFullscreenIcon from '@mui/icons-material/CloseFullscreen'
 import IconButton from '@mui/material/IconButton'
 import Tooltip from '@mui/material/Tooltip'
 import { grey } from '@mui/material/colors'
+import { useSelector } from 'react-redux'
+import { getActiveBlockId } from 'store/eventSelectors'
 
 interface IActionsProps {
   isInteractive: boolean
   onSelectWaitForElement: () => void
-  activeBlockId: string | null
   recordId: string
   isExpanded: boolean
   onExpand: () => void
@@ -20,12 +21,13 @@ interface IActionsProps {
 export function Actions({
   isInteractive,
   onSelectWaitForElement,
-  activeBlockId,
   recordId,
   isExpanded,
   onExpand,
   prefersDarkMode,
 }: IActionsProps) {
+  const activeBlockId = useSelector(getActiveBlockId)
+
   return (
     <div
       css={css`

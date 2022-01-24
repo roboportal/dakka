@@ -20,11 +20,6 @@ export default function App() {
   const [isAutoScrollEnabled, toggleAutoScroll] = useToggle(true)
 
   const {
-    events,
-    isManualEventInsert,
-    activeTabID,
-    isRecorderEnabled,
-    expandedId,
     handleIsRecordEnabledChange,
     handleClearEventsByTabId,
     toggleHighlightedElement,
@@ -34,7 +29,6 @@ export default function App() {
     handleSetActiveBlockId,
     handleSetExpandedId,
     handleSetAssertProperties,
-    activeBlockId,
   } = useEventRecorder()
 
   const { isInjectionAllowed, allowInjection } = useAllowInjection()
@@ -54,7 +48,6 @@ export default function App() {
       `}
     >
       <ControlPanel
-        isRecorderEnabled={isRecorderEnabled}
         onRecordEnabledChange={handleIsRecordEnabledChange}
         onClearEventsByTabId={handleClearEventsByTabId}
         onSettingsClick={toggleSidePanel}
@@ -75,15 +68,11 @@ export default function App() {
       >
         <EventsWrapper
           prefersDarkMode={prefersDarkMode}
-          activeBlockId={activeBlockId}
-          handleSetActiveBlockId={handleSetActiveBlockId}
-          handleSetExpandedId={handleSetExpandedId}
-          handleSetAssertProperties={handleSetAssertProperties}
-          expandedId={expandedId}
+          onSetActiveBlockId={handleSetActiveBlockId}
+          onSetExpandedId={handleSetExpandedId}
+          onSetAssertProperties={handleSetAssertProperties}
           enableSelectElement={enableSelectElement}
-          isManualEventInsert={isManualEventInsert}
           onInsertBlock={handleInsertBlock}
-          events={events[activeTabID]}
           toggleHighlightedElement={toggleHighlightedElement}
           onSelectSelector={handleSelectSelector}
           isWideScreen={!isSidePanelVisible}

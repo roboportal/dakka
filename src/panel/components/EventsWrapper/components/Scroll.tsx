@@ -1,13 +1,14 @@
 import { useRef, useEffect, useState, memo } from 'react'
 import { css } from '@emotion/react'
+import { useSelector } from 'react-redux'
 import { EventListItem } from 'store/eventRecorderSlice'
+import { getExpandedEventId } from 'store/eventSelectors'
 
 interface IScrollProps {
   events: EventListItem[]
   wrapper: HTMLDivElement | null
   scrollPosition: number
   isWideScreen: boolean
-  expandedId: string | null
   prefersDarkMode: boolean
 }
 
@@ -20,11 +21,11 @@ function Scroll({
   wrapper,
   scrollPosition,
   isWideScreen,
-  expandedId,
   prefersDarkMode,
 }: IScrollProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const scaleFactorRef = useRef<number>(1)
+  const expandedId = useSelector(getExpandedEventId)
 
   const [scrollLeftOffset, setScrollLeftOffset] = useState(0)
   const [scrollWindowSize, setScrollWindowSize] = useState(0)
