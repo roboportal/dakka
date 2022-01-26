@@ -115,6 +115,16 @@ test('${testName}', async ({ page }) => {
       return `  expect(await page.locator('${normalizedSelector}')).not.toBeHidden()\n`
     },
 
+    [assertionTypes.toBeVisible]: ({ selector }) => {
+      const normalizedSelector = normalizeString(selector)
+      return `  expect(await page.locator('${normalizedSelector}')).toBeVisible()\n`
+    },
+
+    [assertionTypes.notToBeVisible]: ({ selector }) => {
+      const normalizedSelector = normalizeString(selector)
+      return `  expect(await page.locator('${normalizedSelector}')).not.toBeVisible()\n`
+    },
+
     [assertionTypes.hasAttribute]: ({
       selector,
       assertionValue,
