@@ -1,9 +1,23 @@
 import { IEventBlock, IEventPayload } from 'store/eventRecorderSlice'
 import { exportOptions } from '../constants'
 import { assertionTypes } from 'constants/assertion'
-import { selectorsFactoryMap, selectorTypes } from '../exportProcessor'
 import { normalizeString } from '../normalizer'
 import { ExportProcessor } from './abstractProcessor'
+import { selectorTypes } from '../selectorTypes'
+
+export const selectorsCypressFactoryMap: Record<
+  selectorTypes,
+  (v: string) => string
+> = {
+  [selectorTypes.role]: (v) => `get('[role="${v}"]')`,
+  [selectorTypes.labelText]: (v) => `contains("${v}")`,
+  [selectorTypes.placeholder]: (v) => `get('[placeholder="${v}"]')`,
+  [selectorTypes.text]: (v) => `contains('${v}')`,
+  [selectorTypes.className]: (v) => `get('.${v}')`,
+  [selectorTypes.elementId]: (v) => `get('#${v}')`,
+  [selectorTypes.testId]: (v) => `get('[data-test-id="${v}"]')`,
+  [selectorTypes.uniquePath]: (v) => `get('${v}')`,
+}
 
 export class CypressProcessor extends ExportProcessor {
   type = exportOptions.cypress
@@ -16,15 +30,17 @@ export class CypressProcessor extends ExportProcessor {
   }
 
   private getGoToTestedPage(url: string) {
-    return `cy.visit('${url}')`
+    return `cy.visit('${url}')\n`
   }
 
   private getWrapper(testName: string, content: string) {
-    return `describe('${testName}', () => {
-      it('${testName}', () => {
-        ${content}
-      })
-    })`
+    return `import { cy } from 'cypress';
+
+describe('${testName}', () => {
+  it('${testName}', () => {
+    ${content}
+  })
+})`
   }
 
   private expectMethodsMap: Record<
@@ -40,79 +56,75 @@ export class CypressProcessor extends ExportProcessor {
     }) => string
   > = {
     [assertionTypes.toHaveTitle]: ({ assertionValue }) => {
-      return `  cy.title().should('eq', '${assertionValue}')\n`
+      return `    cy.title().should('eq', '${assertionValue}')\n`
     },
 
     [assertionTypes.notToHaveTitle]: ({ assertionValue }) => {
-      return `  cy.title().should('not.eq', '${assertionValue}')\n`
+      return `    cy.title().should('not.eq', '${assertionValue}')\n`
     },
 
     [assertionTypes.toHaveURL]: ({ assertionValue }) => {
-      return `  cy.url().should('eq', '${assertionValue}')\n`
+      return `    cy.url().should('eq', '${assertionValue}')\n`
     },
 
     [assertionTypes.notToHaveURL]: ({ assertionValue }) => {
-      return `  cy.url().should('not.eq', '${assertionValue}')\n`
+      return `    cy.url().should('not.eq', '${assertionValue}')\n`
     },
 
     [assertionTypes.toBeChecked]: ({ selector }) => {
-      const normalizedSelector = normalizeString(selector)
-      return `  cy.get(${normalizedSelector}).should('be.checked')\n`
+      return `    cy.${selector}.should('be.checked')\n`
     },
 
     [assertionTypes.notToBeChecked]: ({ selector }) => {
-      const normalizedSelector = normalizeString(selector)
-      return `  cy.get(${normalizedSelector}).should('not.be.checked')\n`
+      return `    cy.${selector}.should('not.be.checked')\n`
     },
 
     [assertionTypes.contains]: ({ selector, assertionValue }) => {
-      const normalizedSelector = normalizeString(selector)
-      return `  cy.get(${normalizedSelector}).should('contain.text', ${assertionValue})\n`
+      return `    cy.${selector}.should('contain.text', '${assertionValue}')\n`
     },
 
     [assertionTypes.notContains]: ({ selector, assertionValue }) => {
-      const normalizedSelector = normalizeString(selector)
-      return `  cy.get(${normalizedSelector}).should('not.contain.text', ${assertionValue})\n`
+      return `    cy.${selector}.should('not.contain.text', '${assertionValue}')\n`
     },
 
     [assertionTypes.inDocument]: ({ selector }) => {
-      const normalizedSelector = normalizeString(selector)
-      return `  cy.get(${normalizedSelector}).should('exist')\n`
+      return `    cy.${selector}.should('exist')\n`
     },
 
     [assertionTypes.notInDocument]: ({ selector }) => {
-      const normalizedSelector = normalizeString(selector)
-      return `  cy.get(${normalizedSelector}).should('not.exist')\n`
+      return `    cy.${selector}.should('not.exist')\n`
     },
 
     [assertionTypes.toBeDisabled]: ({ selector }) => {
-      const normalizedSelector = normalizeString(selector)
-      return `  cy.get(${normalizedSelector}).should('be.disabled')\n`
+      return `    cy.${selector}.should('be.disabled')\n`
     },
 
     [assertionTypes.notToBeDisabled]: ({ selector }) => {
-      const normalizedSelector = normalizeString(selector)
-      return `  cy.get(${normalizedSelector}).should('not.be.disabled')\n`
+      return `    cy.${selector}.should('not.be.disabled')\n`
     },
 
     [assertionTypes.toBeEnabled]: ({ selector }) => {
-      const normalizedSelector = normalizeString(selector)
-      return `  cy.get(${normalizedSelector}).should('be.enabled')\n`
+      return `    cy.${selector}.should('be.enabled')\n`
     },
 
     [assertionTypes.notToBeEnabled]: ({ selector }) => {
-      const normalizedSelector = normalizeString(selector)
-      return `  cy.get(${normalizedSelector}).should('not.be.enabled')\n`
+      return `    cy.${selector}.should('not.be.enabled')\n`
     },
 
     [assertionTypes.toBeHidden]: ({ selector }) => {
-      const normalizedSelector = normalizeString(selector)
-      return `  cy.get(${normalizedSelector}).should('be.hidden')\n`
+      return `    cy.${selector}.should('be.hidden')\n`
     },
 
     [assertionTypes.notToBeHidden]: ({ selector }) => {
-      const normalizedSelector = normalizeString(selector)
-      return `  cy.get(${normalizedSelector}).should('not.be.hidden')\n`
+      return `  cy.${selector}.should('not.be.hidden')\n`
+    },
+
+    [assertionTypes.toBeVisible]: ({ selector }) => {
+      return `    cy.${selector}.should('be.visible')\n`
+    },
+
+    [assertionTypes.notToBeVisible]: ({ selector }) => {
+      return `    cy.${selector}.should('not.be.visible')\n`
     },
 
     [assertionTypes.hasAttribute]: ({
@@ -120,8 +132,7 @@ export class CypressProcessor extends ExportProcessor {
       assertionValue,
       assertionAttribute,
     }) => {
-      const normalizedSelector = normalizeString(selector)
-      return `  cy.get(${normalizedSelector}).should('have.attr', ${assertionAttribute}, ${assertionValue})\n`
+      return `      cy.${selector}.should('have.attr', '${assertionAttribute}', '${assertionValue}')\n`
     },
 
     [assertionTypes.notHasAttribute]: ({
@@ -129,28 +140,26 @@ export class CypressProcessor extends ExportProcessor {
       assertionValue,
       assertionAttribute,
     }) => {
-      const normalizedSelector = normalizeString(selector)
-      return `  cy.get(${normalizedSelector}).should('not.have.attr', ${assertionAttribute}, ${assertionValue})\n`
+      return `    cy.${selector}.should('not.have.attr', '${assertionAttribute}', '${assertionValue}')\n`
     },
 
     [assertionTypes.toHaveLength]: ({ selector, assertionValue }) => {
-      const normalizedSelector = normalizeString(selector)
-      return `  cy.get(${normalizedSelector}).should('have.length', ${assertionValue})\n`
+      return `    cy.${selector}.should('have.length', '${assertionValue}')\n`
     },
 
     [assertionTypes.notToHaveLength]: ({ selector, assertionValue }) => {
-      const normalizedSelector = normalizeString(selector)
-      return `  cy.get(${normalizedSelector}).should('not.have.length', ${assertionValue})\n`
+      return `    cy.${selector}.should('not.have.length', '${assertionValue}')\n`
     },
   }
 
   private serializeRecordedEvents(events: IEventBlock[]) {
     return events.reduce((acc, it) => {
       if (it.selectedSelector) {
-        const selector = selectorsFactoryMap[
+        const selector = selectorsCypressFactoryMap[
           it.selectedSelector.name as selectorTypes
         ](it.selectedSelector.value)
-        acc += `  cy.get('${normalizeString(selector)}')${
+
+        acc += `    cy.${selector}${
           this.methodsMap[it?.type]?.(it) ?? this.methodsMap.default(it)
         }\n`
       }
@@ -158,7 +167,7 @@ export class CypressProcessor extends ExportProcessor {
       if (it.type === 'Assertion') {
         const element = it.element
         if (element) {
-          const selector = selectorsFactoryMap[
+          const selector = selectorsCypressFactoryMap[
             element?.selectedSelector?.name as selectorTypes
           ](element?.selectedSelector?.value ?? '')
           acc += this.expectMethodsMap[
