@@ -60,72 +60,72 @@ export class CypressProcessor extends ExportProcessor {
 
     [assertionTypes.toBeChecked]: ({ selector }) => {
       const normalizedSelector = normalizeString(selector)
-      return `  cy.get(${normalizedSelector}).should('be.checked')\n`
+      return `  cy.get('${normalizedSelector}').should('be.checked')\n`
     },
 
     [assertionTypes.notToBeChecked]: ({ selector }) => {
       const normalizedSelector = normalizeString(selector)
-      return `  cy.get(${normalizedSelector}).should('not.be.checked')\n`
+      return `  cy.get('${normalizedSelector}').should('not.be.checked')\n`
     },
 
     [assertionTypes.contains]: ({ selector, assertionValue }) => {
       const normalizedSelector = normalizeString(selector)
-      return `  cy.get(${normalizedSelector}).should('contain.text', '${assertionValue}')\n`
+      return `  cy.get('${normalizedSelector}').should('contain.text', '${assertionValue}')\n`
     },
 
     [assertionTypes.notContains]: ({ selector, assertionValue }) => {
       const normalizedSelector = normalizeString(selector)
-      return `  cy.get(${normalizedSelector}).should('not.contain.text', '${assertionValue}')\n`
+      return `  cy.get('${normalizedSelector}').should('not.contain.text', '${assertionValue}')\n`
     },
 
     [assertionTypes.inDocument]: ({ selector }) => {
       const normalizedSelector = normalizeString(selector)
-      return `  cy.get(${normalizedSelector}).should('exist')\n`
+      return `  cy.get('${normalizedSelector}').should('exist')\n`
     },
 
     [assertionTypes.notInDocument]: ({ selector }) => {
       const normalizedSelector = normalizeString(selector)
-      return `  cy.get(${normalizedSelector}).should('not.exist')\n`
+      return `  cy.get('${normalizedSelector}').should('not.exist')\n`
     },
 
     [assertionTypes.toBeDisabled]: ({ selector }) => {
       const normalizedSelector = normalizeString(selector)
-      return `  cy.get(${normalizedSelector}).should('be.disabled')\n`
+      return `  cy.get('${normalizedSelector}').should('be.disabled')\n`
     },
 
     [assertionTypes.notToBeDisabled]: ({ selector }) => {
       const normalizedSelector = normalizeString(selector)
-      return `  cy.get(${normalizedSelector}).should('not.be.disabled')\n`
+      return `  cy.get('${normalizedSelector}').should('not.be.disabled')\n`
     },
 
     [assertionTypes.toBeEnabled]: ({ selector }) => {
       const normalizedSelector = normalizeString(selector)
-      return `  cy.get(${normalizedSelector}).should('be.enabled')\n`
+      return `  cy.get('${normalizedSelector}').should('be.enabled')\n`
     },
 
     [assertionTypes.notToBeEnabled]: ({ selector }) => {
       const normalizedSelector = normalizeString(selector)
-      return `  cy.get(${normalizedSelector}).should('not.be.enabled')\n`
+      return `  cy.get('${normalizedSelector}').should('not.be.enabled')\n`
     },
 
     [assertionTypes.toBeHidden]: ({ selector }) => {
       const normalizedSelector = normalizeString(selector)
-      return `  cy.get(${normalizedSelector}).should('be.hidden')\n`
+      return `  cy.get('${normalizedSelector}').should('be.hidden')\n`
     },
 
     [assertionTypes.notToBeHidden]: ({ selector }) => {
       const normalizedSelector = normalizeString(selector)
-      return `  cy.get(${normalizedSelector}).should('not.be.hidden')\n`
+      return `  cy.get('${normalizedSelector}').should('not.be.hidden')\n`
     },
 
     [assertionTypes.toBeVisible]: ({ selector }) => {
       const normalizedSelector = normalizeString(selector)
-      return `  cy.get(${normalizedSelector}).should('be.visible')\n`
+      return `  cy.get('${normalizedSelector}').should('be.visible')\n`
     },
 
     [assertionTypes.notToBeVisible]: ({ selector }) => {
       const normalizedSelector = normalizeString(selector)
-      return `  cy.get(${normalizedSelector}).should('not.be.visible')\n`
+      return `  cy.get('${normalizedSelector}').should('not.be.visible')\n`
     },
 
     [assertionTypes.hasAttribute]: ({
@@ -134,7 +134,7 @@ export class CypressProcessor extends ExportProcessor {
       assertionAttribute,
     }) => {
       const normalizedSelector = normalizeString(selector)
-      return `  cy.get(${normalizedSelector}).should('have.attr', '${assertionAttribute}', '${assertionValue}')\n`
+      return `  cy.get('${normalizedSelector}').should('have.attr', '${assertionAttribute}', '${assertionValue}')\n`
     },
 
     [assertionTypes.notHasAttribute]: ({
@@ -143,17 +143,17 @@ export class CypressProcessor extends ExportProcessor {
       assertionAttribute,
     }) => {
       const normalizedSelector = normalizeString(selector)
-      return `  cy.get(${normalizedSelector}).should('not.have.attr', '${assertionAttribute}', '${assertionValue}')\n`
+      return `  cy.get('${normalizedSelector}').should('not.have.attr', '${assertionAttribute}', '${assertionValue}')\n`
     },
 
     [assertionTypes.toHaveLength]: ({ selector, assertionValue }) => {
       const normalizedSelector = normalizeString(selector)
-      return `  cy.get(${normalizedSelector}).should('have.length', '${assertionValue}')\n`
+      return `  cy.get('${normalizedSelector}').should('have.length', '${assertionValue}')\n`
     },
 
     [assertionTypes.notToHaveLength]: ({ selector, assertionValue }) => {
       const normalizedSelector = normalizeString(selector)
-      return `  cy.get(${normalizedSelector}).should('not.have.length', '${assertionValue}')\n`
+      return `  cy.get('${normalizedSelector}').should('not.have.length', '${assertionValue}')\n`
     },
   }
 
