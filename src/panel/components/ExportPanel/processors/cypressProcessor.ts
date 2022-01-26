@@ -20,11 +20,14 @@ export class CypressProcessor extends ExportProcessor {
   }
 
   private getWrapper(testName: string, content: string) {
-    return `describe('${testName}', () => {
-      it('${testName}', () => {
-        ${content}
-      })
-    })`
+    return `
+      import { cy } from 'cypress';
+      
+      describe('${testName}', () => {
+        it('${testName}', () => {
+          ${content}
+        })
+      })`
   }
 
   private expectMethodsMap: Record<
@@ -67,12 +70,12 @@ export class CypressProcessor extends ExportProcessor {
 
     [assertionTypes.contains]: ({ selector, assertionValue }) => {
       const normalizedSelector = normalizeString(selector)
-      return `  cy.get(${normalizedSelector}).should('contain.text', ${assertionValue})\n`
+      return `  cy.get(${normalizedSelector}).should('contain.text', '${assertionValue}')\n`
     },
 
     [assertionTypes.notContains]: ({ selector, assertionValue }) => {
       const normalizedSelector = normalizeString(selector)
-      return `  cy.get(${normalizedSelector}).should('not.contain.text', ${assertionValue})\n`
+      return `  cy.get(${normalizedSelector}).should('not.contain.text', '${assertionValue}')\n`
     },
 
     [assertionTypes.inDocument]: ({ selector }) => {
@@ -131,7 +134,7 @@ export class CypressProcessor extends ExportProcessor {
       assertionAttribute,
     }) => {
       const normalizedSelector = normalizeString(selector)
-      return `  cy.get(${normalizedSelector}).should('have.attr', ${assertionAttribute}, ${assertionValue})\n`
+      return `  cy.get(${normalizedSelector}).should('have.attr', '${assertionAttribute}', '${assertionValue}')\n`
     },
 
     [assertionTypes.notHasAttribute]: ({
@@ -140,17 +143,17 @@ export class CypressProcessor extends ExportProcessor {
       assertionAttribute,
     }) => {
       const normalizedSelector = normalizeString(selector)
-      return `  cy.get(${normalizedSelector}).should('not.have.attr', ${assertionAttribute}, ${assertionValue})\n`
+      return `  cy.get(${normalizedSelector}).should('not.have.attr', '${assertionAttribute}', '${assertionValue}')\n`
     },
 
     [assertionTypes.toHaveLength]: ({ selector, assertionValue }) => {
       const normalizedSelector = normalizeString(selector)
-      return `  cy.get(${normalizedSelector}).should('have.length', ${assertionValue})\n`
+      return `  cy.get(${normalizedSelector}).should('have.length', '${assertionValue}')\n`
     },
 
     [assertionTypes.notToHaveLength]: ({ selector, assertionValue }) => {
       const normalizedSelector = normalizeString(selector)
-      return `  cy.get(${normalizedSelector}).should('not.have.length', ${assertionValue})\n`
+      return `  cy.get(${normalizedSelector}).should('not.have.length', '${assertionValue}')\n`
     },
   }
 
