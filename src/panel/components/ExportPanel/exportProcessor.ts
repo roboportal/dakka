@@ -42,7 +42,6 @@ const processorsEntries = [
   CypressProcessor,
   PlaywrightProcessor,
 ].map((P) => {
-  console.log('P', P)
   const p = new P()
   return [p.type, p]
 })
