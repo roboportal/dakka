@@ -4,21 +4,29 @@ import { useSelector, useDispatch } from 'react-redux'
 import eventsList from 'constants/eventsList'
 import {
   toggleEventToTrack,
-  toggleEventsToTrack,
+  toggleAllEventsToTrack,
 } from 'store/eventRecorderSlice'
 
 import { SLICE_NAMES, RootState } from 'store/index'
 
+const filteredEvents = eventsList.filter((e) => e.groupName)
+
 const defaultCollapseState = Object.fromEntries(
-  Object.entries(eventsList).map(([, { groupName }]) => [groupName, false]),
+  Object.values(filteredEvents).map(({ groupName }) => [groupName, false]),
 )
 
 export default function useEventMask() {
   const dispatch = useDispatch()
 
-  const eventsToTrack = useSelector(
-    (state: RootState) => state[SLICE_NAMES.eventRecorder].eventsToTrack,
-  )
+  const eventsToTrack = useSelector((state: RootState) => {
+    const { composedEventsToTrack } = state[SLICE_NAMES.eventRecorder]
+    return Object.fromEntries(
+      Object.entries(composedEventsToTrack).map(([key, { selected }]) => [
+        key,
+        selected,
+      ]),
+    )
+  })
 
   const [collapseState, setCollapseState] = useState(defaultCollapseState)
 
@@ -31,10 +39,10 @@ export default function useEventMask() {
   }
 
   const handleSelectAllEvents = (checked: boolean) =>
-    dispatch(toggleEventsToTrack(checked))
+    dispatch(toggleAllEventsToTrack(checked))
 
   return {
-    eventsList,
+    eventsList: filteredEvents,
     collapseState,
     eventsToTrack,
     handleCollapseChange,
