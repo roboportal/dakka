@@ -21,6 +21,8 @@ export enum assertionTypes {
   notToBeChecked = 'notToBeChecked',
   toHaveLength = 'toHaveLength',
   notToHaveLength = 'notToHaveLength',
+  toBeVisible = 'toBeVisible',
+  notToBeVisible = 'notToBeVisible',
 }
 
 export const assertionsList: Record<string, string>[] = [
@@ -35,6 +37,7 @@ export const assertionsList: Record<string, string>[] = [
   { type: assertionTypes.toHaveURL, name: 'To have URL' },
   { type: assertionTypes.toBeChecked, name: 'To be checked' },
   { type: assertionTypes.toHaveLength, name: 'To have length' },
+  { type: assertionTypes.toBeVisible, name: 'To be visible' },
 ]
 
 export const assertionsListNegative: Record<string, string>[] = [
@@ -49,4 +52,5 @@ export const assertionsListNegative: Record<string, string>[] = [
   { type: assertionTypes.notToHaveURL, name: 'Not to have URL' },
   { type: assertionTypes.notToBeChecked, name: 'Not to be checked' },
   { type: assertionTypes.notToHaveLength, name: 'Not to have length' },
+  { type: assertionTypes.notToBeVisible, name: 'Not to be visible' },
 ]
