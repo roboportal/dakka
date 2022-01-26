@@ -110,6 +110,11 @@ export class CypressProcessor extends ExportProcessor {
       return `  cy.get(${normalizedSelector}).should('be.hidden')\n`
     },
 
+    [assertionTypes.notToBeHidden]: ({ selector }) => {
+      const normalizedSelector = normalizeString(selector)
+      return `  cy.get(${normalizedSelector}).should('not.be.hidden')\n`
+    },
+
     [assertionTypes.toBeVisible]: ({ selector }) => {
       const normalizedSelector = normalizeString(selector)
       return `  cy.get(${normalizedSelector}).should('be.visible')\n`
