@@ -23,6 +23,9 @@ export default function CollapsibleGroupItem({
   handleCollapseChange,
   collapseState,
 }: ICollapsibleGroupItemProps) {
+  if (!group.groupName) {
+    return null
+  }
   return (
     <ListItem disablePadding disableGutters>
       <List
@@ -33,7 +36,7 @@ export default function CollapsibleGroupItem({
       >
         <ListItemButton
           onClick={() => {
-            handleCollapseChange(group.groupName)
+            handleCollapseChange(group.groupName as string)
           }}
           css={css`
             padding-top: 0;

@@ -22,35 +22,47 @@ export default function GroupEventsItem({
 }: IGroupEventsItemProps) {
   return (
     <List disablePadding>
-      {group.events.map((event) => (
-        <ListItem
-          key={event.key}
-          disablePadding
-          css={css`
-            padding-left: 32px;
-          `}
-          secondaryAction={
-            <Link href={event.about} target="_blank">
-              <OpenInNew fontSize="small" />
-            </Link>
-          }
-        >
-          <ListItemIcon>
-            <Checkbox
-              edge="start"
-              checked={eventsToTrack[event.key]}
-              tabIndex={-1}
-              disableRipple
-              onClick={() => handleActiveChange(event.key)}
-              css={css`
-                padding-top: 0;
-                padding-bottom: 0;
-              `}
-            />
-          </ListItemIcon>
-          <ListItemText primary={event.title} />
-        </ListItem>
-      ))}
+      {group.events.map((event) => {
+        if (event.hidden) {
+          return null
+        }
+
+        const handleChange = () => {
+          handleActiveChange(event.key)
+        }
+
+        return (
+          <ListItem
+            key={event.key}
+            disablePadding
+            css={css`
+              padding-left: 32px;
+            `}
+            secondaryAction={
+              event.about && (
+                <Link href={event.about} target="_blank">
+                  <OpenInNew fontSize="small" />
+                </Link>
+              )
+            }
+          >
+            <ListItemIcon>
+              <Checkbox
+                edge="start"
+                checked={eventsToTrack[event.key]}
+                tabIndex={-1}
+                disableRipple
+                onClick={handleChange}
+                css={css`
+                  padding-top: 0;
+                  padding-bottom: 0;
+                `}
+              />
+            </ListItemIcon>
+            <ListItemText primary={event.title} />
+          </ListItem>
+        )
+      })}
     </List>
   )
 }
