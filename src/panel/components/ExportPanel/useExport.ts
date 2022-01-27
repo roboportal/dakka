@@ -1,8 +1,7 @@
 import { useCallback, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { IEventBlock } from 'store/eventRecorderSlice'
-
-import { SLICE_NAMES, RootState } from 'store/index'
+import { getActiveEvents, getIsReadyToExport } from 'store/eventSelectors'
 
 import { exportOptions } from './constants'
 import exportProcessor from './exportProcessor'
@@ -43,10 +42,8 @@ export default function useExports() {
     setExportOption(value)
   }, [])
 
-  const recordedEvents = useSelector((state: RootState) => {
-    const { activeTabID, events } = state[SLICE_NAMES.eventRecorder]
-    return events[activeTabID] ?? []
-  })
+  const recordedEvents = useSelector(getActiveEvents)
+  const isReadyToExport = useSelector(getIsReadyToExport)
 
   const handleCopyToClipboard = () => {
     const { text } = exportProcessor(
@@ -64,7 +61,10 @@ export default function useExports() {
     saveFile(text, fileName)
   }
 
-  const areButtonsDisabled = exportOption === exportOptions.none
+  const areButtonsDisabled =
+    exportOption === exportOptions.none ||
+    !isReadyToExport ||
+    !recordedEvents.length
 
   return {
     exportOption,

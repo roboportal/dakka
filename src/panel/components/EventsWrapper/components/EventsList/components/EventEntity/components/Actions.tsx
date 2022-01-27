@@ -3,9 +3,11 @@ import Button from '@mui/material/Button'
 import LocationSearchingIcon from '@mui/icons-material/LocationSearching'
 import OpenInFullIcon from '@mui/icons-material/OpenInFull'
 import CloseFullscreenIcon from '@mui/icons-material/CloseFullscreen'
+import WarningAmberIcon from '@mui/icons-material/WarningAmber'
 import IconButton from '@mui/material/IconButton'
 import Tooltip from '@mui/material/Tooltip'
-import { grey } from '@mui/material/colors'
+import { grey, red } from '@mui/material/colors'
+
 import { useSelector } from 'react-redux'
 import { getActiveBlockId } from 'store/eventSelectors'
 
@@ -16,6 +18,7 @@ interface IActionsProps {
   isExpanded: boolean
   onExpand: () => void
   prefersDarkMode: boolean
+  isIncompleteSetup: boolean
 }
 
 export function Actions({
@@ -25,6 +28,7 @@ export function Actions({
   isExpanded,
   onExpand,
   prefersDarkMode,
+  isIncompleteSetup,
 }: IActionsProps) {
   const activeBlockId = useSelector(getActiveBlockId)
 
@@ -56,11 +60,22 @@ export function Actions({
           </IconButton>
         </Tooltip>
       )}
+
+      {isIncompleteSetup && (
+        <Tooltip title="Unfinished Setup">
+          <WarningAmberIcon
+            fontSize="small"
+            css={css`
+              color: ${red.A200};
+            `}
+          />
+        </Tooltip>
+      )}
+
       <Tooltip title="Expand Event">
         <Button
           onClick={onExpand}
           css={css`
-            margin-left: auto;
             border-radius: 0px;
             color: ${grey[500]};
             padding: 0px;
