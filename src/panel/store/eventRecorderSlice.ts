@@ -77,6 +77,7 @@ export interface IEventPayload {
   shiftKey?: boolean
   inputType?: string
   isInjectingAllowed?: boolean
+  isInvalidValidSetUp?: boolean
 }
 
 export interface IEventRecord {

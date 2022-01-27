@@ -82,6 +82,7 @@ export function EventEntity({
         padding: 4px 4px 0px 4px;
         font-size: 0.8rem;
         margin-bottom: 4px;
+        border: 1px solid;
         ${isRedirect || isInteractive ? 'margin-top: 28px;' : ''}
         background-color: ${getBackgroundColor({
           isRedirect,
@@ -103,6 +104,7 @@ export function EventEntity({
         onSelectWaitForElement={handleSelectWaitForElement}
         recordId={record.id}
         onExpand={handleExpand}
+        isIncompleteSetup={record.isInvalidValidSetUp ?? false}
       />
 
       <div
