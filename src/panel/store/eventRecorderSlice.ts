@@ -37,6 +37,7 @@ export interface IAssertionPayload {
   assertionValue?: string
   assertionType?: Record<string, string>
   assertionAttribute?: string
+  customSelector?: string
 }
 
 export interface ISelectorPayload {
@@ -239,6 +240,28 @@ export const eventRecorderSlice = createSlice({
     setActiveBlockId: (state, { payload }: PayloadAction<string>) => {
       state.activeBlockId = payload
     },
+    setCustomAssertSelector: (
+      state,
+      {
+        payload: { blockId, selector },
+      }: PayloadAction<{ blockId: string; selector: string }>,
+    ) => {
+      const block = state.events[state.activeTabID].find(
+        (item) => item.id === blockId,
+      ) as IEventBlock
+
+      if (block) {
+        block.element = {
+          selectedSelector: { name: 'unique-path', value: selector },
+          validSelectors: [],
+          selector: '',
+          id: '',
+          type: '',
+          triggeredAt: 0,
+          variant: '',
+        }
+      }
+    },
     setExpandedId: (state, { payload }: PayloadAction<string>) => {
       state.expandedId = payload
     },
@@ -328,6 +351,7 @@ export const {
   setActiveBlockId,
   setExpandedId,
   setAssertionProperties,
+  setCustomAssertSelector,
 } = eventRecorderSlice.actions
 
 export default eventRecorderSlice.reducer

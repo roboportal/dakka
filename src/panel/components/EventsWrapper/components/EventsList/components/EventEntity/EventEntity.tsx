@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { useCallback, useState } from 'react'
 import { css } from '@emotion/react'
 import { lightBlue, indigo } from '@mui/material/colors'
 
@@ -45,6 +45,7 @@ export function EventEntity({
   onSetAssertProperties,
   prefersDarkMode,
   isFirstEntity,
+  onSetCustomAssertSelector,
 }: {
   record: IEventPayload | IEventBlock
   index: string
@@ -55,21 +56,47 @@ export function EventEntity({
   onSetAssertProperties: (payload: IAssertionPayload) => void
   prefersDarkMode: boolean
   isFirstEntity: boolean
+  onSetCustomAssertSelector: (payload: {
+    selector: string
+    blockId: string
+  }) => void
 }) {
   const { type, selectedSelector, url, key, variant } = record as IEventPayload
   const { element } = record as IEventBlock
   const selector = `${selectedSelector?.name}: ${selectedSelector?.value}`
   const isRedirect = type === internalEventsMap[REDIRECT_STARTED]
-  const isInteractive = variant === INTERACTIVE_ELEMENT && !element
+  const isInteractive =
+    variant === INTERACTIVE_ELEMENT && !element?.validSelectors?.length
+  const [isAddCustomSelector, setIsAddCustomSelector] = useState(false)
+  const [isSelectElement, setIsSelectElement] = useState(false)
 
   const handleSelectWaitForElement = useCallback(() => {
     onSetActiveBlockId(record.id)
     enableSelectElement()
+    setIsAddCustomSelector(false)
+    setIsSelectElement(true)
   }, [enableSelectElement, onSetActiveBlockId, record])
+
+  const handleAddCustomSelector = useCallback(
+    (e) => {
+      onSetActiveBlockId(record.id)
+      onSetCustomAssertSelector({
+        selector: e.target.value,
+        blockId: record.id,
+      })
+    },
+    [onSetActiveBlockId, record, onSetCustomAssertSelector],
+  )
 
   const handleExpand = useCallback(() => {
     onExpand(isExpanded ? '' : record.id)
   }, [onExpand, isExpanded, record.id])
+
+  const handleOnClickAddSelector = useCallback(() => {
+    onExpand(record.id)
+    setIsAddCustomSelector(true)
+    setIsSelectElement(false)
+  }, [onExpand, setIsAddCustomSelector, record])
 
   return (
     <div
@@ -97,12 +124,14 @@ export function EventEntity({
       `}
     >
       <Actions
+        isAddCustomSelector={isAddCustomSelector}
+        isSelectElement={isSelectElement}
         prefersDarkMode={prefersDarkMode}
         isExpanded={isExpanded}
         isInteractive={record.variant === INTERACTIVE_ELEMENT}
         onSelectWaitForElement={handleSelectWaitForElement}
-        recordId={record.id}
         onExpand={handleExpand}
+        onAddCustomSelector={handleOnClickAddSelector}
       />
 
       <div
@@ -130,6 +159,9 @@ export function EventEntity({
 
         {record.variant === INTERACTIVE_ELEMENT ? (
           <EntryRow
+            record={record as IEventBlock}
+            isAddCustomSelector={isAddCustomSelector}
+            onAddCustomSelector={handleAddCustomSelector}
             prefersDarkMode={prefersDarkMode}
             isLast={true}
             isExpanded={isExpanded}

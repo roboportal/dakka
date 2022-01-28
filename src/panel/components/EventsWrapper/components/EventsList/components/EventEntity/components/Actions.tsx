@@ -1,33 +1,34 @@
 import { css } from '@emotion/react'
 import Button from '@mui/material/Button'
 import LocationSearchingIcon from '@mui/icons-material/LocationSearching'
+import AddCircleIcon from '@mui/icons-material/AddCircle'
 import OpenInFullIcon from '@mui/icons-material/OpenInFull'
 import CloseFullscreenIcon from '@mui/icons-material/CloseFullscreen'
 import IconButton from '@mui/material/IconButton'
 import Tooltip from '@mui/material/Tooltip'
 import { grey } from '@mui/material/colors'
-import { useSelector } from 'react-redux'
-import { getActiveBlockId } from 'store/eventSelectors'
 
 interface IActionsProps {
   isInteractive: boolean
   onSelectWaitForElement: () => void
-  recordId: string
   isExpanded: boolean
   onExpand: () => void
   prefersDarkMode: boolean
+  onAddCustomSelector: () => void
+  isAddCustomSelector: boolean
+  isSelectElement: boolean
 }
 
 export function Actions({
   isInteractive,
   onSelectWaitForElement,
-  recordId,
   isExpanded,
   onExpand,
   prefersDarkMode,
+  onAddCustomSelector,
+  isAddCustomSelector,
+  isSelectElement,
 }: IActionsProps) {
-  const activeBlockId = useSelector(getActiveBlockId)
-
   return (
     <div
       css={css`
@@ -39,22 +40,42 @@ export function Actions({
       `}
     >
       {isInteractive && (
-        <Tooltip title="Locate Element">
-          <IconButton
-            css={css`
-              padding: 0;
-              color: ${activeBlockId === recordId ? grey[300] : grey[500]};
-              font-size: 12px;
-              &.MuiIconButton-root:hover {
-                background: transparent;
-              }
-            `}
-            onClick={onSelectWaitForElement}
-            size="small"
-          >
-            <LocationSearchingIcon fontSize="small" />
-          </IconButton>
-        </Tooltip>
+        <>
+          <Tooltip title="Locate Element">
+            <IconButton
+              css={css`
+                padding: 0;
+                color: ${isSelectElement ? 'green' : grey[500]};
+                font-size: 12px;
+                &.MuiIconButton-root:hover {
+                  background: transparent;
+                }
+              `}
+              onClick={onSelectWaitForElement}
+              size="small"
+            >
+              <LocationSearchingIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
+
+          <Tooltip title="Add Selector">
+            <IconButton
+              css={css`
+                padding: 0;
+                margin-left: 8px;
+                color: ${isAddCustomSelector ? 'green' : grey[500]};
+                font-size: 12px;
+                &.MuiIconButton-root:hover {
+                  background: transparent;
+                }
+              `}
+              onClick={onAddCustomSelector}
+              size="small"
+            >
+              <AddCircleIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
+        </>
       )}
       <Tooltip title="Expand Event">
         <Button

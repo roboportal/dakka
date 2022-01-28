@@ -177,7 +177,7 @@ export function AssertionSelector({
             id="assertion-id"
           >
             <MenuItem value="">
-              <em>None</em>
+              <em>Select assertion</em>
             </MenuItem>
             {assertions?.map((item: Record<string, string>) => {
               return (
@@ -216,6 +216,11 @@ export function AssertionSelector({
             variant="outlined"
             placeholder="Enter attribute"
             onChange={handleAssertAttributeChange}
+            inputProps={{
+              style: {
+                padding: 4,
+              },
+            }}
           />
         )}
 
@@ -234,6 +239,11 @@ export function AssertionSelector({
             variant="outlined"
             placeholder="Enter value"
             onChange={handleAssertValueChange}
+            inputProps={{
+              style: {
+                padding: 4,
+              },
+            }}
           />
         )}
       </div>
