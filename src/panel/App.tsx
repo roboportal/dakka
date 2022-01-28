@@ -29,6 +29,7 @@ export default function App() {
     handleSetActiveBlockId,
     handleSetExpandedId,
     handleSetAssertProperties,
+    handleSetCustomAssertSelector,
   } = useEventRecorder()
 
   const { isInjectionAllowed, allowInjection } = useAllowInjection()
@@ -71,6 +72,7 @@ export default function App() {
           onSetActiveBlockId={handleSetActiveBlockId}
           onSetExpandedId={handleSetExpandedId}
           onSetAssertProperties={handleSetAssertProperties}
+          onSetCustomAssertSelector={handleSetCustomAssertSelector}
           enableSelectElement={enableSelectElement}
           onInsertBlock={handleInsertBlock}
           toggleHighlightedElement={toggleHighlightedElement}

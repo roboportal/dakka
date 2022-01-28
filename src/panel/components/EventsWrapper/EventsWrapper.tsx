@@ -24,6 +24,10 @@ interface IEventsWrapperProps {
   onSetExpandedId: (id: string) => void
   onSetAssertProperties: (payload: IAssertionPayload) => void
   prefersDarkMode: boolean
+  onSetCustomAssertSelector: (payload: {
+    selector: string
+    blockId: string
+  }) => void
 }
 
 export default function EventsWrapper({
@@ -38,6 +42,7 @@ export default function EventsWrapper({
   onSetExpandedId,
   onSetAssertProperties,
   prefersDarkMode,
+  onSetCustomAssertSelector,
 }: IEventsWrapperProps) {
   const wrapperRef = useRef<HTMLDivElement | null>(null)
   const [eventsListScroll, setEventsListScroll] = useState(0)
@@ -97,6 +102,7 @@ export default function EventsWrapper({
         ref={wrapperRef}
       >
         <EventsList
+          onSetCustomAssertSelector={onSetCustomAssertSelector}
           onSetAssertProperties={onSetAssertProperties}
           prefersDarkMode={prefersDarkMode}
           onSetActiveBlockId={onSetActiveBlockId}

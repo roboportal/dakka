@@ -12,6 +12,7 @@ import {
   setActiveBlockId,
   setExpandedId,
   setAssertionProperties,
+  setCustomAssertSelector,
   IEventBlockPayload,
   IAssertionPayload,
 } from 'store/eventRecorderSlice'
@@ -65,6 +66,11 @@ export default function useEventRecorder() {
 
   const handleSetAssertProperties = (payload: IAssertionPayload) =>
     dispatch(setAssertionProperties(payload))
+
+  const handleSetCustomAssertSelector = (payload: {
+    blockId: string
+    selector: string
+  }) => dispatch(setCustomAssertSelector(payload))
 
   const handleEventClick: MouseEventHandler = useCallback(
     (e) => {
@@ -187,5 +193,6 @@ export default function useEventRecorder() {
     handleSetActiveBlockId,
     handleSetExpandedId,
     handleSetAssertProperties,
+    handleSetCustomAssertSelector,
   }
 }
