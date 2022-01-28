@@ -253,7 +253,9 @@ export const eventRecorderSlice = createSlice({
 
       if (block) {
         block.element = {
-          selectedSelector: { name: 'unique-path', value: selector },
+          selectedSelector: selector
+            ? { name: 'unique-path', value: selector }
+            : undefined,
           validSelectors: [],
           selector: '',
           id: '',

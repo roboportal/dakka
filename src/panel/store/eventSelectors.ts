@@ -92,7 +92,10 @@ export const getActiveEvents = createSelector(
           assertionValidatorsMap.default(r)
 
         const isInvalidValidSetUp =
-          !element || validationResult?.isError || !assertionType?.type
+          !element ||
+          validationResult?.isError ||
+          !assertionType?.type ||
+          !element.selectedSelector
 
         return { ...e, isInvalidValidSetUp }
       }
