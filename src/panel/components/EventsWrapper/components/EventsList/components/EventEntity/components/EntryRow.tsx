@@ -44,11 +44,9 @@ export function EntryRow({
         margin-bottom: ${isLast ? '0px' : '8px'};
         word-wrap: break-word;
         height: 100%;
-        display: flex;
-        flex-direction: ${isAddCustomSelector ? 'column' : 'row'};
       `}
     >
-      {isAddCustomSelector ? (
+      {isAddSelector ? (
         <div
           css={css`
             display: flex;
