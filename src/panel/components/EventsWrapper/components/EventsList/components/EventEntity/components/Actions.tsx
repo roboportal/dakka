@@ -7,7 +7,7 @@ import CloseFullscreenIcon from '@mui/icons-material/CloseFullscreen'
 import WarningAmberIcon from '@mui/icons-material/WarningAmber'
 import IconButton from '@mui/material/IconButton'
 import Tooltip from '@mui/material/Tooltip'
-import { grey, red } from '@mui/material/colors'
+import { grey, red, green } from '@mui/material/colors'
 
 interface IActionsProps {
   isInteractive: boolean
@@ -48,7 +48,7 @@ export function Actions({
             <IconButton
               css={css`
                 padding: 0;
-                color: ${isSelectElement ? 'green' : grey[500]};
+                color: ${isSelectElement ? green.A400 : grey[500]};
                 font-size: 12px;
                 &.MuiIconButton-root:hover {
                   background: transparent;
@@ -66,7 +66,7 @@ export function Actions({
               css={css`
                 padding: 0;
                 margin-left: 4px;
-                color: ${isAddCustomSelector ? 'green' : grey[500]};
+                color: ${isAddCustomSelector ? green.A400 : grey[500]};
                 font-size: 12px;
                 &.MuiIconButton-root:hover {
                   background: transparent;

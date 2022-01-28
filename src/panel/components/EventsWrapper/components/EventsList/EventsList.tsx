@@ -29,7 +29,7 @@ interface IEventsListProps {
   onSetExpandedId: (id: string) => void
   onSetAssertProperties: (payload: IAssertionPayload) => void
   prefersDarkMode: boolean
-  onSetCustomAssertSelector: (paylod: {
+  onSetCustomAssertSelector: (payload: {
     selector: string
     blockId: string
   }) => void

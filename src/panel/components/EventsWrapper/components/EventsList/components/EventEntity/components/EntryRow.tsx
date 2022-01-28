@@ -12,9 +12,7 @@ interface IEventEntityProps {
   isDividerVisible?: boolean
   record?: IEventBlock
   isAddCustomSelector?: boolean
-  onAddCustomSelector?:
-    | ChangeEventHandler<HTMLTextAreaElement | HTMLInputElement>
-    | undefined
+  onAddCustomSelector?: ChangeEventHandler<HTMLInputElement>
 }
 
 export function EntryRow({
