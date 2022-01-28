@@ -4,9 +4,10 @@ import LocationSearchingIcon from '@mui/icons-material/LocationSearching'
 import AddCircleIcon from '@mui/icons-material/AddCircle'
 import OpenInFullIcon from '@mui/icons-material/OpenInFull'
 import CloseFullscreenIcon from '@mui/icons-material/CloseFullscreen'
+import WarningAmberIcon from '@mui/icons-material/WarningAmber'
 import IconButton from '@mui/material/IconButton'
 import Tooltip from '@mui/material/Tooltip'
-import { grey } from '@mui/material/colors'
+import { grey, red } from '@mui/material/colors'
 
 interface IActionsProps {
   isInteractive: boolean
@@ -17,6 +18,7 @@ interface IActionsProps {
   onAddCustomSelector: () => void
   isAddCustomSelector: boolean
   isSelectElement: boolean
+  isIncompleteSetup: boolean
 }
 
 export function Actions({
@@ -28,6 +30,7 @@ export function Actions({
   onAddCustomSelector,
   isAddCustomSelector,
   isSelectElement,
+  isIncompleteSetup,
 }: IActionsProps) {
   return (
     <div
@@ -62,7 +65,7 @@ export function Actions({
             <IconButton
               css={css`
                 padding: 0;
-                margin-left: 8px;
+                margin-left: 4px;
                 color: ${isAddCustomSelector ? 'green' : grey[500]};
                 font-size: 12px;
                 &.MuiIconButton-root:hover {
@@ -77,11 +80,22 @@ export function Actions({
           </Tooltip>
         </>
       )}
+
+      {isIncompleteSetup && (
+        <Tooltip title="Unfinished Setup">
+          <WarningAmberIcon
+            fontSize="small"
+            css={css`
+              color: ${red.A200};
+            `}
+          />
+        </Tooltip>
+      )}
+
       <Tooltip title="Expand Event">
         <Button
           onClick={onExpand}
           css={css`
-            margin-left: auto;
             border-radius: 0px;
             color: ${grey[500]};
             padding: 0px;

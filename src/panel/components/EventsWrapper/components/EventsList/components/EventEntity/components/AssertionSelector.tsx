@@ -139,6 +139,13 @@ export function AssertionSelector({
         <Label label="Type" value={type} />
         <Label label="Attribute" value={attribute} />
         <Label label="Value" value={value} />
+        <div
+          css={css`
+            color: #b0bec5;
+          `}
+        >
+          Expand to set assertion
+        </div>
       </div>
     )
   }
