@@ -4,6 +4,7 @@ import { dump } from 'js-yaml'
 import { PlaywrightProcessor } from './processors/playwrightProcessor'
 import { CypressProcessor } from './processors/cypressProcessor'
 import { ExportProcessor } from './processors/abstractProcessor'
+// import { PuppeteerProcessor } from './processors/puppeteerProcessor'
 
 export enum selectorTypes {
   role = 'role',
@@ -15,18 +16,6 @@ export enum selectorTypes {
   testId = 'test-id',
   uniquePath = 'unique-path',
 }
-
-export const selectorsFactoryMap: Record<selectorTypes, (v: string) => string> =
-  {
-    [selectorTypes.role]: (v) => `[role="${v}"]`,
-    [selectorTypes.labelText]: (v) => `tag=label >> text="${v}"`,
-    [selectorTypes.placeholder]: (v) => `[placeholder="${v}"]`,
-    [selectorTypes.text]: (v) => `text="${v}"`,
-    [selectorTypes.className]: (v) => `.${v}`,
-    [selectorTypes.elementId]: (v) => `#${v}`,
-    [selectorTypes.testId]: (v) => `data-test-id=${v}`,
-    [selectorTypes.uniquePath]: (v) => v,
-  }
 
 class DakkaProcessor extends ExportProcessor {
   type = exportOptions.dakka
@@ -41,6 +30,7 @@ const processorsEntries = [
   DakkaProcessor,
   CypressProcessor,
   PlaywrightProcessor,
+  // PuppeteerProcessor,
 ].map((P) => {
   const p = new P()
   return [p.type, p]
