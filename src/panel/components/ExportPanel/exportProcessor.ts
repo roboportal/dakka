@@ -4,18 +4,7 @@ import { dump } from 'js-yaml'
 import { PlaywrightProcessor } from './processors/playwrightProcessor'
 import { CypressProcessor } from './processors/cypressProcessor'
 import { ExportProcessor } from './processors/abstractProcessor'
-// import { PuppeteerProcessor } from './processors/puppeteerProcessor'
-
-export enum selectorTypes {
-  role = 'role',
-  labelText = 'label-text',
-  placeholder = 'placeholder',
-  text = 'text',
-  className = 'classname',
-  elementId = 'element-id',
-  testId = 'test-id',
-  uniquePath = 'unique-path',
-}
+import { PuppeteerProcessor } from './processors/puppeteerProcessor'
 
 class DakkaProcessor extends ExportProcessor {
   type = exportOptions.dakka
@@ -30,7 +19,7 @@ const processorsEntries = [
   DakkaProcessor,
   CypressProcessor,
   PlaywrightProcessor,
-  // PuppeteerProcessor,
+  PuppeteerProcessor,
 ].map((P) => {
   const p = new P()
   return [p.type, p]

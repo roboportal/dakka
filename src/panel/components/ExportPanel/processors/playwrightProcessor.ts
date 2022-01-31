@@ -1,21 +1,23 @@
 import { IEventBlock, IEventPayload } from 'store/eventRecorderSlice'
 import { exportOptions } from '../constants'
 import { assertionTypes } from 'constants/assertion'
-import { selectorTypes } from '../exportProcessor'
+import { selectorTypes } from '../selectorTypes'
 import { normalizeString } from '../normalizer'
 import { ExportProcessor } from './abstractProcessor'
 
-export const selectorsFactoryMap: Record<selectorTypes, (v: string) => string> =
-  {
-    [selectorTypes.role]: (v) => `[role="${v}"]`,
-    [selectorTypes.labelText]: (v) => `tag=label >> text="${v}"`,
-    [selectorTypes.placeholder]: (v) => `[placeholder="${v}"]`,
-    [selectorTypes.text]: (v) => `text="${v}"`,
-    [selectorTypes.className]: (v) => `.${v}`,
-    [selectorTypes.elementId]: (v) => `#${v}`,
-    [selectorTypes.testId]: (v) => `data-test-id=${v}`,
-    [selectorTypes.uniquePath]: (v) => v,
-  }
+export const selectorsPlaywriteFactoryMap: Record<
+  selectorTypes,
+  (v: string) => string
+> = {
+  [selectorTypes.role]: (v) => `[role="${v}"]`,
+  [selectorTypes.labelText]: (v) => `tag=label >> text="${v}"`,
+  [selectorTypes.placeholder]: (v) => `[placeholder="${v}"]`,
+  [selectorTypes.text]: (v) => `text="${v}"`,
+  [selectorTypes.className]: (v) => `.${v}`,
+  [selectorTypes.elementId]: (v) => `#${v}`,
+  [selectorTypes.testId]: (v) => `data-test-id=${v}`,
+  [selectorTypes.uniquePath]: (v) => v,
+}
 
 export class PlaywrightProcessor extends ExportProcessor {
   type = exportOptions.playwright
@@ -173,7 +175,7 @@ test('${testName}', async ({ page }) => {
       }
 
       if (it.selectedSelector) {
-        const selector = selectorsFactoryMap[
+        const selector = selectorsPlaywriteFactoryMap[
           it.selectedSelector.name as selectorTypes
         ](it.selectedSelector.value)
         acc += `  await page.locator('${normalizeString(selector)}')${
@@ -184,7 +186,7 @@ test('${testName}', async ({ page }) => {
       if (it.type === 'Assertion') {
         const element = it.element
         if (element) {
-          const selector = selectorsFactoryMap[
+          const selector = selectorsPlaywriteFactoryMap[
             element?.selectedSelector?.name as selectorTypes
           ](element?.selectedSelector?.value ?? '')
           acc += this.expectMethodsMap[

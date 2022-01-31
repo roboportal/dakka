@@ -1,7 +1,7 @@
 import { IEventBlock } from 'store/eventRecorderSlice'
 import { exportOptions } from '../constants'
 import { assertionTypes } from 'constants/assertion'
-import { selectorTypes } from '../exportProcessor'
+import { selectorTypes } from '../selectorTypes'
 import { normalizeString } from '../normalizer'
 import { ExportProcessor } from './abstractProcessor'
 
@@ -27,7 +27,7 @@ export class PuppeteerProcessor extends ExportProcessor {
     string,
     (it: { key: string; selector: string }) => string
   > = {
-    mouseClick: ({ selector }) => `.click(${selector})`,
+    mouseClick: ({ selector }) => `.click('${selector}')`,
     keyboard: ({ key, selector }) =>
       `.type('${selector}', '${normalizeString(key ?? '')}')`,
     default: () => '',
@@ -188,7 +188,7 @@ test('${testName}', async ({ page }) => {
           key: normalizeString(it?.key),
           selector: normalizeString(selector),
         }
-        acc += `  await page.${
+        acc += `  await page${
           this.methodsMap[it?.type]?.(payload) ??
           this.methodsMap.default(payload)
         }\n`
