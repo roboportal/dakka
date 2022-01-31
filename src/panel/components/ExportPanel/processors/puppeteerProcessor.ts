@@ -128,12 +128,12 @@ test('${testName}', async ({ page }) => {
 
     [assertionTypes.toBeHidden]: ({ selector }) => {
       const normalizedSelector = normalizeString(selector)
-      return `  expect(await page.$('${normalizedSelector}')).toBeHidden()\n`
+      return `  expect(await page.$('${normalizedSelector}')).toBeNull()\n`
     },
 
     [assertionTypes.notToBeHidden]: ({ selector }) => {
       const normalizedSelector = normalizeString(selector)
-      return `  expect(await page.$('${normalizedSelector}')).not.toBeHidden()\n`
+      return `  expect(await page.$('${normalizedSelector}')).not.toBeNull()\n`
     },
 
     [assertionTypes.toBeVisible]: ({ selector }) => {
@@ -152,7 +152,7 @@ test('${testName}', async ({ page }) => {
       assertionAttribute,
     }) => {
       const normalizedSelector = normalizeString(selector)
-      return `  expect(await page.$eval('${normalizedSelector}', e => e.${assertionAttribute})).toBe('${assertionValue}')\n`
+      return `  expect(await page.$eval('${normalizedSelector}', e => e.getAttribute('${assertionAttribute}'))).toBe('${assertionValue}')\n`
     },
 
     [assertionTypes.notHasAttribute]: ({
@@ -161,7 +161,7 @@ test('${testName}', async ({ page }) => {
       assertionAttribute,
     }) => {
       const normalizedSelector = normalizeString(selector)
-      return `  expect(await page.$eval('${normalizedSelector}', e => e.${assertionAttribute})).not.toBe('${assertionValue}')\n`
+      return `  expect(await page.$eval('${normalizedSelector}', e => e.getAttribute('${assertionAttribute}'))).not.toBe('${assertionValue}')\n`
     },
 
     [assertionTypes.toHaveLength]: ({ selector, assertionValue }) => {
