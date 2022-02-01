@@ -36,7 +36,7 @@ export class PuppeteerProcessor extends ExportProcessor {
   private getWrapper(testName: string, content: string) {
     return `const puppeteer = require('puppeteer');
     
-test('${testName}', async ({ page }) => {
+test('${testName}', async () => {
   const browser = await puppeteer.launch();
   const page = await browser.newPage()
 
