@@ -4,13 +4,14 @@
   "scripts": {
     "playwright": "playwright test",
     "cypress": "cypress run",
-    "puppeteer": "node ./puppeteerRunner.js"
+    "puppeteer": "npx jest"
   },
   "devDependencies": {
     "@playwright/test": "^1.17.2",
     "cypress": "^9.2.1",
     "eslint": "^8.6.0",
     "eslint-plugin-cypress": "^2.12.1",
-    "puppeteer": "^13.0.1"
+    "jest": "^27.4.7",
+    "puppeteer": "^13.1.3"
   }
 }

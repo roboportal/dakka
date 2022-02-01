@@ -1,10 +1,19 @@
 const puppeteer = require('puppeteer')
 
-;(async () => {
-  const browser = await puppeteer.launch()
-  const page = await browser.newPage()
-  await page.goto('https://example.com')
-  await page.screenshot({ path: 'example.png' })
+describe('Testing https://vg05y.csb.app/', () => {
+  it('Testing https://vg05y.csb.app/', async () => {
+    const browser = await puppeteer.launch()
+    const page = await browser.newPage()
 
-  await browser.close()
-})()
+    try {
+      await page.goto('https://vg05y.csb.app/')
+      await page.$x("//*[contains(., 'First Name')]").then(async (elements) => {
+        await elements[0].click()
+      })
+
+      expect(await page.$('h1')).toBeDefined()
+    } finally {
+      await browser.close()
+    }
+  })
+})

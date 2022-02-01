@@ -79,6 +79,7 @@ export interface IEventPayload {
   inputType?: string
   isInjectingAllowed?: boolean
   isInvalidValidSetUp?: boolean
+  tagName?: string
 }
 
 export interface IEventRecord {
