@@ -132,6 +132,7 @@ export function composeEvent({
       timeStamp,
       touches,
       which,
+      tagName: target?.tagName ?? '*',
     },
   }
 }
