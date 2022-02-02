@@ -16,7 +16,8 @@ const selectorsPuppeteerFactoryMap: Record<
     `[placeholder="${v?.selectedSelector?.value}"]`,
   [selectorTypes.text]: (v) =>
     `//${v?.tagName}[contains(., "${v?.selectedSelector?.value}")]`,
-  [selectorTypes.className]: (v) => `.${v?.selectedSelector?.value}`,
+  [selectorTypes.className]: (v) =>
+    `.${v?.selectedSelector?.value.replace(' ', '.')}`,
   [selectorTypes.elementId]: (v) => `#${v?.selectedSelector?.value}`,
   [selectorTypes.testId]: (v) => `data-test-id=${v?.selectedSelector?.value}`,
   [selectorTypes.uniquePath]: (v) => v?.selectedSelector?.value ?? '',
@@ -155,12 +156,16 @@ describe('${testName}', () => {
 
     [assertionTypes.inDocument]: ({ selector, selectorName }) => {
       const normalizedSelector = normalizeString(selector)
-      return `  expect(await page.${selectorOptions[selectorName]}('${normalizedSelector}')).toBeDefined()\n`
+      return `  expect(await page.${
+        selectorOptions[selectorName] ?? selectorOptions.default
+      }('${normalizedSelector}')).toBeDefined()\n`
     },
 
     [assertionTypes.notInDocument]: ({ selector, selectorName }) => {
       const normalizedSelector = normalizeString(selector)
-      return `  expect(await page.${selectorOptions[selectorName]}('${normalizedSelector}')).toBeUndefined()\n`
+      return `  expect(await page.${
+        selectorOptions[selectorName] ?? selectorOptions.default
+      }('${normalizedSelector}')).toBeUndefined()\n`
     },
 
     [assertionTypes.toBeDisabled]: ({ selector, selectorName }) => {
@@ -213,12 +218,16 @@ describe('${testName}', () => {
 
     [assertionTypes.toBeHidden]: ({ selector, selectorName }) => {
       const normalizedSelector = normalizeString(selector)
-      return `  expect(await page.${selectorOptions[selectorName]}('${normalizedSelector}')).toBeNull()\n`
+      return `  expect(await page.${
+        selectorOptions[selectorName] ?? selectorOptions.default
+      }('${normalizedSelector}')).toBeNull()\n`
     },
 
     [assertionTypes.notToBeHidden]: ({ selector, selectorName }) => {
       const normalizedSelector = normalizeString(selector)
-      return `  expect(await page.${selectorOptions[selectorName]}('${normalizedSelector}')).not.toBeNull()\n`
+      return `  expect(await page.${
+        selectorOptions[selectorName] ?? selectorOptions.default
+      }('${normalizedSelector}')).not.toBeNull()\n`
     },
 
     [assertionTypes.toBeVisible]: ({ selector, selectorName }) => {
