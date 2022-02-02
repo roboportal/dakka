@@ -3,7 +3,7 @@ import { css } from '@emotion/react'
 import Select, { SelectChangeEvent } from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
 import TextField from '@mui/material/TextField'
-import Checkbox from '@mui/material/Checkbox'
+import Switch from '@mui/material/Switch'
 import FormControl from '@mui/material/FormControl'
 import FormControlLabel from '@mui/material/FormControlLabel'
 
@@ -25,7 +25,6 @@ interface IAssertionSelectorProp {
 const requireInputAsserts = [
   assertionTypes.contains,
   assertionTypes.notContains,
-  // assertionTypes.equals,
   assertionTypes.hasAttribute,
   assertionTypes.notHasAttribute,
   assertionTypes.toHaveTitle,
@@ -149,32 +148,48 @@ export function AssertionSelector({
       </div>
     )
   }
+
+  const isAttributeInputVisible = [
+    assertionTypes.hasAttribute,
+    assertionTypes.notHasAttribute,
+  ].includes((assertionType?.type ?? '') as assertionTypes)
+
   return (
     <div
       css={css`
         width: 100%;
-        padding: 0.5rem 1.5rem;
+        margin-left: 4px;
+        margin-top: 8px;
         border-bottom: 1px solid ${prefersDarkMode ? '#196194' : '#455a64'};
+        height: 100px;
       `}
     >
       <div
         css={css`
           display: flex;
-          justify-content: center;
+          align-items: center;
           width: 100%;
+          flex-direction: row;
+          height: 32px;
+          margin-bottom: 20px;
         `}
       >
         <FormControl
           css={css`
-            width: 100%;
+            margin-right: 32px;
           `}
           variant="standard"
+          size="small"
         >
           <Select
             css={css`
-              width: 100%;
+              width: 200px;
               height: 30px;
-              margin-bottom: 0.5rem;
+              font-size: 0.7rem;
+
+              .MuiSelect-select {
+                padding-top: 4px;
+              }
             `}
             displayEmpty
             value={assertionType?.name ?? ''}
@@ -183,9 +198,7 @@ export function AssertionSelector({
             labelId="assertion-label-id"
             id="assertion-id"
           >
-            <MenuItem value="">
-              <em>Select assertion</em>
-            </MenuItem>
+            <MenuItem value="">Select assertion</MenuItem>
             {assertions?.map((item: Record<string, string>) => {
               return (
                 <MenuItem value={item.name} key={item.type}>
@@ -196,39 +209,62 @@ export function AssertionSelector({
           </Select>
         </FormControl>
 
-        <FormControlLabel
-          css={css`
-            width: 80px;
-            margin-left: 0.5rem;
-          `}
-          control={<Checkbox checked={checked} onChange={handleCheckbox} />}
-          label={checked ? 'True' : 'False'}
-        />
+        {record.assertionType && (
+          <FormControlLabel
+            css={css`
+              width: 80px;
+            `}
+            control={
+              <Switch
+                size="small"
+                checked={checked}
+                onChange={handleCheckbox}
+              />
+            }
+            label=""
+          />
+        )}
       </div>
       <div
         css={css`
           display: flex;
-          justify-content: center;
         `}
       >
-        {assertionType?.type === assertionTypes.hasAttribute && (
-          <TextField
-            css={css`
-              display: block;
-            `}
-            fullWidth
-            value={record?.assertionAttribute}
-            size="small"
-            id="value-assert"
-            variant="outlined"
-            placeholder="Enter attribute"
-            onChange={handleAssertAttributeChange}
-            inputProps={{
-              style: {
-                padding: 4,
-              },
-            }}
-          />
+        {isAttributeInputVisible && (
+          <>
+            <TextField
+              css={css`
+                display: block;
+                margin-left: 0px;
+                width: 45%;
+              `}
+              fullWidth
+              value={record?.assertionAttribute ?? ''}
+              size="small"
+              id="value-assert"
+              variant="outlined"
+              placeholder="Attribute Name"
+              error={
+                record?.assertionInputsValidationResult?.assertionAttribute
+              }
+              onChange={handleAssertAttributeChange}
+              inputProps={{
+                style: {
+                  padding: 4,
+                  paddingLeft: 6,
+                  fontSize: '0.7rem',
+                },
+              }}
+            />
+            <div
+              css={css`
+                margin-left: 4px;
+                margin-right: 4px;
+              `}
+            >
+              =
+            </div>
+          </>
         )}
 
         {requireInputAsserts.includes(
@@ -237,18 +273,22 @@ export function AssertionSelector({
           <TextField
             css={css`
               display: block;
-              margin-left: 4px;
+              margin-left: 0px;
+              width: ${isAttributeInputVisible ? '45%' : '95%'};
             `}
+            error={record?.assertionInputsValidationResult?.assertionValue}
             fullWidth
-            value={record?.assertionValue}
+            value={record?.assertionValue ?? ''}
             size="small"
             id="value-assert"
             variant="outlined"
-            placeholder="Enter value"
+            placeholder="Value"
             onChange={handleAssertValueChange}
             inputProps={{
               style: {
                 padding: 4,
+                paddingLeft: 6,
+                fontSize: '0.7rem',
               },
             }}
           />

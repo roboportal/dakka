@@ -66,7 +66,7 @@ export function Actions({
           </Tooltip>
 
           {isManualSelectorSetupVisible && (
-            <Tooltip title="Add Selector">
+            <Tooltip title="Selector Override">
               <IconButton
                 css={css`
                   padding: 0;

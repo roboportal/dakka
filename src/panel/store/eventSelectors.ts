@@ -24,7 +24,8 @@ const validateNonEmptyValue = (e: IEventBlock) => {
 }
 
 const validateNumericValue = (e: IEventBlock) => {
-  const isNotNumber = !Number.isFinite(+(e.assertionValue ?? ''))
+  const isNotNumber =
+    e.assertionValue === '' || !Number.isFinite(+(e.assertionValue ?? ''))
   return {
     isError: isNotNumber,
     areFieldsValid: {
@@ -112,7 +113,12 @@ export const getActiveEvents = createSelector(
           areInputsInvalid ||
           !isAssertionTypeSelected
 
-        return { ...e, isInvalidValidSetUp, shouldUseElementSelector }
+        return {
+          ...e,
+          isInvalidValidSetUp,
+          shouldUseElementSelector,
+          assertionInputsValidationResult: validationResult.areFieldsValid,
+        }
       }
 
       return e
