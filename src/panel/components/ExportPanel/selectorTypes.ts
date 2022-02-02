@@ -1,6 +1,6 @@
 export enum selectorTypes {
   role = 'role',
-  labelText = 'label-text',
+  labelText = 'aria-label',
   placeholder = 'placeholder',
   text = 'text',
   className = 'classname',
