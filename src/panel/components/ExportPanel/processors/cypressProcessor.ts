@@ -151,32 +151,40 @@ describe('${testName}', () => {
     },
   }
 
+  private generateSelector(it: IEventPayload) {
+    if (!it.selectedSelector) {
+      return ''
+    }
+
+    if (it.selectedSelector.name.startsWith('data-')) {
+      return `get('[${it.selectedSelector.name}="${it.selectedSelector.value}"]')`
+    }
+
+    return selectorsCypressFactoryMap[
+      it.selectedSelector.name as selectorTypes
+    ](it.selectedSelector.value)
+  }
+
   private serializeRecordedEvents(events: IEventBlock[]) {
     return events.reduce((acc, it) => {
-      if (it.selectedSelector) {
-        const selector = selectorsCypressFactoryMap[
-          it.selectedSelector.name as selectorTypes
-        ](it.selectedSelector.value)
+      const selector = this.generateSelector(it)
 
+      if (selector) {
         acc += `    cy.${selector}${
           this.methodsMap[it?.type]?.(it) ?? this.methodsMap.default(it)
         }\n`
       }
 
-      if (it.type === 'Assertion') {
-        const element = it.element
-        if (element) {
-          const selector = selectorsCypressFactoryMap[
-            element?.selectedSelector?.name as selectorTypes
-          ](element?.selectedSelector?.value ?? '')
-          acc += this.expectMethodsMap[
-            it?.assertionType?.type as assertionTypes
-          ]({
+      if (it.type === 'Assertion' && it.element) {
+        const selector = this.generateSelector(it.element)
+
+        acc += this.expectMethodsMap[it?.assertionType?.type as assertionTypes](
+          {
             selector,
             assertionValue: it.assertionValue,
             assertionAttribute: it.assertionAttribute,
-          })
-        }
+          },
+        )
       }
 
       return acc
