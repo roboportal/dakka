@@ -16,7 +16,8 @@ const selectorsPuppeteerFactoryMap: Record<
     `[placeholder="${v?.selectedSelector?.value}"]`,
   [selectorTypes.text]: (v) =>
     `//${v?.tagName}[contains(., "${v?.selectedSelector?.value}")]`,
-  [selectorTypes.className]: (v) => `.${v?.selectedSelector?.value}`,
+  [selectorTypes.className]: (v) =>
+    `.${v?.selectedSelector?.value.replace(' ', '.')}`,
   [selectorTypes.elementId]: (v) => `#${v?.selectedSelector?.value}`,
   [selectorTypes.testId]: (v) => `data-test-id=${v?.selectedSelector?.value}`,
   [selectorTypes.uniquePath]: (v) => v?.selectedSelector?.value ?? '',
