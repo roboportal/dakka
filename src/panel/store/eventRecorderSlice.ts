@@ -79,6 +79,7 @@ export interface IEventPayload {
   inputType?: string
   isInjectingAllowed?: boolean
   isInvalidValidSetUp?: boolean
+  shouldUseElementSelector?: boolean
   tagName?: string
 }
 

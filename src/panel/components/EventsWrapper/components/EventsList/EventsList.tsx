@@ -25,10 +25,12 @@ interface IEventsListProps {
   setDragOverIndex: (value: number) => void
   dragOverIndex: number
   enableSelectElement: () => void
+  disableSelectElement: () => void
   onSetActiveBlockId: (id: string) => void
   onSetExpandedId: (id: string) => void
   onSetAssertProperties: (payload: IAssertionPayload) => void
   prefersDarkMode: boolean
+  lastSelectedEventId: string
   onSetCustomAssertSelector: (payload: {
     selector: string
     blockId: string
@@ -42,11 +44,13 @@ function EventsList({
   setDragOverIndex,
   dragOverIndex,
   enableSelectElement,
+  disableSelectElement,
   onSetActiveBlockId,
   onSetExpandedId,
   onSetAssertProperties,
   prefersDarkMode,
   onSetCustomAssertSelector,
+  lastSelectedEventId,
 }: IEventsListProps) {
   const expandedId = useSelector(getExpandedEventId)
   const handleExpand = useCallback(
@@ -97,9 +101,11 @@ function EventsList({
                 onExpand={handleExpand}
                 onSetActiveBlockId={onSetActiveBlockId}
                 enableSelectElement={enableSelectElement}
+                disableSelectElement={disableSelectElement}
                 record={record as IEventPayload}
                 index={index.toString()}
                 isFirstEntity={isFirstEvent}
+                lastSelectedEventId={lastSelectedEventId}
               />
             </div>
           </Record>

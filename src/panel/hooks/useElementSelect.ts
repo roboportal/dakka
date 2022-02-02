@@ -1,7 +1,10 @@
 import { useCallback } from 'react'
 import { useSelector } from 'react-redux'
 import { SLICE_NAMES, RootState } from '../store'
-import { ENABLE_SELECT_ELEMENT } from '../../globalConstants/messageTypes'
+import {
+  ENABLE_SELECT_ELEMENT,
+  DISABLE_SELECT_ELEMENT,
+} from '../../globalConstants/messageTypes'
 
 export default function useElementSelect() {
   const { activeTabID } = useSelector(
@@ -16,5 +19,13 @@ export default function useElementSelect() {
     }
   }, [activeTabID])
 
-  return { enableSelectElement }
+  const disableSelectElement = useCallback(() => {
+    if (activeTabID) {
+      chrome.tabs.sendMessage(activeTabID, {
+        type: DISABLE_SELECT_ELEMENT,
+      })
+    }
+  }, [activeTabID])
+
+  return { enableSelectElement, disableSelectElement }
 }

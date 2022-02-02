@@ -42,8 +42,9 @@ export function Record({
 
   const handleDrop = useCallback(
     (type) => {
-      if (!type || refIndex?.current === null || isFirstRecord) return
-
+      if (!type || refIndex?.current === null) {
+        return
+      }
       setDragOverIndex(Number.MAX_SAFE_INTEGER)
       onInsertBlock({
         type,
@@ -51,7 +52,7 @@ export function Record({
       })
       refIndex.current = null
     },
-    [onInsertBlock, setDragOverIndex, isFirstRecord],
+    [onInsertBlock, setDragOverIndex],
   )
 
   const handleDropOver = useCallback(
@@ -62,17 +63,17 @@ export function Record({
 
       const pivot = clientRect?.x + RECORD_WIDTH / 2 + GAP_BETWEEN_RECORDS
 
-      if (event.x > pivot && !isFirstRecord) {
-        refIndex.current = currentIndex
-        const nextIndex = currentIndex + 1
-        if (nextIndex !== dragOverIndex) {
-          setDragOverIndex(nextIndex)
-        }
-      } else {
+      if (event.x < pivot && !isFirstRecord) {
         const prevIndex = currentIndex - 1
         refIndex.current = prevIndex
         if (prevIndex !== dragOverIndex) {
           setDragOverIndex(currentIndex)
+        }
+      } else {
+        refIndex.current = currentIndex
+        const nextIndex = currentIndex + 1
+        if (nextIndex !== dragOverIndex) {
+          setDragOverIndex(nextIndex)
         }
       }
     },

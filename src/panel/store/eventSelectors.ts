@@ -7,6 +7,13 @@ import {
 import { SLICE_NAMES, RootState } from './index'
 import { assertionTypes } from 'constants/assertion'
 
+const EVENT_TYPES_TO_IGNORE_ELEMENT_SELECT = [
+  assertionTypes.notToHaveTitle,
+  assertionTypes.notToHaveURL,
+  assertionTypes.toHaveTitle,
+  assertionTypes.toHaveURL,
+]
+
 const validateNonEmptyValue = (e: IEventBlock) => {
   return {
     isError: !e.assertionValue,
@@ -87,17 +94,25 @@ export const getActiveEvents = createSelector(
       if (type === 'Assertion') {
         const r = e as IEventBlock
 
+        const shouldUseElementSelector =
+          !EVENT_TYPES_TO_IGNORE_ELEMENT_SELECT.includes(
+            assertionType?.type as assertionTypes,
+          )
+
         const validationResult =
           assertionValidatorsMap?.[assertionType?.type ?? '']?.(r) ??
           assertionValidatorsMap.default(r)
 
-        const isInvalidValidSetUp =
-          !element ||
-          validationResult?.isError ||
-          !assertionType?.type ||
-          !element.selectedSelector
+        const isElementSelected = !!(element && element.selectedSelector)
+        const areInputsInvalid = validationResult?.isError
+        const isAssertionTypeSelected = assertionType?.type
 
-        return { ...e, isInvalidValidSetUp }
+        const isInvalidValidSetUp =
+          (shouldUseElementSelector && !isElementSelected) ||
+          areInputsInvalid ||
+          !isAssertionTypeSelected
+
+        return { ...e, isInvalidValidSetUp, shouldUseElementSelector }
       }
 
       return e

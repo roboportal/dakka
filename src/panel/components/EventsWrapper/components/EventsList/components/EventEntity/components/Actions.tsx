@@ -11,7 +11,7 @@ import { grey, red, green } from '@mui/material/colors'
 
 interface IActionsProps {
   isInteractive: boolean
-  onSelectWaitForElement: () => void
+  onSelectElement: () => void
   isExpanded: boolean
   onExpand: () => void
   prefersDarkMode: boolean
@@ -19,11 +19,13 @@ interface IActionsProps {
   isAddCustomSelector: boolean
   isSelectElement: boolean
   isIncompleteSetup: boolean
+  areElementsSelectorsVisible: boolean
+  isManualSelectorSetupVisible: boolean
 }
 
 export function Actions({
   isInteractive,
-  onSelectWaitForElement,
+  onSelectElement,
   isExpanded,
   onExpand,
   prefersDarkMode,
@@ -31,6 +33,8 @@ export function Actions({
   isAddCustomSelector,
   isSelectElement,
   isIncompleteSetup,
+  areElementsSelectorsVisible,
+  isManualSelectorSetupVisible,
 }: IActionsProps) {
   return (
     <div
@@ -42,7 +46,7 @@ export function Actions({
         border-bottom: 1px solid ${prefersDarkMode ? '#196194' : '#455a64'};
       `}
     >
-      {isInteractive && (
+      {isInteractive && areElementsSelectorsVisible && (
         <>
           <Tooltip title="Locate Element">
             <IconButton
@@ -54,30 +58,32 @@ export function Actions({
                   background: transparent;
                 }
               `}
-              onClick={onSelectWaitForElement}
+              onClick={onSelectElement}
               size="small"
             >
               <LocationSearchingIcon fontSize="small" />
             </IconButton>
           </Tooltip>
 
-          <Tooltip title="Add Selector">
-            <IconButton
-              css={css`
-                padding: 0;
-                margin-left: 4px;
-                color: ${isAddCustomSelector ? green.A400 : grey[500]};
-                font-size: 12px;
-                &.MuiIconButton-root:hover {
-                  background: transparent;
-                }
-              `}
-              onClick={onAddCustomSelector}
-              size="small"
-            >
-              <AddCircleIcon fontSize="small" />
-            </IconButton>
-          </Tooltip>
+          {isManualSelectorSetupVisible && (
+            <Tooltip title="Add Selector">
+              <IconButton
+                css={css`
+                  padding: 0;
+                  margin-left: 4px;
+                  color: ${isAddCustomSelector ? green.A400 : grey[500]};
+                  font-size: 12px;
+                  &.MuiIconButton-root:hover {
+                    background: transparent;
+                  }
+                `}
+                onClick={onAddCustomSelector}
+                size="small"
+              >
+                <AddCircleIcon fontSize="small" />
+              </IconButton>
+            </Tooltip>
+          )}
         </>
       )}
 
