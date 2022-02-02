@@ -30,10 +30,11 @@ export default function App() {
     handleSetExpandedId,
     handleSetAssertProperties,
     handleSetCustomAssertSelector,
+    lastSelectedEventId,
   } = useEventRecorder()
 
   const { isInjectionAllowed, allowInjection } = useAllowInjection()
-  const { enableSelectElement } = useElementSelect()
+  const { enableSelectElement, disableSelectElement } = useElementSelect()
 
   if (!isInjectionAllowed) {
     return <AllowInjection allowInjection={allowInjection} />
@@ -74,12 +75,14 @@ export default function App() {
           onSetAssertProperties={handleSetAssertProperties}
           onSetCustomAssertSelector={handleSetCustomAssertSelector}
           enableSelectElement={enableSelectElement}
+          disableSelectElement={disableSelectElement}
           onInsertBlock={handleInsertBlock}
           toggleHighlightedElement={toggleHighlightedElement}
           onSelectSelector={handleSelectSelector}
           isWideScreen={!isSidePanelVisible}
           autoScroll={isAutoScrollEnabled}
           onEventClick={handleEventClick}
+          lastSelectedEventId={lastSelectedEventId}
         />
         <Collapse in={isSidePanelVisible} orientation="horizontal">
           <EventsSettings prefersDarkMode={prefersDarkMode} />

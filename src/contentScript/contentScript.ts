@@ -5,6 +5,7 @@ import {
   IS_INJECTION_ALLOWED,
   INJECTION_ALLOWED_STATUS,
   ENABLE_SELECT_ELEMENT,
+  DISABLE_SELECT_ELEMENT,
   ELEMENT_SELECTED,
   HOVER_ELEMENT,
 } from '../globalConstants/messageTypes'
@@ -126,6 +127,16 @@ chrome.runtime.onMessage.addListener((message) => {
     window.addEventListener('click', mouseClickHandler, true)
     window.addEventListener('mousedown', mouseDownHandler, true)
     window.addEventListener('mouseup', mouseUpHandler, true)
+  }
+
+  if (message.type === DISABLE_SELECT_ELEMENT) {
+    selectElementEnabled = false
+    window.removeEventListener('mouseover', mouseOverHandler, true)
+    window.removeEventListener('focus', focusHandler, true)
+    window.removeEventListener('blur', blurHandler, true)
+    window.removeEventListener('click', mouseClickHandler, true)
+    window.removeEventListener('mousedown', mouseDownHandler, true)
+    window.removeEventListener('mouseup', mouseUpHandler, true)
   }
 
   if (shouldProcessMessage(message.type) && !selectElementEnabled) {

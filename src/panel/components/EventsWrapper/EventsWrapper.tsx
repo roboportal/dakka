@@ -20,10 +20,12 @@ interface IEventsWrapperProps {
   onEventClick: React.MouseEventHandler<Element>
   onInsertBlock: (payload: IEventBlockPayload) => void
   enableSelectElement: () => void
+  disableSelectElement: () => void
   onSetActiveBlockId: (id: string) => void
   onSetExpandedId: (id: string) => void
   onSetAssertProperties: (payload: IAssertionPayload) => void
   prefersDarkMode: boolean
+  lastSelectedEventId: string
   onSetCustomAssertSelector: (payload: {
     selector: string
     blockId: string
@@ -38,11 +40,13 @@ export default function EventsWrapper({
   isWideScreen,
   onInsertBlock,
   enableSelectElement,
+  disableSelectElement,
   onSetActiveBlockId,
   onSetExpandedId,
   onSetAssertProperties,
   prefersDarkMode,
   onSetCustomAssertSelector,
+  lastSelectedEventId,
 }: IEventsWrapperProps) {
   const wrapperRef = useRef<HTMLDivElement | null>(null)
   const [eventsListScroll, setEventsListScroll] = useState(0)
@@ -108,11 +112,13 @@ export default function EventsWrapper({
           onSetActiveBlockId={onSetActiveBlockId}
           onSetExpandedId={onSetExpandedId}
           enableSelectElement={enableSelectElement}
+          disableSelectElement={disableSelectElement}
           setDragOverIndex={setDragOverIndex}
           dragOverIndex={dragOverIndex}
           onInsertBlock={onInsertBlock}
           events={events}
           onSelectSelector={onSelectSelector}
+          lastSelectedEventId={lastSelectedEventId}
         />
       </div>
       <Scroll

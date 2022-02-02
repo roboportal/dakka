@@ -1,4 +1,4 @@
-import { MouseEventHandler, useEffect, useCallback } from 'react'
+import { MouseEventHandler, useEffect, useCallback, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import {
   setActiveTabID,
@@ -17,7 +17,11 @@ import {
   IAssertionPayload,
 } from 'store/eventRecorderSlice'
 
-import { ENABLE_RECORDER, REDIRECT_STARTED } from 'constants/messageTypes'
+import {
+  ELEMENT_SELECTED,
+  ENABLE_RECORDER,
+  REDIRECT_STARTED,
+} from 'constants/messageTypes'
 import { internalEventsMap } from 'constants/internalEventsMap'
 
 import { SLICE_NAMES, RootState } from '../store'
@@ -34,6 +38,7 @@ export default function useEventRecorder() {
     expandedId,
   } = useSelector((state: RootState) => state[SLICE_NAMES.eventRecorder])
 
+  const [lastSelectedEventId, setLastSelectedEventId] = useState('')
   const dispatch = useDispatch()
 
   const handleIsRecordEnabledChange = useCallback(() => {
@@ -100,6 +105,9 @@ export default function useEventRecorder() {
         eventRecord.payload.type = internalEventsMap[eventRecord.type]
       }
 
+      if (eventRecord?.type === ELEMENT_SELECTED) {
+        setLastSelectedEventId(eventRecord.payload.id)
+      }
       if (!tabId) {
         return chrome.tabs.query({ active: true }).then((tab) => {
           dispatch(
@@ -194,5 +202,6 @@ export default function useEventRecorder() {
     handleSetExpandedId,
     handleSetAssertProperties,
     handleSetCustomAssertSelector,
+    lastSelectedEventId,
   }
 }
