@@ -63,6 +63,21 @@ export function composeEvent({
   const className = target?.attributes?.class?.value
   const elementId = target?.attributes?.id?.value
   const testId = target?.attributes?.['data-testid']?.value
+  const customDataAttributes = Object.values(target?.attributes ?? []).reduce(
+    (data: Record<string, string>[], attribute) => {
+      if ((attribute as { name: string })?.name?.startsWith('data-')) {
+        return [
+          ...data,
+          {
+            name: (attribute as { name: string })?.name,
+            value: (attribute as { value: string })?.value,
+          },
+        ]
+      }
+      return data
+    },
+    [],
+  )
 
   if (!(target instanceof Element)) {
     return {}
@@ -78,6 +93,7 @@ export function composeEvent({
     elementId && { name: 'element-id', value: elementId },
     testId && { name: 'test-id', value: testId },
     { name: 'unique-path', value: uniqueSelector },
+    ...customDataAttributes,
   ].filter((sel) => !!sel)
 
   const validSelectors = selectors.filter((item) => item.value)
