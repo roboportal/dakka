@@ -47,7 +47,10 @@ export function Selector({ record, onSelectSelector, width }: ISelectorProp) {
     [onSelectSelector, record, validSelectors],
   )
 
-  if (!validSelectors?.length) {
+  const shouldHideSelectorPanel =
+    !validSelectors?.length || !(record.shouldUseElementSelector ?? true)
+
+  if (shouldHideSelectorPanel) {
     return null
   }
 
