@@ -71,7 +71,7 @@ export function composeEvent({
   const uniqueSelector = finder(target)
   const selectors = [
     ariaLabel && role && { name: 'role', ariaLabel, value: role },
-    ariaLabel && { name: 'label-text', value: ariaLabel },
+    ariaLabel && { name: 'aria-label', value: ariaLabel },
     placeholder && { name: 'placeholder', value: placeholder },
     textContent && { name: 'text', value: textContent },
     className && { name: 'classname', value: className },

@@ -10,7 +10,7 @@ export const selectorsPlaywriteFactoryMap: Record<
   (v: string) => string
 > = {
   [selectorTypes.role]: (v) => `[role="${v}"]`,
-  [selectorTypes.labelText]: (v) => `tag=label >> text="${v}"`,
+  [selectorTypes.labelText]: (v) => `[aria-label="${v}"]`,
   [selectorTypes.placeholder]: (v) => `[placeholder="${v}"]`,
   [selectorTypes.text]: (v) => `text="${v}"`,
   [selectorTypes.className]: (v) => `.${v}`,
