@@ -34,8 +34,7 @@ export class CypressProcessor extends ExportProcessor {
   }
 
   private getWrapper(testName: string, content: string) {
-    return `import { cy } from 'cypress';
-
+    return `
 describe('${testName}', () => {
   it('${testName}', () => {
     ${content}
