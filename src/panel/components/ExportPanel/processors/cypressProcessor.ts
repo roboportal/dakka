@@ -10,7 +10,7 @@ export const selectorsCypressFactoryMap: Record<
   (v: string) => string
 > = {
   [selectorTypes.role]: (v) => `get('[role="${v}"]')`,
-  [selectorTypes.labelText]: (v) => `contains("${v}")`,
+  [selectorTypes.labelText]: (v) => `get('[aria-label="${v}"]')`,
   [selectorTypes.placeholder]: (v) => `get('[placeholder="${v}"]')`,
   [selectorTypes.text]: (v) => `contains('${v}')`,
   [selectorTypes.className]: (v) => `get('.${v}')`,
