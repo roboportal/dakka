@@ -52,6 +52,7 @@ export interface IEventBlock extends IEventPayload {
   assertionAttribute?: string
   assertionValue?: string
   assertionType?: Record<string, string>
+  assertionInputsValidationResult?: Record<string, boolean>
 }
 
 export interface IEventBlockPayload {

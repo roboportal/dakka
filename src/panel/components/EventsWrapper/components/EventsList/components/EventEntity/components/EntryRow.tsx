@@ -56,18 +56,24 @@ export function EntryRow({
           <TextField
             css={css`
               display: block;
-              margin-top: 8px;
+              margin-top: 12px;
               padding: 0;
+              width: 95%;
             `}
+            fullWidth
             inputProps={{
               style: {
                 padding: 4,
+                paddingLeft: 6,
+                fontSize: '0.7rem',
               },
             }}
+            value={value}
+            error={!value}
             size="small"
             id="custom-assert-selector"
             variant="outlined"
-            placeholder="Enter selector"
+            placeholder="Selector Override"
             onChange={onAddCustomSelector}
           />
         </div>
