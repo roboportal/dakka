@@ -56,13 +56,63 @@ export function composeEvent({
     which, // mouse button
   } = event
 
+  const validAttributes = [
+    'href',
+    'src',
+    'value',
+    'placeholder',
+    'alt',
+    'aria-label',
+  ]
+
+  const datatestAttributes = [
+    'data-testid',
+    'data-testId',
+    'data-test-id',
+    'data-test',
+    'data-cy',
+    'data-componentid',
+  ]
+
   const role = target?.attributes?.role?.value
   const ariaLabel = target?.ariaLabel
   const placeholder = target?.attributes?.placeholder?.value
-  const textContent = target?.outerText
+  const textContent = target?.innerText
   const className = target?.attributes?.class?.value
   const elementId = target?.attributes?.id?.value
-  const testId = target?.attributes?.['data-testid']?.value
+    ? `#${target?.attributes?.id?.value}`
+    : ''
+  const tagName = (target?.tagName ?? '').toLowerCase()
+
+  const customDataAttributes = Object.values(target?.attributes ?? []).reduce(
+    (data: Record<string, string>[], attribute) => {
+      const name = (attribute as { name: string })?.name
+      const value = (attribute as { value: string })?.value
+
+      if (datatestAttributes.includes(name)) {
+        return [
+          {
+            name,
+            value: `[${name}="${value}"]`,
+          },
+          ...data,
+        ]
+      }
+
+      if (validAttributes.includes(name) && value && tagName) {
+        return [
+          {
+            name,
+            value: `${tagName}[${name}="${value}"]`,
+          },
+          ...data,
+        ]
+      }
+
+      return data
+    },
+    [],
+  )
 
   if (!(target instanceof Element)) {
     return {}
@@ -70,14 +120,21 @@ export function composeEvent({
 
   const uniqueSelector = finder(target)
   const selectors = [
-    ariaLabel && role && { name: 'role', ariaLabel, value: role },
-    ariaLabel && { name: 'aria-label', value: ariaLabel },
-    placeholder && { name: 'placeholder', value: placeholder },
+    ...customDataAttributes,
     textContent && { name: 'text', value: textContent },
-    className && { name: 'classname', value: className },
+    ariaLabel && { name: 'aria-label', value: `[aria-label="${ariaLabel}"]` },
+    placeholder && {
+      name: 'placeholder',
+      value: `[placeholder="${placeholder}"]`,
+    },
+    role && { name: 'role', value: `[role="${role}"]` },
     elementId && { name: 'element-id', value: elementId },
-    testId && { name: 'test-id', value: testId },
     { name: 'unique-path', value: uniqueSelector },
+    className && {
+      name: 'classname',
+      value: `.${className.replace(' ', '.')}`,
+    },
+    tagName && { name: 'tagName', value: tagName },
   ].filter((sel) => !!sel)
 
   const validSelectors = selectors.filter((item) => item.value)
@@ -132,7 +189,7 @@ export function composeEvent({
       timeStamp,
       touches,
       which,
-      tagName: target?.tagName ?? '*',
+      tagName: tagName ?? '*',
     },
   }
 }

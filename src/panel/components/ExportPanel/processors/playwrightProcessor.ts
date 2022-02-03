@@ -1,23 +1,9 @@
 import { IEventBlock, IEventPayload } from 'store/eventRecorderSlice'
-import { exportOptions } from '../constants'
+import { exportOptions, ativeTags } from '../constants'
 import { assertionTypes } from 'constants/assertion'
 import { selectorTypes } from '../selectorTypes'
 import { normalizeString } from '../normalizer'
 import { ExportProcessor } from './abstractProcessor'
-
-export const selectorsPlaywriteFactoryMap: Record<
-  selectorTypes,
-  (v: string) => string
-> = {
-  [selectorTypes.role]: (v) => `[role="${v}"]`,
-  [selectorTypes.labelText]: (v) => `[aria-label="${v}"]`,
-  [selectorTypes.placeholder]: (v) => `[placeholder="${v}"]`,
-  [selectorTypes.text]: (v) => `text="${v}"`,
-  [selectorTypes.className]: (v) => `.${v}`,
-  [selectorTypes.elementId]: (v) => `#${v}`,
-  [selectorTypes.testId]: (v) => `data-test-id=${v}`,
-  [selectorTypes.uniquePath]: (v) => v,
-}
 
 export class PlaywrightProcessor extends ExportProcessor {
   type = exportOptions.playwright
@@ -168,6 +154,22 @@ test('${testName}', async ({ page }) => {
     },
   }
 
+  private generateSelector(it: IEventPayload | null) {
+    if (!it?.selectedSelector) {
+      return ''
+    }
+
+    const value = it.selectedSelector.value
+    const name = it.selectedSelector.name
+    if (name === selectorTypes.text) {
+      return ativeTags.includes(it.tagName ?? '')
+        ? `${it.tagName}:has-text("${value}")`
+        : `text="${value}"`
+    }
+
+    return `${value}`
+  }
+
   private serializeRecordedEvents(events: IEventBlock[]) {
     return events.reduce((acc, it) => {
       if (it.type === '_redirect') {
@@ -175,9 +177,7 @@ test('${testName}', async ({ page }) => {
       }
 
       if (it.selectedSelector) {
-        const selector = selectorsPlaywriteFactoryMap[
-          it.selectedSelector.name as selectorTypes
-        ](it.selectedSelector.value)
+        const selector = this.generateSelector(it)
         acc += `  await page.locator('${normalizeString(selector)}')${
           this.methodsMap[it?.type]?.(it) ?? this.methodsMap.default(it)
         }\n`
@@ -186,9 +186,7 @@ test('${testName}', async ({ page }) => {
       if (it.type === 'Assertion') {
         const element = it.element
         if (element) {
-          const selector = selectorsPlaywriteFactoryMap[
-            element?.selectedSelector?.name as selectorTypes
-          ](element?.selectedSelector?.value ?? '')
+          const selector = this.generateSelector(element)
           acc += this.expectMethodsMap[
             it?.assertionType?.type as assertionTypes
           ]({

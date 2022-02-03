@@ -1,13 +1,11 @@
-describe('My First Test', () => {
-  it('Gets, types and asserts', () => {
-    cy.visit('https://example.cypress.io')
-
-    cy.contains('type').click()
-
-    cy.url().should('include', '/commands/actions')
-
-    cy.get('.action-email')
-      .type('fake@email.com')
-      .should('have.value', 'fake@email.com')
+describe('Testing https://javascript.info/promise-chaining', () => {
+  it('Testing https://javascript.info/promise-chaining', () => {
+    cy.visit('https://javascript.info/promise-chaining')
+    cy.get('.sitetoolbar__login').click()
+    cy.contains('button', 'Log in').click()
+    cy.contains('Please enter email.').should('exist')
+    cy.contains('Please enter password.').should('exist')
+    cy.contains('button', 'Forgot?').click()
+    cy.contains('button', 'Recovery password').should('be.enabled')
   })
 })
