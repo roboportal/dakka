@@ -349,10 +349,6 @@ describe('${testName}', () => {
 
   private serializeRecordedEvents(events: IEventBlock[]) {
     return events.reduce((acc, it) => {
-      if (it.type === '_redirect') {
-        acc += '\n  await page.waitForNavigation()\n'
-      }
-
       if (it.selectedSelector) {
         acc += this.generateAction(it)
       }
