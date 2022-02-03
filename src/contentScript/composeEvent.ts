@@ -114,7 +114,11 @@ export function composeEvent({
     [],
   )
 
-  if (!(target instanceof Element)) {
+  const isHidden =
+    window.getComputedStyle(target)?.visibility === 'hidden' ||
+    target?.style?.visibility === 'hidden'
+
+  if (!(target instanceof Element) || isHidden) {
     return {}
   }
 
