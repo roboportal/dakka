@@ -59,10 +59,10 @@ export function composeEvent({
   const validAttributes = [
     'href',
     'src',
-    'value',
     'placeholder',
     'alt',
     'aria-label',
+    'for',
   ]
 
   const datatestAttributes = [
