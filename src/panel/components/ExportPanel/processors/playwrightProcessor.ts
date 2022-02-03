@@ -15,6 +15,11 @@ export class PlaywrightProcessor extends ExportProcessor {
     default: () => '',
   }
 
+  private pageMethodsMap: Record<string, (it: IEventPayload) => string> = {
+    keydown: ({ key }) => (key ? `.keyboard.press('${key}')` : ''),
+    default: () => '',
+  }
+
   private getWrapper(testName: string, content: string) {
     return `const { test, expect } = require('@playwright/test')
     
@@ -178,9 +183,16 @@ test('${testName}', async ({ page }) => {
 
       if (it.selectedSelector) {
         const selector = this.generateSelector(it)
-        acc += `  await page.locator('${normalizeString(selector)}')${
-          this.methodsMap[it?.type]?.(it) ?? this.methodsMap.default(it)
-        }\n`
+        if (this.pageMethodsMap[it.type]) {
+          acc += `  await page${this.pageMethodsMap[it?.type]?.(it)}\n`
+        } else {
+          const action =
+            this.methodsMap[it?.type]?.(it) ?? this.methodsMap.default(it)
+
+          acc += `  await page.locator('${normalizeString(
+            selector,
+          )}')${action}\n`
+        }
       }
 
       if (it.type === 'Assertion') {

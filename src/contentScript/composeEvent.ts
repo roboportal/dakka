@@ -56,14 +56,7 @@ export function composeEvent({
     which, // mouse button
   } = event
 
-  const validAttributes = [
-    'href',
-    'src',
-    'value',
-    'placeholder',
-    'alt',
-    'aria-label',
-  ]
+  const validAttributes = ['href', 'src', 'placeholder', 'alt', 'aria-label']
 
   const datatestAttributes = [
     'data-testid',
