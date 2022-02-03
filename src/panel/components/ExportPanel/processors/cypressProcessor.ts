@@ -155,13 +155,14 @@ describe('${testName}', () => {
 
     const value = it.selectedSelector.value
     const name = it.selectedSelector.name
+
     if (name === selectorTypes.text) {
       return ativeTags.includes(it.tagName ?? '')
-        ? `contains('${it.tagName}', '${value}')`
-        : `contains('${value}')`
+        ? `contains('${it.tagName}', '${normalizeString(value)}')`
+        : `contains('${normalizeString(value)}')`
     }
 
-    return `get('${value}')`
+    return `get('${normalizeString(value)}')`
   }
 
   private serializeRecordedEvents(events: IEventBlock[]) {
