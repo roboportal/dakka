@@ -5,6 +5,7 @@ import { assertionTypes } from 'constants/assertion'
 import { normalizeString } from '../normalizer'
 import { ExportProcessor } from './abstractProcessor'
 import { selectorTypes } from '../selectorTypes'
+import { ASSERTION } from '../../../constants/actionTypes'
 
 const keyDowns: Record<string, string> = {
   Backspace: ".type('{backspace}')",
@@ -173,7 +174,7 @@ describe('${testName}', () => {
         }\n`
       }
 
-      if (it.type === 'Assertion') {
+      if (it.type === ASSERTION) {
         acc += this.expectMethodsMap[it?.assertionType?.type as assertionTypes](
           {
             selector: this.generateSelector(it?.element),

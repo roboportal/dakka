@@ -4,6 +4,7 @@ import { assertionTypes } from 'constants/assertion'
 import { selectorTypes } from '../selectorTypes'
 import { normalizeString } from '../normalizer'
 import { ExportProcessor } from './abstractProcessor'
+import { ASSERTION } from '../../../constants/actionTypes'
 
 export class PlaywrightProcessor extends ExportProcessor {
   type = exportOptions.playwright
@@ -195,7 +196,7 @@ test('${testName}', async ({ page }) => {
         }
       }
 
-      if (it.type === 'Assertion') {
+      if (it.type === ASSERTION) {
         const element = it.element
         if (element) {
           const selector = this.generateSelector(element)
