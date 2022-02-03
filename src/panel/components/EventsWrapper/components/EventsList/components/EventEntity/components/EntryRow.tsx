@@ -2,6 +2,7 @@ import { css } from '@emotion/react'
 import TextField from '@mui/material/TextField'
 import { ChangeEventHandler } from 'react'
 import { IEventBlock } from 'store/eventRecorderSlice'
+import { ASSERTION } from 'constants/actionTypes'
 
 interface IEventEntityProps {
   label?: string
@@ -27,7 +28,7 @@ export function EntryRow({
   onAddCustomSelector,
 }: IEventEntityProps) {
   const isAddSelector =
-    record?.type === 'Assertion' && isAddCustomSelector && isExpanded
+    record?.type === ASSERTION && isAddCustomSelector && isExpanded
 
   return (
     <div

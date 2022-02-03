@@ -4,6 +4,7 @@ import { assertionTypes } from 'constants/assertion'
 import { selectorTypes } from '../selectorTypes'
 import { normalizeString } from '../normalizer'
 import { ExportProcessor } from './abstractProcessor'
+import { WAIT_FOR_ELEMENT, ASSERTION } from '../../../constants/actionTypes'
 
 const selectorOptions: Record<string, string> = {
   [selectorTypes.text]: '$x',
@@ -12,13 +13,13 @@ const selectorOptions: Record<string, string> = {
 }
 
 const getByXpath = ({
-  normalizedSelector,
+  selector,
   value,
 }: {
-  normalizedSelector: string
+  selector: string | undefined
   value: string
 }) =>
-  `expect(await page.$x('${normalizedSelector}').then(async (elem) => page.evaluate((e) => ${value}, elem[0])))`
+  `expect(await page.$x('${selector}').then(async (elem) => page.evaluate((e) => ${value}, elem[0])))`
 
 export class PuppeteerProcessor extends ExportProcessor {
   type = exportOptions.puppeteer
@@ -90,40 +91,36 @@ describe('${testName}', () => {
     },
 
     [assertionTypes.toBeChecked]: ({ selector, selectorName }) => {
-      const normalizedSelector = normalizeString(selector)
       if (selectorOptions[selectorName] === '$x') {
         return `  ${getByXpath({
-          normalizedSelector,
+          selector,
           value: 'e.checked',
         })}.toBe(true)\n`
       }
 
-      return `  expect(await page.$eval('${normalizedSelector}', e => e.checked)).toBe(true)\n`
+      return `  expect(await page.$eval('${selector}', e => e.checked)).toBe(true)\n`
     },
 
     [assertionTypes.notToBeChecked]: ({ selector, selectorName }) => {
-      const normalizedSelector = normalizeString(selector)
       if (selectorOptions[selectorName] === '$x') {
         return `   ${getByXpath({
-          normalizedSelector,
+          selector,
           value: 'e.checked',
         })}.toBe(false)\n`
       }
 
-      return `  expect(await page.$eval('${normalizedSelector}', e => e.checked)).toBe(false)\n`
+      return `  expect(await page.$eval('${selector}', e => e.checked)).toBe(false)\n`
     },
 
     [assertionTypes.contains]: ({ selector, assertionValue, selectorName }) => {
-      const normalizedSelector = normalizeString(selector)
-
       if (selectorOptions[selectorName] === '$x') {
         return `   ${getByXpath({
-          normalizedSelector,
+          selector,
           value: 'e.textContent',
         })}.toBe('${assertionValue}')\n`
       }
 
-      return `  expect(await page.$eval('${normalizedSelector}', e => e.textContent)).toBe('${assertionValue}')\n`
+      return `  expect(await page.$eval('${selector}', e => e.textContent)).toBe('${assertionValue}')\n`
     },
 
     [assertionTypes.notContains]: ({
@@ -131,14 +128,13 @@ describe('${testName}', () => {
       assertionValue,
       selectorName,
     }) => {
-      const normalizedSelector = normalizeString(selector)
       if (selectorOptions[selectorName] === '$x') {
         return `  ${getByXpath({
-          normalizedSelector,
+          selector,
           value: 'e.textContent',
         })}.not.toBe('${assertionValue}')\n`
       }
-      return `  expect(await page.$eval('${normalizedSelector}', e => e.textContent)).not.toBe('${assertionValue}')\n`
+      return `  expect(await page.$eval('${selector}', e => e.textContent)).not.toBe('${assertionValue}')\n`
     },
 
     [assertionTypes.inDocument]: ({ selector, selectorName }) => {
@@ -156,22 +152,21 @@ describe('${testName}', () => {
     },
 
     [assertionTypes.toBeDisabled]: ({ selector, selectorName }) => {
-      const normalizedSelector = normalizeString(selector)
       if (selectorOptions[selectorName] === '$x') {
         return `  ${getByXpath({
-          normalizedSelector,
+          selector,
           value: 'e.getAttribute("disabled")',
         })}.toBe(true)\n`
       }
 
-      return `  expect(await page.$eval('${normalizedSelector}', (e) => e.getAttribute('disabled'))).toBe(true)\n`
+      return `  expect(await page.$eval('${selector}', (e) => e.getAttribute('disabled'))).toBe(true)\n`
     },
 
     [assertionTypes.notToBeDisabled]: ({ selector, selectorName }) => {
       const normalizedSelector = normalizeString(selector)
       if (selectorOptions[selectorName] === '$x') {
         return `  ${getByXpath({
-          normalizedSelector,
+          selector,
           value: 'e.getAttribute("disabled")',
         })}.toBe(null)\n`
       }
@@ -179,35 +174,29 @@ describe('${testName}', () => {
     },
 
     [assertionTypes.toBeEnabled]: ({ selector, selectorName }) => {
-      const normalizedSelector = normalizeString(selector)
       if (selectorOptions[selectorName] === '$x') {
         return `  ${getByXpath({
-          normalizedSelector,
+          selector,
           value: 'e.getAttribute("disabled")',
         })}.toBe(null)\n`
       }
-      return `  ${getByXpath({
-        normalizedSelector,
-        value: 'e.getAttribute("disabled")',
-      })}.toBe(null)\n`
+      return `  expect(await page.$eval('${selector}', (e) => e.getAttribute('disabled'))).toBe(null)\n`
     },
 
     [assertionTypes.notToBeEnabled]: ({ selector, selectorName }) => {
-      const normalizedSelector = normalizeString(selector)
       if (selectorOptions[selectorName] === '$x') {
         return `  ${getByXpath({
-          normalizedSelector,
+          selector,
           value: 'e.getAttribute("disabled")',
         })}.toBe(true)\n`
       }
-      return `  expect(await page.$eval('${normalizedSelector}', (e) => e.getAttribute('disabled'))).toBe(true)\n`
+      return `  expect(await page.$eval('${selector}', (e) => e.getAttribute('disabled'))).toBe(true)\n`
     },
 
     [assertionTypes.toBeHidden]: ({ selector, selectorName }) => {
-      const normalizedSelector = normalizeString(selector)
       return `  expect(await page.${
         selectorOptions[selectorName] ?? selectorOptions.default
-      }('${normalizedSelector}')).toBeNull()\n`
+      }('${selector}')).toBeNull()\n`
     },
 
     [assertionTypes.notToBeHidden]: ({ selector, selectorName }) => {
@@ -218,25 +207,23 @@ describe('${testName}', () => {
     },
 
     [assertionTypes.toBeVisible]: ({ selector, selectorName }) => {
-      const normalizedSelector = normalizeString(selector)
       if (selectorOptions[selectorName] === '$x') {
         return `  ${getByXpath({
-          normalizedSelector,
+          selector,
           value: 'e.style.visibility',
         })}.not.toBe('hidden')\n`
       }
-      return `  expect(await page.$eval('${normalizedSelector}', e => e.style.visibility)).not.toBe('hidden')\n`
+      return `  expect(await page.$eval('${selector}', e => e.style.visibility)).not.toBe('hidden')\n`
     },
 
     [assertionTypes.notToBeVisible]: ({ selector, selectorName }) => {
-      const normalizedSelector = normalizeString(selector)
       if (selectorOptions[selectorName] === '$x') {
         return `  ${getByXpath({
-          normalizedSelector,
+          selector,
           value: 'e.style.visibility',
         })}.not.toBe('visible')\n`
       }
-      return `  expect(await page.$eval('${normalizedSelector}', e => e.style.visibility)).not.toBe('visible')\n`
+      return `  expect(await page.$eval('${selector}', e => e.style.visibility)).not.toBe('visible')\n`
     },
 
     [assertionTypes.hasAttribute]: ({
@@ -248,7 +235,7 @@ describe('${testName}', () => {
       const normalizedSelector = normalizeString(selector)
       if (selectorOptions[selectorName] === '$x') {
         return `  ${getByXpath({
-          normalizedSelector,
+          selector,
           value: `e.getAttribute('${assertionAttribute}')`,
         })}.toBe('${assertionValue}')\n`
       }
@@ -261,14 +248,13 @@ describe('${testName}', () => {
       assertionAttribute,
       selectorName,
     }) => {
-      const normalizedSelector = normalizeString(selector)
       if (selectorOptions[selectorName] === '$x') {
         return `  ${getByXpath({
-          normalizedSelector,
+          selector,
           value: `e.getAttribute('${assertionAttribute}')`,
         })}.not.toBe('${assertionValue}')\n`
       }
-      return `  expect(await page.$eval('${normalizedSelector}', e => e.getAttribute('${assertionAttribute}'))).not.toBe('${assertionValue}')\n`
+      return `  expect(await page.$eval('${selector}', e => e.getAttribute('${assertionAttribute}'))).not.toBe('${assertionValue}')\n`
     },
 
     [assertionTypes.toHaveLength]: ({
@@ -276,14 +262,13 @@ describe('${testName}', () => {
       assertionValue,
       selectorName,
     }) => {
-      const normalizedSelector = normalizeString(selector)
       if (selectorOptions[selectorName] === '$x') {
         return `  ${getByXpath({
-          normalizedSelector,
+          selector,
           value: 'e.length',
         })}.toBe('${assertionValue}')\n`
       }
-      return `  expect(await page.$eval('${normalizedSelector}', e => e.length)).toBe('${assertionValue}')\n`
+      return `  expect(await page.$eval('${selector}', e => e.length)).toBe('${assertionValue}')\n`
     },
 
     [assertionTypes.notToHaveLength]: ({
@@ -291,14 +276,13 @@ describe('${testName}', () => {
       assertionValue,
       selectorName,
     }) => {
-      const normalizedSelector = normalizeString(selector)
       if (selectorOptions[selectorName] === '$x') {
         return `  ${getByXpath({
-          normalizedSelector,
+          selector,
           value: 'e.length',
         })}.not.toBe('${assertionValue}')\n`
       }
-      return `  expect(await page.$eval('${normalizedSelector}', e => e.length)).not.toBe('${assertionValue}')\n`
+      return `  expect(await page.$eval('${selector}', e => e.length)).not.toBe('${assertionValue}')\n`
     },
   }
 
@@ -310,21 +294,22 @@ describe('${testName}', () => {
     const value = it.selectedSelector.value
     const name = it.selectedSelector.name
     if (name === selectorTypes.text) {
-      return `//${it?.tagName}[contains(., "${value}")]`
+      return normalizeString(`//${it?.tagName}[contains(., "${value}")]`)
     }
 
-    return `${value}`
+    return normalizeString(value)
   }
 
   private generateAction(it: IEventPayload) {
     const selector = this.generateSelector(it)
+    const key = normalizeString(it?.key)
+    const payload = { key, selector }
 
     if (this.pageMethodsMap[it.type]) {
       return `  await page${this.pageMethodsMap[it?.type]?.(it)}\n`
     }
 
     if (selectorOptions[it?.selectedSelector?.name ?? ''] === '$x') {
-      const key = normalizeString(it?.key)
       return `  
       await page.waitForXPath('${selector}')
       await page.$x('${selector}').then(async (elements) => {
@@ -335,16 +320,22 @@ describe('${testName}', () => {
       })\n`
     }
 
-    const payload = {
-      key: normalizeString(it?.key),
-      selector: normalizeString(selector),
-    }
-
     return `  await page.waitForSelector('${payload.selector}')
         await page${
           this.methodsMap[it?.type]?.(payload) ??
           this.methodsMap.default(payload)
         }\n`
+  }
+
+  private waitForElement(selector: string, element: IEventPayload | null) {
+    const byXPath =
+      selectorOptions[element?.selectedSelector?.name ?? ''] === '$x'
+
+    if (byXPath) {
+      return `  await page.waitForXPath('${selector}')\n`
+    }
+
+    return `  await page.waitForSelector('${selector}')\n`
   }
 
   private serializeRecordedEvents(events: IEventBlock[]) {
@@ -353,20 +344,12 @@ describe('${testName}', () => {
         acc += this.generateAction(it)
       }
 
-      if (it.type === 'Assertion') {
+      if (it.type === ASSERTION) {
         const element = it.element
-        const selector = this.generateSelector(element)
+        const selector = this.generateSelector(element) ?? ''
 
-        const byXPath =
-          selectorOptions[element?.selectedSelector?.name ?? ''] === '$x'
         if (element) {
-          if (byXPath) {
-            acc += `  await page.waitForXPath('${selector}')\n`
-          } else {
-            acc += `  await page.waitForSelector('${normalizeString(
-              selector,
-            )}')\n`
-          }
+          acc += this.waitForElement(selector, element)
 
           acc += this.expectMethodsMap[
             it?.assertionType?.type as assertionTypes
@@ -378,6 +361,13 @@ describe('${testName}', () => {
           })
         }
       }
+
+      if (it.type === WAIT_FOR_ELEMENT) {
+        const element = it.element
+        const selector = this.generateSelector(element) ?? ''
+        acc += this.waitForElement(selector, element)
+      }
+
       return acc
     }, '')
   }

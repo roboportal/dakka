@@ -14,6 +14,7 @@ import { EntryRow } from './components/EntryRow'
 import { Actions } from './components/Actions'
 import { DeleteAction } from './components/DeleteAction'
 import { truncate } from './helper'
+import { ASSERTION } from 'constants/actionTypes'
 
 function getBackgroundColor({
   isHover,
@@ -141,7 +142,7 @@ export function EventEntity({
   const shouldHaveTopMargin =
     isRedirect || isInteractive || !(record.shouldUseElementSelector ?? true)
 
-  const isManualSelectorSetupVisible = record.type === 'Assertion'
+  const isManualSelectorSetupVisible = record.type === ASSERTION
 
   return (
     <div
@@ -231,7 +232,7 @@ export function EventEntity({
             }
           />
         )}
-        {record.type === 'Assertion' && (
+        {record.type === ASSERTION && (
           <AssertionSelector
             isExpanded={isExpanded}
             record={record as IEventBlock}

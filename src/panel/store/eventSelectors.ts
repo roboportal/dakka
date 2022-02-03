@@ -6,6 +6,7 @@ import {
 } from 'store/eventRecorderSlice'
 import { SLICE_NAMES, RootState } from './index'
 import { assertionTypes } from 'constants/assertion'
+import { WAIT_FOR_ELEMENT, ASSERTION } from '../constants/actionTypes'
 
 const EVENT_TYPES_TO_IGNORE_ELEMENT_SELECT = [
   assertionTypes.notToHaveTitle,
@@ -87,12 +88,12 @@ export const getActiveEvents = createSelector(
     (state.events[state.activeTabID] ?? []).map((e) => {
       const { type, element, assertionType } = e as IEventBlock
 
-      if (type === 'Wait For Element') {
+      if (type === WAIT_FOR_ELEMENT) {
         const isInvalidValidSetUp = !element
         return { ...e, isInvalidValidSetUp }
       }
 
-      if (type === 'Assertion') {
+      if (type === ASSERTION) {
         const r = e as IEventBlock
 
         const shouldUseElementSelector =
