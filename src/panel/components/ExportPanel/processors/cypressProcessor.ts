@@ -149,7 +149,7 @@ describe('${testName}', () => {
   }
 
   private generateSelector(it: IEventPayload | null) {
-    if (!it?.selectedSelector) {
+    if (!it?.selectedSelector || !it?.selectedSelector?.value) {
       return ''
     }
 
