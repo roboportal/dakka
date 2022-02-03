@@ -308,7 +308,7 @@ describe('${testName}', () => {
       return `//${it?.tagName}[contains(., "${value}")]`
     }
 
-    return `get('${value}')`
+    return `${value}`
   }
 
   private serializeRecordedEvents(events: IEventBlock[]) {
