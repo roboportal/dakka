@@ -63,6 +63,7 @@ export function composeEvent({
     'alt',
     'aria-label',
     'for',
+    'name',
   ]
 
   const datatestAttributes = [
@@ -115,7 +116,8 @@ export function composeEvent({
   )
 
   const isHidden =
-    window.getComputedStyle(target)?.visibility === 'hidden' ||
+    (target instanceof Element &&
+      window.getComputedStyle(target)?.visibility === 'hidden') ||
     target?.style?.visibility === 'hidden'
 
   if (!(target instanceof Element) || isHidden) {
