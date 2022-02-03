@@ -37,6 +37,11 @@ export class PuppeteerProcessor extends ExportProcessor {
     default: () => '',
   }
 
+  private pageMethodsMap: Record<string, (it: IEventPayload) => string> = {
+    keydown: ({ key }) => (key ? `.keyboard.press('${key}')` : ''),
+    default: () => '',
+  }
+
   private getWrapper(testName: string, content: string) {
     return `const puppeteer = require('puppeteer');
 
@@ -311,6 +316,37 @@ describe('${testName}', () => {
     return `${value}`
   }
 
+  private generateAction(it: IEventPayload) {
+    const selector = this.generateSelector(it)
+
+    if (this.pageMethodsMap[it.type]) {
+      return `  await page${this.pageMethodsMap[it?.type]?.(it)}\n`
+    }
+
+    if (selectorOptions[it?.selectedSelector?.name ?? ''] === '$x') {
+      const key = normalizeString(it?.key)
+      return `  
+      await page.waitForXPath('${selector}')
+      await page.$x('${selector}').then(async (elements) => {
+        await elements[0]${
+          this.methodsMap[it?.type]?.({ key }) ??
+          this.methodsMap.default({ key })
+        }
+      })\n`
+    }
+
+    const payload = {
+      key: normalizeString(it?.key),
+      selector: normalizeString(selector),
+    }
+
+    return `  await page.waitForSelector('${payload.selector}')
+        await page${
+          this.methodsMap[it?.type]?.(payload) ??
+          this.methodsMap.default(payload)
+        }\n`
+  }
+
   private serializeRecordedEvents(events: IEventBlock[]) {
     return events.reduce((acc, it) => {
       if (it.type === '_redirect') {
@@ -318,32 +354,7 @@ describe('${testName}', () => {
       }
 
       if (it.selectedSelector) {
-        const selector = this.generateSelector(it)
-
-        const byXPath = selectorOptions[it?.selectedSelector?.name] === '$x'
-        if (byXPath) {
-          const key = normalizeString(it?.key)
-          acc += `  
-              await page.waitForXPath('${selector}')
-              await page.$x('${selector}').then(async (elements) => {
-                await elements[0]${
-                  this.methodsMap[it?.type]?.({ key }) ??
-                  this.methodsMap.default({ key })
-                }
-              })\n
-        `
-        } else {
-          const payload = {
-            key: normalizeString(it?.key),
-            selector: normalizeString(selector),
-          }
-
-          acc += `  await page.waitForSelector('${payload.selector}')
-              await page${
-                this.methodsMap[it?.type]?.(payload) ??
-                this.methodsMap.default(payload)
-              }\n`
-        }
+        acc += this.generateAction(it)
       }
 
       if (it.type === 'Assertion') {
