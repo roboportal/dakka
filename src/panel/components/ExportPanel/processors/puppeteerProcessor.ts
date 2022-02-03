@@ -5,24 +5,6 @@ import { selectorTypes } from '../selectorTypes'
 import { normalizeString } from '../normalizer'
 import { ExportProcessor } from './abstractProcessor'
 
-const selectorsPuppeteerFactoryMap: Record<
-  selectorTypes,
-  (v: IEventPayload) => string
-> = {
-  [selectorTypes.role]: (v) => `[role="${v?.selectedSelector?.value}"]`,
-  [selectorTypes.labelText]: (v) =>
-    `//${v?.tagName}[contains(., "${v?.selectedSelector?.value}")]`,
-  [selectorTypes.placeholder]: (v) =>
-    `[placeholder="${v?.selectedSelector?.value}"]`,
-  [selectorTypes.text]: (v) =>
-    `//${v?.tagName}[contains(., "${v?.selectedSelector?.value}")]`,
-  [selectorTypes.className]: (v) =>
-    `.${v?.selectedSelector?.value.replace(' ', '.')}`,
-  [selectorTypes.elementId]: (v) => `#${v?.selectedSelector?.value}`,
-  [selectorTypes.testId]: (v) => `data-test-id=${v?.selectedSelector?.value}`,
-  [selectorTypes.uniquePath]: (v) => v?.selectedSelector?.value ?? '',
-}
-
 const selectorOptions: Record<string, string> = {
   [selectorTypes.text]: '$x',
   [selectorTypes.labelText]: '$x',
@@ -315,6 +297,20 @@ describe('${testName}', () => {
     },
   }
 
+  private generateSelector(it: IEventPayload | null) {
+    if (!it?.selectedSelector) {
+      return ''
+    }
+
+    const value = it.selectedSelector.value
+    const name = it.selectedSelector.name
+    if (name === selectorTypes.text) {
+      return `//${it?.tagName}[contains(., "${value}")]`
+    }
+
+    return `get('${value}')`
+  }
+
   private serializeRecordedEvents(events: IEventBlock[]) {
     return events.reduce((acc, it) => {
       if (it.type === '_redirect') {
@@ -322,11 +318,8 @@ describe('${testName}', () => {
       }
 
       if (it.selectedSelector) {
-        const selector = normalizeString(
-          selectorsPuppeteerFactoryMap[
-            it.selectedSelector.name as selectorTypes
-          ](it),
-        )
+        const selector = this.generateSelector(it)
+
         const byXPath = selectorOptions[it?.selectedSelector?.name] === '$x'
         if (byXPath) {
           const key = normalizeString(it?.key)
@@ -355,11 +348,8 @@ describe('${testName}', () => {
 
       if (it.type === 'Assertion') {
         const element = it.element
-        const selector = normalizeString(
-          selectorsPuppeteerFactoryMap[
-            element?.selectedSelector?.name as selectorTypes
-          ](element as IEventPayload),
-        )
+        const selector = this.generateSelector(element)
+
         const byXPath =
           selectorOptions[element?.selectedSelector?.name ?? ''] === '$x'
         if (element) {

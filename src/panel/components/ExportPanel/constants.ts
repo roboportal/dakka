@@ -5,3 +5,5 @@ export enum exportOptions {
   puppeteer = 'puppeteer',
   dakka = 'dakka',
 }
+
+export const ativeTags = ['button', 'a', 'input', 'textarea', 'select']

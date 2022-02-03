@@ -5,6 +5,5 @@ export enum selectorTypes {
   text = 'text',
   className = 'classname',
   elementId = 'element-id',
-  testId = 'test-id',
   uniquePath = 'unique-path',
 }

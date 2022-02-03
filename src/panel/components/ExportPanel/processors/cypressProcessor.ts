@@ -1,22 +1,16 @@
+/* eslint-disable quotes */
 import { IEventBlock, IEventPayload } from 'store/eventRecorderSlice'
-import { exportOptions } from '../constants'
+import { exportOptions, ativeTags } from '../constants'
 import { assertionTypes } from 'constants/assertion'
 import { normalizeString } from '../normalizer'
 import { ExportProcessor } from './abstractProcessor'
 import { selectorTypes } from '../selectorTypes'
 
-export const selectorsCypressFactoryMap: Record<
-  selectorTypes,
-  (v: string) => string
-> = {
-  [selectorTypes.role]: (v) => `get('[role="${v}"]')`,
-  [selectorTypes.labelText]: (v) => `get('[aria-label="${v}"]')`,
-  [selectorTypes.placeholder]: (v) => `get('[placeholder="${v}"]')`,
-  [selectorTypes.text]: (v) => `contains('${v}')`,
-  [selectorTypes.className]: (v) => `get('.${v}')`,
-  [selectorTypes.elementId]: (v) => `get('#${v}')`,
-  [selectorTypes.testId]: (v) => `get('[data-test-id="${v}"]')`,
-  [selectorTypes.uniquePath]: (v) => `get('${v}')`,
+const keyDowns: Record<string, string> = {
+  Backspace: ".type('{backspace}')",
+  Delete: ".type('{delete}')",
+  Enter: ".type('{enter}')",
+  Tab: ".type('{tab}')",
 }
 
 export class CypressProcessor extends ExportProcessor {
@@ -25,7 +19,9 @@ export class CypressProcessor extends ExportProcessor {
 
   private methodsMap: Record<string, (it: IEventPayload) => string> = {
     mouseClick: () => '.click()',
+    dblclick: () => '.dblclick()',
     keyboard: ({ key }) => `.type('${normalizeString(key ?? '')}')`,
+    keydown: ({ key }) => keyDowns[key ?? ''] ?? '',
     default: () => '',
   }
 
@@ -151,18 +147,20 @@ describe('${testName}', () => {
     },
   }
 
-  private generateSelector(it: IEventPayload) {
-    if (!it.selectedSelector) {
+  private generateSelector(it: IEventPayload | null) {
+    if (!it?.selectedSelector) {
       return ''
     }
 
-    if (it.selectedSelector.name.startsWith('data-')) {
-      return `get('[${it.selectedSelector.name}="${it.selectedSelector.value}"]')`
+    const value = it.selectedSelector.value
+    const name = it.selectedSelector.name
+    if (name === selectorTypes.text) {
+      return ativeTags.includes(it.tagName ?? '')
+        ? `contains('${it.tagName}', '${value}')`
+        : `contains('${value}')`
     }
 
-    return selectorsCypressFactoryMap[
-      it.selectedSelector.name as selectorTypes
-    ](it.selectedSelector.value)
+    return `get('${value}')`
   }
 
   private serializeRecordedEvents(events: IEventBlock[]) {
@@ -175,12 +173,10 @@ describe('${testName}', () => {
         }\n`
       }
 
-      if (it.type === 'Assertion' && it.element) {
-        const selector = this.generateSelector(it.element)
-
+      if (it.type === 'Assertion') {
         acc += this.expectMethodsMap[it?.assertionType?.type as assertionTypes](
           {
-            selector,
+            selector: this.generateSelector(it?.element),
             assertionValue: it.assertionValue,
             assertionAttribute: it.assertionAttribute,
           },
