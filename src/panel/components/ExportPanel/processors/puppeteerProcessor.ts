@@ -268,7 +268,9 @@ describe('${testName}', () => {
           value: 'e.length',
         })}.toBe('${assertionValue}')\n`
       }
-      return `  expect(await page.$eval('${selector}', e => e.length)).toBe('${assertionValue}')\n`
+      return `  expect(await page.$$eval('${selector}', e => e.length)).toBe(${Number(
+        assertionValue,
+      )})\n`
     },
 
     [assertionTypes.notToHaveLength]: ({
@@ -282,7 +284,9 @@ describe('${testName}', () => {
           value: 'e.length',
         })}.not.toBe('${assertionValue}')\n`
       }
-      return `  expect(await page.$eval('${selector}', e => e.length)).not.toBe('${assertionValue}')\n`
+      return `  expect(await page.$$eval('${selector}', e => e.length)).not.toBe(${Number(
+        assertionValue,
+      )})\n`
     },
   }
 
