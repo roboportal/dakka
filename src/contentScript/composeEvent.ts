@@ -72,13 +72,16 @@ export function composeEvent({
     'data-test-id',
     'data-test',
     'data-cy',
+    'data-component-id',
     'data-componentid',
+    'data-automation-id',
+    'data-automationid',
   ]
 
   const role = target?.attributes?.role?.value
   const ariaLabel = target?.ariaLabel
   const placeholder = target?.attributes?.placeholder?.value
-  const textContent = target?.innerText
+  const textContent = target?.textContent
   const className = target?.attributes?.class?.value
   const elementId = target?.attributes?.id?.value
     ? `#${target?.attributes?.id?.value}`
@@ -89,7 +92,6 @@ export function composeEvent({
     (data: Record<string, string>[], attribute) => {
       const name = (attribute as { name: string })?.name
       const value = (attribute as { value: string })?.value
-
       if (datatestAttributes.includes(name)) {
         return [
           {
