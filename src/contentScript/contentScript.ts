@@ -14,6 +14,8 @@ import { composeEvent } from './composeEvent'
 
 console.log('Content script attached')
 
+const eventsToPassWhenRecordingDisabled = [ELEMENT_SELECTED]
+
 const isInjectingAllowed = sessionStorage.getItem(SESSION_STORAGE_KEY)
 let shouldSendMessage = false
 let selectElementEnabled = false
@@ -33,7 +35,10 @@ if (isInjectingAllowed) {
 }
 
 window.addEventListener('message', (p) => {
-  if (!shouldSendMessage) {
+  if (
+    !shouldSendMessage &&
+    !eventsToPassWhenRecordingDisabled.includes(p.data.type)
+  ) {
     return
   }
 
