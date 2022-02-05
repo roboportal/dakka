@@ -101,13 +101,14 @@ export default function useEventRecorder() {
     ) => {
       const tabId = sender?.tab?.id
 
+      if (eventRecord?.type === ELEMENT_SELECTED) {
+        setLastSelectedEventId(eventRecord.payload.id)
+      }
+
       if (internalEventsMap[eventRecord.type]) {
         eventRecord.payload.type = internalEventsMap[eventRecord.type]
       }
 
-      if (eventRecord?.type === ELEMENT_SELECTED) {
-        setLastSelectedEventId(eventRecord.payload.id)
-      }
       if (!tabId) {
         return chrome.tabs.query({ active: true }).then((tab) => {
           dispatch(
