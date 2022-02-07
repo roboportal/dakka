@@ -1,30 +1,10 @@
 import { nanoid } from 'nanoid'
 import { finder } from '@medv/finder'
+import { VALID_ATTRIBUTES, DATA_ATTRIBUTES } from './constants'
 
 function getSelectorLength(selector: string) {
   return document?.querySelectorAll(selector)?.length ?? 1
 }
-const validAttributes = [
-  'href',
-  'src',
-  'placeholder',
-  'alt',
-  'aria-label',
-  'for',
-  'name',
-]
-
-const datatestAttributes = [
-  'data-testid',
-  'data-testId',
-  'data-test-id',
-  'data-test',
-  'data-cy',
-  'data-component-id',
-  'data-componentid',
-  'data-automation-id',
-  'data-automationid',
-]
 
 export function composeEvent({
   event,
@@ -98,7 +78,7 @@ export function composeEvent({
     (data: Record<string, string | number>[], attribute) => {
       const name = (attribute as { name: string })?.name
       const value = (attribute as { value: string })?.value
-      if (datatestAttributes.includes(name)) {
+      if (DATA_ATTRIBUTES.includes(name)) {
         return [
           {
             name,
@@ -110,7 +90,7 @@ export function composeEvent({
         ]
       }
 
-      if (validAttributes.includes(name) && value && tagName) {
+      if (VALID_ATTRIBUTES.includes(name) && value && tagName) {
         return [
           {
             name,
