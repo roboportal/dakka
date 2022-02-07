@@ -8,6 +8,8 @@ export const VALID_ATTRIBUTES = [
   'aria-label',
   'for',
   'name',
+  'ng-model',
+  'type',
 ]
 
 export const DATA_ATTRIBUTES = [
@@ -20,4 +22,7 @@ export const DATA_ATTRIBUTES = [
   'data-componentid',
   'data-automation-id',
   'data-automationid',
+  'data-QA',
+  'data-qa',
+  'data-name',
 ]

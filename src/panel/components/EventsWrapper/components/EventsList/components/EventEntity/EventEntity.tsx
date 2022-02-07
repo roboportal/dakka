@@ -189,7 +189,7 @@ export function EventEntity({
           pointer-events: ${isExpanded ? 'auto' : 'none'};
           display: grid;
           flex-grow: 1;
-          overflow: scroll;
+          overflow: ${isExpanded ? 'scroll' : 'hidden'};
           height: calc(100vh - 52px - 68px);
         `}
       >

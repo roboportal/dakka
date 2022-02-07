@@ -3,7 +3,7 @@ export enum selectorTypes {
   labelText = 'aria-label',
   placeholder = 'placeholder',
   text = 'text',
-  className = 'classname',
-  elementId = 'element-id',
+  className = '.classname',
+  elementId = '#element-id',
   uniquePath = 'unique-path',
 }
