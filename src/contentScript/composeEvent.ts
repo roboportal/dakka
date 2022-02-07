@@ -191,9 +191,7 @@ export function composeEvent({
     },
   ].filter((sel) => !!sel)
 
-  const validSelectors = selectors
-    .filter((item) => item.value)
-    .sort((a, b) => (a.priority > b.priority ? 1 : -1))
+  const validSelectors = selectors.filter((item) => item.value)
 
   return {
     id: extensionId,
