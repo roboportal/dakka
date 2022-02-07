@@ -33,17 +33,37 @@ const ExportPanel = () => {
       css={css`
         display: flex;
         flex-direction: row;
+        align-items: center;
       `}
     >
       <FormControl variant="standard">
-        <Select value={exportOption} onChange={handleChange} size="small">
+        <Select
+          css={css`
+            font-size: 0.7rem;
+          `}
+          value={exportOption}
+          onChange={handleChange}
+          size="small"
+        >
           <MenuItem disabled value={exportOptions.none}>
             <Tooltip title="Copy To Clipboard">
-              <div>Export as</div>
+              <div
+                css={css`
+                  font-size: 0.7rem;
+                `}
+              >
+                Export as
+              </div>
             </Tooltip>
           </MenuItem>
           {options.map(([value, label]) => (
-            <MenuItem key={value} value={value}>
+            <MenuItem
+              key={value}
+              value={value}
+              css={css`
+                font-size: 0.7rem;
+              `}
+            >
               {label}
             </MenuItem>
           ))}
