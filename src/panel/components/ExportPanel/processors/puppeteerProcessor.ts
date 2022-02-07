@@ -40,6 +40,7 @@ export class PuppeteerProcessor extends ExportProcessor {
 
   private pageMethodsMap: Record<string, (it: IEventPayload) => string> = {
     keydown: ({ key }) => (key ? `.keyboard.press('${key}')` : ''),
+    keyup: ({ key }) => (key ? `.keyboard.press('${key}')` : ''),
     default: () => '',
   }
 

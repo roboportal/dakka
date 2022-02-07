@@ -23,6 +23,7 @@ export class CypressProcessor extends ExportProcessor {
     dblclick: () => '.dblclick()',
     keyboard: ({ key }) => `.type('${normalizeString(key ?? '')}')`,
     keydown: ({ key }) => keyDowns[key ?? ''] ?? '',
+    keyup: ({ key }) => keyDowns[key ?? ''] ?? '',
     default: () => '',
   }
 
