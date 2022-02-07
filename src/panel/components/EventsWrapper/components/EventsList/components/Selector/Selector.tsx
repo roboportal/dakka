@@ -55,7 +55,7 @@ export function Selector({ record, onSelectSelector, width }: ISelectorProp) {
       const selector = validSelectors?.find(
         (s: { value: string }) => s.value === e.target.value,
       )
-      console.log('selector', selector)
+
       if (selector) {
         onSelectSelector({ selectedSelector: selector, record })
       }
