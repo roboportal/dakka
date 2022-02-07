@@ -182,6 +182,11 @@ test('${testName}', async ({ page }) => {
         acc += '\n  await page.waitForNavigation()\n'
       }
 
+      const firstSelector =
+        it.selectedSelector && (it.selectedSelector as ISelector)?.length > 1
+          ? '.first()'
+          : ''
+
       if (it.selectedSelector) {
         const selector = this.generateSelector(it)
         if (this.pageMethodsMap[it.type]) {
@@ -189,9 +194,6 @@ test('${testName}', async ({ page }) => {
         } else {
           const action =
             this.methodsMap[it?.type]?.(it) ?? this.methodsMap.default(it)
-          const firstSelector =
-            (it.selectedSelector as ISelector)?.length > 1 ? '.first()' : ''
-
           acc += `  await page.locator('${normalizeString(
             selector,
           )}')${firstSelector}${action}\n`
@@ -205,7 +207,7 @@ test('${testName}', async ({ page }) => {
           acc += this.expectMethodsMap[
             it?.assertionType?.type as assertionTypes
           ]({
-            selector,
+            selector: `${selector}${firstSelector}`,
             assertionValue: it.assertionValue,
             assertionAttribute: it.assertionAttribute,
           })
