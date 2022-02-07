@@ -1,6 +1,6 @@
 /* eslint-disable quotes */
-import { IEventBlock, IEventPayload } from 'store/eventRecorderSlice'
-import { exportOptions, ativeTags } from '../constants'
+import { IEventBlock, IEventPayload, ISelector } from 'store/eventRecorderSlice'
+import { exportOptions, interactiveTags } from '../constants'
 import { assertionTypes } from 'constants/assertion'
 import { normalizeString } from '../normalizer'
 import { ExportProcessor } from './abstractProcessor'
@@ -157,7 +157,7 @@ describe('${testName}', () => {
     const name = it.selectedSelector.name
 
     if (name === selectorTypes.text) {
-      return ativeTags.includes(it.tagName ?? '')
+      return interactiveTags.includes(it.tagName ?? '')
         ? `contains('${it.tagName}', '${normalizeString(value)}')`
         : `contains('${normalizeString(value)}')`
     }
@@ -168,9 +168,13 @@ describe('${testName}', () => {
   private serializeRecordedEvents(events: IEventBlock[]) {
     return events.reduce((acc, it) => {
       const selector = this.generateSelector(it)
+      const firstSelector =
+        it.selectedSelector && (it.selectedSelector as ISelector)?.length > 1
+          ? '.first()'
+          : ''
 
       if (selector) {
-        acc += `    cy.${selector}${
+        acc += `    cy.${selector}${firstSelector}${
           this.methodsMap[it?.type]?.(it) ?? this.methodsMap.default(it)
         }\n`
       }
@@ -178,7 +182,7 @@ describe('${testName}', () => {
       if (it.type === ASSERTION) {
         acc += this.expectMethodsMap[it?.assertionType?.type as assertionTypes](
           {
-            selector: this.generateSelector(it?.element),
+            selector: `${this.generateSelector(it?.element)}${firstSelector}`,
             assertionValue: it.assertionValue,
             assertionAttribute: it.assertionAttribute,
           },

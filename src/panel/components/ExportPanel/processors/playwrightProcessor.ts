@@ -1,5 +1,5 @@
-import { IEventBlock, IEventPayload } from 'store/eventRecorderSlice'
-import { exportOptions, ativeTags } from '../constants'
+import { IEventBlock, IEventPayload, ISelector } from 'store/eventRecorderSlice'
+import { exportOptions, interactiveTags } from '../constants'
 import { assertionTypes } from 'constants/assertion'
 import { selectorTypes } from '../selectorTypes'
 import { normalizeString } from '../normalizer'
@@ -168,7 +168,7 @@ test('${testName}', async ({ page }) => {
     const value = it.selectedSelector.value
     const name = it.selectedSelector.name
     if (name === selectorTypes.text) {
-      return ativeTags.includes(it.tagName ?? '')
+      return interactiveTags.includes(it.tagName ?? '')
         ? `${it.tagName}:has-text("${value}")`
         : `text="${value}"`
     }
@@ -189,10 +189,12 @@ test('${testName}', async ({ page }) => {
         } else {
           const action =
             this.methodsMap[it?.type]?.(it) ?? this.methodsMap.default(it)
+          const firstSelector =
+            (it.selectedSelector as ISelector)?.length > 1 ? '.first()' : ''
 
           acc += `  await page.locator('${normalizeString(
             selector,
-          )}')${action}\n`
+          )}')${firstSelector}${action}\n`
         }
       }
 

@@ -30,6 +30,8 @@ export interface ISelector {
   name: string
   value: string
   ariaLabel?: string
+  length: number
+  priority: number
 }
 
 export interface IAssertionPayload {
@@ -257,7 +259,7 @@ export const eventRecorderSlice = createSlice({
       if (block) {
         block.element = {
           selectedSelector: selector
-            ? { name: 'unique-path', value: selector }
+            ? { name: 'unique-path', value: selector, length: 0, priority: 3 }
             : undefined,
           validSelectors: [],
           selector: '',
