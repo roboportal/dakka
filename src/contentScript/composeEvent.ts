@@ -1,10 +1,6 @@
 import { nanoid } from 'nanoid'
 import { finder } from '@medv/finder'
-import { VALID_ATTRIBUTES, DATA_ATTRIBUTES } from './constants'
-
-function getSelectorLength(selector: string) {
-  return document?.querySelectorAll(selector)?.length ?? 1
-}
+import { generateSelectors } from './genarateSelector'
 
 export function composeEvent({
   event,
@@ -61,117 +57,23 @@ export function composeEvent({
     which, // mouse button
   } = event
 
-  const role = target?.attributes?.role?.value
-  const ariaLabel = target?.ariaLabel
-  const placeholder = target?.attributes?.placeholder?.value
-  const textContent = target?.textContent
-  const classAttribute = target?.attributes?.class?.value
-  const className = classAttribute
-    ? `.${classAttribute.replace(/ +/g, '.')}`
-    : ''
-  const elementId = target?.attributes?.id?.value
-    ? `#${target?.attributes?.id?.value}`
-    : ''
-  const tagName = (target?.tagName ?? '').toLowerCase()
-
-  const customDataAttributes = Object.values(target?.attributes ?? []).reduce(
-    (data: Record<string, string | number>[], attribute) => {
-      const name = (attribute as { name: string })?.name
-      const value = (attribute as { value: string })?.value
-      if (DATA_ATTRIBUTES.includes(name)) {
-        return [
-          {
-            name,
-            value: `[${name}="${value}"]`,
-            length: getSelectorLength(`[${name}="${value}"]`),
-            priority: 1,
-          },
-          ...data,
-        ]
-      }
-
-      if (VALID_ATTRIBUTES.includes(name) && value && tagName) {
-        return [
-          {
-            name,
-            value: `${tagName}[${name}="${value}"]`,
-            length: getSelectorLength(`${tagName}[${name}="${value}"]`),
-            priority: 2,
-          },
-          ...data,
-        ]
-      }
-
-      return data
-    },
-    [],
-  )
-
+  const computedStyles =
+    target instanceof Element && window.getComputedStyle(target)
   const isHidden =
-    (target instanceof Element &&
-      window.getComputedStyle(target)?.visibility === 'hidden') ||
+    (computedStyles as CSSStyleDeclaration)?.visibility === 'hidden' ||
     target?.style?.visibility === 'hidden'
 
-  if (!(target instanceof Element) || isHidden) {
+  const isDisplayNone =
+    (computedStyles as CSSStyleDeclaration)?.display === 'none' ||
+    target?.style?.display === 'none'
+
+  if (!(target instanceof Element) || isHidden || isDisplayNone) {
     return {}
   }
 
+  const tagName = (target?.tagName ?? '').toLowerCase()
   const uniqueSelector = finder(target)
-  const selectors = [
-    ...customDataAttributes,
-    textContent && {
-      name: 'text',
-      value: textContent,
-      length: Array.from(document.querySelectorAll(tagName)).filter(
-        (el) => el.textContent === textContent,
-      ).length,
-      priority: 1,
-    },
-    ariaLabel && {
-      name: 'aria-label',
-      value: `[aria-label="${ariaLabel}"]`,
-      length: getSelectorLength(`[aria-label="${ariaLabel}"]`),
-      priority: 2,
-    },
-    placeholder && {
-      name: 'placeholder',
-      value: `[placeholder="${placeholder}"]`,
-      length: getSelectorLength(`[placeholder="${placeholder}"]`),
-      priority: 2,
-    },
-    role && {
-      name: 'role',
-      value: `[role="${role}"]`,
-      length: getSelectorLength(`[role="${role}"]`),
-      priority: 2,
-    },
-    elementId && {
-      name: 'element-id',
-      value: elementId,
-      length: getSelectorLength(elementId),
-      priority: 2,
-    },
-    {
-      name: 'unique-path',
-      value: uniqueSelector,
-      length: getSelectorLength(uniqueSelector),
-      priority: 3,
-    },
-    className && {
-      name: 'classname',
-      value: className,
-      length: getSelectorLength(className),
-      priority: 3,
-    },
-    tagName && {
-      name: 'tagName',
-      value: tagName,
-      length: getSelectorLength(tagName),
-      priority: 3,
-    },
-  ].filter((sel) => !!sel)
-
-  const validSelectors = selectors.filter((item) => item.value)
+  const validSelectors = generateSelectors(target, { uniqueSelector, tagName })
 
   return {
     id: extensionId,
