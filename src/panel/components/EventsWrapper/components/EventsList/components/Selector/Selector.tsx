@@ -1,9 +1,8 @@
 import { useCallback, useMemo } from 'react'
 import Select, { SelectChangeEvent } from '@mui/material/Select'
-import MenuItem from '@mui/material/MenuItem'
-import { blue } from '@mui/material/colors'
 import { css } from '@emotion/react'
-
+import MenuItem from '@mui/material/MenuItem'
+import { Divider } from './Divider'
 import {
   IEventBlock,
   IEventPayload,
@@ -11,6 +10,7 @@ import {
   ISelectorPayload,
 } from 'store/eventRecorderSlice'
 import { INTERACTIVE_ELEMENT } from 'constants/messageTypes'
+import { SelectorMenuItem } from './SelectorMenuItem'
 
 interface ISelectorProp {
   record: IEventPayload | IEventBlock
@@ -27,6 +27,21 @@ export function Selector({ record, onSelectSelector, width }: ISelectorProp) {
     [record],
   )
 
+  const selectorsHighPriority = useMemo(
+    () => validSelectors?.filter(({ priority }) => priority === 1),
+    [validSelectors],
+  )
+
+  const selectorsMediumPriority = useMemo(
+    () => validSelectors?.filter(({ priority }) => priority === 2),
+    [validSelectors],
+  )
+
+  const selectorsLowPriority = useMemo(
+    () => validSelectors?.filter(({ priority }) => priority === 3),
+    [validSelectors],
+  )
+
   const selectedSelector = useMemo(
     () =>
       record?.variant === INTERACTIVE_ELEMENT
@@ -40,6 +55,7 @@ export function Selector({ record, onSelectSelector, width }: ISelectorProp) {
       const selector = validSelectors?.find(
         (s: { value: string }) => s.value === e.target.value,
       )
+
       if (selector) {
         onSelectSelector({ selectedSelector: selector, record })
       }
@@ -66,18 +82,23 @@ export function Selector({ record, onSelectSelector, width }: ISelectorProp) {
       value={selectedSelector}
       onChange={handleSelectorChange}
       variant="outlined"
+      renderValue={(value: string) => value}
     >
-      {validSelectors?.map((item: ISelector) => (
+      {selectorsHighPriority?.map((item: ISelector) => (
         <MenuItem value={item.value} key={`${item.name}${item.value}`}>
-          <span>By {item.name}:</span>
-          <span
-            css={css`
-              color: ${blue[600]};
-              margin-left: 4px;
-            `}
-          >
-            {item.value}
-          </span>
+          <SelectorMenuItem item={item} key={item.value} />
+        </MenuItem>
+      ))}
+      {!!selectorsHighPriority?.length && <Divider />}
+      {selectorsMediumPriority?.map((item: ISelector) => (
+        <MenuItem value={item.value} key={`${item.name}${item.value}`}>
+          <SelectorMenuItem item={item} key={item.value} />
+        </MenuItem>
+      ))}
+      {!!selectorsMediumPriority?.length && <Divider />}
+      {selectorsLowPriority?.map((item: ISelector) => (
+        <MenuItem value={item.value} key={`${item.name}${item.value}`}>
+          <SelectorMenuItem item={item} key={item.value} />
         </MenuItem>
       ))}
     </Select>

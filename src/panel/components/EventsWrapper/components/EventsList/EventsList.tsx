@@ -12,7 +12,7 @@ import { getExpandedEventId } from 'store/eventSelectors'
 
 import { Record } from './components/Record/Record'
 import { EventEntity } from './components/EventEntity/EventEntity'
-import { Selector } from './components/Selector'
+import { Selector } from './components/Selector/Selector'
 import { useSelector } from 'react-redux'
 
 const DEFAULT_WIDTH = '88px'

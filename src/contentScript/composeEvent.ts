@@ -1,5 +1,10 @@
 import { nanoid } from 'nanoid'
 import { finder } from '@medv/finder'
+import { VALID_ATTRIBUTES, DATA_ATTRIBUTES } from './constants'
+
+function getSelectorLength(selector: string) {
+  return document?.querySelectorAll(selector)?.length ?? 1
+}
 
 export function composeEvent({
   event,
@@ -56,57 +61,42 @@ export function composeEvent({
     which, // mouse button
   } = event
 
-  const validAttributes = [
-    'href',
-    'src',
-    'placeholder',
-    'alt',
-    'aria-label',
-    'for',
-    'name',
-  ]
-
-  const datatestAttributes = [
-    'data-testid',
-    'data-testId',
-    'data-test-id',
-    'data-test',
-    'data-cy',
-    'data-component-id',
-    'data-componentid',
-    'data-automation-id',
-    'data-automationid',
-  ]
-
   const role = target?.attributes?.role?.value
   const ariaLabel = target?.ariaLabel
   const placeholder = target?.attributes?.placeholder?.value
   const textContent = target?.textContent
-  const className = target?.attributes?.class?.value
+  const classAttribute = target?.attributes?.class?.value
+  const className = classAttribute
+    ? `.${classAttribute.replace(/ +/g, '.')}`
+    : ''
   const elementId = target?.attributes?.id?.value
     ? `#${target?.attributes?.id?.value}`
     : ''
   const tagName = (target?.tagName ?? '').toLowerCase()
 
   const customDataAttributes = Object.values(target?.attributes ?? []).reduce(
-    (data: Record<string, string>[], attribute) => {
+    (data: Record<string, string | number>[], attribute) => {
       const name = (attribute as { name: string })?.name
       const value = (attribute as { value: string })?.value
-      if (datatestAttributes.includes(name)) {
+      if (DATA_ATTRIBUTES.includes(name)) {
         return [
           {
             name,
             value: `[${name}="${value}"]`,
+            length: getSelectorLength(`[${name}="${value}"]`),
+            priority: 1,
           },
           ...data,
         ]
       }
 
-      if (validAttributes.includes(name) && value && tagName) {
+      if (VALID_ATTRIBUTES.includes(name) && value && tagName) {
         return [
           {
             name,
             value: `${tagName}[${name}="${value}"]`,
+            length: getSelectorLength(`${tagName}[${name}="${value}"]`),
+            priority: 2,
           },
           ...data,
         ]
@@ -129,20 +119,56 @@ export function composeEvent({
   const uniqueSelector = finder(target)
   const selectors = [
     ...customDataAttributes,
-    textContent && { name: 'text', value: textContent },
-    ariaLabel && { name: 'aria-label', value: `[aria-label="${ariaLabel}"]` },
+    textContent && {
+      name: 'text',
+      value: textContent,
+      length: Array.from(document.querySelectorAll(tagName)).filter(
+        (el) => el.textContent === textContent,
+      ).length,
+      priority: 1,
+    },
+    ariaLabel && {
+      name: 'aria-label',
+      value: `[aria-label="${ariaLabel}"]`,
+      length: getSelectorLength(`[aria-label="${ariaLabel}"]`),
+      priority: 2,
+    },
     placeholder && {
       name: 'placeholder',
       value: `[placeholder="${placeholder}"]`,
+      length: getSelectorLength(`[placeholder="${placeholder}"]`),
+      priority: 2,
     },
-    role && { name: 'role', value: `[role="${role}"]` },
-    elementId && { name: 'element-id', value: elementId },
-    { name: 'unique-path', value: uniqueSelector },
+    role && {
+      name: 'role',
+      value: `[role="${role}"]`,
+      length: getSelectorLength(`[role="${role}"]`),
+      priority: 2,
+    },
+    elementId && {
+      name: 'element-id',
+      value: elementId,
+      length: getSelectorLength(elementId),
+      priority: 2,
+    },
+    {
+      name: 'unique-path',
+      value: uniqueSelector,
+      length: getSelectorLength(uniqueSelector),
+      priority: 3,
+    },
     className && {
       name: 'classname',
-      value: `.${className.replace(' ', '.')}`,
+      value: className,
+      length: getSelectorLength(className),
+      priority: 3,
     },
-    tagName && { name: 'tagName', value: tagName },
+    tagName && {
+      name: 'tagName',
+      value: tagName,
+      length: getSelectorLength(tagName),
+      priority: 3,
+    },
   ].filter((sel) => !!sel)
 
   const validSelectors = selectors.filter((item) => item.value)

@@ -1,5 +1,5 @@
-import { IEventBlock, IEventPayload } from 'store/eventRecorderSlice'
-import { exportOptions, ativeTags } from '../constants'
+import { IEventBlock, IEventPayload, ISelector } from 'store/eventRecorderSlice'
+import { exportOptions, interactiveTags } from '../constants'
 import { assertionTypes } from 'constants/assertion'
 import { selectorTypes } from '../selectorTypes'
 import { normalizeString } from '../normalizer'
@@ -18,6 +18,7 @@ export class PlaywrightProcessor extends ExportProcessor {
 
   private pageMethodsMap: Record<string, (it: IEventPayload) => string> = {
     keydown: ({ key }) => (key ? `.keyboard.press('${key}')` : ''),
+    keyup: ({ key }) => (key ? `.keyboard.press('${key}')` : ''),
     default: () => '',
   }
 
@@ -168,7 +169,7 @@ test('${testName}', async ({ page }) => {
     const value = it.selectedSelector.value
     const name = it.selectedSelector.name
     if (name === selectorTypes.text) {
-      return ativeTags.includes(it.tagName ?? '')
+      return interactiveTags.includes(it.tagName ?? '')
         ? `${it.tagName}:has-text("${value}")`
         : `text="${value}"`
     }
@@ -182,6 +183,11 @@ test('${testName}', async ({ page }) => {
         acc += '\n  await page.waitForNavigation()\n'
       }
 
+      const firstSelector =
+        it.selectedSelector && (it.selectedSelector as ISelector)?.length > 1
+          ? '.first()'
+          : ''
+
       if (it.selectedSelector) {
         const selector = this.generateSelector(it)
         if (this.pageMethodsMap[it.type]) {
@@ -189,10 +195,9 @@ test('${testName}', async ({ page }) => {
         } else {
           const action =
             this.methodsMap[it?.type]?.(it) ?? this.methodsMap.default(it)
-
           acc += `  await page.locator('${normalizeString(
             selector,
-          )}')${action}\n`
+          )}')${firstSelector}${action}\n`
         }
       }
 
@@ -203,7 +208,7 @@ test('${testName}', async ({ page }) => {
           acc += this.expectMethodsMap[
             it?.assertionType?.type as assertionTypes
           ]({
-            selector,
+            selector: `${selector}${firstSelector}`,
             assertionValue: it.assertionValue,
             assertionAttribute: it.assertionAttribute,
           })
