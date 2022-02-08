@@ -256,15 +256,43 @@ class MouseClickAggregator extends EventAggregator {
     return correspondingMouseEventIndex ?? -1
   }
 
-  private handleClickAndMouseUp = (
-    event: IEventPayload,
-    events: IEventPayload[],
-  ) => {
+  private handleClick = (event: IEventPayload, events: IEventPayload[]) => {
     const prevEventIndex = this.findCorrespondingEventIndex(event, events)
-    const prevEvent = events[prevEventIndex] ?? {}
+    const prevEvent = events[prevEventIndex] ?? ({} as IEventPayload)
+    const lastComposedEvent =
+      prevEvent.composedEvents?.[(prevEvent.composedEvents?.length ?? 0) - 1]
+
+    const isLastEventOurClient =
+      !lastComposedEvent ||
+      [mouseEvents.mousedown, mouseEvents.mouseup].includes(
+        lastComposedEvent?.type as mouseEvents,
+      )
+
     if (
       prevEvent.type === this.aggregatedEventName &&
-      event.selector === prevEvent.selector
+      event.selector === prevEvent.selector &&
+      isLastEventOurClient
+    ) {
+      prevEvent.composedEvents?.push(event)
+      return
+    }
+    events.push(this.mouseEventFactory(event))
+  }
+
+  private handleMouseUp = (event: IEventPayload, events: IEventPayload[]) => {
+    const prevEventIndex = this.findCorrespondingEventIndex(event, events)
+    const prevEvent = events[prevEventIndex] ?? ({} as IEventPayload)
+    const lastComposedEvent =
+      prevEvent.composedEvents?.[(prevEvent.composedEvents?.length ?? 0) - 1]
+
+    const isLastEventOurClient =
+      !lastComposedEvent ||
+      [mouseEvents.mousedown].includes(lastComposedEvent?.type as mouseEvents)
+
+    if (
+      prevEvent.type === this.aggregatedEventName &&
+      event.selector === prevEvent.selector &&
+      isLastEventOurClient
     ) {
       prevEvent.composedEvents?.push(event)
       return
@@ -283,9 +311,9 @@ class MouseClickAggregator extends EventAggregator {
       events.push(this.mouseEventFactory(event))
     },
 
-    [mouseEvents.mouseup]: this.handleClickAndMouseUp,
+    [mouseEvents.mouseup]: this.handleMouseUp,
 
-    [mouseEvents.click]: this.handleClickAndMouseUp,
+    [mouseEvents.click]: this.handleClick,
 
     [mouseEvents.dblclick]: (event: IEventPayload, events: IEventPayload[]) => {
       const DOUBLE_CLICK_COUNT = 2
@@ -303,6 +331,7 @@ class MouseClickAggregator extends EventAggregator {
   }
 
   process(event: IEventPayload, events: IEventPayload[]): void {
+    console.log(event.type)
     this.handlersMap[event.type]?.(event, events)
   }
 }
