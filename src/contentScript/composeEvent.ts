@@ -73,7 +73,10 @@ export function composeEvent({
 
   const tagName = (target?.tagName ?? '').toLowerCase()
   const uniqueSelector = finder(target)
-  const validSelectors = generateSelectors(target, { uniqueSelector, tagName })
+  const validSelectors = generateSelectors(target, {
+    uniqueSelector,
+    tagName,
+  })
 
   return {
     id: extensionId,
@@ -83,7 +86,10 @@ export function composeEvent({
       validSelectors,
       triggeredAt: Date.now(),
       selector: uniqueSelector,
-      selectedSelector: validSelectors[0],
+      selectedSelector:
+        validSelectors.find(
+          (item) => (item as Record<string, string | number>)?.priority === 1,
+        ) || validSelectors[0],
       url: window.location.href,
       type,
       altKey,

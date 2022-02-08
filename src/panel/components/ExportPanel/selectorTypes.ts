@@ -6,4 +6,5 @@ export enum selectorTypes {
   className = '.classname',
   elementId = '#element-id',
   uniquePath = 'unique-path',
+  tagNameElementId = 'tagName#element-id',
 }

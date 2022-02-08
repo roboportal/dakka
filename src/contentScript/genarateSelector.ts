@@ -11,7 +11,7 @@ export const generateSelectors = (
   const role = target?.getAttribute('role')
   const ariaLabel = target?.ariaLabel
   const placeholder = target?.getAttribute('placeholder')
-  const textContent = target?.textContent
+  const textContent = target?.firstChild?.nodeValue
   const classAttribute = target?.getAttribute('class')
   const className = classAttribute
     ? `.${classAttribute.replace(/ +/g, '.')}`
@@ -87,19 +87,20 @@ export const generateSelectors = (
       priority: 2,
       rawValue: role,
     },
+    elementId &&
+      tagName && {
+        name: 'tagName#element-id',
+        value: `${tagName}${elementId}`,
+        length: getSelectorLength(elementId),
+        priority: 2,
+        rawValue: elementId,
+      },
     elementId && {
       name: '#element-id',
       value: elementId,
       length: getSelectorLength(elementId),
       priority: 2,
       rawValue: elementId,
-    },
-    {
-      name: 'unique-path',
-      value: uniqueSelector,
-      length: getSelectorLength(uniqueSelector),
-      priority: 3,
-      rawValue: uniqueSelector,
     },
     className && {
       name: '.classname',
@@ -108,6 +109,14 @@ export const generateSelectors = (
       priority: 3,
       rawValue: className,
     },
+    uniqueSelector &&
+      uniqueSelector !== className && {
+        name: 'unique-path',
+        value: uniqueSelector,
+        length: getSelectorLength(uniqueSelector),
+        priority: 3,
+        rawValue: uniqueSelector,
+      },
     tagName && {
       name: '<tagName>',
       value: tagName,
