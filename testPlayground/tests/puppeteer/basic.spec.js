@@ -1,40 +1,58 @@
 const puppeteer = require('puppeteer')
 
-describe('Testing https://javascript.info/promise-chaining', () => {
-  it('Testing https://javascript.info/promise-chaining', async () => {
+describe('Testing https://www.roboportal.io/login/', () => {
+  it('Testing https://www.roboportal.io/login/', async () => {
     const browser = await puppeteer.launch()
     const page = await browser.newPage()
 
     try {
-      await page.goto('https://javascript.info/promise-chaining')
-      await page.waitForSelector("get('.sitetoolbar__login')")
-      await page.click("get('.sitetoolbar__login')")
-      await page.waitForSelector("get('#auth-email')")
-      await page.type("get('#auth-email')", 'test@gmail.com')
-      await page.waitForSelector("get('#auth-password')")
-      await page.click("get('#auth-password')")
-      await page.waitForSelector("get('#auth-password')")
-      await page.type("get('#auth-password')", 'test')
+      await page.goto('https://www.roboportal.io/login/')
 
-      await page.waitForXPath('//button[contains(., "Log in")]')
+      await page.waitForXPath('//span[contains(text(), "Cancel")]')
       await page
-        .$x('//button[contains(., "Log in")]')
-        .then(async (elements) => {
-          await elements[0].click()
-        })
-
+        .$x('//span[contains(text(), "Cancel")]')
+        .then(async (elements) => await elements[0].evaluate((e) => e.click()))
+      await page.waitForSelector('input[name="email"]')
+      await page.click('input[name="email"]')
+      await page.waitForSelector('input[name="email"]')
+      await page.type('input[name="email"]', 'ggg')
+      await page.waitForSelector('input[name="password"]')
+      await page.click('input[name="password"]')
+      await page.waitForSelector('input[name="password"]')
+      await page.click('input[name="password"]')
+      await page.waitForSelector('input[name="password"]')
+      await page.type('input[name="password"]', 'dddd')
+      await page.waitForSelector('.css-186l5mh')
+      await page.click('.css-186l5mh')
       await page.waitForXPath(
-        '//p[contains(., "Password incorrect. Or maybe the password is too old, then please update it using password reset.")]',
+        '//div[contains(text(), "Password should contain min 8 characters")]',
       )
       expect(
-        await page.$x(
-          '//p[contains(., "Password incorrect. Or maybe the password is too old, then please update it using password reset.")]',
-        ),
-      ).toBeDefined()
-      await page.waitForSelector("get('.close-button:nth-child(1)')")
-      await page.click("get('.close-button:nth-child(1)')")
-      await page.waitForSelector("get('.sitetoolbar__login')")
-      await page.click("get('.sitetoolbar__login')")
+        await page
+          .$x(
+            '//div[contains(text(), "Password should contain min 8 characters")]',
+          )
+          .then(async (elem) => page.evaluate((e) => e.textContent, elem[0])),
+      ).toBe('Password should contain min 8 characters')
+
+      await page.waitForXPath('//span[contains(text(), "Cancel")]')
+      await page
+        .$x('//span[contains(text(), "Cancel")]')
+        .then(async (elements) => await elements[0].evaluate((e) => e.click()))
+
+      await page.waitForXPath('//span[contains(text(), "Cancel")]')
+      await page
+        .$x('//span[contains(text(), "Cancel")]')
+        .then(async (elements) => await elements[0].evaluate((e) => e.click()))
+
+      await page.waitForXPath('//span[contains(text(), "Cancel")]')
+      await page
+        .$x('//span[contains(text(), "Cancel")]')
+        .then(async (elements) => await elements[0].evaluate((e) => e.click()))
+      await page.waitForSelector('input[name="email"]')
+      await page.click('input[name="email"]')
+      await page.keyboard.press('Tab')
+      await page.keyboard.press('Tab')
     } finally {
       await browser.close()
     }

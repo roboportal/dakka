@@ -299,7 +299,7 @@ describe('${testName}', () => {
     const value = it.selectedSelector.value
     const name = it.selectedSelector.name
     if (name === selectorTypes.text) {
-      return normalizeString(`//${it?.tagName}[contains(., "${value}")]`)
+      return normalizeString(`//${it?.tagName}[contains(text(), "${value}")]`)
     }
 
     return normalizeString(value)
@@ -317,12 +317,9 @@ describe('${testName}', () => {
     if (selectorOptions[it?.selectedSelector?.name ?? ''] === '$x') {
       return `  
       await page.waitForXPath('${selector}')
-      await page.$x('${selector}').then(async (elements) => {
-        await elements[0]${
-          this.methodsMap[it?.type]?.({ key }) ??
-          this.methodsMap.default({ key })
-        }
-      })\n`
+      await page.$x('${selector}').then(async (elements) => await elements[0].evaluate((e) => e${
+        this.methodsMap[it?.type]?.({ key }) ?? this.methodsMap.default({ key })
+      }))\n`
     }
 
     return `  await page.waitForSelector('${payload.selector}')
