@@ -11,7 +11,8 @@ const keyDowns: Record<string, string> = {
   Backspace: ".type('{backspace}')",
   Delete: ".type('{delete}')",
   Enter: ".type('{enter}')",
-  Tab: ".type('{tab}')",
+  // Tab: ".type('{tab}')", not supported yet https://github.com/cypress-io/cypress/issues/311
+  Shift: ".type('{shift}')",
 }
 
 export class CypressProcessor extends ExportProcessor {
@@ -28,7 +29,7 @@ export class CypressProcessor extends ExportProcessor {
   }
 
   private getGoToTestedPage(url: string) {
-    return `cy.visit('${url}')\n`
+    return `cy.visit('${url}', { failOnStatusCode: false })\n`
   }
 
   private getWrapper(testName: string, content: string) {
@@ -174,10 +175,10 @@ describe('${testName}', () => {
           ? '.first()'
           : ''
 
-      if (selector) {
-        acc += `    cy.${selector}${firstSelector}${
-          this.methodsMap[it?.type]?.(it) ?? this.methodsMap.default(it)
-        }\n`
+      const action =
+        this.methodsMap[it?.type]?.(it) ?? this.methodsMap.default(it)
+      if (selector && action) {
+        acc += `    cy.${selector}${firstSelector}${action}\n`
       }
 
       if (it.type === ASSERTION) {
