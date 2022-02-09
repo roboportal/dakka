@@ -10,5 +10,6 @@ describe('Testing https://www.roboportal.io/', () => {
     cy.contains('Confirmation email has been sent to your mailbox').should(
       'be.visible',
     )
+    cy.contains('a', 'Go to main page').click()
   })
 })
