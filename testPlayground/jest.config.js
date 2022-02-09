@@ -1,4 +1,4 @@
 module.exports = {
-  testMatch: ['**/tests/puppeteer/*.spec.js'],
+  testMatch: ['**/tests/puppeteer/**/*.spec.js'],
   verbose: true,
 }
