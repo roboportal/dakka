@@ -77,6 +77,11 @@ export function composeEvent({
     uniqueSelector,
     tagName,
   })
+  const selectedSelector =
+    validSelectors.find(
+      (selector) =>
+        (selector as Record<string, string | number>)?.priority === 1,
+    ) || validSelectors[0]
 
   return {
     id: extensionId,
@@ -86,10 +91,7 @@ export function composeEvent({
       validSelectors,
       triggeredAt: Date.now(),
       selector: uniqueSelector,
-      selectedSelector:
-        validSelectors.find(
-          (item) => (item as Record<string, string | number>)?.priority === 1,
-        ) || validSelectors[0],
+      selectedSelector,
       url: window.location.href,
       type,
       altKey,
