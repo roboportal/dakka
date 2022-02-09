@@ -4,7 +4,7 @@
   "scripts": {
     "playwright": "playwright test",
     "cypress": "cypress run",
-    "puppeteer": "npx jest"
+    "puppeteer": "jest"
   },
   "devDependencies": {
     "@playwright/test": "^1.17.2",
