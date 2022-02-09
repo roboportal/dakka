@@ -1,0 +1,17 @@
+describe('Testing https://www.roboportal.io/', () => {
+  it('Testing https://www.roboportal.io/', () => {
+    cy.visit('https://www.roboportal.io/', { failOnStatusCode: false })
+    cy.contains("Don't show this again").click()
+    cy.contains('a', 'login').click()
+    cy.contains('a', 'Forgot password?').click()
+    cy.get('input[type="text"]').click()
+    cy.get('input[type="text"]').type('test')
+    cy.get('input[type="text"]').type('{backspace}')
+    cy.get('input[type="text"]').type('{backspace}')
+    cy.get('input[type="text"]').type('{backspace}')
+    cy.get('input[type="text"]').type('{backspace}')
+    cy.get('input[type="text"]').type('test@gmail.com')
+    cy.get('button[type="submit"]').click()
+    cy.contains('a', 'Go to main page').click()
+  })
+})
