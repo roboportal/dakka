@@ -331,7 +331,6 @@ class MouseClickAggregator extends EventAggregator {
   }
 
   process(event: IEventPayload, events: IEventPayload[]): void {
-    console.log(event.type)
     this.handlersMap[event.type]?.(event, events)
   }
 }
