@@ -118,13 +118,38 @@ describe('${testName}', () => {
         return `   ${getByXpath({
           selector,
           value: 'e.textContent',
+        })}.toContain('${assertionValue}')\n`
+      }
+
+      return `  expect(await page.$eval('${selector}', e => e.textContent)).toContain('${assertionValue}')\n`
+    },
+
+    [assertionTypes.notContains]: ({
+      selector,
+      assertionValue,
+      selectorName,
+    }) => {
+      if (selectorOptions[selectorName] === '$x') {
+        return `  ${getByXpath({
+          selector,
+          value: 'e.textContent',
+        })}.not.toContain('${assertionValue}')\n`
+      }
+      return `  expect(await page.$eval('${selector}', e => e.textContent)).not.toContain('${assertionValue}')\n`
+    },
+
+    [assertionTypes.equals]: ({ selector, assertionValue, selectorName }) => {
+      if (selectorOptions[selectorName] === '$x') {
+        return `   ${getByXpath({
+          selector,
+          value: 'e.textContent',
         })}.toBe('${assertionValue}')\n`
       }
 
       return `  expect(await page.$eval('${selector}', e => e.textContent)).toBe('${assertionValue}')\n`
     },
 
-    [assertionTypes.notContains]: ({
+    [assertionTypes.notEquals]: ({
       selector,
       assertionValue,
       selectorName,

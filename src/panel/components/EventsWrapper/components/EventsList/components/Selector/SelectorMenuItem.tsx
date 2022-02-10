@@ -9,17 +9,17 @@ const items: Record<number, any> = {
   1: {
     icon: CheckCircle,
     color: green[600],
-    text: 'Good - stable, isolated from changes.',
+    text: 'Recommended - stable, isolated from changes.',
   },
   2: {
     icon: WarningAmberIcon,
     color: orange[600],
-    text: 'Better  - but coupled to styling, HTML or JS event listeners',
+    text: 'Occasionally recommended - coupled to styling, HTML or JS.',
   },
   3: {
     icon: WarningAmberIcon,
     color: red[400],
-    text: 'Not so good - selector is too generic and/or prone to change',
+    text: 'Not recommended - selector is too generic or prone to change.',
   },
 }
 
