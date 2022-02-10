@@ -187,12 +187,26 @@ test('${testName}', async ({ page }) => {
     return `${value}`
   }
 
-  private serializeRecordedEvents(events: IEventBlock[]) {
-    return events.reduce((acc, it) => {
-      // if (it.type === '_redirect') {
-      //   acc += '\n  await page.waitForNavigation()\n'
-      // }
+  private serializeRedirect({
+    playwrightAction,
+    nextEventIndex,
+    events,
+  }: {
+    playwrightAction: string
+    nextEventIndex: number
+    events: IEventBlock[]
+  }) {
+    if (events?.[nextEventIndex]?.type === '_redirect') {
+      return `  await Promise.all([
+    page.waitForNavigation(),
+    ${playwrightAction},
+  ])\n`
+    }
+    return `  await ${playwrightAction}\n`
+  }
 
+  private serializeRecordedEvents(events: IEventBlock[]) {
+    return events.reduce((acc, it, index) => {
       const firstSelector =
         it.selectedSelector && (it.selectedSelector as ISelector)?.length > 1
           ? '.first()'
@@ -203,11 +217,18 @@ test('${testName}', async ({ page }) => {
         if (this.pageMethodsMap[it.type]) {
           acc += `  await page${this.pageMethodsMap[it?.type]?.(it)}\n`
         } else {
-          const action =
+          const eventAction =
             this.methodsMap[it?.type]?.(it) ?? this.methodsMap.default(it)
-          acc += `  await page.locator('${normalizeString(
+
+          const playwrightAction = `page.locator('${normalizeString(
             selector,
-          )}')${firstSelector}${action}\n`
+          )}')${firstSelector}${eventAction}`
+
+          acc += this.serializeRedirect({
+            playwrightAction,
+            nextEventIndex: index + 1,
+            events,
+          })
         }
       }
 
