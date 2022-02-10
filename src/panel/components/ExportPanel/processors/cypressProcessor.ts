@@ -85,6 +85,14 @@ describe('${testName}', () => {
       return `    cy.${selector}.should('not.contain.text', '${assertionValue}')\n`
     },
 
+    [assertionTypes.equals]: ({ selector, assertionValue }) => {
+      return `    cy.${selector}.should('have.text', '${assertionValue}')\n`
+    },
+
+    [assertionTypes.notEquals]: ({ selector, assertionValue }) => {
+      return `    cy.${selector}.should('not.have.text', '${assertionValue}')\n`
+    },
+
     [assertionTypes.inDocument]: ({ selector }) => {
       return `    cy.${selector}.should('exist')\n`
     },

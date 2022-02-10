@@ -1,11 +1,11 @@
 export enum assertionTypes {
   inDocument = 'inDocument',
   contains = 'contains',
-  // equals = 'equals',
+  equals = 'equals',
   hasAttribute = 'hasAttribute',
   notContains = 'notContains',
   notInDocument = 'notInDocument',
-  // notEquals = 'notEquals',
+  notEquals = 'notEquals',
   notHasAttribute = 'notHasAttribute',
   toBeDisabled = 'toBeDisabled',
   notToBeDisabled = 'notToBeDisabled',
@@ -28,7 +28,7 @@ export enum assertionTypes {
 export const assertionsList: Record<string, string>[] = [
   { type: assertionTypes.inDocument, name: 'Is in document' },
   { type: assertionTypes.contains, name: 'Contains' },
-  // { type: assertionTypes.equals, name: 'Equals' },
+  { type: assertionTypes.equals, name: 'Equals' },
   { type: assertionTypes.hasAttribute, name: 'Has attribute' },
   { type: assertionTypes.toBeDisabled, name: 'To be disabled' },
   { type: assertionTypes.toBeEnabled, name: 'To be enabled' },
@@ -43,7 +43,7 @@ export const assertionsList: Record<string, string>[] = [
 export const assertionsListNegative: Record<string, string>[] = [
   { type: assertionTypes.notInDocument, name: 'Is not in document' },
   { type: assertionTypes.notContains, name: 'Not Contains' },
-  // { type: assertionTypes.notEquals, name: 'Not equals' },
+  { type: assertionTypes.notEquals, name: 'Not equals' },
   { type: assertionTypes.notHasAttribute, name: 'Has no attribute' },
   { type: assertionTypes.notToBeDisabled, name: 'Not to be disabled' },
   { type: assertionTypes.notToBeEnabled, name: 'Not to be enabled' },
