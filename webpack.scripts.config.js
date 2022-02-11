@@ -64,6 +64,15 @@ const options = {
           transform(content) {
             const parsed = JSON.parse(content)
             parsed.version = version
+
+            if (mode === 'development') {
+              parsed.host_permissions = [
+                'http://*/*',
+                'https://*/*',
+                'file://*/*',
+                'ws://*/*',
+              ]
+            }
             return JSON.stringify(parsed, null, 2)
           },
         },

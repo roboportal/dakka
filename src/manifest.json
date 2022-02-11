@@ -7,7 +7,6 @@
   "background": {
     "service_worker": "./background/background.bundle.js"
   },
-  "host_permissions": ["http://*/*", "https://*/*", "file://*/*", "ws://*/*"],
   "permissions": [
     "tabs",
     "nativeMessaging",
