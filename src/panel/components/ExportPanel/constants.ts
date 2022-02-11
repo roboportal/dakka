@@ -6,4 +6,4 @@ export enum exportOptions {
   dakka = 'dakka',
 }
 
-export const interactiveTags = ['button', 'a', 'input', 'textarea', 'select']
+export const INTERACTIVE_TAGS = ['button', 'a', 'input', 'textarea', 'select']

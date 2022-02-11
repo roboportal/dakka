@@ -32,6 +32,8 @@ export interface ISelector {
   ariaLabel?: string
   length: number
   priority: number
+  closest?: number
+  tagName?: string
 }
 
 export interface IAssertionPayload {
@@ -83,7 +85,6 @@ export interface IEventPayload {
   isInjectingAllowed?: boolean
   isInvalidValidSetUp?: boolean
   shouldUseElementSelector?: boolean
-  tagName?: string
 }
 
 export interface IEventRecord {

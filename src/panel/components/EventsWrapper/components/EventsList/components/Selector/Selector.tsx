@@ -28,17 +28,35 @@ export function Selector({ record, onSelectSelector, width }: ISelectorProp) {
   )
 
   const selectorsHighPriority = useMemo(
-    () => validSelectors?.filter(({ priority }) => priority === 1),
+    () =>
+      validSelectors?.filter(
+        ({ priority, closest }) => priority === 1 && closest !== 1,
+      ),
     [validSelectors],
   )
 
   const selectorsMediumPriority = useMemo(
-    () => validSelectors?.filter(({ priority }) => priority === 2),
+    () =>
+      validSelectors?.filter(
+        ({ priority, closest }) => priority === 2 && closest !== 1,
+      ),
     [validSelectors],
   )
 
   const selectorsLowPriority = useMemo(
-    () => validSelectors?.filter(({ priority }) => priority === 3),
+    () =>
+      validSelectors?.filter(
+        ({ priority, closest }) => priority === 3 && closest !== 1,
+      ),
+    [validSelectors],
+  )
+
+  const closestSelectors = useMemo(
+    () =>
+      validSelectors?.filter(
+        ({ closest, priority }) =>
+          closest === 1 && (priority === 2 || priority === 1),
+      ),
     [validSelectors],
   )
 
@@ -85,19 +103,64 @@ export function Selector({ record, onSelectSelector, width }: ISelectorProp) {
       renderValue={(value: string) => value}
     >
       {selectorsHighPriority?.map((item: ISelector) => (
-        <MenuItem value={item.value} key={`${item.name}${item.value}`}>
+        <MenuItem
+          css={css`
+            font-size: 0.7rem;
+          `}
+          value={item.value}
+          key={`${item.name}${item.value}`}
+        >
           <SelectorMenuItem item={item} key={item.value} />
         </MenuItem>
       ))}
       {!!selectorsHighPriority?.length && <Divider />}
       {selectorsMediumPriority?.map((item: ISelector) => (
-        <MenuItem value={item.value} key={`${item.name}${item.value}`}>
+        <MenuItem
+          css={css`
+            font-size: 0.7rem;
+          `}
+          value={item.value}
+          key={`${item.name}${item.value}`}
+        >
           <SelectorMenuItem item={item} key={item.value} />
         </MenuItem>
       ))}
       {!!selectorsMediumPriority?.length && <Divider />}
       {selectorsLowPriority?.map((item: ISelector) => (
-        <MenuItem value={item.value} key={`${item.name}${item.value}`}>
+        <MenuItem
+          css={css`
+            font-size: 0.7rem;
+          `}
+          value={item.value}
+          key={`${item.name}${item.value}`}
+        >
+          <SelectorMenuItem item={item} key={item.value} />
+        </MenuItem>
+      ))}
+      {!!closestSelectors?.length && (
+        <>
+          <Divider />
+          <div
+            css={css`
+              width: 100%;
+              color: #1769aa;
+              margin-left: 16px;
+              font-size: 0.7rem;
+              padding-top: 4px;
+            `}
+          >
+            Closest interactive element:
+          </div>
+        </>
+      )}
+      {closestSelectors?.map((item: ISelector) => (
+        <MenuItem
+          css={css`
+            font-size: 0.7rem;
+          `}
+          value={item.value}
+          key={`${item.name}${item.value}`}
+        >
           <SelectorMenuItem item={item} key={item.value} />
         </MenuItem>
       ))}

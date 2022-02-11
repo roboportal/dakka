@@ -26,3 +26,17 @@ export const DATA_ATTRIBUTES = [
   'data-qa',
   'data-name',
 ]
+
+export const NON_INTERACTIVE_TAGS = [
+  'svg',
+  'img',
+  'path',
+  'span',
+  'li',
+  'ul',
+  'ol',
+  'area',
+  'div',
+]
+
+export const TAGS = ['button', 'a', 'select', 'option', ...NON_INTERACTIVE_TAGS]

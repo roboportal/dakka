@@ -1,5 +1,5 @@
 import { IEventBlock, IEventPayload, ISelector } from 'store/eventRecorderSlice'
-import { exportOptions, interactiveTags } from '../constants'
+import { exportOptions, INTERACTIVE_TAGS } from '../constants'
 import { assertionTypes } from 'constants/assertion'
 import { selectorTypes } from '../selectorTypes'
 import { normalizeString } from '../normalizer'
@@ -178,9 +178,10 @@ test('${testName}', async ({ page }) => {
 
     const value = it.selectedSelector.value
     const name = it.selectedSelector.name
+    const tagName = it.selectedSelector.tagName
     if (name === selectorTypes.text) {
-      return interactiveTags.includes(it.tagName ?? '')
-        ? `${it.tagName}:has-text("${value}")`
+      return INTERACTIVE_TAGS.includes(tagName ?? '')
+        ? `${tagName}:has-text("${value}")`
         : `text="${value}"`
     }
 
