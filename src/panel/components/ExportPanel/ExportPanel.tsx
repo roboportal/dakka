@@ -16,7 +16,6 @@ const options = [
   [exportOptions.cypress, 'Cypress'],
   [exportOptions.playwright, 'Playwright'],
   [exportOptions.puppeteer, 'Puppeteer'],
-  [exportOptions.dakka, 'Dakka'],
 ]
 
 const ExportPanel = () => {
