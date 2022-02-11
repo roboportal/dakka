@@ -45,6 +45,11 @@ window.addEventListener('message', (p) => {
   const { data } = p
 
   if (data.id === chrome.runtime.id) {
+    if (p.data.type === ELEMENT_SELECTED) {
+      chrome.runtime.sendMessage(data)
+      return
+    }
+
     if (selectElementEnabled && data.type !== HOVER_ELEMENT) {
       return
     }
@@ -56,9 +61,7 @@ window.addEventListener('message', (p) => {
 const mouseOverHandler = (event: any) => {
   if (selectElementEnabled) {
     event.stopImmediatePropagation()
-    const extensionId =
-      (document?.querySelector('script[data-extid]') as HTMLElement)?.dataset
-        ?.extid ?? ''
+    const extensionId = chrome.runtime.id
     const message = composeEvent({
       event,
       extensionId,
@@ -69,38 +72,14 @@ const mouseOverHandler = (event: any) => {
   }
 }
 
-const focusHandler = (event: FocusEvent) => {
-  event.stopImmediatePropagation()
-  event.preventDefault()
-}
-
-const blurHandler = (event: FocusEvent) => {
-  event.stopImmediatePropagation()
-  event.preventDefault()
-}
-
-const mouseDownHandler = (event: MouseEvent) => {
-  event.stopImmediatePropagation()
-  event.preventDefault()
-}
-
-const mouseUpHandler = (event: MouseEvent) => {
-  event.stopImmediatePropagation()
-  event.preventDefault()
-}
-
 const mouseClickHandler = (event: MouseEvent) => {
   event.stopImmediatePropagation()
   event.preventDefault()
-  window.postMessage({ ...hoveredElement, type: ELEMENT_SELECTED })
-  selectElementEnabled = false
-  hoveredElement = null
-  window.removeEventListener('mouseover', mouseOverHandler, true)
-  window.removeEventListener('focus', focusHandler, true)
-  window.removeEventListener('blur', blurHandler, true)
-  window.removeEventListener('click', mouseClickHandler, true)
-  window.removeEventListener('mousedown', mouseDownHandler, true)
-  window.removeEventListener('mouseup', mouseUpHandler, true)
+  window.postMessage({
+    ...hoveredElement,
+    id: chrome.runtime.id,
+    type: ELEMENT_SELECTED,
+  })
 }
 
 chrome.runtime.onMessage.addListener((message) => {
@@ -126,22 +105,17 @@ chrome.runtime.onMessage.addListener((message) => {
 
   if (message.type === ENABLE_SELECT_ELEMENT) {
     selectElementEnabled = true
-    window.addEventListener('mouseover', mouseOverHandler, true)
-    window.addEventListener('focus', focusHandler, true)
-    window.addEventListener('blur', blurHandler, true)
+
     window.addEventListener('click', mouseClickHandler, true)
-    window.addEventListener('mousedown', mouseDownHandler, true)
-    window.addEventListener('mouseup', mouseUpHandler, true)
+    window.addEventListener('mouseover', mouseOverHandler, true)
   }
 
   if (message.type === DISABLE_SELECT_ELEMENT) {
     selectElementEnabled = false
-    window.removeEventListener('mouseover', mouseOverHandler, true)
-    window.removeEventListener('focus', focusHandler, true)
-    window.removeEventListener('blur', blurHandler, true)
+    hoveredElement = null
+
     window.removeEventListener('click', mouseClickHandler, true)
-    window.removeEventListener('mousedown', mouseDownHandler, true)
-    window.removeEventListener('mouseup', mouseUpHandler, true)
+    window.removeEventListener('mouseover', mouseOverHandler, true)
   }
 
   if (shouldProcessMessage(message.type) && !selectElementEnabled) {

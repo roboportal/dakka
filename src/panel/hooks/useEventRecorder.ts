@@ -21,6 +21,7 @@ import {
   ELEMENT_SELECTED,
   ENABLE_RECORDER,
   REDIRECT_STARTED,
+  DISABLE_SELECT_ELEMENT,
 } from 'constants/messageTypes'
 import { internalEventsMap } from 'constants/internalEventsMap'
 
@@ -103,6 +104,10 @@ export default function useEventRecorder() {
 
       if (eventRecord?.type === ELEMENT_SELECTED) {
         setLastSelectedEventId(eventRecord.payload.id)
+
+        chrome.tabs.sendMessage(activeTabID, {
+          type: DISABLE_SELECT_ELEMENT,
+        })
       }
 
       if (internalEventsMap[eventRecord.type]) {
@@ -141,7 +146,7 @@ export default function useEventRecorder() {
       chrome.runtime.onMessage.removeListener(messageHandler)
       chrome.tabs.onActivated.removeListener(activeTabChangeHandler)
     }
-  }, [dispatch])
+  }, [dispatch, activeTabID])
 
   useEffect(() => {
     const sendEnableRecorderMessage = (tabId: number) =>
