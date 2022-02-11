@@ -67,7 +67,7 @@ export default function EventsSettings({
             </Button>
             <Button
               css={css`
-                font-size: 0.5rem;
+                font-size: 0.6rem;
               `}
               onClick={toggleDeselectAll}
             >

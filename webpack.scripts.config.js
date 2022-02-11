@@ -67,6 +67,11 @@ const options = {
             return JSON.stringify(parsed, null, 2)
           },
         },
+        {
+          from: path.resolve(__dirname, 'assets/*'),
+          to: path.join(__dirname, 'dist'),
+          force: true,
+        },
       ],
     }),
   ],
