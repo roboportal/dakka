@@ -62,17 +62,18 @@ export const generateSelectors = (
 
   return [
     ...customDataAttributes,
-    textContent && {
-      name: 'text',
-      value: textContent,
-      length: Array.from(document.querySelectorAll(tagName)).filter(
-        (el) => el?.firstChild?.nodeValue === textContent,
-      ).length,
-      priority: 1,
-      rawValue: textContent,
-      closest,
-      tagName,
-    },
+    textContent &&
+      !!textContent?.replace(/\s/g, '')?.length && {
+        name: 'text',
+        value: textContent,
+        length: Array.from(document.querySelectorAll(tagName)).filter(
+          (el) => el?.firstChild?.nodeValue === textContent,
+        ).length,
+        priority: 1,
+        rawValue: textContent,
+        closest,
+        tagName,
+      },
     ariaLabel && {
       name: 'aria-label',
       value: `[aria-label="${ariaLabel}"]`,
