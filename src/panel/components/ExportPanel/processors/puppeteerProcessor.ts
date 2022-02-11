@@ -323,8 +323,9 @@ describe('${testName}', () => {
 
     const value = it.selectedSelector.value
     const name = it.selectedSelector.name
+    const tagName = it.selectedSelector.tagName
     if (name === selectorTypes.text) {
-      return normalizeString(`//${it?.tagName}[contains(text(), "${value}")]`)
+      return normalizeString(`//${tagName}[contains(text(), "${value}")]`)
     }
 
     return normalizeString(value)

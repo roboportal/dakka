@@ -6,8 +6,9 @@ function getSelectorLength(selector: string) {
 
 export const generateSelectors = (
   target: Element,
-  { uniqueSelector, tagName }: { uniqueSelector: string; tagName: string },
+  { uniqueSelector, closest }: { uniqueSelector?: string; closest: number },
 ) => {
+  const tagName = (target?.tagName ?? '*').toLowerCase()
   const role = target?.getAttribute('role')
   const ariaLabel = target?.ariaLabel
   const placeholder = target?.getAttribute('placeholder')
@@ -32,6 +33,8 @@ export const generateSelectors = (
             length: getSelectorLength(`[${name}="${value}"]`),
             priority: 1,
             rawValue: value,
+            closest,
+            tagName,
           },
           ...data,
         ]
@@ -45,6 +48,8 @@ export const generateSelectors = (
             length: getSelectorLength(`${tagName}[${name}="${value}"]`),
             priority: 2,
             rawValue: value,
+            closest,
+            tagName,
           },
           ...data,
         ]
@@ -65,6 +70,8 @@ export const generateSelectors = (
       ).length,
       priority: 1,
       rawValue: textContent,
+      closest,
+      tagName,
     },
     ariaLabel && {
       name: 'aria-label',
@@ -72,6 +79,8 @@ export const generateSelectors = (
       length: getSelectorLength(`[aria-label="${ariaLabel}"]`),
       priority: 2,
       rawValue: ariaLabel,
+      closest,
+      tagName,
     },
     placeholder && {
       name: 'placeholder',
@@ -79,6 +88,8 @@ export const generateSelectors = (
       length: getSelectorLength(`[placeholder="${placeholder}"]`),
       priority: 2,
       rawValue: placeholder,
+      closest,
+      tagName,
     },
     role && {
       name: 'role',
@@ -86,6 +97,8 @@ export const generateSelectors = (
       length: getSelectorLength(`[role="${role}"]`),
       priority: 2,
       rawValue: role,
+      closest,
+      tagName,
     },
     elementId &&
       tagName && {
@@ -94,6 +107,8 @@ export const generateSelectors = (
         length: getSelectorLength(elementId),
         priority: 2,
         rawValue: elementId,
+        closest,
+        tagName,
       },
     elementId && {
       name: '#element-id',
@@ -101,6 +116,8 @@ export const generateSelectors = (
       length: getSelectorLength(elementId),
       priority: 2,
       rawValue: elementId,
+      closest,
+      tagName,
     },
     className && {
       name: '.classname',
@@ -108,6 +125,8 @@ export const generateSelectors = (
       length: getSelectorLength(className),
       priority: 3,
       rawValue: className,
+      closest,
+      tagName,
     },
     uniqueSelector &&
       uniqueSelector !== className && {
@@ -116,6 +135,8 @@ export const generateSelectors = (
         length: getSelectorLength(uniqueSelector),
         priority: 3,
         rawValue: uniqueSelector,
+        closest,
+        tagName,
       },
     tagName && {
       name: '<tagName>',
@@ -123,6 +144,8 @@ export const generateSelectors = (
       length: getSelectorLength(tagName),
       priority: 3,
       rawValue: tagName,
+      closest,
+      tagName,
     },
   ].filter((sel) => !!sel)
 }

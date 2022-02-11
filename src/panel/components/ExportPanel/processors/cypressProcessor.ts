@@ -1,6 +1,6 @@
 /* eslint-disable quotes */
 import { IEventBlock, IEventPayload, ISelector } from 'store/eventRecorderSlice'
-import { exportOptions, interactiveTags } from '../constants'
+import { exportOptions, INTERACTIVE_TAGS } from '../constants'
 import { assertionTypes } from 'constants/assertion'
 import { normalizeString } from '../normalizer'
 import { ExportProcessor } from './abstractProcessor'
@@ -165,10 +165,10 @@ describe('${testName}', () => {
 
     const value = it.selectedSelector.value
     const name = it.selectedSelector.name
-
+    const tagName = it.selectedSelector.tagName
     if (name === selectorTypes.text) {
-      return interactiveTags.includes(it.tagName ?? '')
-        ? `contains('${it.tagName}', '${normalizeString(value)}')`
+      return INTERACTIVE_TAGS.includes(tagName ?? '')
+        ? `contains('${tagName}', '${normalizeString(value)}')`
         : `contains('${normalizeString(value)}')`
     }
 

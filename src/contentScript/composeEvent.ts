@@ -1,6 +1,7 @@
 import { nanoid } from 'nanoid'
 import { finder } from '@medv/finder'
 import { generateSelectors } from './genarateSelector'
+import { TAGS, NON_INTERACTIVE_TAGS } from './constants'
 
 export function composeEvent({
   event,
@@ -71,12 +72,44 @@ export function composeEvent({
     return {}
   }
 
-  const tagName = (target?.tagName ?? '').toLowerCase()
   const uniqueSelector = finder(target)
   const validSelectors = generateSelectors(target, {
     uniqueSelector,
-    tagName,
+    closest: 0,
   })
+
+  let closestTarget: Element | null = null
+
+  TAGS.some((item) => {
+    const parentTarget = target.closest(item)
+
+    if (!parentTarget || parentTarget.tagName === target.tagName) {
+      return false
+    }
+
+    if (
+      NON_INTERACTIVE_TAGS.includes(item) &&
+      parentTarget?.getAttribute('role') === 'button'
+    ) {
+      closestTarget = parentTarget
+      return true
+    }
+
+    if (!NON_INTERACTIVE_TAGS.includes(item)) {
+      closestTarget = parentTarget
+      return true
+    }
+
+    return false
+  })
+
+  if (closestTarget) {
+    const validClosestSelectors = generateSelectors(closestTarget, {
+      closest: 1,
+    })
+    validSelectors.push(...validClosestSelectors)
+  }
+
   const selectedSelector =
     validSelectors.find(
       (selector) =>
@@ -133,7 +166,6 @@ export function composeEvent({
       timeStamp,
       touches,
       which,
-      tagName: tagName ?? '*',
     },
   }
 }
