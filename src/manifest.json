@@ -7,13 +7,7 @@
   "background": {
     "service_worker": "./background/background.bundle.js"
   },
-  "permissions": [
-    "tabs",
-    "nativeMessaging",
-    "scripting",
-    "management",
-    "clipboardWrite"
-  ],
+  "permissions": ["tabs", "clipboardWrite"],
   "content_scripts": [
     {
       "matches": ["https://*/*", "http://*/*"],
