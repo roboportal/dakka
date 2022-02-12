@@ -138,7 +138,7 @@ export function Selector({ record, onSelectSelector, width }: ISelectorProp) {
         </MenuItem>
       ))}
       {!!closestSelectors?.length && (
-        <>
+        <div>
           <Divider />
           <div
             css={css`
@@ -151,7 +151,7 @@ export function Selector({ record, onSelectSelector, width }: ISelectorProp) {
           >
             Closest interactive element:
           </div>
-        </>
+        </div>
       )}
       {closestSelectors?.map((item: ISelector) => (
         <MenuItem
