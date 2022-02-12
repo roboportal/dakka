@@ -7,6 +7,7 @@
   "background": {
     "service_worker": "./background/background.bundle.js"
   },
+  "permissions": ["tabs"],
   "content_scripts": [
     {
       "matches": ["https://*/*", "http://*/*"],
