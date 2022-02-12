@@ -3,7 +3,7 @@ const CHARS_TO_REPLACE_PAIRS = [
   ['\n', '\\n'],
   // eslint-disable-next-line
   ["'", "\\'"],
-  ['"', '\\"'],
+  // ['"', '\\"'], // disabled because it's causing eslint error no-useless-escape
   ['\b', '\\b'],
   ['\f', '\\f'],
   ['\r', '\\r'],
