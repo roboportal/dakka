@@ -60,12 +60,19 @@ export function EntryRow({
               margin-top: 12px;
               padding: 0;
               width: 95%;
+
+              label {
+                font-size: 0.7rem;
+              }
+
+              .Mui-focused,
+              .MuiFormLabel-filled {
+                font-size: 0.9rem;
+              }
             `}
             fullWidth
             inputProps={{
               style: {
-                padding: 4,
-                paddingLeft: 6,
                 fontSize: '0.7rem',
               },
             }}
@@ -74,7 +81,7 @@ export function EntryRow({
             size="small"
             id="custom-assert-selector"
             variant="outlined"
-            placeholder="Selector Override"
+            label="Selector Override"
             onChange={onAddCustomSelector}
           />
         </div>

@@ -2,6 +2,9 @@ import { useCallback, useMemo } from 'react'
 import Select, { SelectChangeEvent } from '@mui/material/Select'
 import { css } from '@emotion/react'
 import MenuItem from '@mui/material/MenuItem'
+import useMediaQuery from '@mui/material/useMediaQuery'
+import { grey } from '@mui/material/colors'
+
 import { Divider } from './Divider'
 import {
   IEventBlock,
@@ -19,6 +22,8 @@ interface ISelectorProp {
 }
 
 export function Selector({ record, onSelectSelector, width }: ISelectorProp) {
+  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
+
   const validSelectors = useMemo(
     () =>
       record?.variant === INTERACTIVE_ELEMENT
@@ -87,19 +92,19 @@ export function Selector({ record, onSelectSelector, width }: ISelectorProp) {
   if (shouldHideSelectorPanel) {
     return null
   }
-
   return (
     <Select
       css={css`
         width: ${width};
-
+        border: 1px solid ${prefersDarkMode ? grey[800] : grey[300]};
+        border-radius: 4px;
         > div {
           padding: 4px;
         }
       `}
       value={selectedSelector}
       onChange={handleSelectorChange}
-      variant="outlined"
+      variant="standard"
       renderValue={(value: string) => value}
     >
       {selectorsHighPriority?.map((item: ISelector) => (

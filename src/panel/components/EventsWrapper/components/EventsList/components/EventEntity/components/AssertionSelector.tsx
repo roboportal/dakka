@@ -237,21 +237,28 @@ export function AssertionSelector({
                 display: block;
                 margin-left: 0px;
                 width: 45%;
+
+                label {
+                  font-size: 0.7rem;
+                }
+
+                .Mui-focused,
+                .MuiFormLabel-filled {
+                  font-size: 0.9rem;
+                }
               `}
               fullWidth
               value={record?.assertionAttribute ?? ''}
               size="small"
               id="value-assert"
               variant="outlined"
-              placeholder="Attribute Name"
+              label="Attribute Name"
               error={
                 record?.assertionInputsValidationResult?.assertionAttribute
               }
               onChange={handleAssertAttributeChange}
               inputProps={{
                 style: {
-                  padding: 4,
-                  paddingLeft: 6,
                   fontSize: '0.7rem',
                 },
               }}
@@ -260,6 +267,7 @@ export function AssertionSelector({
               css={css`
                 margin-left: 4px;
                 margin-right: 4px;
+                line-height: 1.8rem;
               `}
             >
               =
@@ -275,6 +283,15 @@ export function AssertionSelector({
               display: block;
               margin-left: 0px;
               width: ${isAttributeInputVisible ? '45%' : '95%'};
+
+              label {
+                font-size: 0.7rem;
+              }
+
+              .Mui-focused,
+              .MuiFormLabel-filled {
+                font-size: 0.9rem;
+              }
             `}
             error={record?.assertionInputsValidationResult?.assertionValue}
             fullWidth
@@ -282,12 +299,10 @@ export function AssertionSelector({
             size="small"
             id="value-assert"
             variant="outlined"
-            placeholder="Value"
+            label="Value"
             onChange={handleAssertValueChange}
             inputProps={{
               style: {
-                padding: 4,
-                paddingLeft: 6,
                 fontSize: '0.7rem',
               },
             }}

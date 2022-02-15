@@ -31,6 +31,10 @@ export class PuppeteerProcessor extends ExportProcessor {
   > = {
     mouseClick: ({ selector }) =>
       selector ? `.click('${selector}')` : '.click()',
+    dblclick: ({ selector }) =>
+      selector
+        ? `.click('${selector}', { clickCount: 2 })`
+        : '.click({ clickCount: 2 })',
     keyboard: ({ key, selector }) =>
       selector
         ? `.type('${selector}', '${key ?? ''}')`
@@ -337,7 +341,7 @@ describe('${testName}', () => {
     const payload = { key, selector }
 
     if (this.pageMethodsMap[it.type]) {
-      return `  await page${this.pageMethodsMap[it?.type]?.(it)}\n`
+      return `      await page${this.pageMethodsMap[it?.type]?.(it)}\n`
     }
 
     if (selectorOptions[it?.selectedSelector?.name ?? ''] === '$x') {
@@ -348,11 +352,11 @@ describe('${testName}', () => {
       }))\n`
     }
 
-    return `  await page.waitForSelector('${payload.selector}')
-        await page${
-          this.methodsMap[it?.type]?.(payload) ??
-          this.methodsMap.default(payload)
-        }\n`
+    return `      
+      await page.waitForSelector('${payload.selector}')
+      await page${
+        this.methodsMap[it?.type]?.(payload) ?? this.methodsMap.default(payload)
+      }\n`
   }
 
   private waitForElement(selector: string, element: IEventPayload | null) {
