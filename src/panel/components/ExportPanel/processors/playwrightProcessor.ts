@@ -12,6 +12,7 @@ export class PlaywrightProcessor extends ExportProcessor {
 
   private methodsMap: Record<string, (it: IEventPayload) => string> = {
     mouseClick: () => '.click()',
+    dblclick: () => '.dblclick()',
     keyboard: ({ key }) => `.fill('${normalizeString(key ?? '')}')`,
     default: () => '',
   }
