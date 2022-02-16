@@ -85,6 +85,9 @@ export interface IEventPayload {
   isInjectingAllowed?: boolean
   isInvalidValidSetUp?: boolean
   shouldUseElementSelector?: boolean
+  title?: string
+  text?: string
+  attributesMap?: Record<string, string>
 }
 
 export interface IEventRecord {
