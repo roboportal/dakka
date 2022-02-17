@@ -104,7 +104,6 @@ export default function useEventRecorder() {
 
       if (eventRecord?.type === ELEMENT_SELECTED) {
         setLastSelectedEventId(eventRecord.payload.id)
-
         chrome.tabs.sendMessage(activeTabID, {
           type: DISABLE_SELECT_ELEMENT,
         })

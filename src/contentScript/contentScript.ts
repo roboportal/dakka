@@ -75,6 +75,27 @@ const mouseOverHandler = (event: any) => {
 const mouseClickHandler = (event: MouseEvent) => {
   event.stopImmediatePropagation()
   event.preventDefault()
+
+  const url = window.location.href
+  const title = document.title
+
+  const target = event?.target as HTMLElement
+  const text = target?.firstChild?.nodeValue
+
+  const attributesMap = Object.fromEntries(
+    Array.from(target?.attributes)
+      .filter((f) => f)
+      .map((attr) => [attr.name, attr.value]),
+  )
+
+  hoveredElement.payload = {
+    ...hoveredElement.payload,
+    url,
+    title,
+    text,
+    attributesMap,
+  }
+
   window.postMessage({
     ...hoveredElement,
     id: chrome.runtime.id,

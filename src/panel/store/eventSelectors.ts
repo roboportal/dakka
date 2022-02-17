@@ -55,6 +55,9 @@ const assertionValidatorsMap: Record<
   [assertionTypes.contains]: validateNonEmptyValue,
   [assertionTypes.notContains]: validateNonEmptyValue,
 
+  [assertionTypes.equals]: validateNonEmptyValue,
+  [assertionTypes.notEquals]: validateNonEmptyValue,
+
   [assertionTypes.hasAttribute]: validateNonEmptyAttributeAndValue,
   [assertionTypes.notHasAttribute]: validateNonEmptyAttributeAndValue,
 

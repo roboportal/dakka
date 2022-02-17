@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { css } from '@emotion/react'
 import Select, { SelectChangeEvent } from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
@@ -14,6 +14,7 @@ import {
   assertionTypes,
 } from 'constants/assertion'
 import { Label } from './Label'
+import Autocomplete from '@mui/material/Autocomplete'
 
 interface IAssertionSelectorProp {
   record: IEventBlock
@@ -25,6 +26,8 @@ interface IAssertionSelectorProp {
 const requireInputAsserts = [
   assertionTypes.contains,
   assertionTypes.notContains,
+  assertionTypes.equals,
+  assertionTypes.notEquals,
   assertionTypes.hasAttribute,
   assertionTypes.notHasAttribute,
   assertionTypes.toHaveTitle,
@@ -45,6 +48,42 @@ export function AssertionSelector({
     record as IEventBlock
   const [checked, setChecked] = useState(true)
   const [assertions, setAssertions] = useState(assertionsList)
+
+  useEffect(() => {
+    if (
+      [
+        assertionTypes.contains,
+        assertionTypes.notContains,
+        assertionTypes.equals,
+        assertionTypes.notEquals,
+      ].includes(assertionType?.type as assertionTypes)
+    ) {
+      onSetAssertProperties({
+        recordId: record.id,
+        assertionValue: record?.element?.text ?? '',
+      })
+      return
+    }
+
+    if (
+      [assertionTypes.hasAttribute, assertionTypes.notHasAttribute].includes(
+        assertionType?.type as assertionTypes,
+      )
+    ) {
+      const firstElementAttributeName =
+        Object.keys(record?.element?.attributesMap ?? {})[0] ?? ''
+
+      const firstElementAttributeValue =
+        record?.element?.attributesMap?.[firstElementAttributeName] ?? ''
+
+      onSetAssertProperties({
+        recordId: record.id,
+        assertionValue: firstElementAttributeValue,
+        assertionAttribute: firstElementAttributeName,
+      })
+      return
+    }
+  }, [record, assertionType?.type, onSetAssertProperties])
 
   const handleCheckbox = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -76,16 +115,45 @@ export function AssertionSelector({
     (e: SelectChangeEvent<string>) => {
       const selection = assertions.find((item) => item.name === e.target.value)
 
+      const firstElementAttributeName =
+        Object.keys(record?.element?.attributesMap ?? {})[0] ?? ''
+      const firstElementAttributeValue =
+        record?.element?.attributesMap?.[firstElementAttributeName] ?? ''
+
+      const assertionValuesMap: Record<string, string> = {
+        [assertionTypes.toHaveTitle]: record?.title ?? '',
+        [assertionTypes.notToHaveTitle]: record?.title ?? '',
+
+        [assertionTypes.toHaveURL]: record?.url ?? '',
+        [assertionTypes.notToHaveURL]: record?.url ?? '',
+
+        [assertionTypes.equals]: record?.element?.text ?? '',
+        [assertionTypes.notEquals]: record?.element?.text ?? '',
+
+        [assertionTypes.contains]: record?.element?.text ?? '',
+        [assertionTypes.notContains]: record?.element?.text ?? '',
+
+        [assertionTypes.hasAttribute]: firstElementAttributeValue,
+        [assertionTypes.notHasAttribute]: firstElementAttributeValue,
+
+        [assertionTypes.toHaveLength]: '1',
+        [assertionTypes.notToHaveLength]: '1',
+      }
+
+      const autoPopulatedValue = assertionValuesMap[selection?.type ?? '']
+
       const _assertionValue = ['', assertionTypes.inDocument].includes(
         selection?.type ?? '',
       )
         ? ''
-        : assertionValue
+        : autoPopulatedValue || assertionValue
 
-      const _assertionAttribute =
-        selection?.type === assertionTypes.hasAttribute
-          ? assertionAttribute
-          : ''
+      const _assertionAttribute = [
+        assertionTypes.hasAttribute,
+        assertionTypes.notHasAttribute,
+      ].includes(selection?.type as assertionTypes)
+        ? assertionAttribute || firstElementAttributeName
+        : ''
 
       onSetAssertProperties({
         recordId: record.id,
@@ -114,13 +182,24 @@ export function AssertionSelector({
   )
 
   const handleAssertAttributeChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      onSetAssertProperties({
+    (e: React.SyntheticEvent, value = '') => {
+      const options: IAssertionPayload = {
         recordId: record.id,
-        assertionAttribute: e.target.value,
-      })
+        assertionAttribute: value,
+      }
+      const attributesMap = record.element?.attributesMap ?? {}
+
+      if (attributesMap[value]) {
+        options.assertionValue = attributesMap[value]
+      }
+
+      onSetAssertProperties(options)
     },
     [record, onSetAssertProperties],
+  )
+
+  const attributeSelectOptions = Object.keys(
+    record.element?.attributesMap ?? {},
   )
 
   if (!isExpanded) {
@@ -232,12 +311,23 @@ export function AssertionSelector({
       >
         {isAttributeInputVisible && (
           <>
-            <TextField
+            <Autocomplete
+              freeSolo
+              options={attributeSelectOptions}
+              onChange={handleAssertAttributeChange}
+              onInputChange={handleAssertAttributeChange}
+              value={record?.assertionAttribute ?? ''}
+              blurOnSelect
+              size="small"
+              fullWidth
               css={css`
                 display: block;
                 margin-left: 0px;
                 width: 45%;
 
+                input {
+                  font-size: 0.7rem;
+                }
                 label {
                   font-size: 0.7rem;
                 }
@@ -247,22 +337,17 @@ export function AssertionSelector({
                   font-size: 0.9rem;
                 }
               `}
-              fullWidth
-              value={record?.assertionAttribute ?? ''}
-              size="small"
-              id="value-assert"
-              variant="outlined"
-              label="Attribute Name"
-              error={
-                record?.assertionInputsValidationResult?.assertionAttribute
-              }
-              onChange={handleAssertAttributeChange}
-              inputProps={{
-                style: {
-                  fontSize: '0.7rem',
-                },
-              }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  error={
+                    record?.assertionInputsValidationResult?.assertionAttribute
+                  }
+                  label="Attribute Name"
+                />
+              )}
             />
+
             <div
               css={css`
                 margin-left: 4px;
