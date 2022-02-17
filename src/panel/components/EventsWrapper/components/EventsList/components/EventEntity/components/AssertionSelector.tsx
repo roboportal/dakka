@@ -264,7 +264,7 @@ export function AssertionSelector({
             css={css`
               width: 200px;
               height: 30px;
-              font-size: 0.7rem;
+              font-size: 0.8rem;
 
               .MuiSelect-select {
                 padding-top: 4px;
@@ -326,10 +326,10 @@ export function AssertionSelector({
                 width: 45%;
 
                 input {
-                  font-size: 0.7rem;
+                  font-size: 0.8rem;
                 }
                 label {
-                  font-size: 0.7rem;
+                  font-size: 0.8rem;
                 }
 
                 .Mui-focused,
@@ -370,7 +370,7 @@ export function AssertionSelector({
               width: ${isAttributeInputVisible ? '45%' : '95%'};
 
               label {
-                font-size: 0.7rem;
+                font-size: 0.8rem;
               }
 
               .Mui-focused,
@@ -388,7 +388,7 @@ export function AssertionSelector({
             onChange={handleAssertValueChange}
             inputProps={{
               style: {
-                fontSize: '0.7rem',
+                fontSize: '0.8rem',
               },
             }}
           />
