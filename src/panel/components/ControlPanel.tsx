@@ -70,7 +70,7 @@ const ControlPanel = ({
                   color: grey[600],
                   marginLeft: '0.2rem',
                   width: 60,
-                  fontSize: '0.7rem',
+                  fontSize: '0.8rem',
                 }}
                 variant="caption"
               >
@@ -92,7 +92,7 @@ const ControlPanel = ({
               <DeleteIcon sx={{ color: grey[500] }} fontSize="small" />
               <Typography
                 sx={{
-                  fontSize: '0.7rem',
+                  fontSize: '0.8rem',
                   textTransform: 'none',
                   color: grey[600],
                   marginLeft: '0.2rem',
@@ -115,7 +115,7 @@ const ControlPanel = ({
               label={
                 <Typography
                   sx={{
-                    fontSize: '0.7rem',
+                    fontSize: '0.8rem',
                     marginLeft: '0.2rem',
                     color: grey[600],
                     width: '56px',

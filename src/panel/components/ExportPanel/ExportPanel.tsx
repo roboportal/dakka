@@ -38,7 +38,7 @@ const ExportPanel = () => {
       <FormControl variant="standard">
         <Select
           css={css`
-            font-size: 0.7rem;
+            font-size: 0.8rem;
           `}
           value={exportOption}
           onChange={handleChange}
@@ -48,7 +48,7 @@ const ExportPanel = () => {
             <Tooltip title="Copy To Clipboard">
               <div
                 css={css`
-                  font-size: 0.7rem;
+                  font-size: 0.8rem;
                 `}
               >
                 Export as
@@ -60,7 +60,7 @@ const ExportPanel = () => {
               key={value}
               value={value}
               css={css`
-                font-size: 0.7rem;
+                font-size: 0.8rem;
               `}
             >
               {label}

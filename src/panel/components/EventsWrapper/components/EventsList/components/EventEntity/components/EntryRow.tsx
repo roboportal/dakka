@@ -62,7 +62,7 @@ export function EntryRow({
               width: 95%;
 
               label {
-                font-size: 0.7rem;
+                font-size: 0.8rem;
               }
 
               .Mui-focused,
@@ -73,7 +73,7 @@ export function EntryRow({
             fullWidth
             inputProps={{
               style: {
-                fontSize: '0.7rem',
+                fontSize: '0.8rem',
               },
             }}
             value={value}

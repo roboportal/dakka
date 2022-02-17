@@ -110,7 +110,7 @@ export function Selector({ record, onSelectSelector, width }: ISelectorProp) {
       {selectorsHighPriority?.map((item: ISelector) => (
         <MenuItem
           css={css`
-            font-size: 0.7rem;
+            font-size: 0.8rem;
           `}
           value={item.value}
           key={`${item.name}${item.value}`}
@@ -122,7 +122,7 @@ export function Selector({ record, onSelectSelector, width }: ISelectorProp) {
       {selectorsMediumPriority?.map((item: ISelector) => (
         <MenuItem
           css={css`
-            font-size: 0.7rem;
+            font-size: 0.8rem;
           `}
           value={item.value}
           key={`${item.name}${item.value}`}
@@ -134,7 +134,7 @@ export function Selector({ record, onSelectSelector, width }: ISelectorProp) {
       {selectorsLowPriority?.map((item: ISelector) => (
         <MenuItem
           css={css`
-            font-size: 0.7rem;
+            font-size: 0.8rem;
           `}
           value={item.value}
           key={`${item.name}${item.value}`}
@@ -150,7 +150,7 @@ export function Selector({ record, onSelectSelector, width }: ISelectorProp) {
               width: 100%;
               color: #1769aa;
               margin-left: 16px;
-              font-size: 0.7rem;
+              font-size: 0.8rem;
               padding-top: 4px;
             `}
           >
@@ -161,7 +161,7 @@ export function Selector({ record, onSelectSelector, width }: ISelectorProp) {
       {closestSelectors?.map((item: ISelector) => (
         <MenuItem
           css={css`
-            font-size: 0.7rem;
+            font-size: 0.8rem;
           `}
           value={item.value}
           key={`${item.name}${item.value}`}
