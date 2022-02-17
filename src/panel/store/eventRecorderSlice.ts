@@ -1,6 +1,6 @@
 import { nanoid } from 'nanoid'
 
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction, original } from '@reduxjs/toolkit'
 import { WritableDraft } from 'immer/dist/internal'
 
 import eventsList from 'constants/eventsList'
@@ -323,10 +323,17 @@ export const eventRecorderSlice = createSlice({
     insertBlock: (state, { payload: { type, eventIndex, triggeredAt } }) => {
       const tabId = state.activeTabID
       const index = eventIndex + 1
+
+      const lastRedirect = [...(original(state.events[tabId]) ?? [])]
+        .reverse()
+        .find((e) => e.type === '_redirect')
+
       const block = {
         id: nanoid(),
         eventRecordIndex: index,
         type,
+        url: lastRedirect?.url ?? '',
+        title: lastRedirect?.title ?? '',
         variant: INTERACTIVE_ELEMENT,
         triggeredAt,
         element: null,

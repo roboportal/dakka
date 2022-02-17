@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState, memo } from 'react'
+import { useRef, useEffect, useState, memo, useMemo } from 'react'
 import { css } from '@emotion/react'
 import { useSelector } from 'react-redux'
 import { EventListItem } from 'store/eventRecorderSlice'
@@ -29,6 +29,23 @@ function Scroll({
 
   const [scrollLeftOffset, setScrollLeftOffset] = useState(0)
   const [scrollWindowSize, setScrollWindowSize] = useState(0)
+  const [toggleUpdate, setToggleUpdate] = useState(false)
+
+  const resizeObserver = useMemo(
+    () =>
+      new ResizeObserver(() => {
+        setToggleUpdate((t) => !t)
+      }),
+    [],
+  )
+
+  useEffect(() => {
+    wrapper && resizeObserver.observe(wrapper)
+
+    return () => {
+      wrapper && resizeObserver.unobserve(wrapper)
+    }
+  }, [resizeObserver, wrapper])
 
   useEffect(() => {
     if (!canvasRef.current || !events || !wrapper) {
@@ -74,6 +91,7 @@ function Scroll({
     wrapper,
     expandedId,
     prefersDarkMode,
+    toggleUpdate,
   ])
 
   const handleScrollClick: React.MouseEventHandler<HTMLDivElement> = (e) => {

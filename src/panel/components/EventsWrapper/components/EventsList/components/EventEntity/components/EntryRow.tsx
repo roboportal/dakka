@@ -100,6 +100,7 @@ export function EntryRow({
               css={css`
                 color: #eceff1;
                 margin-bottom: 4px;
+                word-break: break-word;
               `}
             >
               {value}

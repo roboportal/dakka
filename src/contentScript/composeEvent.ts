@@ -166,6 +166,7 @@ export function composeEvent({
       timeStamp,
       touches,
       which,
+      title: document.title,
     },
   }
 }

@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { css } from '@emotion/react'
 import Select, { SelectChangeEvent } from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
@@ -49,6 +49,42 @@ export function AssertionSelector({
   const [checked, setChecked] = useState(true)
   const [assertions, setAssertions] = useState(assertionsList)
 
+  useEffect(() => {
+    if (
+      [
+        assertionTypes.contains,
+        assertionTypes.notContains,
+        assertionTypes.equals,
+        assertionTypes.notEquals,
+      ].includes(assertionType?.type as assertionTypes)
+    ) {
+      onSetAssertProperties({
+        recordId: record.id,
+        assertionValue: record?.element?.text ?? '',
+      })
+      return
+    }
+
+    if (
+      [assertionTypes.hasAttribute, assertionTypes.notHasAttribute].includes(
+        assertionType?.type as assertionTypes,
+      )
+    ) {
+      const firstElementAttributeName =
+        Object.keys(record?.element?.attributesMap ?? {})[0] ?? ''
+
+      const firstElementAttributeValue =
+        record?.element?.attributesMap?.[firstElementAttributeName] ?? ''
+
+      onSetAssertProperties({
+        recordId: record.id,
+        assertionValue: firstElementAttributeValue,
+        assertionAttribute: firstElementAttributeName,
+      })
+      return
+    }
+  }, [record, assertionType?.type, onSetAssertProperties])
+
   const handleCheckbox = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       const { checked } = event.target
@@ -79,25 +115,45 @@ export function AssertionSelector({
     (e: SelectChangeEvent<string>) => {
       const selection = assertions.find((item) => item.name === e.target.value)
 
+      const firstElementAttributeName =
+        Object.keys(record?.element?.attributesMap ?? {})[0] ?? ''
+      const firstElementAttributeValue =
+        record?.element?.attributesMap?.[firstElementAttributeName] ?? ''
+
       const assertionValuesMap: Record<string, string> = {
-        [assertionTypes.toHaveTitle]: record?.element?.title ?? '',
-        [assertionTypes.toHaveURL]: record?.element?.url ?? '',
+        [assertionTypes.toHaveTitle]: record?.title ?? '',
+        [assertionTypes.notToHaveTitle]: record?.title ?? '',
+
+        [assertionTypes.toHaveURL]: record?.url ?? '',
+        [assertionTypes.notToHaveURL]: record?.url ?? '',
+
         [assertionTypes.equals]: record?.element?.text ?? '',
+        [assertionTypes.notEquals]: record?.element?.text ?? '',
+
         [assertionTypes.contains]: record?.element?.text ?? '',
+        [assertionTypes.notContains]: record?.element?.text ?? '',
+
+        [assertionTypes.hasAttribute]: firstElementAttributeValue,
+        [assertionTypes.notHasAttribute]: firstElementAttributeValue,
+
+        [assertionTypes.toHaveLength]: '1',
+        [assertionTypes.notToHaveLength]: '1',
       }
 
-      const v = assertionValuesMap[selection?.type ?? '']
+      const autoPopulatedValue = assertionValuesMap[selection?.type ?? '']
 
       const _assertionValue = ['', assertionTypes.inDocument].includes(
         selection?.type ?? '',
       )
         ? ''
-        : v ?? assertionValue
+        : autoPopulatedValue || assertionValue
 
-      const _assertionAttribute =
-        selection?.type === assertionTypes.hasAttribute
-          ? assertionAttribute
-          : ''
+      const _assertionAttribute = [
+        assertionTypes.hasAttribute,
+        assertionTypes.notHasAttribute,
+      ].includes(selection?.type as assertionTypes)
+        ? assertionAttribute || firstElementAttributeName
+        : ''
 
       onSetAssertProperties({
         recordId: record.id,

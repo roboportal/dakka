@@ -16,6 +16,7 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
       id: chrome.runtime.id,
       payload: {
         url: tab?.url,
+        title: tab?.title,
         id: nanoid(),
         triggeredAt: Date.now(),
         type: REDIRECT_STARTED,

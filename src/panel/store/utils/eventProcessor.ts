@@ -379,6 +379,7 @@ function preprocessRedirect(events: IEventPayload[], event: IEventPayload) {
       id: event.id + '_0',
       triggeredAt: event.triggeredAt - 1,
       url: event.url ?? '',
+      title: event.title ?? '',
       type: internalEventsMap[REDIRECT_STARTED],
       selector: event.url ?? '',
       variant: '',
