@@ -21,8 +21,12 @@ Dakka is an open source Chrome Extension which helps to generate tests for Cypre
 
 ## Installing
 
-Install Dakka as a <a href="https://www.dakka.dev/">Chrome extension</a>.
-Open Chrome devtools, enable Dakka, click Record button and start interacting with the page:
+To install Dakka click <a href="https://www.dakka.dev/">Chrome extension</a> and this will take you to Chrome Web Store. Follow next steps to start generating tests:
+
+1. Open Chrome devtools
+2. Enable Dakka
+3. Click Record button
+4. Start interacting with the page
 
 
 <br/>
