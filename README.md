@@ -8,6 +8,9 @@
 
 <div align="center">
   <a href="https://www.dakka.dev/">Install</a>
+  
+  
+  
   <a href="https://www.dakka.dev/">Dcoumentation</a>
 </div>
 
