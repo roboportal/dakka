@@ -3,11 +3,12 @@
 [![CI/CD](https://github.com/roboportal/dakka/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/roboportal/dakka/actions/workflows/ci.yml)
 
 <div align="center">
-  <img src="https://user-images.githubusercontent.com/7383804/154784941-8baab235-a20e-4b61-baeb-37e4e3915b61.svg" width="120px" height="80px" />
+  <img src="https://user-images.githubusercontent.com/7383804/154784941-8baab235-a20e-4b61-baeb-37e4e3915b61.svg" width="180px" height="60px" />
+  <h3>Generate tests for Cypress, Plawright and Puppeteer using Dakka</3>
 </div>
 
 <div align="center">
-  <a href="https://www.dakka.dev/">Dakka Chrome extension</a> |
+  <a href="https://www.dakka.dev/">Dakka Chrome Extension</a> |
   <a href="https://www.dakka.dev/">Documentation</a>
 </div>
 
@@ -17,7 +18,15 @@
 ## Installing
 
 Install Dakka as a <a href="https://www.dakka.dev/">Chrome extension</a>.
-  
+Open Chrome devtools and enable Dakka:
+
+<br/>
+<div align="center">
+<img width="1000" alt="Screenshot 2022-02-12 at 9 54 18 PM" src="https://user-images.githubusercontent.com/7383804/154786341-858416f0-2a82-4ec5-8b0f-c4907d3f7091.png">
+</div>
+
+
+
 ##
 
 ## Contributing
