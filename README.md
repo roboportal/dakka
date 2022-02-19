@@ -7,9 +7,8 @@
 </div>
 
 <div align="center">
-  <a href="https://www.dakka.dev/">Install</a>
-  
-  <a href="https://www.dakka.dev/">Dcoumentation</a>
+  <a href="https://www.dakka.dev/">Dakka Chrome extension</a> |
+  <a href="https://www.dakka.dev/">Documentation</a>
 </div>
 
 
@@ -17,6 +16,8 @@
 
 ## Installing
 
+Install Dakka as a <a href="https://www.dakka.dev/">Chrome extension</a>.
+  
 ##
 
 ## Contributing
