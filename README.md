@@ -37,7 +37,7 @@ To install Dakka click <a href="https://www.dakka.dev/">Chrome extension</a> and
 
 
 ## Adding Assertions
-Assertion Blocks are validation steps, which are converted to assertion logic such as <code>cy.get('#loading').should('not.exist')</code>, 
+Assertion Blocks are validation steps, which are converted to assertion logic such as <code>cy.get('#loading').should('not.exist')</code>. 
 To assertion hover over the floating plus sign and drag and drop assertion block.
 
 <br/>
