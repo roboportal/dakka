@@ -34,7 +34,7 @@ Open Chrome devtools, enable Dakka, click Record button and start interacting wi
 
 ## Adding Assertions
 Assertion Blocks are validation steps, which are converted to assertion logic such as <code>cy.get('#loading').should('not.exist')</code>, 
-To assertion hover over the floating plut sign and drag and drop assertion block.
+To assertion hover over the floating plus sign and drag and drop assertion block.
 
 <br/>
 <div align="center">
