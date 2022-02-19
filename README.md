@@ -20,9 +20,10 @@
 Install Dakka as a <a href="https://www.dakka.dev/">Chrome extension</a>.
 Open Chrome devtools and enable Dakka:
 
+
 <br/>
 <div align="center">
-<img width="1000" alt="Screenshot 2022-02-12 at 9 54 18 PM" src="https://user-images.githubusercontent.com/7383804/154786341-858416f0-2a82-4ec5-8b0f-c4907d3f7091.png">
+<img width="960" alt="Screenshot 2022-02-16 at 11 01 27 PM" src="https://user-images.githubusercontent.com/7383804/154786735-1fd140c2-3515-4978-a52e-3bb26e3e8c3a.png">
 </div>
 
 
