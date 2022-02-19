@@ -18,7 +18,7 @@
 ## Installing
 
 Install Dakka as a <a href="https://www.dakka.dev/">Chrome extension</a>.
-Open Chrome devtools and enable Dakka:
+Open Chrome devtools, enable Dakka and start recording:
 
 
 <br/>
