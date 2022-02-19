@@ -49,7 +49,7 @@ After adding Assertion Block you will need to configure assertion logic - locate
 
 
 <div align="center">
-<img width="460" alt="Screenshot 2022-02-19 at 12 40 41 AM" src="https://user-images.githubusercontent.com/7383804/154793724-8b9ecfc2-0781-4b29-b118-21bbcd1df3a0.png">
+<img width="370" alt="Screenshot 2022-02-19 at 12 44 36 AM" src="https://user-images.githubusercontent.com/7383804/154793765-c04130a5-b061-415a-9abe-9f23a9e802a0.png">
 <img width="460" alt="Screenshot 2022-02-19 at 12 41 22 AM" src="https://user-images.githubusercontent.com/7383804/154793730-57da26b3-9408-455a-a2c8-1a406f3a272d.png">
 </div>
 
