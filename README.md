@@ -3,7 +3,7 @@
 [![CI/CD](https://github.com/roboportal/dakka/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/roboportal/dakka/actions/workflows/ci.yml)
 
 # Contributing
-## Package content
+### Package content
 
 - `src/background` - service-worker
 - `src/devTools` - creating tab for dev panel
@@ -12,11 +12,11 @@
 - `src/testPage` - test application to debug tool
 - `src/manifest.json` - extension manifest
 
-## Development
+### Development
 
 Run `npm i` and `npm start` to start development. It will run webpack dev server on the 8080 port. To get the test page use: `http://127.0.0.1:8080/testPage/testPage.html`
 
-## Build details
+### Build details
 
 There are two webpack configs to bundle the extension:
 
@@ -29,6 +29,6 @@ It's noticed, that when multiple webpack processes work concurrently, it might c
 
 To use React and Redux devtools, start the servers first: `npm run devtools`. In redux-devtools panel open `Settings` and select `use local` option in the `Connection` tab. The hostname should be `localhost`, and the port should be `8000`.
 
-## Building for production
+### Building for production
 
 Run to create production build: `npm run build` and `npm run pack` to compress it as zip file.
