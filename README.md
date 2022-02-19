@@ -61,7 +61,7 @@ Selectors are sorted by priority with green, red and yellow icons. First selecto
 Generated test can be copied to clipboard or downloaded as a file to add to the project.
 
 <div align="center">
-<img width="560" alt="Screenshot 2022-02-16 at 11 01 29 PM" src="https://user-images.githubusercontent.com/7383804/154789533-2ed4c538-7f9b-4cbb-86bf-6be11889b87b.gif">
+<img width="760" alt="Screenshot 2022-02-16 at 11 01 29 PM" src="https://user-images.githubusercontent.com/7383804/154789533-2ed4c538-7f9b-4cbb-86bf-6be11889b87b.gif">
 </div>
 
 
