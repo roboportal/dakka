@@ -13,22 +13,57 @@
 </div>
 
 
+## What's Dakka?
+
+Dakka is an open source Chrome Extension which helps to generate tests for Cypress, Playwrigt and Puppeteer.
+
 
 
 ## Installing
 
 Install Dakka as a <a href="https://www.dakka.dev/">Chrome extension</a>.
-Open Chrome devtools, enable Dakka and start recording:
+Open Chrome devtools, enable Dakka, click Record button and start interacting with the page:
 
 
 <br/>
 <div align="center">
-<img width="960" alt="Screenshot 2022-02-16 at 11 01 27 PM" src="https://user-images.githubusercontent.com/7383804/154786735-1fd140c2-3515-4978-a52e-3bb26e3e8c3a.png">
+<img width="760" alt="Screenshot 2022-02-16 at 11 01 27 PM" src="https://user-images.githubusercontent.com/7383804/154786735-1fd140c2-3515-4978-a52e-3bb26e3e8c3a.png">
 </div>
 
 
 
-##
+## Adding Assertions
+Assertion Blocks are validation steps, which are converted to assertion logic such as <code>cy.get('#loading').should('not.exist')</code>, 
+To assertion hover over the floating plut sign and drag and drop assertion block.
+
+<br/>
+<div align="center">
+<img width="760" alt="Screenshot 2022-02-16 at 11 01 28 PM" src="https://user-images.githubusercontent.com/7383804/154787750-16716f68-40d1-4360-bc96-0152128a635a.gif">
+</div>
+
+
+
+
+## Choosing Selectors
+Dakka suggests the list of best possible selectors for the elements on te page. 
+
+
+
+<div align="center">
+<img width="560" alt="Screenshot 2022-02-16 at 11 01 29 PM" src="https://user-images.githubusercontent.com/7383804/154788192-b5376c0d-c9f2-4a25-afc2-aad98939aa5c.png">
+</div>
+
+<br/>
+Selectors are sorted by priority with green, red and yellow icons. First selector is pre-selected by default. Hover over the icon to get the element count on the page by selector.
+<br/>
+
+## Exorting
+Generated test can be copied to clipboard or downloaded as a file to add to the project.
+
+<div align="center">
+<img width="560" alt="Screenshot 2022-02-16 at 11 01 29 PM" src="https://user-images.githubusercontent.com/7383804/154789533-2ed4c538-7f9b-4cbb-86bf-6be11889b87b.gif">
+</div>
+
 
 ## Contributing
 ### Package content
