@@ -2,10 +2,11 @@
 
 [![CI/CD](https://github.com/roboportal/dakka/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/roboportal/dakka/actions/workflows/ci.yml)
 
-<p align="center">
-  <img src="https://user-images.githubusercontent.com/7383804/154782643-0027a0b6-ed32-438d-bdc5-d6b0340204cb.svg" width="40px" height="40px" />
+<div display="flex" align="center">
+  <img src="https://user-images.githubusercontent.com/7383804/154784941-8baab235-a20e-4b61-baeb-37e4e3915b61.svg" width="40px" height="40px" />
   <a href="https://www.dakka.dev/">Dcoumentation</a>
-</p>
+</div>
+
 
 
 
