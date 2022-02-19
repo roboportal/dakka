@@ -15,7 +15,7 @@
 
 ## What's Dakka?
 
-Dakka is an open source Chrome Extension which helps to generate tests for Cypress, Playwrigt and Puppeteer.
+Dakka is an open source Chrome Extension which helps to generate end-to-end tests for Cypress, Playwright and Puppeteer.
 
 
 
@@ -43,6 +43,14 @@ To assertion hover over the floating plus sign and drag and drop assertion block
 <br/>
 <div align="center">
 <img width="760" alt="Screenshot 2022-02-16 at 11 01 28 PM" src="https://user-images.githubusercontent.com/7383804/154787750-16716f68-40d1-4360-bc96-0152128a635a.gif">
+</div>
+
+After adding Assertion Block you will need to configure assertion logic - locate the element on the page or manually add the element selector, choose the assertion from dropdown and edit the value if needed.
+
+
+<div align="center">
+<img width="460" alt="Screenshot 2022-02-19 at 12 40 41 AM" src="https://user-images.githubusercontent.com/7383804/154793724-8b9ecfc2-0781-4b29-b118-21bbcd1df3a0.png">
+<img width="460" alt="Screenshot 2022-02-19 at 12 41 22 AM" src="https://user-images.githubusercontent.com/7383804/154793730-57da26b3-9408-455a-a2c8-1a406f3a272d.png">
 </div>
 
 
