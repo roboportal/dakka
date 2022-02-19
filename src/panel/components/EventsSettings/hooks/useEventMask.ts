@@ -7,7 +7,7 @@ import {
   toggleAllEventsToTrack,
 } from 'store/eventRecorderSlice'
 
-import { SLICE_NAMES, RootState } from 'store/index'
+import { getComposedEventsToTrack } from 'store/eventSelectors'
 
 const filteredEvents = eventsList.filter((e) => e.groupName)
 
@@ -18,15 +18,7 @@ const defaultCollapseState = Object.fromEntries(
 export default function useEventMask() {
   const dispatch = useDispatch()
 
-  const eventsToTrack = useSelector((state: RootState) => {
-    const { composedEventsToTrack } = state[SLICE_NAMES.eventRecorder]
-    return Object.fromEntries(
-      Object.entries(composedEventsToTrack).map(([key, { selected }]) => [
-        key,
-        selected,
-      ]),
-    )
-  })
+  const eventsToTrack = useSelector(getComposedEventsToTrack)
 
   const [collapseState, setCollapseState] = useState(defaultCollapseState)
 

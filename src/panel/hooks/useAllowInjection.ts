@@ -2,6 +2,8 @@ import { useEffect, useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
 import { setIsInjectionAllowed, IEventRecord } from 'store/eventRecorderSlice'
+import { getActiveTabId, getAllowedInjections } from 'store/eventSelectors'
+
 import {
   IS_INJECTION_ALLOWED,
   ALLOW_INJECTING,
@@ -9,13 +11,10 @@ import {
   REDIRECT_STARTED,
 } from 'constants/messageTypes'
 
-import { SLICE_NAMES, RootState } from '../store'
-
 export default function useAllowInjection() {
   const dispatch = useDispatch()
-  const { activeTabID, allowedInjections } = useSelector(
-    (state: RootState) => state[SLICE_NAMES.eventRecorder],
-  )
+  const allowedInjections = useSelector(getAllowedInjections)
+  const activeTabID = useSelector(getActiveTabId)
 
   useEffect(() => {
     if (activeTabID >= 0) {

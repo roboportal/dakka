@@ -1,4 +1,4 @@
-import { IEventBlock, IEventPayload } from 'store/eventRecorderSlice'
+import { IEventBlock } from 'store/eventRecorderSlice'
 import { exportOptions } from '../constants'
 import { assertionTypes } from 'constants/assertion'
 import { selectorTypes } from '../selectorTypes'
@@ -42,7 +42,7 @@ export class PuppeteerProcessor extends ExportProcessor {
     default: () => '',
   }
 
-  private pageMethodsMap: Record<string, (it: IEventPayload) => string> = {
+  private pageMethodsMap: Record<string, (it: IEventBlock) => string> = {
     keydown: ({ key }) => (key ? `.keyboard.press('${key}')` : ''),
     keyup: ({ key }) => (key ? `.keyboard.press('${key}')` : ''),
     default: () => '',
@@ -320,7 +320,7 @@ describe('${testName}', () => {
     },
   }
 
-  private generateSelector(it: IEventPayload | null) {
+  private generateSelector(it: IEventBlock | null | undefined) {
     if (!it?.selectedSelector) {
       return ''
     }
@@ -335,7 +335,7 @@ describe('${testName}', () => {
     return normalizeString(value)
   }
 
-  private generateAction(it: IEventPayload) {
+  private generateAction(it: IEventBlock) {
     const selector = this.generateSelector(it)
     const key = normalizeString(it?.key)
     const payload = { key, selector }
@@ -359,7 +359,10 @@ describe('${testName}', () => {
       }\n`
   }
 
-  private waitForElement(selector: string, element: IEventPayload | null) {
+  private waitForElement(
+    selector: string,
+    element: IEventBlock | null | undefined,
+  ) {
     const byXPath =
       selectorOptions[element?.selectedSelector?.name ?? ''] === '$x'
 

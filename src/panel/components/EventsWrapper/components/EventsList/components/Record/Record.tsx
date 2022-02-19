@@ -1,13 +1,10 @@
 import React, { useRef, useCallback } from 'react'
+import { useDispatch } from 'react-redux'
+
 import { css } from '@emotion/react'
 
 import { useDrop } from 'hooks/dnd/useDrop'
-import {
-  EventListItem,
-  IEventPayload,
-  IEventBlock,
-  IEventBlockPayload,
-} from 'store/eventRecorderSlice'
+import { insertBlock, IEventBlock } from 'store/eventRecorderSlice'
 
 import { RECORD_WIDTH, GAP_BETWEEN_RECORDS } from './constants/defaults'
 
@@ -17,18 +14,16 @@ const RIGHT_DROP_ZONE_CLASS_NAME = 'right_drop'
 const LEFT_DROP_ZONE_CLASS_NAME = 'left_drop'
 
 interface IRecordProps {
-  onInsertBlock: (value: IEventBlockPayload) => void
   setDragOverIndex: (value: number) => void
   dragOverIndex: number
   children: React.ReactNode
-  events: EventListItem[]
-  record: IEventPayload | IEventBlock
+  events: IEventBlock[]
+  record: IEventBlock
   currentIndex: number
   isFirstRecord: boolean
 }
 
 export function Record({
-  onInsertBlock,
   setDragOverIndex,
   dragOverIndex,
   children,
@@ -38,6 +33,9 @@ export function Record({
 }: IRecordProps) {
   const ref = useRef<HTMLDivElement>(null)
   const refIndex = useRef<number | null>(null)
+
+  const dispatch = useDispatch()
+
   const isOver = currentIndex === dragOverIndex
 
   const handleDrop = useCallback(
@@ -46,13 +44,15 @@ export function Record({
         return
       }
       setDragOverIndex(Number.MAX_SAFE_INTEGER)
-      onInsertBlock({
-        type,
-        eventIndex: refIndex?.current,
-      })
+      dispatch(
+        insertBlock({
+          type,
+          eventIndex: refIndex?.current,
+        }),
+      )
       refIndex.current = null
     },
-    [onInsertBlock, setDragOverIndex],
+    [dispatch, setDragOverIndex],
   )
 
   const handleDropOver = useCallback(

@@ -1,9 +1,5 @@
 import { createSelector } from '@reduxjs/toolkit'
-import {
-  EventRecorderState,
-  IEventBlock,
-  IEventPayload,
-} from 'store/eventRecorderSlice'
+import { EventRecorderState, IEventBlock } from 'store/eventRecorderSlice'
 import { SLICE_NAMES, RootState } from './index'
 import { assertionTypes } from 'constants/assertion'
 import { WAIT_FOR_ELEMENT, ASSERTION } from '../constants/actionTypes'
@@ -131,7 +127,7 @@ export const getActiveEvents = createSelector(
 
 export const getIsReadyToExport = createSelector(
   getActiveEvents,
-  (state: IEventPayload[]) => state.every((it) => !it.isInvalidValidSetUp),
+  (state: IEventBlock[]) => state.every((it) => !it.isInvalidValidSetUp),
 )
 
 export const getIsManualEventInsert = createSelector(
@@ -142,4 +138,35 @@ export const getIsManualEventInsert = createSelector(
 export const getExpandedEventId = createSelector(
   (state: RootState) => state[SLICE_NAMES.eventRecorder],
   (state) => state.expandedId,
+)
+
+export const getActiveTabId = createSelector(
+  (state: RootState) => state[SLICE_NAMES.eventRecorder],
+  (state) => state.activeTabID,
+)
+
+export const getLastSelectedEventId = createSelector(
+  (state: RootState) => state[SLICE_NAMES.eventRecorder],
+  (state) => state.lastSelectedEventId,
+)
+
+export const getEvents = createSelector(
+  (state: RootState) => state[SLICE_NAMES.eventRecorder],
+  (state) => state.events,
+)
+
+export const getComposedEventsToTrack = createSelector(
+  (state: RootState) => state[SLICE_NAMES.eventRecorder],
+  (state) =>
+    Object.fromEntries(
+      Object.entries(state.composedEventsToTrack).map(([key, { selected }]) => [
+        key,
+        selected,
+      ]),
+    ),
+)
+
+export const getAllowedInjections = createSelector(
+  (state: RootState) => state[SLICE_NAMES.eventRecorder],
+  (state) => state.allowedInjections,
 )

@@ -1,20 +1,17 @@
-import { useCallback, useEffect, useState } from 'react'
 import { css } from '@emotion/react'
 import { lightBlue, indigo } from '@mui/material/colors'
 
-import { internalEventsMap } from 'constants/internalEventsMap'
-import {
-  IEventPayload,
-  IEventBlock,
-  IAssertionPayload,
-} from 'store/eventRecorderSlice'
-import { REDIRECT_STARTED, INTERACTIVE_ELEMENT } from 'constants/messageTypes'
+import { IEventBlock } from 'store/eventRecorderSlice'
+
+import useEventEntity from 'hooks/useEventEntity'
+
+import { ASSERTION } from 'constants/actionTypes'
+import { INTERACTIVE_ELEMENT } from 'constants/messageTypes'
 import { AssertionSelector } from './components/AssertionSelector'
 import { EntryRow } from './components/EntryRow'
 import { Actions } from './components/Actions'
 import { DeleteAction } from './components/DeleteAction'
-import { truncate } from './helper'
-import { ASSERTION } from 'constants/actionTypes'
+import { truncate } from 'utils/string'
 
 function getBackgroundColor({
   isHover,
@@ -36,113 +33,38 @@ function getBackgroundColor({
   return isRedirect ? 'rgb(26, 32, 39)' : 'rgb(0, 30, 60)'
 }
 
+interface EventEntityProps {
+  record: IEventBlock
+  index: string
+  isExpanded: boolean
+  prefersDarkMode: boolean
+  isFirstEntity: boolean
+}
+
 export function EventEntity({
   record,
   index,
-  enableSelectElement,
-  disableSelectElement,
-  onSetActiveBlockId,
-  onExpand,
   isExpanded,
-  onSetAssertProperties,
   prefersDarkMode,
   isFirstEntity,
-  onSetCustomAssertSelector,
-  lastSelectedEventId,
-}: {
-  record: IEventPayload | IEventBlock
-  index: string
-  enableSelectElement: () => void
-  disableSelectElement: () => void
-  onSetActiveBlockId: (id: string) => void
-  onExpand: (id: string) => void
-  isExpanded: boolean
-  lastSelectedEventId: string
-  onSetAssertProperties: (payload: IAssertionPayload) => void
-  prefersDarkMode: boolean
-  isFirstEntity: boolean
-  onSetCustomAssertSelector: (payload: {
-    selector: string
-    blockId: string
-  }) => void
-}) {
-  const { type, selectedSelector, url, key, variant } = record as IEventPayload
-  const { element } = record as IEventBlock
-  const selector = `${selectedSelector?.name}: ${selectedSelector?.value}`
-  const isRedirect = type === internalEventsMap[REDIRECT_STARTED]
-  const isInteractive =
-    variant === INTERACTIVE_ELEMENT && !element?.validSelectors?.length
-  const [isAddCustomSelector, setIsAddCustomSelector] = useState(false)
-  const [isSelectElement, setIsSelectElement] = useState(false)
-
-  const handleSelectElement = useCallback(() => {
-    if (isSelectElement) {
-      onSetActiveBlockId('')
-      disableSelectElement()
-      setIsAddCustomSelector(false)
-      setIsSelectElement(false)
-    } else {
-      onSetActiveBlockId(record.id)
-      enableSelectElement()
-      setIsAddCustomSelector(false)
-      setIsSelectElement(true)
-    }
-  }, [
-    enableSelectElement,
-    disableSelectElement,
-    onSetActiveBlockId,
-    record,
+}: EventEntityProps) {
+  const {
+    shouldHaveTopMargin,
+    isRedirect,
+    isAddCustomSelector,
     isSelectElement,
-  ])
-
-  const handleAddCustomSelector = useCallback(
-    (e) => {
-      onSetActiveBlockId(record.id)
-      onSetCustomAssertSelector({
-        selector: e.target.value,
-        blockId: record.id,
-      })
-    },
-    [onSetActiveBlockId, record, onSetCustomAssertSelector],
-  )
-
-  const handleExpand = useCallback(() => {
-    onExpand(isExpanded ? '' : record.id)
-  }, [onExpand, isExpanded, record.id])
-
-  const handleOnClickAddSelector = useCallback(() => {
-    if (isAddCustomSelector) {
-      setIsAddCustomSelector(false)
-      setIsSelectElement(false)
-    } else {
-      onExpand(record.id)
-      setIsAddCustomSelector(true)
-      setIsSelectElement(false)
-    }
-  }, [isAddCustomSelector, onExpand, setIsAddCustomSelector, record])
-
-  const interactiveElementLabel =
-    record.shouldUseElementSelector ?? true
-      ? (record as IEventBlock)?.element?.selectedSelector?.name
-      : ''
-
-  const interactiveElementSelectorValue =
-    record.shouldUseElementSelector ?? true
-      ? truncate(
-          (record as IEventBlock)?.element?.selectedSelector?.value,
-          13,
-          isExpanded,
-        )
-      : ''
-
-  useEffect(() => {
-    setIsSelectElement(false)
-  }, [lastSelectedEventId])
-
-  const shouldHaveTopMargin =
-    isRedirect || isInteractive || !(record.shouldUseElementSelector ?? true)
-
-  const isManualSelectorSetupVisible = record.type === ASSERTION
+    handleSelectElement,
+    handleExpand,
+    handleOnClickAddSelector,
+    isManualSelectorSetupVisible,
+    type,
+    key,
+    handleAddCustomSelector,
+    interactiveElementLabel,
+    interactiveElementSelectorValue,
+    url,
+    selector,
+  } = useEventEntity(record, isExpanded)
 
   return (
     <div
@@ -236,7 +158,6 @@ export function EventEntity({
           <AssertionSelector
             isExpanded={isExpanded}
             record={record as IEventBlock}
-            onSetAssertProperties={onSetAssertProperties}
             prefersDarkMode={prefersDarkMode}
           />
         )}

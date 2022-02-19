@@ -1,5 +1,5 @@
 /* eslint-disable quotes */
-import { IEventBlock, IEventPayload, ISelector } from 'store/eventRecorderSlice'
+import { IEventBlock, ISelector } from 'store/eventRecorderSlice'
 import { exportOptions, INTERACTIVE_TAGS } from '../constants'
 import { assertionTypes } from 'constants/assertion'
 import { normalizeString } from '../normalizer'
@@ -19,7 +19,7 @@ export class CypressProcessor extends ExportProcessor {
   type = exportOptions.cypress
   fileName = 'cypress.spec.js'
 
-  private methodsMap: Record<string, (it: IEventPayload) => string> = {
+  private methodsMap: Record<string, (it: IEventBlock) => string> = {
     mouseClick: () => '.click()',
     dblclick: () => '.dblclick()',
     keyboard: ({ key }) => `.type('${normalizeString(key ?? '')}')`,
@@ -158,7 +158,7 @@ describe('${testName}', () => {
     },
   }
 
-  private generateSelector(it: IEventPayload | null) {
+  private generateSelector(it: IEventBlock | null | undefined) {
     if (!it?.selectedSelector || !it?.selectedSelector?.value) {
       return ''
     }

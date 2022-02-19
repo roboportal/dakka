@@ -1,4 +1,4 @@
-import { IEventPayload } from '../eventRecorderSlice'
+import { IEventBlock } from '../eventRecorderSlice'
 import { UTILITY_KEYS, INPUT_TYPE_TO_KEY_MAP } from './constants'
 import { REDIRECT_STARTED } from 'constants/messageTypes'
 import { internalEventsMap } from 'constants/internalEventsMap'
@@ -19,24 +19,24 @@ enum mouseEvents {
 
 abstract class EventAggregator {
   abstract aggregatedEventName: string
-  abstract shouldProcess(event: IEventPayload): boolean
-  abstract process(event: IEventPayload, events: IEventPayload[]): void
+  abstract shouldProcess(event: IEventBlock): boolean
+  abstract process(event: IEventBlock, events: IEventBlock[]): void
 }
 
 class KeyboardAggregator extends EventAggregator {
   aggregatedEventName = 'keyboard'
-  shouldProcess(event: IEventPayload): boolean {
+  shouldProcess(event: IEventBlock): boolean {
     const supportedTypes: string[] = Object.values(keyboardEvents)
     return supportedTypes.includes(event.type)
   }
 
-  private keyboardEventFactory(event: IEventPayload) {
+  private keyboardEventFactory(event: IEventBlock) {
     return { ...event, type: this.aggregatedEventName, composedEvents: [event] }
   }
 
   private findLastCorrespondingEvent(
-    event: IEventPayload,
-    events: IEventPayload[],
+    event: IEventBlock,
+    events: IEventBlock[],
   ) {
     const lastEventForTheKeyIndex: number | undefined = (
       events ?? []
@@ -60,13 +60,13 @@ class KeyboardAggregator extends EventAggregator {
     return events[lastEventForTheKeyIndex ?? -1] ?? {}
   }
 
-  private checkIsUtilityKey(e: IEventPayload) {
+  private checkIsUtilityKey(e: IEventBlock) {
     return UTILITY_KEYS.includes(e.key ?? e.data ?? '')
   }
 
   private checkIsLastEventOurClient(
-    event: IEventPayload,
-    lastEvent: IEventPayload,
+    event: IEventBlock,
+    lastEvent: IEventBlock,
   ) {
     return (
       lastEvent?.type === this.aggregatedEventName &&
@@ -75,8 +75,8 @@ class KeyboardAggregator extends EventAggregator {
   }
 
   private processLastEvent(
-    event: IEventPayload,
-    lastEvent: IEventPayload,
+    event: IEventBlock,
+    lastEvent: IEventBlock,
     eventTypes: string[] = [],
   ) {
     const isCorrespondingEventMatchEventTypes = eventTypes.includes(
@@ -92,8 +92,8 @@ class KeyboardAggregator extends EventAggregator {
   }
 
   private handleNonKeydownEventComposition(
-    event: IEventPayload,
-    events: IEventPayload[],
+    event: IEventBlock,
+    events: IEventBlock[],
     eventTypes: string[],
   ) {
     const lastEvent = events[events.length - 1]
@@ -132,10 +132,7 @@ class KeyboardAggregator extends EventAggregator {
     }
   }
 
-  private isMatchingKeyModifiers(
-    event: IEventPayload,
-    lastEvent: IEventPayload,
-  ) {
+  private isMatchingKeyModifiers(event: IEventBlock, lastEvent: IEventBlock) {
     return (
       (event?.altKey && lastEvent?.key === 'Alt') ||
       (event?.ctrlKey && lastEvent?.key === 'Control') ||
@@ -144,10 +141,7 @@ class KeyboardAggregator extends EventAggregator {
     )
   }
 
-  private processHoldUtilityKeyCase(
-    event: IEventPayload,
-    events: IEventPayload[],
-  ) {
+  private processHoldUtilityKeyCase(event: IEventBlock, events: IEventBlock[]) {
     const lastEvent = events[events.length - 1]
 
     const isMatch = this.isMatchingKeyModifiers(event, lastEvent)
@@ -161,12 +155,9 @@ class KeyboardAggregator extends EventAggregator {
 
   private handlersMap: Record<
     string,
-    (event: IEventPayload, events: IEventPayload[]) => void
+    (event: IEventBlock, events: IEventBlock[]) => void
   > = {
-    [keyboardEvents.keydown]: (
-      event: IEventPayload,
-      events: IEventPayload[],
-    ) => {
+    [keyboardEvents.keydown]: (event: IEventBlock, events: IEventBlock[]) => {
       const lastEvent = events[events.length - 1]
 
       if (this.checkIsUtilityKey(event) && !event.repeat) {
@@ -189,23 +180,20 @@ class KeyboardAggregator extends EventAggregator {
         }
       }
     },
-    [keyboardEvents.keypress]: (
-      event: IEventPayload,
-      events: IEventPayload[],
-    ) => {
+    [keyboardEvents.keypress]: (event: IEventBlock, events: IEventBlock[]) => {
       this.handleNonKeydownEventComposition(event, events, [
         keyboardEvents.keydown,
       ])
     },
 
-    [keyboardEvents.input]: (event: IEventPayload, events: IEventPayload[]) => {
+    [keyboardEvents.input]: (event: IEventBlock, events: IEventBlock[]) => {
       this.handleNonKeydownEventComposition(event, events, [
         keyboardEvents.keydown,
         keyboardEvents.keypress,
       ])
     },
 
-    [keyboardEvents.keyup]: (event: IEventPayload, events: IEventPayload[]) => {
+    [keyboardEvents.keyup]: (event: IEventBlock, events: IEventBlock[]) => {
       this.handleNonKeydownEventComposition(event, events, [
         keyboardEvents.keydown,
         keyboardEvents.keypress,
@@ -214,7 +202,7 @@ class KeyboardAggregator extends EventAggregator {
     },
   }
 
-  process(event: IEventPayload, events: IEventPayload[]): void {
+  process(event: IEventBlock, events: IEventBlock[]): void {
     if (event.inputType) {
       event.key = INPUT_TYPE_TO_KEY_MAP[event.inputType]
     }
@@ -225,18 +213,18 @@ class KeyboardAggregator extends EventAggregator {
 class MouseClickAggregator extends EventAggregator {
   aggregatedEventName = 'mouseClick'
 
-  private mouseEventFactory(event: IEventPayload) {
+  private mouseEventFactory(event: IEventBlock) {
     return { ...event, type: this.aggregatedEventName, composedEvents: [event] }
   }
 
-  shouldProcess(event: IEventPayload): boolean {
+  shouldProcess(event: IEventBlock): boolean {
     const supportedTypes: string[] = Object.values(mouseEvents)
     return supportedTypes.includes(event.type)
   }
 
   private findCorrespondingEventIndex(
-    event: IEventPayload,
-    events: IEventPayload[],
+    event: IEventBlock,
+    events: IEventBlock[],
   ) {
     const correspondingMouseEventIndex: number | undefined = (
       events ?? []
@@ -256,9 +244,9 @@ class MouseClickAggregator extends EventAggregator {
     return correspondingMouseEventIndex ?? -1
   }
 
-  private handleClick = (event: IEventPayload, events: IEventPayload[]) => {
+  private handleClick = (event: IEventBlock, events: IEventBlock[]) => {
     const prevEventIndex = this.findCorrespondingEventIndex(event, events)
-    const prevEvent = events[prevEventIndex] ?? ({} as IEventPayload)
+    const prevEvent = events[prevEventIndex] ?? ({} as IEventBlock)
     const lastComposedEvent =
       prevEvent.composedEvents?.[(prevEvent.composedEvents?.length ?? 0) - 1]
 
@@ -279,9 +267,9 @@ class MouseClickAggregator extends EventAggregator {
     events.push(this.mouseEventFactory(event))
   }
 
-  private handleMouseUp = (event: IEventPayload, events: IEventPayload[]) => {
+  private handleMouseUp = (event: IEventBlock, events: IEventBlock[]) => {
     const prevEventIndex = this.findCorrespondingEventIndex(event, events)
-    const prevEvent = events[prevEventIndex] ?? ({} as IEventPayload)
+    const prevEvent = events[prevEventIndex] ?? ({} as IEventBlock)
     const lastComposedEvent =
       prevEvent.composedEvents?.[(prevEvent.composedEvents?.length ?? 0) - 1]
 
@@ -302,12 +290,9 @@ class MouseClickAggregator extends EventAggregator {
 
   private handlersMap: Record<
     string,
-    (event: IEventPayload, events: IEventPayload[]) => void
+    (event: IEventBlock, events: IEventBlock[]) => void
   > = {
-    [mouseEvents.mousedown]: (
-      event: IEventPayload,
-      events: IEventPayload[],
-    ) => {
+    [mouseEvents.mousedown]: (event: IEventBlock, events: IEventBlock[]) => {
       events.push(this.mouseEventFactory(event))
     },
 
@@ -315,7 +300,7 @@ class MouseClickAggregator extends EventAggregator {
 
     [mouseEvents.click]: this.handleClick,
 
-    [mouseEvents.dblclick]: (event: IEventPayload, events: IEventPayload[]) => {
+    [mouseEvents.dblclick]: (event: IEventBlock, events: IEventBlock[]) => {
       const DOUBLE_CLICK_COUNT = 2
       Array(DOUBLE_CLICK_COUNT)
         .fill(null)
@@ -330,7 +315,7 @@ class MouseClickAggregator extends EventAggregator {
     },
   }
 
-  process(event: IEventPayload, events: IEventPayload[]): void {
+  process(event: IEventBlock, events: IEventBlock[]): void {
     this.handlersMap[event.type]?.(event, events)
   }
 }
@@ -342,7 +327,7 @@ class DefaultAggregator extends EventAggregator {
     return true
   }
 
-  process(event: IEventPayload, events: IEventPayload[]): void {
+  process(event: IEventBlock, events: IEventBlock[]): void {
     events.push(event)
   }
 }
@@ -353,13 +338,13 @@ const aggregators: EventAggregator[] = [
   DefaultAggregator,
 ].map((A) => new A())
 
-function aggregatorSelector(event: IEventPayload) {
+function aggregatorSelector(event: IEventBlock) {
   return aggregators.find((aggregator) => aggregator.shouldProcess(event))
 }
 
 function shouldSkipRedirectDuplicate(
-  events: IEventPayload[],
-  event: IEventPayload,
+  events: IEventBlock[],
+  event: IEventBlock,
 ) {
   const prevEvent = events[events.length - 1] ?? {}
 
@@ -370,7 +355,7 @@ function shouldSkipRedirectDuplicate(
   )
 }
 
-function preprocessRedirect(events: IEventPayload[], event: IEventPayload) {
+function preprocessRedirect(events: IEventBlock[], event: IEventBlock) {
   if (
     events.length === 0 &&
     event.type !== internalEventsMap[REDIRECT_STARTED]
@@ -389,7 +374,7 @@ function preprocessRedirect(events: IEventPayload[], event: IEventPayload) {
   }
 }
 
-export function process(events: IEventPayload[], event: IEventPayload) {
+export function process(events: IEventBlock[], event: IEventBlock) {
   if (shouldSkipRedirectDuplicate(events, event)) {
     return
   }

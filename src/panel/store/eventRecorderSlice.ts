@@ -7,8 +7,6 @@ import eventsList from 'constants/eventsList'
 import { INTERACTIVE_ELEMENT, ELEMENT_SELECTED } from 'constants/messageTypes'
 import { process } from './utils/eventProcessor'
 
-export type EventListItem = IEventPayload | IEventBlock
-
 interface ComposedEventToTrack {
   selected: boolean
   associated: string[]
@@ -17,13 +15,14 @@ interface ComposedEventToTrack {
 export interface EventRecorderState {
   isRecorderEnabled: boolean
   activeTabID: number
-  events: Record<number, EventListItem[]>
+  events: Record<number, IEventBlock[]>
   eventsToTrack: Record<string, boolean>
   composedEventsToTrack: Record<string, ComposedEventToTrack>
   isManualEventInsert: boolean
   allowedInjections: Record<number, boolean>
   activeBlockId: string | null
   expandedId: string | null
+  lastSelectedEventId: string
 }
 
 export interface ISelector {
@@ -46,28 +45,18 @@ export interface IAssertionPayload {
 
 export interface ISelectorPayload {
   selectedSelector: ISelector
-  record: IEventPayload | IEventBlock
+  record: IEventBlock
 }
 
-export interface IEventBlock extends IEventPayload {
+export interface IEventBlock {
   type: string
   id: string
-  element: IEventPayload | null
+  element?: IEventBlock | null
   assertionAttribute?: string
   assertionValue?: string
   assertionType?: Record<string, string>
   assertionInputsValidationResult?: Record<string, boolean>
-}
-
-export interface IEventBlockPayload {
-  type: string
-  eventIndex: number
-}
-
-export interface IEventPayload {
-  id: string
   selector: string
-  type: string
   triggeredAt: number
   validSelectors?: ISelector[]
   selectedSelector?: ISelector
@@ -76,7 +65,7 @@ export interface IEventPayload {
   key?: string
   data?: string
   repeat?: boolean
-  composedEvents?: IEventPayload[]
+  composedEvents?: IEventBlock[]
   altKey?: boolean
   ctrlKey?: boolean
   metaKey?: boolean
@@ -90,10 +79,15 @@ export interface IEventPayload {
   attributesMap?: Record<string, string>
 }
 
+export interface IEventBlockPayload {
+  type: string
+  eventIndex: number
+}
+
 export interface IEventRecord {
   id: string
   type: string
-  payload: IEventPayload
+  payload: IEventBlock
 }
 
 export interface IRecordEventPayload {
@@ -142,6 +136,7 @@ const initialState: EventRecorderState = {
   allowedInjections: {},
   activeBlockId: null,
   expandedId: null,
+  lastSelectedEventId: '',
 }
 
 export const eventRecorderSlice = createSlice({
@@ -187,7 +182,7 @@ export const eventRecorderSlice = createSlice({
         events[tabId] = []
       }
 
-      process(events[tabId] as IEventPayload[], eventRecord.payload)
+      process(events[tabId] as IEventBlock[], eventRecord.payload)
 
       state.isManualEventInsert = false
     },
@@ -199,7 +194,7 @@ export const eventRecorderSlice = createSlice({
       { payload: { record, selectedSelector, tabId } },
     ) => {
       const updateSelector = (
-        eventRecord: WritableDraft<IEventPayload | IEventBlock>,
+        eventRecord: WritableDraft<IEventBlock | IEventBlock>,
       ) => {
         if (
           eventRecord.variant === INTERACTIVE_ELEMENT &&
@@ -207,7 +202,7 @@ export const eventRecorderSlice = createSlice({
             (record as WritableDraft<IEventBlock>).element?.selector
         ) {
           const element = (eventRecord as WritableDraft<IEventBlock>).element
-          if (element !== null) {
+          if (element) {
             element.selectedSelector = selectedSelector
           }
 
@@ -215,15 +210,15 @@ export const eventRecorderSlice = createSlice({
         }
 
         if (
-          (eventRecord as WritableDraft<IEventPayload>)?.selector ===
-          (record as WritableDraft<IEventPayload>)?.selector
+          (eventRecord as WritableDraft<IEventBlock>)?.selector ===
+          (record as WritableDraft<IEventBlock>)?.selector
         ) {
-          ;(eventRecord as WritableDraft<IEventPayload>).selectedSelector =
+          ;(eventRecord as WritableDraft<IEventBlock>).selectedSelector =
             selectedSelector
         }
       }
       events[tabId].forEach((e) =>
-        updateSelector(e as WritableDraft<IEventPayload | IEventBlock>),
+        updateSelector(e as WritableDraft<IEventBlock>),
       )
     },
     toggleEventToTrack: (
@@ -258,7 +253,7 @@ export const eventRecorderSlice = createSlice({
     ) => {
       const block = state.events[state.activeTabID].find(
         (item) => item.id === blockId,
-      ) as IEventBlock
+      )
 
       if (block) {
         block.element = {
@@ -307,7 +302,7 @@ export const eventRecorderSlice = createSlice({
       const [first, second] = eventIds
       if (Array.isArray(state.events[tabId][first])) {
         const it = state.events[tabId][first] as unknown as WritableDraft<
-          IEventPayload[]
+          IEventBlock[]
         >
         it.splice(second, 1)
         if (it.length === 1) {
@@ -353,6 +348,10 @@ export const eventRecorderSlice = createSlice({
     ) => {
       state.allowedInjections[tabId] = isInjectingAllowed
     },
+
+    setLastSelectedEventId: (state, { payload }) => {
+      state.lastSelectedEventId = payload
+    },
   },
 })
 
@@ -371,6 +370,7 @@ export const {
   setExpandedId,
   setAssertionProperties,
   setCustomAssertSelector,
+  setLastSelectedEventId,
 } = eventRecorderSlice.actions
 
 export default eventRecorderSlice.reducer

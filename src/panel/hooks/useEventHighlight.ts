@@ -1,10 +1,6 @@
 import { MouseEventHandler, useCallback } from 'react'
 
-import {
-  EventListItem,
-  IEventPayload,
-  IEventBlock,
-} from 'store/eventRecorderSlice'
+import { IEventBlock } from 'store/eventRecorderSlice'
 
 import { HIGHLIGHT_ELEMENT, REDIRECT_STARTED } from 'constants/messageTypes'
 import { internalEventsMap } from 'constants/internalEventsMap'
@@ -12,7 +8,7 @@ import { internalEventsMap } from 'constants/internalEventsMap'
 function highlightElement(
   tabId: number,
   highlightedEventIndexes: number[],
-  events: Record<number, EventListItem[]>,
+  events: Record<number, IEventBlock[]>,
 ) {
   if (tabId === -1) {
     return
@@ -27,9 +23,7 @@ function highlightElement(
     if (Array.isArray(item)) {
       payload.selector = item[highlightedEventIndexes[1]]?.selector ?? null
     } else {
-      const selector =
-        (item as IEventBlock).element?.selector ||
-        (item as IEventPayload).selector
+      const selector = item.element?.selector || item.selector
       payload.selector = selector ?? null
     }
   }
@@ -38,7 +32,7 @@ function highlightElement(
 }
 
 export default function useEventHighlight(
-  events: Record<number, EventListItem[]>,
+  events: Record<number, IEventBlock[]>,
   activeTabID: number,
 ) {
   const toggleHighlightedElement: MouseEventHandler = useCallback(

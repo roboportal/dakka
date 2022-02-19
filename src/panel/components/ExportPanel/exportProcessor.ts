@@ -1,4 +1,4 @@
-import { EventListItem, IEventBlock } from 'store/eventRecorderSlice'
+import { IEventBlock } from 'store/eventRecorderSlice'
 import { exportOptions } from './constants'
 import { dump } from 'js-yaml'
 import { PlaywrightProcessor } from './processors/playwrightProcessor'
@@ -10,7 +10,7 @@ class DakkaProcessor extends ExportProcessor {
   type = exportOptions.dakka
   fileName = 'dakka.yml'
 
-  process(events: EventListItem[]) {
+  process(events: IEventBlock[]) {
     return dump(events)
   }
 }
