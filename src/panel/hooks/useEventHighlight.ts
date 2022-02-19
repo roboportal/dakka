@@ -44,8 +44,12 @@ export default function useEventHighlight(
 
       const shouldHighlight: boolean =
         !!eventIds.length &&
-        eventIds.reduce((acc: any, id) => acc?.[id], events?.[activeTabID])
-          ?.type !== internalEventsMap[REDIRECT_STARTED]
+        (
+          eventIds.reduce(
+            (acc: unknown, id) => (acc as IEventBlock[])?.[id],
+            events?.[activeTabID],
+          ) as IEventBlock
+        )?.type !== internalEventsMap[REDIRECT_STARTED]
 
       const ids = shouldHighlight ? eventIds : []
 

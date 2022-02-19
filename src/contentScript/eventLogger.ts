@@ -63,7 +63,11 @@ window.addEventListener('message', ({ data }) => {
   }
 })
 
-export function eventHandler(event: any) {
+interface _Event extends Event {
+  [alreadyInterceptedSymbol]: boolean
+}
+
+export function eventHandler(event: _Event) {
   if (event[alreadyInterceptedSymbol]) {
     return
   }
