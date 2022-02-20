@@ -1,14 +1,26 @@
 name: CD
 
 on:
-  push:
-    branches: [ master ]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version  (ie 1.1.1)'
+        required: true
 
 jobs:        
   build_publish:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - run: git checkout -b release/v${{ github.event.inputs.version }}
+      - run: npm version ${{ github.event.inputs.version }}
+      - run: |
+          git add package.json
+          git add package-lock.json
+          git commit --message "Release ${{ github.event.inputs.version }}"
+      - run: |
+          git push origin release/v${{ github.event.inputs.version }}
+          git push origin master
       - shell: bash
         run: |
           npm ci
