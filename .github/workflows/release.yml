@@ -1,4 +1,4 @@
-name: CD
+name: Release
 
 on:
   workflow_dispatch:
@@ -13,6 +13,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: git checkout -b release/v${{ github.event.inputs.version }}
+      - run: |
+          git config user.name "GitHub Actions"
+          git config user.email noreply@github.com
       - run: npm version ${{ github.event.inputs.version }}
       - run: |
           git add package.json
