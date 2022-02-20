@@ -4,7 +4,7 @@
 
 <div align="center">
   <img src="https://user-images.githubusercontent.com/7383804/154784941-8baab235-a20e-4b61-baeb-37e4e3915b61.svg" width="180px" height="60px" />
-  <h3>Generate tests for Cypress, Plawright and Puppeteer using Dakka</3>
+  <h3>Generate tests for Cypress, Playwright and Puppeteer using Dakka</3>
 </div>
 
 <div align="center">
@@ -38,7 +38,7 @@ To install Dakka click <a href="https://www.dakka.dev/">Chrome extension</a> and
 
 ## Adding Assertions
 Assertion Blocks are validation steps, which are converted to assertion logic such as <code>cy.get('#loading').should('not.exist')</code>. 
-To assertion hover over the floating plus sign and drag and drop assertion block.
+To add an assertion hover over the floating plus sign and drag and drop assertion block.
 
 <br/>
 <div align="center">
@@ -49,15 +49,15 @@ After adding Assertion Block you will need to configure assertion logic - locate
 
 
 <div align="center">
-<img width="370" alt="Screenshot 2022-02-19 at 12 44 36 AM" src="https://user-images.githubusercontent.com/7383804/154793765-c04130a5-b061-415a-9abe-9f23a9e802a0.png">
-<img width="460" alt="Screenshot 2022-02-19 at 12 41 22 AM" src="https://user-images.githubusercontent.com/7383804/154793730-57da26b3-9408-455a-a2c8-1a406f3a272d.png">
+<img width="360" alt="Screenshot 2022-02-19 at 12 44 36 AM" src="https://user-images.githubusercontent.com/7383804/154793765-c04130a5-b061-415a-9abe-9f23a9e802a0.png">
+<img width="450" alt="Screenshot 2022-02-19 at 12 41 22 AM" src="https://user-images.githubusercontent.com/7383804/154793730-57da26b3-9408-455a-a2c8-1a406f3a272d.png">
 </div>
 
 
 
 
 ## Choosing Selectors
-Dakka suggests the list of best possible selectors for the elements on te page. 
+Dakka suggests the list of best possible selectors for the elements on the page. 
 
 
 
@@ -69,8 +69,8 @@ Dakka suggests the list of best possible selectors for the elements on te page.
 Selectors are sorted by priority with green, red and yellow icons. First selector is pre-selected by default. Hover over the icon to get the element count on the page by selector.
 <br/>
 
-## Exorting
-Generated test can be copied to clipboard or downloaded as a file to add to the project.
+## Exporting
+Generated test can be copied to clipboard or downloaded as a file and added to the project.
 
 <div align="center">
 <img width="760" alt="Screenshot 2022-02-16 at 11 01 29 PM" src="https://user-images.githubusercontent.com/7383804/154789533-2ed4c538-7f9b-4cbb-86bf-6be11889b87b.gif">
