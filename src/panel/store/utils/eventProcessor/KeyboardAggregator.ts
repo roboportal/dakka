@@ -1,7 +1,6 @@
-import { IEventBlock } from '../eventRecorderSlice'
-import { UTILITY_KEYS, INPUT_TYPE_TO_KEY_MAP } from './constants'
-import { REDIRECT_STARTED } from 'constants/messageTypes'
-import { internalEventsMap } from 'constants/internalEventsMap'
+import { IEventBlock } from '../../eventRecorderSlice'
+import { UTILITY_KEYS, INPUT_TYPE_TO_KEY_MAP } from '../constants'
+import AbstractEventAggregator from './AbstractEventAggregator'
 
 enum keyboardEvents {
   keydown = 'keydown',
@@ -10,21 +9,9 @@ enum keyboardEvents {
   input = 'input',
 }
 
-enum mouseEvents {
-  mousedown = 'mousedown',
-  click = 'click',
-  mouseup = 'mouseup',
-  dblclick = 'dblclick',
-}
-
-abstract class EventAggregator {
-  abstract aggregatedEventName: string
-  abstract shouldProcess(event: IEventBlock): boolean
-  abstract process(event: IEventBlock, events: IEventBlock[]): void
-}
-
-class KeyboardAggregator extends EventAggregator {
+class KeyboardAggregator extends AbstractEventAggregator {
   aggregatedEventName = 'keyboard'
+
   shouldProcess(event: IEventBlock): boolean {
     const supportedTypes: string[] = Object.values(keyboardEvents)
     return supportedTypes.includes(event.type)
@@ -210,176 +197,4 @@ class KeyboardAggregator extends EventAggregator {
   }
 }
 
-class MouseClickAggregator extends EventAggregator {
-  aggregatedEventName = 'mouseClick'
-
-  private mouseEventFactory(event: IEventBlock) {
-    return { ...event, type: this.aggregatedEventName, composedEvents: [event] }
-  }
-
-  shouldProcess(event: IEventBlock): boolean {
-    const supportedTypes: string[] = Object.values(mouseEvents)
-    return supportedTypes.includes(event.type)
-  }
-
-  private findCorrespondingEventIndex(
-    event: IEventBlock,
-    events: IEventBlock[],
-  ) {
-    const correspondingMouseEventIndex: number | undefined = (
-      events ?? []
-    ).reduceRight((result: number | undefined, e, index) => {
-      if (Number.isFinite(result)) {
-        return result
-      }
-
-      if (
-        event.selector === e.selector &&
-        e.type === this.aggregatedEventName
-      ) {
-        return index
-      }
-    }, undefined)
-
-    return correspondingMouseEventIndex ?? -1
-  }
-
-  private handleClick = (event: IEventBlock, events: IEventBlock[]) => {
-    const prevEventIndex = this.findCorrespondingEventIndex(event, events)
-    const prevEvent = events[prevEventIndex] ?? ({} as IEventBlock)
-    const lastComposedEvent =
-      prevEvent.composedEvents?.[(prevEvent.composedEvents?.length ?? 0) - 1]
-
-    const isLastEventOurClient =
-      !lastComposedEvent ||
-      [mouseEvents.mousedown, mouseEvents.mouseup].includes(
-        lastComposedEvent?.type as mouseEvents,
-      )
-
-    if (
-      prevEvent.type === this.aggregatedEventName &&
-      event.selector === prevEvent.selector &&
-      isLastEventOurClient
-    ) {
-      prevEvent.composedEvents?.push(event)
-      return
-    }
-    events.push(this.mouseEventFactory(event))
-  }
-
-  private handleMouseUp = (event: IEventBlock, events: IEventBlock[]) => {
-    const prevEventIndex = this.findCorrespondingEventIndex(event, events)
-    const prevEvent = events[prevEventIndex] ?? ({} as IEventBlock)
-    const lastComposedEvent =
-      prevEvent.composedEvents?.[(prevEvent.composedEvents?.length ?? 0) - 1]
-
-    const isLastEventOurClient =
-      !lastComposedEvent ||
-      [mouseEvents.mousedown].includes(lastComposedEvent?.type as mouseEvents)
-
-    if (
-      prevEvent.type === this.aggregatedEventName &&
-      event.selector === prevEvent.selector &&
-      isLastEventOurClient
-    ) {
-      prevEvent.composedEvents?.push(event)
-      return
-    }
-    events.push(this.mouseEventFactory(event))
-  }
-
-  private handlersMap: Record<
-    string,
-    (event: IEventBlock, events: IEventBlock[]) => void
-  > = {
-    [mouseEvents.mousedown]: (event: IEventBlock, events: IEventBlock[]) => {
-      events.push(this.mouseEventFactory(event))
-    },
-
-    [mouseEvents.mouseup]: this.handleMouseUp,
-
-    [mouseEvents.click]: this.handleClick,
-
-    [mouseEvents.dblclick]: (event: IEventBlock, events: IEventBlock[]) => {
-      const DOUBLE_CLICK_COUNT = 2
-      Array(DOUBLE_CLICK_COUNT)
-        .fill(null)
-        .forEach(() => {
-          const eventIndex = this.findCorrespondingEventIndex(event, events)
-          if (eventIndex > -1) {
-            events.splice(eventIndex, 1)
-          }
-        })
-
-      events.push(event)
-    },
-  }
-
-  process(event: IEventBlock, events: IEventBlock[]): void {
-    this.handlersMap[event.type]?.(event, events)
-  }
-}
-
-class DefaultAggregator extends EventAggregator {
-  aggregatedEventName = 'default'
-
-  shouldProcess(): boolean {
-    return true
-  }
-
-  process(event: IEventBlock, events: IEventBlock[]): void {
-    events.push(event)
-  }
-}
-
-const aggregators: EventAggregator[] = [
-  KeyboardAggregator,
-  MouseClickAggregator,
-  DefaultAggregator,
-].map((A) => new A())
-
-function aggregatorSelector(event: IEventBlock) {
-  return aggregators.find((aggregator) => aggregator.shouldProcess(event))
-}
-
-function shouldSkipRedirectDuplicate(
-  events: IEventBlock[],
-  event: IEventBlock,
-) {
-  const prevEvent = events[events.length - 1] ?? {}
-
-  return (
-    event.type === internalEventsMap[REDIRECT_STARTED] &&
-    prevEvent.type === internalEventsMap[REDIRECT_STARTED] &&
-    event.url === prevEvent.url
-  )
-}
-
-function preprocessRedirect(events: IEventBlock[], event: IEventBlock) {
-  if (
-    events.length === 0 &&
-    event.type !== internalEventsMap[REDIRECT_STARTED]
-  ) {
-    const redirectionEvent = {
-      id: event.id + '_0',
-      triggeredAt: event.triggeredAt - 1,
-      url: event.url ?? '',
-      title: event.title ?? '',
-      type: internalEventsMap[REDIRECT_STARTED],
-      selector: event.url ?? '',
-      variant: '',
-    }
-
-    events.push(redirectionEvent)
-  }
-}
-
-export function process(events: IEventBlock[], event: IEventBlock) {
-  if (shouldSkipRedirectDuplicate(events, event)) {
-    return
-  }
-
-  preprocessRedirect(events, event)
-
-  aggregatorSelector(event)?.process(event, events)
-}
+export default KeyboardAggregator
