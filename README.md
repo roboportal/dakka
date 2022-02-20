@@ -70,6 +70,11 @@ Dakka suggests the list of best possible selectors for the elements on the page.
 Selectors are sorted by priority with green, red and yellow icons. First selector is pre-selected by default. Hover over the icon to get the element count on the page by selector.
 <br/>
 
+## Delete events
+If generated events contain any entries that aren't required for the test use the Delete button located at the bottom of the event block.
+
+
+
 ## Exporting
 Generated test can be copied to clipboard or downloaded as a file and added to the project.
 
