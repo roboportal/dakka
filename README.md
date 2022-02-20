@@ -44,10 +44,11 @@ To add an assertion hover over the floating plus sign and drag and drop assertio
 <div align="center">
 <img width="760" alt="Screenshot 2022-02-16 at 11 01 28 PM" src="https://user-images.githubusercontent.com/7383804/154787750-16716f68-40d1-4360-bc96-0152128a635a.gif">
 </div>
+<br/>
 
 After adding Assertion Block you will need to configure assertion logic - locate the element on the page or manually add the element selector, choose the assertion from dropdown and edit the value if needed.
 
-
+<br/>
 <div align="center">
 <img width="360" alt="Screenshot 2022-02-19 at 12 44 36 AM" src="https://user-images.githubusercontent.com/7383804/154793765-c04130a5-b061-415a-9abe-9f23a9e802a0.png">
 <img width="450" alt="Screenshot 2022-02-19 at 12 41 22 AM" src="https://user-images.githubusercontent.com/7383804/154793730-57da26b3-9408-455a-a2c8-1a406f3a272d.png">
