@@ -16,7 +16,7 @@ jobs:
           git config user.name malykhin
           git config user.email malykhin@ukr.net
           git remote remove origin
-          git remote add origin https://malykhin:${{ secrets.TEST_RECORDER_ACCESS_KEY }}@github.com/roboportal/dakka.git
+          git remote add origin https://${{ secrets.TEST_RECORDER_ACCESS_KEY }}@github.com/roboportal/dakka.git
       - run: npm version ${{ github.event.inputs.version }}
       - run: git push origin master
       - run: |
