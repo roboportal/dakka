@@ -12,15 +12,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+            token: ${{ secrets.TEST_RECORDER_ACCESS_KEY }}
       - run: |
-          git config http.sslVerify false
           git config user.name malykhin
           git config user.email malykhin@ukr.net
-          git remote add upstream https://roboportal:${{ secrets.TEST_RECORDER_ACCESS_KEY }}@github.com/roboportal/dakka.git
       - run: npm version ${{ github.event.inputs.version }}
-      - run: |
-          git pull --rebase upstream master
-          git push upstream master
+      - run: git push origin master
       - run: |
           git checkout -b release/v${{ github.event.inputs.version }}
           git push origin release/v${{ github.event.inputs.version }}
