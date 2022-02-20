@@ -6,6 +6,12 @@ import { store } from './store'
 
 import App from './App'
 
+interface Module extends NodeModule {
+  hot: {
+    accept(path?: () => void, callback?: () => void): void
+  }
+}
+
 render(
   <StylesProvider>
     <Provider store={store}>
@@ -15,14 +21,17 @@ render(
   document.getElementById('root'),
 )
 
-const m = module as any
+const m = module as Module
+
 if (m.hot) {
   m.hot.accept()
 }
 
-const errorHandler = (e: any) => {
-  e?.preventDefault?.()
-  e?.stopPropagation?.()
+const errorHandler: OnErrorEventHandler = (e) => {
+  if (e instanceof Event) {
+    e?.preventDefault?.()
+    e?.stopPropagation?.()
+  }
   console.log('Fatal error', e)
 }
 

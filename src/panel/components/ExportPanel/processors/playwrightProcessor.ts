@@ -1,4 +1,4 @@
-import { IEventBlock, IEventPayload, ISelector } from 'store/eventRecorderSlice'
+import { IEventBlock, ISelector } from 'store/eventRecorderSlice'
 import { exportOptions, INTERACTIVE_TAGS } from '../constants'
 import { assertionTypes } from 'constants/assertion'
 import { selectorTypes } from '../selectorTypes'
@@ -10,14 +10,14 @@ export class PlaywrightProcessor extends ExportProcessor {
   type = exportOptions.playwright
   fileName = 'playwright.spec.js'
 
-  private methodsMap: Record<string, (it: IEventPayload) => string> = {
+  private methodsMap: Record<string, (it: IEventBlock) => string> = {
     mouseClick: () => '.click()',
     dblclick: () => '.dblclick()',
     keyboard: ({ key }) => `.fill('${normalizeString(key ?? '')}')`,
     default: () => '',
   }
 
-  private pageMethodsMap: Record<string, (it: IEventPayload) => string> = {
+  private pageMethodsMap: Record<string, (it: IEventBlock) => string> = {
     keydown: ({ key }) => (key ? `.keyboard.press('${key}')` : ''),
     keyup: ({ key }) => (key ? `.keyboard.press('${key}')` : ''),
     default: () => '',
@@ -172,7 +172,7 @@ test('${testName}', async ({ page }) => {
     },
   }
 
-  private generateSelector(it: IEventPayload | null) {
+  private generateSelector(it: IEventBlock | null) {
     if (!it?.selectedSelector) {
       return ''
     }

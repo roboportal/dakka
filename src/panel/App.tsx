@@ -8,33 +8,18 @@ import ControlPanel from 'components/ControlPanel'
 import EventsWrapper from 'components/EventsWrapper/EventsWrapper'
 import AllowInjection from 'components/AllowInjection'
 
-import useEventRecorder from 'hooks/useEventRecorder'
 import useAllowInjection from 'hooks/useAllowInjection'
-import useElementSelect from 'hooks/useElementSelect'
 import useToggle from 'hooks/useToggle'
+import useEventRecorder from 'hooks/useEventRecorder'
 
 export default function App() {
+  useEventRecorder()
+
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
+
   const [isSidePanelVisible, toggleSidePanel] = useToggle(false)
-
   const [isAutoScrollEnabled, toggleAutoScroll] = useToggle(true)
-
-  const {
-    handleIsRecordEnabledChange,
-    handleClearEventsByTabId,
-    toggleHighlightedElement,
-    handleSelectSelector,
-    handleEventClick,
-    handleInsertBlock,
-    handleSetActiveBlockId,
-    handleSetExpandedId,
-    handleSetAssertProperties,
-    handleSetCustomAssertSelector,
-    lastSelectedEventId,
-  } = useEventRecorder()
-
   const { isInjectionAllowed, allowInjection } = useAllowInjection()
-  const { enableSelectElement, disableSelectElement } = useElementSelect()
 
   if (!isInjectionAllowed) {
     return <AllowInjection allowInjection={allowInjection} />
@@ -50,8 +35,6 @@ export default function App() {
       `}
     >
       <ControlPanel
-        onRecordEnabledChange={handleIsRecordEnabledChange}
-        onClearEventsByTabId={handleClearEventsByTabId}
         onSettingsClick={toggleSidePanel}
         isSettingsButtonActive={isSidePanelVisible}
         onAutoScrollToggle={toggleAutoScroll}
@@ -70,19 +53,8 @@ export default function App() {
       >
         <EventsWrapper
           prefersDarkMode={prefersDarkMode}
-          onSetActiveBlockId={handleSetActiveBlockId}
-          onSetExpandedId={handleSetExpandedId}
-          onSetAssertProperties={handleSetAssertProperties}
-          onSetCustomAssertSelector={handleSetCustomAssertSelector}
-          enableSelectElement={enableSelectElement}
-          disableSelectElement={disableSelectElement}
-          onInsertBlock={handleInsertBlock}
-          toggleHighlightedElement={toggleHighlightedElement}
-          onSelectSelector={handleSelectSelector}
           isWideScreen={!isSidePanelVisible}
           autoScroll={isAutoScrollEnabled}
-          onEventClick={handleEventClick}
-          lastSelectedEventId={lastSelectedEventId}
         />
         <Collapse in={isSidePanelVisible} orientation="horizontal">
           <EventsSettings prefersDarkMode={prefersDarkMode} />

@@ -12,29 +12,28 @@ import RadioButtonChecked from '@mui/icons-material/RadioButtonChecked'
 import Stack from '@mui/material/Stack'
 import { grey, green, red } from '@mui/material/colors'
 import Divider from '@mui/material/Divider'
-import { useSelector } from 'react-redux'
 
 import ExportPanel from './ExportPanel/ExportPanel'
-import { getIsRecorderEnabled } from 'store/eventSelectors'
+import useControlPanel from '../hooks/useControlPanel'
 
 export type IControlPanelProps = {
   isSettingsButtonActive: boolean
-  onRecordEnabledChange: () => void
-  onClearEventsByTabId: () => void
   onSettingsClick: () => void
   onAutoScrollToggle: () => void
   isAutoScrollEnabled: boolean
 }
 
 const ControlPanel = ({
-  onRecordEnabledChange,
-  onClearEventsByTabId,
   onSettingsClick,
   isSettingsButtonActive,
   onAutoScrollToggle,
   isAutoScrollEnabled,
 }: IControlPanelProps) => {
-  const isRecorderEnabled = useSelector(getIsRecorderEnabled)
+  const {
+    isRecorderEnabled,
+    handleIsRecordEnabledChange,
+    handleClearEventsByTabId,
+  } = useControlPanel()
 
   return (
     <AppBar
@@ -55,7 +54,7 @@ const ControlPanel = ({
         >
           <Tooltip title="Toggle event recording">
             <Button
-              onClick={onRecordEnabledChange}
+              onClick={handleIsRecordEnabledChange}
               sx={{
                 color: `${isRecorderEnabled ? green.A400 : red.A200}`,
                 '&.MuiButtonBase-root:hover': {
@@ -80,7 +79,7 @@ const ControlPanel = ({
           </Tooltip>
           <Tooltip title="Clear recorded events">
             <Button
-              onClick={onClearEventsByTabId}
+              onClick={handleClearEventsByTabId}
               sx={{
                 color: grey[500],
                 '&.MuiButtonBase-root:hover': {

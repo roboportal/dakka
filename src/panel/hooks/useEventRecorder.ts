@@ -1,22 +1,12 @@
-import { MouseEventHandler, useEffect, useCallback, useState } from 'react'
+import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import {
   setActiveTabID,
-  toggleIsRecorderEnabled,
+  setLastSelectedEventId,
   recordEvent,
-  clearEvents,
   IEventRecord,
-  selectEventSelector,
-  removeEvent,
-  insertBlock,
-  setActiveBlockId,
-  setExpandedId,
-  setAssertionProperties,
-  setCustomAssertSelector,
-  IEventBlockPayload,
-  IAssertionPayload,
 } from 'store/eventRecorderSlice'
-
+import { getIsRecorderEnabled, getActiveTabId } from 'store/eventSelectors'
 import {
   ELEMENT_SELECTED,
   ENABLE_RECORDER,
@@ -25,75 +15,11 @@ import {
 } from 'constants/messageTypes'
 import { internalEventsMap } from 'constants/internalEventsMap'
 
-import { SLICE_NAMES, RootState } from '../store'
-
-import useEventHighlight from './useEventHighlight'
-
 export default function useEventRecorder() {
-  const {
-    isRecorderEnabled,
-    activeTabID,
-    events,
-    isManualEventInsert,
-    activeBlockId,
-    expandedId,
-  } = useSelector((state: RootState) => state[SLICE_NAMES.eventRecorder])
+  const isRecorderEnabled = useSelector(getIsRecorderEnabled)
+  const activeTabID = useSelector(getActiveTabId)
 
-  const [lastSelectedEventId, setLastSelectedEventId] = useState('')
   const dispatch = useDispatch()
-
-  const handleIsRecordEnabledChange = useCallback(() => {
-    chrome.tabs.sendMessage(activeTabID, {
-      type: ENABLE_RECORDER,
-      isRecorderEnabled: !isRecorderEnabled,
-    })
-    dispatch(toggleIsRecorderEnabled())
-  }, [activeTabID, isRecorderEnabled, dispatch])
-
-  const handleSelectSelector = useCallback(
-    (payload) =>
-      dispatch(selectEventSelector({ ...payload, tabId: activeTabID })),
-    [dispatch, activeTabID],
-  )
-
-  const handleClearEventsByTabId = useCallback(
-    () => dispatch(clearEvents({ tabId: activeTabID })),
-    [dispatch, activeTabID],
-  )
-
-  const handleInsertBlock = (payload: IEventBlockPayload) =>
-    dispatch(insertBlock(payload))
-
-  const handleSetActiveBlockId = (payload: string) =>
-    dispatch(setActiveBlockId(payload))
-
-  const handleSetExpandedId = (payload: string) =>
-    dispatch(setExpandedId(payload))
-
-  const handleSetAssertProperties = (payload: IAssertionPayload) =>
-    dispatch(setAssertionProperties(payload))
-
-  const handleSetCustomAssertSelector = (payload: {
-    blockId: string
-    selector: string
-  }) => dispatch(setCustomAssertSelector(payload))
-
-  const handleEventClick: MouseEventHandler = useCallback(
-    (e) => {
-      const target = e?.target as HTMLElement
-
-      const eventIds: number[] =
-        target?.dataset?.event_list_index?.split('.').map((it) => Number(it)) ??
-        []
-
-      const action = target?.dataset?.event_list_action
-
-      if (action === 'remove') {
-        dispatch(removeEvent({ eventIds }))
-      }
-    },
-    [dispatch],
-  )
 
   useEffect(() => {
     const messageHandler = (
@@ -103,7 +29,7 @@ export default function useEventRecorder() {
       const tabId = sender?.tab?.id
 
       if (eventRecord?.type === ELEMENT_SELECTED) {
-        setLastSelectedEventId(eventRecord.payload.id)
+        dispatch(setLastSelectedEventId(eventRecord.payload.id))
         chrome.tabs.sendMessage(activeTabID, {
           type: DISABLE_SELECT_ELEMENT,
         })
@@ -188,25 +114,4 @@ export default function useEventRecorder() {
       chrome.tabs.onUpdated.removeListener(activeTabChangeHandler)
     }
   }, [isRecorderEnabled, activeTabID])
-
-  const toggleHighlightedElement = useEventHighlight(events, activeTabID)
-
-  return {
-    events,
-    expandedId,
-    activeTabID,
-    isManualEventInsert,
-    activeBlockId,
-    handleIsRecordEnabledChange,
-    handleClearEventsByTabId,
-    toggleHighlightedElement,
-    handleSelectSelector,
-    handleEventClick,
-    handleInsertBlock,
-    handleSetActiveBlockId,
-    handleSetExpandedId,
-    handleSetAssertProperties,
-    handleSetCustomAssertSelector,
-    lastSelectedEventId,
-  }
 }

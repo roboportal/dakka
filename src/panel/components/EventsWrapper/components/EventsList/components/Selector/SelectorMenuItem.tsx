@@ -2,10 +2,19 @@ import { red, green, orange, grey } from '@mui/material/colors'
 import { css } from '@emotion/react'
 import WarningAmberIcon from '@mui/icons-material/WarningAmberRounded'
 import CheckCircle from '@mui/icons-material/CheckCircle'
-import { Tooltip } from '@mui/material'
+import { SvgIconTypeMap, Tooltip } from '@mui/material'
 import { ISelector } from 'store/eventRecorderSlice'
+import { OverridableComponent } from '@mui/material/OverridableComponent'
 
-const items: Record<number, any> = {
+interface Item {
+  icon: OverridableComponent<SvgIconTypeMap<Record<string, unknown>, 'svg'>> & {
+    muiName: string
+  }
+  color: string
+  text: string
+}
+
+const items: Record<number, Item> = {
   1: {
     icon: CheckCircle,
     color: green[600],

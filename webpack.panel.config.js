@@ -12,6 +12,7 @@ const alias = {
   constants: path.resolve(__dirname, 'src/panel/constants'),
   hooks: path.resolve(__dirname, 'src/panel/hooks'),
   store: path.resolve(__dirname, 'src/panel/store'),
+  utils: path.resolve(__dirname, 'src/panel/utils'),
 }
 
 const fileExtensions = [

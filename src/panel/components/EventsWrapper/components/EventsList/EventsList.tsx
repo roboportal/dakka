@@ -1,62 +1,30 @@
-import { memo, useCallback } from 'react'
+import { memo } from 'react'
 import { css } from '@emotion/react'
+import { useSelector } from 'react-redux'
 
-import {
-  EventListItem,
-  IEventPayload,
-  ISelectorPayload,
-  IEventBlockPayload,
-  IAssertionPayload,
-} from 'store/eventRecorderSlice'
+import { getActiveEvents } from 'store/eventSelectors'
 import { getExpandedEventId } from 'store/eventSelectors'
 
 import { Record } from './components/Record/Record'
 import { EventEntity } from './components/EventEntity/EventEntity'
 import { Selector } from './components/Selector/Selector'
-import { useSelector } from 'react-redux'
 
 const DEFAULT_WIDTH = '88px'
 const EXPANDED_WIDTH = '340px'
 
 interface IEventsListProps {
-  events: EventListItem[]
-  onSelectSelector: (payload: ISelectorPayload) => void
-  onInsertBlock: (payload: IEventBlockPayload) => void
   setDragOverIndex: (value: number) => void
   dragOverIndex: number
-  enableSelectElement: () => void
-  disableSelectElement: () => void
-  onSetActiveBlockId: (id: string) => void
-  onSetExpandedId: (id: string) => void
-  onSetAssertProperties: (payload: IAssertionPayload) => void
   prefersDarkMode: boolean
-  lastSelectedEventId: string
-  onSetCustomAssertSelector: (payload: {
-    selector: string
-    blockId: string
-  }) => void
 }
 
 function EventsList({
-  events,
-  onSelectSelector,
-  onInsertBlock,
   setDragOverIndex,
   dragOverIndex,
-  enableSelectElement,
-  disableSelectElement,
-  onSetActiveBlockId,
-  onSetExpandedId,
-  onSetAssertProperties,
   prefersDarkMode,
-  onSetCustomAssertSelector,
-  lastSelectedEventId,
 }: IEventsListProps) {
   const expandedId = useSelector(getExpandedEventId)
-  const handleExpand = useCallback(
-    (id) => onSetExpandedId(id),
-    [onSetExpandedId],
-  )
+  const events = useSelector(getActiveEvents)
 
   if (!events) {
     return null
@@ -69,7 +37,6 @@ function EventsList({
         const isFirstEvent = index === 0
         return (
           <Record
-            onInsertBlock={onInsertBlock}
             key={record.id}
             setDragOverIndex={setDragOverIndex}
             dragOverIndex={dragOverIndex}
@@ -90,22 +57,14 @@ function EventsList({
             >
               <Selector
                 width={expandedId === record.id ? '100%' : DEFAULT_WIDTH}
-                record={record as IEventPayload}
-                onSelectSelector={onSelectSelector}
+                record={record}
               />
               <EventEntity
-                onSetCustomAssertSelector={onSetCustomAssertSelector}
-                onSetAssertProperties={onSetAssertProperties}
                 prefersDarkMode={prefersDarkMode}
                 isExpanded={expandedId === record.id}
-                onExpand={handleExpand}
-                onSetActiveBlockId={onSetActiveBlockId}
-                enableSelectElement={enableSelectElement}
-                disableSelectElement={disableSelectElement}
-                record={record as IEventPayload}
+                record={record}
                 index={index.toString()}
                 isFirstEntity={isFirstEvent}
-                lastSelectedEventId={lastSelectedEventId}
               />
             </div>
           </Record>

@@ -1,4 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
+
 import { css } from '@emotion/react'
 import Select, { SelectChangeEvent } from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
@@ -7,7 +9,12 @@ import Switch from '@mui/material/Switch'
 import FormControl from '@mui/material/FormControl'
 import FormControlLabel from '@mui/material/FormControlLabel'
 
-import { IEventBlock, IAssertionPayload } from 'store/eventRecorderSlice'
+import {
+  IEventBlock,
+  IAssertionPayload,
+  setAssertionProperties,
+} from 'store/eventRecorderSlice'
+
 import {
   assertionsList,
   assertionsListNegative,
@@ -18,7 +25,6 @@ import Autocomplete from '@mui/material/Autocomplete'
 
 interface IAssertionSelectorProp {
   record: IEventBlock
-  onSetAssertProperties: (payload: IAssertionPayload) => void
   isExpanded: boolean
   prefersDarkMode: boolean
 }
@@ -40,7 +46,6 @@ const requireInputAsserts = [
 
 export function AssertionSelector({
   record,
-  onSetAssertProperties,
   isExpanded,
   prefersDarkMode,
 }: IAssertionSelectorProp) {
@@ -48,6 +53,13 @@ export function AssertionSelector({
     record as IEventBlock
   const [checked, setChecked] = useState(true)
   const [assertions, setAssertions] = useState(assertionsList)
+
+  const dispatch = useDispatch()
+
+  const handleSetAssertProperties = useCallback(
+    (payload: IAssertionPayload) => dispatch(setAssertionProperties(payload)),
+    [dispatch],
+  )
 
   useEffect(() => {
     if (
@@ -58,7 +70,7 @@ export function AssertionSelector({
         assertionTypes.notEquals,
       ].includes(assertionType?.type as assertionTypes)
     ) {
-      onSetAssertProperties({
+      handleSetAssertProperties({
         recordId: record.id,
         assertionValue: record?.element?.text ?? '',
       })
@@ -76,14 +88,14 @@ export function AssertionSelector({
       const firstElementAttributeValue =
         record?.element?.attributesMap?.[firstElementAttributeName] ?? ''
 
-      onSetAssertProperties({
+      handleSetAssertProperties({
         recordId: record.id,
         assertionValue: firstElementAttributeValue,
         assertionAttribute: firstElementAttributeName,
       })
       return
     }
-  }, [record, assertionType?.type, onSetAssertProperties])
+  }, [record, assertionType?.type, handleSetAssertProperties])
 
   const handleCheckbox = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -96,7 +108,7 @@ export function AssertionSelector({
       setChecked(checked)
       setAssertions(assertionList)
 
-      onSetAssertProperties({
+      handleSetAssertProperties({
         recordId: record.id,
         assertionType: assertionList[assertionIndex],
       })
@@ -105,7 +117,7 @@ export function AssertionSelector({
       setChecked,
       setAssertions,
       assertionType,
-      onSetAssertProperties,
+      handleSetAssertProperties,
       record,
       assertions,
     ],
@@ -155,7 +167,7 @@ export function AssertionSelector({
         ? assertionAttribute || firstElementAttributeName
         : ''
 
-      onSetAssertProperties({
+      handleSetAssertProperties({
         recordId: record.id,
         assertionType: selection || {},
         assertionValue: _assertionValue,
@@ -163,7 +175,7 @@ export function AssertionSelector({
       })
     },
     [
-      onSetAssertProperties,
+      handleSetAssertProperties,
       assertions,
       record,
       assertionValue,
@@ -173,12 +185,12 @@ export function AssertionSelector({
 
   const handleAssertValueChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      onSetAssertProperties({
+      handleSetAssertProperties({
         recordId: record.id,
         assertionValue: e.target.value,
       })
     },
-    [record, onSetAssertProperties],
+    [record, handleSetAssertProperties],
   )
 
   const handleAssertAttributeChange = useCallback(
@@ -193,9 +205,9 @@ export function AssertionSelector({
         options.assertionValue = attributesMap[value]
       }
 
-      onSetAssertProperties(options)
+      handleSetAssertProperties(options)
     },
-    [record, onSetAssertProperties],
+    [record, handleSetAssertProperties],
   )
 
   const attributeSelectOptions = Object.keys(

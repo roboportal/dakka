@@ -22,7 +22,7 @@ let selectElementEnabled = false
 let hoveredElement: any = null
 
 function injectCode(src: string) {
-  const script: any = document.createElement('script')
+  const script: HTMLScriptElement = document.createElement('script')
   script.src = src
   script.dataset.extid = chrome.runtime.id
 
@@ -58,7 +58,7 @@ window.addEventListener('message', (p) => {
   }
 })
 
-const mouseOverHandler = (event: any) => {
+const mouseOverHandler = (event: MouseEvent) => {
   if (selectElementEnabled) {
     event.stopImmediatePropagation()
     const extensionId = chrome.runtime.id
@@ -144,9 +144,11 @@ chrome.runtime.onMessage.addListener((message) => {
   }
 })
 
-const errorHandler = (e: any) => {
-  e?.preventDefault?.()
-  e?.stopPropagation?.()
+const errorHandler: OnErrorEventHandler = (e) => {
+  if (e instanceof Event) {
+    e?.preventDefault?.()
+    e?.stopPropagation?.()
+  }
   console.log('Fatal error', e)
 }
 

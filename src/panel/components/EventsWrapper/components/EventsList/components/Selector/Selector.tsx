@@ -1,34 +1,40 @@
 import { useCallback, useMemo } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+
 import Select, { SelectChangeEvent } from '@mui/material/Select'
 import { css } from '@emotion/react'
 import MenuItem from '@mui/material/MenuItem'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { grey } from '@mui/material/colors'
 
-import { Divider } from './Divider'
 import {
+  selectEventSelector,
   IEventBlock,
-  IEventPayload,
   ISelector,
-  ISelectorPayload,
 } from 'store/eventRecorderSlice'
+import { getActiveTabId } from 'store/eventSelectors'
 import { INTERACTIVE_ELEMENT } from 'constants/messageTypes'
+
+import { Divider } from './Divider'
 import { SelectorMenuItem } from './SelectorMenuItem'
 
 interface ISelectorProp {
-  record: IEventPayload | IEventBlock
-  onSelectSelector: (payload: ISelectorPayload) => void
+  record: IEventBlock
   width: string
 }
 
-export function Selector({ record, onSelectSelector, width }: ISelectorProp) {
+export function Selector({ record, width }: ISelectorProp) {
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
+
+  const dispatch = useDispatch()
+
+  const activeTabID = useSelector(getActiveTabId)
 
   const validSelectors = useMemo(
     () =>
       record?.variant === INTERACTIVE_ELEMENT
-        ? (record as IEventBlock)?.element?.validSelectors
-        : (record as IEventPayload).validSelectors,
+        ? record?.element?.validSelectors
+        : record.validSelectors,
     [record],
   )
 
@@ -68,8 +74,8 @@ export function Selector({ record, onSelectSelector, width }: ISelectorProp) {
   const selectedSelector = useMemo(
     () =>
       record?.variant === INTERACTIVE_ELEMENT
-        ? (record as IEventBlock)?.element?.selectedSelector?.value
-        : (record as IEventPayload)?.selectedSelector?.value,
+        ? record?.element?.selectedSelector?.value
+        : record?.selectedSelector?.value,
     [record],
   )
 
@@ -80,10 +86,16 @@ export function Selector({ record, onSelectSelector, width }: ISelectorProp) {
       )
 
       if (selector) {
-        onSelectSelector({ selectedSelector: selector, record })
+        dispatch(
+          selectEventSelector({
+            selectedSelector: selector,
+            record,
+            tabId: activeTabID,
+          }),
+        )
       }
     },
-    [onSelectSelector, record, validSelectors],
+    [record, validSelectors, activeTabID, dispatch],
   )
 
   const shouldHideSelectorPanel =
@@ -92,6 +104,7 @@ export function Selector({ record, onSelectSelector, width }: ISelectorProp) {
   if (shouldHideSelectorPanel) {
     return null
   }
+
   return (
     <Select
       css={css`
