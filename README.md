@@ -8,8 +8,8 @@
 </div>
 
 <div align="center">
-  <a href="https://www.dakka.dev/">Dakka Chrome Extension</a> |
-  <a href="https://www.dakka.dev/">Documentation</a>
+  <a href="https://chrome.google.com/webstore/detail/dakka/gllikifiancbeplnkdnpnmmhhlncghej" target="_blank" rel="noreferrer">Dakka Chrome Extension</a> |
+  <a href="https://www.dakka.dev/" target="_blank" rel="noreferrer">Documentation</a>
 </div>
 
 
@@ -21,7 +21,7 @@ Dakka is an open source Chrome Extension which helps to generate end-to-end test
 
 ## Installing
 
-To install Dakka click <a href="https://www.dakka.dev/">Chrome extension</a> and this will take you to Chrome Web Store. Follow next steps to start generating tests:
+To install Dakka click <a href="https://chrome.google.com/webstore/detail/dakka/gllikifiancbeplnkdnpnmmhhlncghej" target="_blank" rel="noreferrer">Chrome extension</a> and this will take you to Chrome Web Store. Follow next steps to start generating tests:
 
 1. Open Chrome devtools
 2. Enable Dakka
