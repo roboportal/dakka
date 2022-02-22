@@ -18,6 +18,14 @@
 Dakka is an open source Chrome Extension which helps to generate end-to-end tests for Cypress, Playwright and Puppeteer.
 
 
+### Demo
+
+
+
+![Kapture 2022-02-22 at 00 22 29](https://user-images.githubusercontent.com/7383804/155093359-37df3741-4010-4c26-a93a-4fdfa02ed336.gif)
+
+
+
 
 ## Installing
 
