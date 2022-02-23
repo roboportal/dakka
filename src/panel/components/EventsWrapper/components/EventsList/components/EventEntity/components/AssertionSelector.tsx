@@ -90,8 +90,9 @@ export function AssertionSelector({
 
       handleSetAssertProperties({
         recordId: record.id,
-        assertionValue: firstElementAttributeValue,
-        assertionAttribute: firstElementAttributeName,
+        assertionValue: record.assertionValue ?? firstElementAttributeValue,
+        assertionAttribute:
+          record.assertionAttribute ?? firstElementAttributeName,
       })
       return
     }
