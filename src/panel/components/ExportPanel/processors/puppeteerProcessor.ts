@@ -8,7 +8,6 @@ import { WAIT_FOR_ELEMENT, ASSERTION } from '../../../constants/actionTypes'
 
 const selectorOptions: Record<string, string> = {
   [selectorTypes.text]: '$x',
-  [selectorTypes.labelText]: '$x',
   default: '$',
 }
 
@@ -346,14 +345,14 @@ describe('${testName}', () => {
 
     if (selectorOptions[it?.selectedSelector?.name ?? ''] === '$x') {
       return `  
-      await page.waitForXPath('${selector}')
+      await page.waitForXPath('${selector}[not(@disabled)]')
       await page.$x('${selector}').then(async (elements) => await elements[0].evaluate((e) => e${
         this.methodsMap[it?.type]?.({ key }) ?? this.methodsMap.default({ key })
       }))\n`
     }
 
     return `      
-      await page.waitForSelector('${payload.selector}')
+      await page.waitForSelector('${payload.selector}:not([disabled])')
       await page${
         this.methodsMap[it?.type]?.(payload) ?? this.methodsMap.default(payload)
       }\n`
@@ -367,10 +366,10 @@ describe('${testName}', () => {
       selectorOptions[element?.selectedSelector?.name ?? ''] === '$x'
 
     if (byXPath) {
-      return `  await page.waitForXPath('${selector}')\n`
+      return `      await page.waitForXPath('${selector}')\n`
     }
 
-    return `  await page.waitForSelector('${selector}')\n`
+    return `      await page.waitForSelector('${selector}')\n`
   }
 
   private serializeRecordedEvents(events: IEventBlock[]) {
