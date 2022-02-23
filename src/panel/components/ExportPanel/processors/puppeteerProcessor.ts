@@ -80,19 +80,19 @@ describe('${testName}', () => {
     }) => string
   > = {
     [assertionTypes.toHaveTitle]: ({ assertionValue }) => {
-      return `  expect(await page.title()).toBe('${assertionValue}')\n`
+      return `      expect(await page.title()).toBe('${assertionValue}')\n`
     },
 
     [assertionTypes.notToHaveTitle]: ({ assertionValue }) => {
-      return `  expect(await page.title()).not.toBe('${assertionValue}')\n`
+      return `      expect(await page.title()).not.toBe('${assertionValue}')\n`
     },
 
     [assertionTypes.toHaveURL]: ({ assertionValue }) => {
-      return `  expect(page.url()).toBe('${assertionValue}')\n`
+      return `      expect(page.url()).toBe('${assertionValue}')\n`
     },
 
     [assertionTypes.notToHaveURL]: ({ assertionValue }) => {
-      return `  expect(page.url()).toBe('${assertionValue}')\n`
+      return `      expect(page.url()).toBe('${assertionValue}')\n`
     },
 
     [assertionTypes.toBeChecked]: ({ selector, selectorName }) => {
@@ -103,7 +103,7 @@ describe('${testName}', () => {
         })}.toBe(true)\n`
       }
 
-      return `  expect(await page.$eval('${selector}', e => e.checked)).toBe(true)\n`
+      return `      expect(await page.$eval('${selector}', e => e.checked)).toBe(true)\n`
     },
 
     [assertionTypes.notToBeChecked]: ({ selector, selectorName }) => {
@@ -114,7 +114,7 @@ describe('${testName}', () => {
         })}.toBe(false)\n`
       }
 
-      return `  expect(await page.$eval('${selector}', e => e.checked)).toBe(false)\n`
+      return `      expect(await page.$eval('${selector}', e => e.checked)).toBe(false)\n`
     },
 
     [assertionTypes.contains]: ({ selector, assertionValue, selectorName }) => {
@@ -125,7 +125,7 @@ describe('${testName}', () => {
         })}.toContain('${assertionValue}')\n`
       }
 
-      return `  expect(await page.$eval('${selector}', e => e.textContent)).toContain('${assertionValue}')\n`
+      return `      expect(await page.$eval('${selector}', e => e.textContent)).toContain('${assertionValue}')\n`
     },
 
     [assertionTypes.notContains]: ({
@@ -139,7 +139,7 @@ describe('${testName}', () => {
           value: 'e.textContent',
         })}.not.toContain('${assertionValue}')\n`
       }
-      return `  expect(await page.$eval('${selector}', e => e.textContent)).not.toContain('${assertionValue}')\n`
+      return `      expect(await page.$eval('${selector}', e => e.textContent)).not.toContain('${assertionValue}')\n`
     },
 
     [assertionTypes.equals]: ({ selector, assertionValue, selectorName }) => {
@@ -150,7 +150,7 @@ describe('${testName}', () => {
         })}.toBe('${assertionValue}')\n`
       }
 
-      return `  expect(await page.$eval('${selector}', e => e.textContent)).toBe('${assertionValue}')\n`
+      return `      expect(await page.$eval('${selector}', e => e.textContent)).toBe('${assertionValue}')\n`
     },
 
     [assertionTypes.notEquals]: ({
@@ -164,19 +164,19 @@ describe('${testName}', () => {
           value: 'e.textContent',
         })}.not.toBe('${assertionValue}')\n`
       }
-      return `  expect(await page.$eval('${selector}', e => e.textContent)).not.toBe('${assertionValue}')\n`
+      return `      expect(await page.$eval('${selector}', e => e.textContent)).not.toBe('${assertionValue}')\n`
     },
 
     [assertionTypes.inDocument]: ({ selector, selectorName }) => {
       const normalizedSelector = normalizeString(selector)
-      return `  expect(await page.${
+      return `      expect(await page.${
         selectorOptions[selectorName] ?? selectorOptions.default
       }('${normalizedSelector}')).toBeDefined()\n`
     },
 
     [assertionTypes.notInDocument]: ({ selector, selectorName }) => {
       const normalizedSelector = normalizeString(selector)
-      return `  expect(await page.${
+      return `      expect(await page.${
         selectorOptions[selectorName] ?? selectorOptions.default
       }('${normalizedSelector}')).toBeUndefined()\n`
     },
@@ -189,7 +189,7 @@ describe('${testName}', () => {
         })}.toBe(true)\n`
       }
 
-      return `  expect(await page.$eval('${selector}', (e) => e.getAttribute('disabled'))).toBe(true)\n`
+      return `      expect(await page.$eval('${selector}', (e) => e.getAttribute('disabled'))).toBe(true)\n`
     },
 
     [assertionTypes.notToBeDisabled]: ({ selector, selectorName }) => {
@@ -200,7 +200,7 @@ describe('${testName}', () => {
           value: 'e.getAttribute("disabled")',
         })}.toBe(null)\n`
       }
-      return `  expect(await page.$eval('${normalizedSelector}', (e) => e.getAttribute('disabled'))).toBe(null)\n`
+      return `      expect(await page.$eval('${normalizedSelector}', (e) => e.getAttribute('disabled'))).toBe(null)\n`
     },
 
     [assertionTypes.toBeEnabled]: ({ selector, selectorName }) => {
@@ -210,7 +210,7 @@ describe('${testName}', () => {
           value: 'e.getAttribute("disabled")',
         })}.toBe(null)\n`
       }
-      return `  expect(await page.$eval('${selector}', (e) => e.getAttribute('disabled'))).toBe(null)\n`
+      return `      expect(await page.$eval('${selector}', (e) => e.getAttribute('disabled'))).toBe(null)\n`
     },
 
     [assertionTypes.notToBeEnabled]: ({ selector, selectorName }) => {
@@ -220,18 +220,18 @@ describe('${testName}', () => {
           value: 'e.getAttribute("disabled")',
         })}.toBe(true)\n`
       }
-      return `  expect(await page.$eval('${selector}', (e) => e.getAttribute('disabled'))).toBe(true)\n`
+      return `      expect(await page.$eval('${selector}', (e) => e.getAttribute('disabled'))).toBe(true)\n`
     },
 
     [assertionTypes.toBeHidden]: ({ selector, selectorName }) => {
-      return `  expect(await page.${
+      return `      expect(await page.${
         selectorOptions[selectorName] ?? selectorOptions.default
       }('${selector}')).toBeNull()\n`
     },
 
     [assertionTypes.notToBeHidden]: ({ selector, selectorName }) => {
       const normalizedSelector = normalizeString(selector)
-      return `  expect(await page.${
+      return `      expect(await page.${
         selectorOptions[selectorName] ?? selectorOptions.default
       }('${normalizedSelector}')).not.toBeNull()\n`
     },
@@ -243,7 +243,7 @@ describe('${testName}', () => {
           value: 'e.style.visibility',
         })}.not.toBe('hidden')\n`
       }
-      return `  expect(await page.$eval('${selector}', e => e.style.visibility)).not.toBe('hidden')\n`
+      return `      expect(await page.$eval('${selector}', e => e.style.visibility)).not.toBe('hidden')\n`
     },
 
     [assertionTypes.notToBeVisible]: ({ selector, selectorName }) => {
@@ -253,7 +253,7 @@ describe('${testName}', () => {
           value: 'e.style.visibility',
         })}.not.toBe('visible')\n`
       }
-      return `  expect(await page.$eval('${selector}', e => e.style.visibility)).not.toBe('visible')\n`
+      return `      expect(await page.$eval('${selector}', e => e.style.visibility)).not.toBe('visible')\n`
     },
 
     [assertionTypes.hasAttribute]: ({
@@ -383,18 +383,18 @@ describe('${testName}', () => {
         const element = it.element
         const selector = this.generateSelector(element) ?? ''
 
-        if (element) {
+        if (selector) {
           acc += this.waitForElement(selector, element)
+        }
 
-          acc += this.expectMethodsMap[
-            it?.assertionType?.type as assertionTypes
-          ]({
+        acc += this.expectMethodsMap[it?.assertionType?.type as assertionTypes](
+          {
             selector,
             selectorName: element?.selectedSelector?.name ?? '',
             assertionValue: it.assertionValue,
             assertionAttribute: it.assertionAttribute,
-          })
-        }
+          },
+        )
       }
 
       if (it.type === WAIT_FOR_ELEMENT) {

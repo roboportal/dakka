@@ -17,14 +17,24 @@ export class PlaywrightProcessor extends ExportProcessor {
     default: () => '',
   }
 
-  private pageMethodsMap: Record<string, (it: IEventBlock) => string> = {
+  private pageMethodsMap: Record<
+    string,
+    (it: IEventBlock, selector?: string) => string
+  > = {
+    keyboard: ({ key }, selector) =>
+      `.fill('${normalizeString(selector)}', '${normalizeString(key ?? '')}')`,
     keydown: ({ key }) => (key ? `.keyboard.press('${key}')` : ''),
+    mouseClick: (it, selector) => `.click('${selector}')`,
     keyup: ({ key }) => (key ? `.keyboard.press('${key}')` : ''),
     default: () => '',
   }
 
   private getWrapper(testName: string, content: string) {
-    return `const { test, expect } = require('@playwright/test')
+    const isAssertion = content?.indexOf('expect') > -1
+
+    return `const { test${
+      isAssertion ? ', expect' : ''
+    } } = require('@playwright/test')
     
 test('${testName}', async ({ page }) => {
   ${content}
@@ -217,7 +227,10 @@ test('${testName}', async ({ page }) => {
       if (it.selectedSelector) {
         const selector = this.generateSelector(it)
         if (this.pageMethodsMap[it.type]) {
-          acc += `  await page${this.pageMethodsMap[it?.type]?.(it)}\n`
+          acc += `  await page${this.pageMethodsMap[it?.type]?.(
+            it,
+            selector,
+          )}\n`
         } else {
           const eventAction =
             this.methodsMap[it?.type]?.(it) ?? this.methodsMap.default(it)
@@ -236,16 +249,14 @@ test('${testName}', async ({ page }) => {
 
       if (it.type === ASSERTION) {
         const element = it.element
-        if (element) {
-          const selector = this.generateSelector(element)
-          acc += this.expectMethodsMap[
-            it?.assertionType?.type as assertionTypes
-          ]({
+        const selector = element ? this.generateSelector(element) : ''
+        acc += this.expectMethodsMap[it?.assertionType?.type as assertionTypes](
+          {
             selector: `${selector}${firstSelector}`,
             assertionValue: it.assertionValue,
             assertionAttribute: it.assertionAttribute,
-          })
-        }
+          },
+        )
       }
 
       return acc
