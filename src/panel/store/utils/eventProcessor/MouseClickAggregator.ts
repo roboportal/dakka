@@ -2,9 +2,7 @@ import { IEventBlock } from '../../eventRecorderSlice'
 import AbstractEventAggregator from './AbstractEventAggregator'
 
 enum mouseEvents {
-  mousedown = 'mousedown',
   click = 'click',
-  mouseup = 'mouseup',
   dblclick = 'dblclick',
 }
 
@@ -48,32 +46,7 @@ class MouseClickAggregator extends AbstractEventAggregator {
     const lastComposedEvent =
       prevEvent.composedEvents?.[(prevEvent.composedEvents?.length ?? 0) - 1]
 
-    const isLastEventOurClient =
-      !lastComposedEvent ||
-      [mouseEvents.mousedown, mouseEvents.mouseup].includes(
-        lastComposedEvent?.type as mouseEvents,
-      )
-
-    if (
-      prevEvent.type === this.aggregatedEventName &&
-      event.selector === prevEvent.selector &&
-      isLastEventOurClient
-    ) {
-      prevEvent.composedEvents?.push(event)
-      return
-    }
-    events.push(this.mouseEventFactory(event))
-  }
-
-  private handleMouseUp = (event: IEventBlock, events: IEventBlock[]) => {
-    const prevEventIndex = this.findCorrespondingEventIndex(event, events)
-    const prevEvent = events[prevEventIndex] ?? ({} as IEventBlock)
-    const lastComposedEvent =
-      prevEvent.composedEvents?.[(prevEvent.composedEvents?.length ?? 0) - 1]
-
-    const isLastEventOurClient =
-      !lastComposedEvent ||
-      [mouseEvents.mousedown].includes(lastComposedEvent?.type as mouseEvents)
+    const isLastEventOurClient = !lastComposedEvent
 
     if (
       prevEvent.type === this.aggregatedEventName &&
@@ -90,12 +63,6 @@ class MouseClickAggregator extends AbstractEventAggregator {
     string,
     (event: IEventBlock, events: IEventBlock[]) => void
   > = {
-    [mouseEvents.mousedown]: (event: IEventBlock, events: IEventBlock[]) => {
-      events.push(this.mouseEventFactory(event))
-    },
-
-    [mouseEvents.mouseup]: this.handleMouseUp,
-
     [mouseEvents.click]: this.handleClick,
 
     [mouseEvents.dblclick]: (event: IEventBlock, events: IEventBlock[]) => {

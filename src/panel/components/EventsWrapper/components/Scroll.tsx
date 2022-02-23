@@ -8,7 +8,6 @@ import { getActiveEvents } from 'store/eventSelectors'
 interface IScrollProps {
   wrapper: HTMLDivElement | null
   scrollPosition: number
-  isWideScreen: boolean
   prefersDarkMode: boolean
 }
 
@@ -16,12 +15,7 @@ const ORIGINAL_BAR_WIDTH = 88
 const EXPANDED_BAR_WIDTH = 340
 const ORIGINAL_GAP = 4
 
-function Scroll({
-  wrapper,
-  scrollPosition,
-  isWideScreen,
-  prefersDarkMode,
-}: IScrollProps) {
+function Scroll({ wrapper, scrollPosition, prefersDarkMode }: IScrollProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const scaleFactorRef = useRef<number>(1)
   const expandedId = useSelector(getExpandedEventId)
@@ -87,7 +81,6 @@ function Scroll({
   }, [
     events,
     scrollPosition,
-    isWideScreen,
     wrapper,
     expandedId,
     prefersDarkMode,

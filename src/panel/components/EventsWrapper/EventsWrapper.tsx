@@ -10,13 +10,11 @@ import ActionsToolbox from './components/ActionsToolbox/ActionsToolbox'
 
 interface IEventsWrapperProps {
   autoScroll: boolean
-  isWideScreen: boolean
   prefersDarkMode: boolean
 }
 
 export default function EventsWrapper({
   autoScroll,
-  isWideScreen,
   prefersDarkMode,
 }: IEventsWrapperProps) {
   const [dragOverIndex, setDragOverIndex] = useState(Number.MIN_SAFE_INTEGER)
@@ -32,7 +30,7 @@ export default function EventsWrapper({
         display: flex;
         flex-direction: column;
         position: relative;
-        width: ${isWideScreen ? '100%' : '80vw'};
+        width: 100%;
         height: calc(100vh - 52px);
       `}
     >
@@ -62,7 +60,6 @@ export default function EventsWrapper({
         prefersDarkMode={prefersDarkMode}
         wrapper={wrapperRef.current}
         scrollPosition={eventsListScroll}
-        isWideScreen={isWideScreen}
       />
       <ActionsToolbox setDragOverIndex={setDragOverIndex} />
     </div>

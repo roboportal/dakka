@@ -155,17 +155,6 @@ export const getEvents = createSelector(
   (state) => state.events,
 )
 
-export const getComposedEventsToTrack = createSelector(
-  (state: RootState) => state[SLICE_NAMES.eventRecorder],
-  (state) =>
-    Object.fromEntries(
-      Object.entries(state.composedEventsToTrack).map(([key, { selected }]) => [
-        key,
-        selected,
-      ]),
-    ),
-)
-
 export const getAllowedInjections = createSelector(
   (state: RootState) => state[SLICE_NAMES.eventRecorder],
   (state) => state.allowedInjections,

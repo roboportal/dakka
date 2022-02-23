@@ -4,9 +4,6 @@ import AbstractEventAggregator from './AbstractEventAggregator'
 
 enum keyboardEvents {
   keydown = 'keydown',
-  keypress = 'keypress',
-  keyup = 'keyup',
-  input = 'input',
 }
 
 class KeyboardAggregator extends AbstractEventAggregator {
@@ -78,47 +75,6 @@ class KeyboardAggregator extends AbstractEventAggregator {
     }
   }
 
-  private handleNonKeydownEventComposition(
-    event: IEventBlock,
-    events: IEventBlock[],
-    eventTypes: string[],
-  ) {
-    const lastEvent = events[events.length - 1]
-
-    const isUtilKey = this.checkIsUtilityKey(event)
-
-    if (this.checkIsLastEventOurClient(event, lastEvent)) {
-      if (!isUtilKey) {
-        this.processLastEvent(event, lastEvent, eventTypes)
-      } else {
-        const correspondingEventTypeFromComposedEvents =
-          this.findLastCorrespondingEvent(
-            event,
-            lastEvent.composedEvents ?? [],
-          ).type
-
-        if (!eventTypes.includes(correspondingEventTypeFromComposedEvents)) {
-          events.push(event)
-        }
-      }
-
-      return
-    }
-
-    const isCorrespondingEventTypeMatchEventTypes = eventTypes.includes(
-      this.findLastCorrespondingEvent(event, events).type,
-    )
-
-    if (isUtilKey && !isCorrespondingEventTypeMatchEventTypes) {
-      events.push(event)
-      return
-    }
-
-    if (!isUtilKey && !isCorrespondingEventTypeMatchEventTypes) {
-      events.push(this.keyboardEventFactory(event))
-    }
-  }
-
   private isMatchingKeyModifiers(event: IEventBlock, lastEvent: IEventBlock) {
     return (
       (event?.altKey && lastEvent?.key === 'Alt') ||
@@ -166,26 +122,6 @@ class KeyboardAggregator extends AbstractEventAggregator {
           events.push(this.keyboardEventFactory(event))
         }
       }
-    },
-    [keyboardEvents.keypress]: (event: IEventBlock, events: IEventBlock[]) => {
-      this.handleNonKeydownEventComposition(event, events, [
-        keyboardEvents.keydown,
-      ])
-    },
-
-    [keyboardEvents.input]: (event: IEventBlock, events: IEventBlock[]) => {
-      this.handleNonKeydownEventComposition(event, events, [
-        keyboardEvents.keydown,
-        keyboardEvents.keypress,
-      ])
-    },
-
-    [keyboardEvents.keyup]: (event: IEventBlock, events: IEventBlock[]) => {
-      this.handleNonKeydownEventComposition(event, events, [
-        keyboardEvents.keydown,
-        keyboardEvents.keypress,
-        keyboardEvents.input,
-      ])
     },
   }
 

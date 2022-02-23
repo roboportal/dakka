@@ -1,9 +1,7 @@
 import { css } from '@emotion/react'
 import Box from '@mui/material/Box'
-import Collapse from '@mui/material/Collapse'
 import useMediaQuery from '@mui/material/useMediaQuery'
 
-import EventsSettings from 'components/EventsSettings/EventsSettings'
 import ControlPanel from 'components/ControlPanel'
 import EventsWrapper from 'components/EventsWrapper/EventsWrapper'
 import AllowInjection from 'components/AllowInjection'
@@ -17,7 +15,6 @@ export default function App() {
 
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
 
-  const [isSidePanelVisible, toggleSidePanel] = useToggle(false)
   const [isAutoScrollEnabled, toggleAutoScroll] = useToggle(true)
   const { isInjectionAllowed, allowInjection } = useAllowInjection()
 
@@ -35,8 +32,6 @@ export default function App() {
       `}
     >
       <ControlPanel
-        onSettingsClick={toggleSidePanel}
-        isSettingsButtonActive={isSidePanelVisible}
         onAutoScrollToggle={toggleAutoScroll}
         isAutoScrollEnabled={isAutoScrollEnabled}
       />
@@ -53,12 +48,8 @@ export default function App() {
       >
         <EventsWrapper
           prefersDarkMode={prefersDarkMode}
-          isWideScreen={!isSidePanelVisible}
           autoScroll={isAutoScrollEnabled}
         />
-        <Collapse in={isSidePanelVisible} orientation="horizontal">
-          <EventsSettings prefersDarkMode={prefersDarkMode} />
-        </Collapse>
       </Box>
     </div>
   )

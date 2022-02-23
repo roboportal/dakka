@@ -3,21 +3,14 @@ import { nanoid } from 'nanoid'
 import { createSlice, PayloadAction, original } from '@reduxjs/toolkit'
 import { WritableDraft } from 'immer/dist/internal'
 
-import eventsList from 'constants/eventsList'
 import { INTERACTIVE_ELEMENT, ELEMENT_SELECTED } from 'constants/messageTypes'
+import { eventsToTrack } from 'constants/eventTypes'
 import { process } from './utils/eventProcessor'
-
-interface ComposedEventToTrack {
-  selected: boolean
-  associated: string[]
-}
 
 export interface EventRecorderState {
   isRecorderEnabled: boolean
   activeTabID: number
   events: Record<number, IEventBlock[]>
-  eventsToTrack: Record<string, boolean>
-  composedEventsToTrack: Record<string, ComposedEventToTrack>
   isManualEventInsert: boolean
   allowedInjections: Record<number, boolean>
   activeBlockId: string | null
@@ -95,43 +88,10 @@ export interface IRecordEventPayload {
   eventRecord: IEventRecord
 }
 
-const defaultEventsToTrack: Record<string, boolean> = Object.fromEntries(
-  eventsList
-    .map((group) => group.events)
-    .flat()
-    .map(({ key, defaultSelected, associated }) => {
-      if (associated) {
-        return associated.map((e) => [e.key, e.defaultSelected ?? false])
-      }
-      return [[key, defaultSelected ?? false]]
-    })
-    .flat(),
-)
-
-const defaultComposedEventsToTrack: Record<string, ComposedEventToTrack> =
-  Object.fromEntries(
-    eventsList
-      .filter((e) => e.groupName)
-      .map((group) => group.events)
-      .flat()
-      .map(({ key, defaultSelected, associated }) => {
-        const _associated = (associated ?? []).map((a) => a.key)
-        return [
-          key,
-          {
-            associated: _associated,
-            selected: defaultSelected ?? false,
-          },
-        ]
-      }),
-  )
-
 const initialState: EventRecorderState = {
   isRecorderEnabled: false,
   activeTabID: -1,
   events: {},
-  eventsToTrack: defaultEventsToTrack,
-  composedEventsToTrack: defaultComposedEventsToTrack,
   isManualEventInsert: false,
   allowedInjections: {},
   activeBlockId: null,
@@ -153,7 +113,7 @@ export const eventRecorderSlice = createSlice({
       state,
       { payload: { tabId, eventRecord } }: PayloadAction<IRecordEventPayload>,
     ) => {
-      const { events, eventsToTrack, isRecorderEnabled, activeBlockId } = state
+      const { events, isRecorderEnabled, activeBlockId } = state
 
       if (eventRecord?.type === ELEMENT_SELECTED && activeBlockId) {
         const block = events[tabId].find(
@@ -219,27 +179,6 @@ export const eventRecorderSlice = createSlice({
       }
       events[tabId].forEach((e) =>
         updateSelector(e as WritableDraft<IEventBlock>),
-      )
-    },
-    toggleEventToTrack: (
-      { eventsToTrack, composedEventsToTrack },
-      { payload }: PayloadAction<string>,
-    ) => {
-      composedEventsToTrack[payload].selected =
-        !composedEventsToTrack[payload].selected
-      composedEventsToTrack[payload].associated.forEach((key) => {
-        eventsToTrack[key] = composedEventsToTrack[payload].selected
-      })
-    },
-    toggleAllEventsToTrack: (
-      { eventsToTrack, composedEventsToTrack },
-      { payload }: PayloadAction<boolean>,
-    ) => {
-      Object.keys(eventsToTrack).forEach(
-        (key) => (eventsToTrack[key] = payload),
-      )
-      Object.keys(composedEventsToTrack).forEach(
-        (key) => (composedEventsToTrack[key].selected = payload),
       )
     },
     setActiveBlockId: (state, { payload }: PayloadAction<string>) => {
@@ -356,13 +295,11 @@ export const eventRecorderSlice = createSlice({
 })
 
 export const {
-  toggleEventToTrack,
   selectEventSelector,
   setActiveTabID,
   toggleIsRecorderEnabled,
   recordEvent,
   clearEvents,
-  toggleAllEventsToTrack,
   removeEvent,
   insertBlock,
   setIsInjectionAllowed,
