@@ -243,7 +243,6 @@ test('${testName}', async ({ page }) => {
 
   private serializeRecordedEvents(events: IEventBlock[]) {
     return events.reduce((acc, it, index) => {
-      console.log(it)
       const firstSelector =
         it.selectedSelector && (it.selectedSelector as ISelector)?.length > 1
           ? '.first()'
@@ -279,7 +278,7 @@ test('${testName}', async ({ page }) => {
             ? '.first()'
             : ''
         const selector = element ? this.generateSelector(element) : ''
-        console.log('firstSelector', firstSelector)
+
         acc += this.expectMethodsMap[it?.assertionType?.type as assertionTypes](
           {
             selector,
