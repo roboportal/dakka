@@ -24,7 +24,7 @@ export class PlaywrightProcessor extends ExportProcessor {
     keyboard: ({ key }, selector) =>
       `.fill('${normalizeString(selector)}', '${normalizeString(key ?? '')}')`,
     keydown: ({ key }) => (key ? `.keyboard.press('${key}')` : ''),
-    mouseClick: (it, selector) => `.click('${selector}')`,
+    mouseClick: (it, selector) => `.click('${normalizeString(selector)}')`,
     keyup: ({ key }) => (key ? `.keyboard.press('${key}')` : ''),
     default: () => '',
   }
