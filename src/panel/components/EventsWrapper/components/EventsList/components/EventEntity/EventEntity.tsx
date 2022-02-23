@@ -131,7 +131,7 @@ export function EventEntity({
 
         {record.variant === INTERACTIVE_ELEMENT ? (
           <EntryRow
-            record={record as IEventBlock}
+            record={record}
             isAddCustomSelector={isAddCustomSelector}
             onAddCustomSelector={handleAddCustomSelector}
             prefersDarkMode={prefersDarkMode}
@@ -157,7 +157,7 @@ export function EventEntity({
         {record.type === ASSERTION && (
           <AssertionSelector
             isExpanded={isExpanded}
-            record={record as IEventBlock}
+            record={record}
             prefersDarkMode={prefersDarkMode}
           />
         )}
