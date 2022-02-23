@@ -36,5 +36,6 @@
         "@typescript-eslint/no-extra-semi": "off",
         "react/react-in-jsx-scope": "off",
         "react-hooks/exhaustive-deps": "warn"
-    }
+    },
+    "ignorePatterns": "scripts/**/*"
 }
