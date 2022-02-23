@@ -72,7 +72,7 @@ export function AssertionSelector({
     ) {
       handleSetAssertProperties({
         recordId: record.id,
-        assertionValue: record?.element?.text ?? '',
+        assertionValue: record.assertionValue ?? record?.element?.text ?? '',
       })
       return
     }
@@ -159,18 +159,18 @@ export function AssertionSelector({
         selection?.type ?? '',
       )
         ? ''
-        : autoPopulatedValue || assertionValue
+        : autoPopulatedValue ?? assertionValue
 
       const _assertionAttribute = [
         assertionTypes.hasAttribute,
         assertionTypes.notHasAttribute,
       ].includes(selection?.type as assertionTypes)
-        ? assertionAttribute || firstElementAttributeName
+        ? assertionAttribute ?? firstElementAttributeName
         : ''
 
       handleSetAssertProperties({
         recordId: record.id,
-        assertionType: selection || {},
+        assertionType: selection ?? {},
         assertionValue: _assertionValue,
         assertionAttribute: _assertionAttribute,
       })
@@ -196,14 +196,15 @@ export function AssertionSelector({
 
   const handleAssertAttributeChange = useCallback(
     (e: React.SyntheticEvent, value = '') => {
+      const _value = value ?? ''
       const options: IAssertionPayload = {
         recordId: record.id,
-        assertionAttribute: value,
+        assertionAttribute: _value,
       }
       const attributesMap = record.element?.attributesMap ?? {}
 
-      if (attributesMap[value]) {
-        options.assertionValue = attributesMap[value]
+      if (attributesMap[_value]) {
+        options.assertionValue = attributesMap[_value]
       }
 
       handleSetAssertProperties(options)
