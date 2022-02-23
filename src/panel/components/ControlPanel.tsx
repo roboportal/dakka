@@ -4,8 +4,6 @@ import Button from '@mui/material/Button'
 import Switch from '@mui/material/Switch'
 import Typography from '@mui/material/Typography'
 import DeleteIcon from '@mui/icons-material/Delete'
-import SettingsApplicationsIcon from '@mui/icons-material/SettingsApplications'
-import IconButton from '@mui/material/IconButton'
 import { Tooltip } from '@mui/material'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import RadioButtonChecked from '@mui/icons-material/RadioButtonChecked'
@@ -17,15 +15,11 @@ import ExportPanel from './ExportPanel/ExportPanel'
 import useControlPanel from '../hooks/useControlPanel'
 
 export type IControlPanelProps = {
-  isSettingsButtonActive: boolean
-  onSettingsClick: () => void
   onAutoScrollToggle: () => void
   isAutoScrollEnabled: boolean
 }
 
 const ControlPanel = ({
-  onSettingsClick,
-  isSettingsButtonActive,
   onAutoScrollToggle,
   isAutoScrollEnabled,
 }: IControlPanelProps) => {
@@ -127,16 +121,6 @@ const ControlPanel = ({
           </Tooltip>
           <ExportPanel />
         </Stack>
-        <IconButton
-          onClick={onSettingsClick}
-          aria-label="toggle-setup"
-          size="small"
-        >
-          <SettingsApplicationsIcon
-            fontSize="small"
-            sx={{ color: isSettingsButtonActive ? grey[50] : grey[600] }}
-          />
-        </IconButton>
       </Toolbar>
     </AppBar>
   )

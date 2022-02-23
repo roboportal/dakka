@@ -3,28 +3,6 @@ import { eventTypes } from '../globalConstants/browserEvents'
 
 console.log('Script injected')
 
-const eventsToRecordMap = Object.fromEntries(eventTypes.map((it) => [it, true]))
-
-const _addEventListener = window.EventTarget.prototype.addEventListener
-const _removeEventListener = window.EventTarget.prototype.removeEventListener
-
-window.EventTarget.prototype.addEventListener = function (
-  type,
-  callback,
-  options,
-) {
-  _addEventListener.call(this, type, callback, options)
-
-  if (Object.prototype.hasOwnProperty.call(eventsToRecordMap, type)) {
-    _addEventListener.call(this, type, eventHandler, options)
-  }
-}
-
-window.EventTarget.prototype.removeEventListener = function (
-  type,
-  callback,
-  options,
-) {
-  _removeEventListener.call(this, type, callback, options)
-  _removeEventListener.call(this, type, eventHandler, options)
-}
+eventTypes.forEach((eventTypes) => {
+  window.addEventListener(eventTypes, eventHandler, true)
+})
