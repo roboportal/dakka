@@ -1,8 +1,9 @@
 import { nanoid } from 'nanoid'
 
 import { REDIRECT_STARTED } from '../globalConstants/messageTypes'
+import { info } from '../shared/logger'
 
-console.log('Background SW')
+info('Background SW')
 
 chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
   const shouldLogRedirect =
@@ -21,6 +22,8 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
         triggeredAt: Date.now(),
         type: REDIRECT_STARTED,
         selector: tab?.url,
+        innerWidth: tab.width,
+        innerHeight: tab.height,
       },
     })
   }

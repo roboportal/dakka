@@ -2,6 +2,11 @@ import { useCallback, useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
 import { internalEventsMap } from 'constants/internalEventsMap'
+import { resize } from 'constants/browserEvents'
+
+import { ASSERTION } from 'constants/actionTypes'
+import { REDIRECT_STARTED, INTERACTIVE_ELEMENT } from 'constants/messageTypes'
+
 import {
   setActiveBlockId,
   setExpandedId,
@@ -11,9 +16,6 @@ import {
 import { getLastSelectedEventId } from 'store/eventSelectors'
 
 import useElementSelect from 'hooks/useElementSelect'
-
-import { ASSERTION } from 'constants/actionTypes'
-import { REDIRECT_STARTED, INTERACTIVE_ELEMENT } from 'constants/messageTypes'
 
 import { truncate } from 'utils/string'
 
@@ -41,10 +43,20 @@ export default function useEventEntity(
   )
 
   const { type, selectedSelector, url, key, variant, element } = record
+
   const selector = `${selectedSelector?.name}: ${selectedSelector?.value}`
   const isRedirect = type === internalEventsMap[REDIRECT_STARTED]
+  const isResize = type === resize
   const isInteractive =
     variant === INTERACTIVE_ELEMENT && !element?.validSelectors?.length
+
+  const shouldHaveTopMargin =
+    isRedirect ||
+    isInteractive ||
+    isResize ||
+    !(record.shouldUseElementSelector ?? true)
+
+  const isManualSelectorSetupVisible = record.type === ASSERTION
 
   const handleSelectElement = useCallback(() => {
     if (isSelectElement) {
@@ -112,11 +124,6 @@ export default function useEventEntity(
     setIsSelectElement(false)
   }, [lastSelectedEventId])
 
-  const shouldHaveTopMargin =
-    isRedirect || isInteractive || !(record.shouldUseElementSelector ?? true)
-
-  const isManualSelectorSetupVisible = record.type === ASSERTION
-
   return {
     shouldHaveTopMargin,
     isRedirect,
@@ -133,5 +140,6 @@ export default function useEventEntity(
     interactiveElementSelectorValue,
     url,
     selector,
+    isResize,
   }
 }

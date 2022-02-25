@@ -1,5 +1,5 @@
-import { eventTypes } from '../../globalConstants/browserEvents'
+import { eventTypes, resize } from '../../globalConstants/browserEvents'
 
 export const eventsToTrack = Object.fromEntries(
-  eventTypes.map((t) => [t, true]),
+  [...eventTypes, resize].map((t) => [t, true]),
 )

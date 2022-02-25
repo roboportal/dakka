@@ -167,6 +167,8 @@ export function composeEvent({
       touches,
       which,
       title: document.title,
+      innerWidth: window.innerWidth,
+      innerHeight: window.innerHeight,
     },
   }
 }

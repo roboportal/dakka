@@ -1,4 +1,9 @@
+import { nanoid } from 'nanoid'
+import { resize } from '../globalConstants/browserEvents'
+
 import { composeEvent } from './composeEvent'
+
+import { fatal } from '../shared/logger'
 
 import {
   EVENT_INTERCEPTED,
@@ -10,8 +15,6 @@ import {
 const extensionId =
   (document?.querySelector('script[data-extid]') as HTMLElement)?.dataset
     ?.extid ?? ''
-
-const alreadyInterceptedSymbol = Symbol('alreadyInterceptedSymbol')
 
 let highLightElement: HTMLDivElement | null = null
 
@@ -64,11 +67,6 @@ window.addEventListener('message', ({ data }) => {
 })
 
 export function eventHandler(event: any) {
-  if (event[alreadyInterceptedSymbol]) {
-    return
-  }
-
-  event[alreadyInterceptedSymbol] = true
   const { type, target } = event
 
   try {
@@ -80,6 +78,24 @@ export function eventHandler(event: any) {
 
     window.postMessage(message)
   } catch (error) {
-    console.log('Error sending recorded event:', error, type, target)
+    fatal('Error sending recorded event:', error, type, target)
+  }
+}
+
+export function resizeEventHandler(innerWidth: number, innerHeight: number) {
+  try {
+    const message = {
+      id: extensionId,
+      type: EVENT_INTERCEPTED,
+      payload: {
+        id: nanoid(),
+        type: resize,
+        innerWidth,
+        innerHeight,
+      },
+    }
+    window.postMessage(message)
+  } catch (error) {
+    fatal('Error sending recorded event:', error)
   }
 }

@@ -4,8 +4,10 @@ import { REDIRECT_STARTED } from 'constants/messageTypes'
 import { internalEventsMap } from 'constants/internalEventsMap'
 
 import AbstractEventAggregator from './AbstractEventAggregator'
+
 import KeyboardAggregator from './KeyboardAggregator'
 import MouseClickAggregator from './MouseClickAggregator'
+import ResizeAggregator from './ResizeAggregator'
 
 class DefaultAggregator extends AbstractEventAggregator {
   aggregatedEventName = 'default'
@@ -22,6 +24,7 @@ class DefaultAggregator extends AbstractEventAggregator {
 const aggregators: AbstractEventAggregator[] = [
   KeyboardAggregator,
   MouseClickAggregator,
+  ResizeAggregator,
   DefaultAggregator,
 ].map((A) => new A())
 
@@ -55,6 +58,8 @@ function preprocessRedirect(events: IEventBlock[], event: IEventBlock) {
       type: internalEventsMap[REDIRECT_STARTED],
       selector: event.url ?? '',
       variant: '',
+      innerHeight: event.innerHeight,
+      innerWidth: event.innerWidth,
     }
 
     events.push(redirectionEvent)

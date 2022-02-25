@@ -1,3 +1,5 @@
+import { info } from '../shared/logger'
+
 chrome.devtools.panels.create('Dakka', '', 'devTools/panel.html', () => {
-  console.log('Dakka Panel created')
+  info('Dakka Panel created')
 })

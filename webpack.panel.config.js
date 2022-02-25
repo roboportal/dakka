@@ -6,6 +6,8 @@ const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
 
+const { DefinePlugin } = webpack
+
 const alias = {
   'react-dom': '@hot-loader/react-dom',
   components: path.resolve(__dirname, 'src/panel/components'),
@@ -102,6 +104,9 @@ const options = {
       chunks: ['panel'],
       publicPath: '..',
       cache: false,
+    }),
+    new DefinePlugin({
+      NODE_ENV: mode,
     }),
   ],
   infrastructureLogging: {

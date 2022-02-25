@@ -11,8 +11,9 @@ import {
 } from '../globalConstants/messageTypes'
 import { SESSION_STORAGE_KEY } from './constants'
 import { composeEvent } from './composeEvent'
+import { info, fatal } from '../shared/logger'
 
-console.log('Content script attached')
+info('Content script attached')
 
 const eventsToPassWhenRecordingDisabled = [ELEMENT_SELECTED]
 
@@ -149,7 +150,7 @@ const errorHandler: OnErrorEventHandler = (e) => {
     e?.preventDefault?.()
     e?.stopPropagation?.()
   }
-  console.log('Fatal error', e)
+  fatal('Fatal error', e)
 }
 
 window.onerror = errorHandler
