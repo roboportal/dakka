@@ -67,7 +67,9 @@ export const generateSelectors = (
         name: 'text',
         value: textContent,
         length: Array.from(document.querySelectorAll(tagName)).filter(
-          (el) => el?.firstChild?.nodeValue === textContent,
+          (el) =>
+            el?.firstChild?.nodeValue?.toLocaleLowerCase() ===
+            textContent?.toLocaleLowerCase(),
         ).length,
         priority: 1,
         rawValue: textContent,
