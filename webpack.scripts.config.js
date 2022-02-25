@@ -8,6 +8,8 @@ const TerserPlugin = require('terser-webpack-plugin')
 
 const { version } = require('./package.json')
 
+const { DefinePlugin } = webpack
+
 const mode = process.env.NODE_ENV ?? 'production'
 
 const options = {
@@ -82,6 +84,9 @@ const options = {
           force: true,
         },
       ],
+    }),
+    new DefinePlugin({
+      NODE_ENV: mode,
     }),
   ],
   infrastructureLogging: {

@@ -64,6 +64,7 @@ export function EventEntity({
     interactiveElementSelectorValue,
     url,
     selector,
+    isResize,
   } = useEventEntity(record, isExpanded)
 
   return (
@@ -129,7 +130,7 @@ export function EventEntity({
           />
         )}
 
-        {record.variant === INTERACTIVE_ELEMENT ? (
+        {record.variant === INTERACTIVE_ELEMENT && !isResize && (
           <EntryRow
             record={record}
             isAddCustomSelector={isAddCustomSelector}
@@ -140,7 +141,9 @@ export function EventEntity({
             label={interactiveElementLabel}
             value={interactiveElementSelectorValue}
           />
-        ) : (
+        )}
+
+        {record.variant !== INTERACTIVE_ELEMENT && !isResize && (
           <EntryRow
             prefersDarkMode={prefersDarkMode}
             isLast={true}
@@ -154,6 +157,26 @@ export function EventEntity({
             }
           />
         )}
+
+        {isResize && (
+          <>
+            <EntryRow
+              prefersDarkMode={prefersDarkMode}
+              isDividerVisible={!isFirstEntity}
+              isExpanded={isExpanded}
+              label="width"
+              value={(record.innerWidth ?? '').toString()}
+            />
+            <EntryRow
+              prefersDarkMode={prefersDarkMode}
+              isDividerVisible={!isFirstEntity}
+              isExpanded={isExpanded}
+              label="height"
+              value={(record.innerHeight ?? '').toString()}
+            />
+          </>
+        )}
+
         {record.type === ASSERTION && (
           <AssertionSelector
             isExpanded={isExpanded}

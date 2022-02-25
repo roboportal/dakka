@@ -70,6 +70,8 @@ export interface IEventBlock {
   title?: string
   text?: string
   attributesMap?: Record<string, string>
+  innerHeight?: number
+  innerWidth?: number
 }
 
 export interface IEventBlockPayload {

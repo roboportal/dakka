@@ -3,6 +3,7 @@ import { Provider } from 'react-redux'
 
 import StylesProvider from 'components/StylesProvider'
 import { store } from './store'
+import { fatal } from '../shared/logger'
 
 import App from './App'
 
@@ -32,7 +33,7 @@ const errorHandler: OnErrorEventHandler = (e) => {
     e?.preventDefault?.()
     e?.stopPropagation?.()
   }
-  console.log('Fatal error', e)
+  fatal('Fatal error', e)
 }
 
 window.onerror = errorHandler
