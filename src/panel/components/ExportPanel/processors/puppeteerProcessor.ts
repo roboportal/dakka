@@ -5,6 +5,7 @@ import { selectorTypes } from '../selectorTypes'
 import { normalizeString } from '../normalizer'
 import { ExportProcessor } from './abstractProcessor'
 import { WAIT_FOR_ELEMENT, ASSERTION } from '../../../constants/actionTypes'
+import { resize } from '../../../constants/browserEvents'
 
 const selectorOptions: Record<string, string> = {
   [selectorTypes.text]: '$x',
@@ -402,17 +403,26 @@ describe('${testName}', () => {
         acc += this.waitForElement(selector, element)
       }
 
+      if (it.type === resize) {
+        acc += this.setViewPort(it.innerWidth, it.innerHeight)
+      }
+
       return acc
     }, '')
   }
 
-  private getGoToTestedPage(url: string) {
-    return `await page.goto('${url}')`
+  private getGoToTestedPage(url = '', innerWidth = 0, innerHeight = 0) {
+    return `await page.setViewport({ width: ${innerWidth}, height: ${innerHeight} })
+      await page.goto('${url}')`
+  }
+
+  private setViewPort(innerWidth = 0, innerHeight = 0) {
+    return `      await page.setViewport({ width: ${innerWidth}, height: ${innerHeight} })`
   }
 
   private getContent(events: IEventBlock[]) {
-    const [firstEvent, ...restEvents] = events
-    return `${this.getGoToTestedPage(firstEvent.url ?? '')}
+    const [{ url, innerWidth, innerHeight }, ...restEvents] = events
+    return `${this.getGoToTestedPage(url, innerWidth, innerHeight)}
     ${this.serializeRecordedEvents(restEvents)}`
   }
 

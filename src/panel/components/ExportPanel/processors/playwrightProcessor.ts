@@ -5,6 +5,7 @@ import { selectorTypes } from '../selectorTypes'
 import { normalizeString } from '../normalizer'
 import { ExportProcessor } from './abstractProcessor'
 import { ASSERTION } from '../../../constants/actionTypes'
+import { redirect, resize } from '../../../constants/browserEvents'
 
 export class PlaywrightProcessor extends ExportProcessor {
   type = exportOptions.playwright
@@ -41,8 +42,13 @@ test('${testName}', async ({ page }) => {
 })`
   }
 
-  private getGoToTestedPage(url: string) {
-    return `await page.goto('${url}')`
+  private getGoToTestedPage(url = '', innerWidth = 0, innerHeight = 0) {
+    return `await page.setViewportSize({ width: ${innerWidth}, height: ${innerHeight} })
+  await page.goto('${url}')`
+  }
+
+  private setViewPort(innerWidth = 0, innerHeight = 0) {
+    return `  await page.setViewportSize({ width: ${innerWidth}, height: ${innerHeight} })`
   }
 
   private expectMethodsMap: Record<
@@ -232,7 +238,7 @@ test('${testName}', async ({ page }) => {
     nextEventIndex: number
     events: IEventBlock[]
   }) {
-    if (events?.[nextEventIndex]?.type === '_redirect') {
+    if (events?.[nextEventIndex]?.type === redirect) {
       return `  await Promise.all([
     page.waitForNavigation(),
     ${playwrightAction},
@@ -289,13 +295,17 @@ test('${testName}', async ({ page }) => {
         )
       }
 
+      if (it.type === resize) {
+        acc += this.setViewPort(it.innerWidth, it.innerHeight)
+      }
+
       return acc
     }, '')
   }
 
   private getContent(events: IEventBlock[]) {
-    const [firstEvent, ...restEvents] = events
-    return `${this.getGoToTestedPage(firstEvent.url ?? '')}
+    const [{ url, innerWidth, innerHeight }, ...restEvents] = events
+    return `${this.getGoToTestedPage(url, innerWidth, innerHeight)}
 ${this.serializeRecordedEvents(restEvents)}`
   }
 
