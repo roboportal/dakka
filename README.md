@@ -1,6 +1,6 @@
 # Dakka
 
-[![CI/CD](https://github.com/roboportal/dakka/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/roboportal/dakka/actions/workflows/ci.yml)
+[![CI](https://github.com/roboportal/dakka/actions/workflows/ci.yml/badge.svg)](https://github.com/roboportal/dakka/actions/workflows/ci.yml)
 
 <div align="center">
   <img src="https://user-images.githubusercontent.com/7383804/154784941-8baab235-a20e-4b61-baeb-37e4e3915b61.svg" width="180px" height="60px" />
