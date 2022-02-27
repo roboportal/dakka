@@ -105,6 +105,10 @@ Generated test can be copied to clipboard or downloaded as a file and added to t
 
 Run `npm i` and `npm start` to start development. It will run webpack dev server on the 8080 port. To get the test page use: `http://127.0.0.1:8080/testPage/testPage.html`
 
+### Testing
+
+Run `npm test` to execute the testsuite. To update mocks of generated tests execute `UPDATE_OUT=true npm run test`
+
 ### Build details
 
 There are two webpack configs to bundle the extension:
