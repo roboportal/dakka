@@ -6,6 +6,7 @@ import { normalizeString } from '../normalizer'
 import { ExportProcessor } from './abstractProcessor'
 import { selectorTypes } from '../selectorTypes'
 import { ASSERTION } from '../../../constants/actionTypes'
+import { resize } from '../../../constants/browserEvents'
 
 const keyDowns: Record<string, string> = {
   Backspace: ".type('{backspace}')",
@@ -28,8 +29,13 @@ export class CypressProcessor extends ExportProcessor {
     default: () => '',
   }
 
-  private getGoToTestedPage(url: string) {
-    return `cy.visit('${url}', { failOnStatusCode: false })\n`
+  private getGoToTestedPage(url = '', innerWidth = 0, innerHeight = 0) {
+    return `cy.viewport(${innerWidth}, ${innerHeight})
+    cy.visit('${url}', { failOnStatusCode: false })\n`
+  }
+
+  private setViewPort(innerWidth = 0, innerHeight = 0) {
+    return `    cy.viewport(${innerWidth}, ${innerHeight})\n`
   }
 
   private getWrapper(testName: string, content: string) {
@@ -199,14 +205,20 @@ describe('${testName}', () => {
         )
       }
 
+      if (it.type === resize) {
+        acc += this.setViewPort(it.innerWidth, it.innerHeight)
+      }
+
       return acc
     }, '')
   }
 
   private getContent(events: IEventBlock[]) {
-    const [firstEvent, ...restEvents] = events
+    const [{ url, innerWidth, innerHeight }, ...restEvents] = events
     return `${this.getGoToTestedPage(
-      firstEvent.url ?? '',
+      url,
+      innerWidth,
+      innerHeight,
     )}${this.serializeRecordedEvents(restEvents)}`
   }
 
