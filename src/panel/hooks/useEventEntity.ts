@@ -1,23 +1,23 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
-import { internalEventsMap } from 'constants/internalEventsMap'
-import { resize } from 'constants/browserEvents'
+import { internalEventsMap } from '@/constants/internalEventsMap'
+import { resize } from '@/constants/browserEvents'
 
-import { ASSERTION } from 'constants/actionTypes'
-import { REDIRECT_STARTED, INTERACTIVE_ELEMENT } from 'constants/messageTypes'
+import { ASSERTION } from '@/constants/actionTypes'
+import { REDIRECT_STARTED, INTERACTIVE_ELEMENT } from '@/constants/messageTypes'
 
 import {
   setActiveBlockId,
   setExpandedId,
   setCustomAssertSelector,
   IEventBlock,
-} from 'store/eventRecorderSlice'
-import { getLastSelectedEventId } from 'store/eventSelectors'
+} from '@/store/eventRecorderSlice'
+import { getLastSelectedEventId } from '@/store/eventSelectors'
 
-import useElementSelect from 'hooks/useElementSelect'
+import useElementSelect from '@/hooks/useElementSelect'
 
-import { truncate } from 'utils/string'
+import { truncate } from '@/utils/string'
 
 export default function useEventEntity(
   record: IEventBlock,

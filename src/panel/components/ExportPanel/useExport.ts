@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { IEventBlock } from 'store/eventRecorderSlice'
-import { getActiveEvents, getIsReadyToExport } from 'store/eventSelectors'
+import { IEventBlock } from '@/store/eventRecorderSlice'
+import { getActiveEvents, getIsReadyToExport } from '@/store/eventSelectors'
 
 import { exportOptions } from './constants'
 import exportProcessor from './exportProcessor'

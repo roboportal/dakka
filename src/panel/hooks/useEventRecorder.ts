@@ -5,15 +5,15 @@ import {
   setLastSelectedEventId,
   recordEvent,
   IEventRecord,
-} from 'store/eventRecorderSlice'
-import { getIsRecorderEnabled, getActiveTabId } from 'store/eventSelectors'
+} from '@/store/eventRecorderSlice'
+import { getIsRecorderEnabled, getActiveTabId } from '@/store/eventSelectors'
 import {
   ELEMENT_SELECTED,
   ENABLE_RECORDER,
   REDIRECT_STARTED,
   DISABLE_SELECT_ELEMENT,
-} from 'constants/messageTypes'
-import { internalEventsMap } from 'constants/internalEventsMap'
+} from '@/constants/messageTypes'
+import { internalEventsMap } from '@/constants/internalEventsMap'
 
 export default function useEventRecorder() {
   const isRecorderEnabled = useSelector(getIsRecorderEnabled)

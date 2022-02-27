@@ -2,8 +2,8 @@ import { useRef, useEffect, useState, memo, useMemo } from 'react'
 import { css } from '@emotion/react'
 import { useSelector } from 'react-redux'
 
-import { getExpandedEventId } from 'store/eventSelectors'
-import { getActiveEvents } from 'store/eventSelectors'
+import { getExpandedEventId } from '@/store/eventSelectors'
+import { getActiveEvents } from '@/store/eventSelectors'
 
 interface IScrollProps {
   wrapper: HTMLDivElement | null

@@ -1,7 +1,7 @@
 import { useRef, useState, useCallback, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 
-import { getActiveEvents, getIsManualEventInsert } from 'store/eventSelectors'
+import { getActiveEvents, getIsManualEventInsert } from '@/store/eventSelectors'
 
 export default function useScroll(autoScroll: boolean) {
   const events = useSelector(getActiveEvents)

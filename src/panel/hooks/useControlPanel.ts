@@ -1,9 +1,12 @@
 import { useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { ENABLE_RECORDER } from 'constants/messageTypes'
-import { clearEvents, toggleIsRecorderEnabled } from 'store/eventRecorderSlice'
-import { getIsRecorderEnabled, getActiveTabId } from 'store/eventSelectors'
+import { ENABLE_RECORDER } from '@/constants/messageTypes'
+import {
+  clearEvents,
+  toggleIsRecorderEnabled,
+} from '@/store/eventRecorderSlice'
+import { getIsRecorderEnabled, getActiveTabId } from '@/store/eventSelectors'
 
 export default function useControlPanel() {
   const isRecorderEnabled = useSelector(getIsRecorderEnabled)

@@ -1,6 +1,6 @@
 import { IEventBlock } from '../../eventRecorderSlice'
 import AbstractEventAggregator from './AbstractEventAggregator'
-import { resize } from 'constants/browserEvents'
+import { resize } from '@/constants/browserEvents'
 
 class ResizeAggregator extends AbstractEventAggregator {
   aggregatedEventName = resize

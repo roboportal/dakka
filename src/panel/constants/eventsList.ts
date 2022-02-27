@@ -1,5 +1,5 @@
-import { internalEventsMap } from 'constants/internalEventsMap'
-import { REDIRECT_STARTED } from 'constants/messageTypes'
+import { internalEventsMap } from '@/constants/internalEventsMap'
+import { REDIRECT_STARTED } from '@/constants/messageTypes'
 
 interface Event {
   key: string

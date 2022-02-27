@@ -13,13 +13,13 @@ import {
   IEventBlock,
   IAssertionPayload,
   setAssertionProperties,
-} from 'store/eventRecorderSlice'
+} from '@/store/eventRecorderSlice'
 
 import {
   assertionsList,
   assertionsListNegative,
   assertionTypes,
-} from 'constants/assertion'
+} from '@/constants/assertion'
 import { Label } from './Label'
 import Autocomplete from '@mui/material/Autocomplete'
 

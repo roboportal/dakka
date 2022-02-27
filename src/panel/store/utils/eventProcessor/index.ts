@@ -1,7 +1,7 @@
 import { IEventBlock } from '../../eventRecorderSlice'
 
-import { REDIRECT_STARTED } from 'constants/messageTypes'
-import { internalEventsMap } from 'constants/internalEventsMap'
+import { REDIRECT_STARTED } from '@/constants/messageTypes'
+import { internalEventsMap } from '@/constants/internalEventsMap'
 
 import AbstractEventAggregator from './AbstractEventAggregator'
 

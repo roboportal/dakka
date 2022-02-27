@@ -3,8 +3,8 @@ import { useDispatch } from 'react-redux'
 
 import { css } from '@emotion/react'
 
-import { useDrop } from 'hooks/dnd/useDrop'
-import { insertBlock, IEventBlock } from 'store/eventRecorderSlice'
+import { useDrop } from '@/hooks/dnd/useDrop'
+import { insertBlock, IEventBlock } from '@/store/eventRecorderSlice'
 
 import { RECORD_WIDTH, GAP_BETWEEN_RECORDS } from './constants/defaults'
 

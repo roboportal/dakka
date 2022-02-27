@@ -1,17 +1,17 @@
 import { css } from '@emotion/react'
 import { lightBlue, indigo } from '@mui/material/colors'
 
-import { IEventBlock } from 'store/eventRecorderSlice'
+import { IEventBlock } from '@/store/eventRecorderSlice'
 
-import useEventEntity from 'hooks/useEventEntity'
+import useEventEntity from '@/hooks/useEventEntity'
 
-import { ASSERTION } from 'constants/actionTypes'
-import { INTERACTIVE_ELEMENT } from 'constants/messageTypes'
+import { ASSERTION } from '@/constants/actionTypes'
+import { INTERACTIVE_ELEMENT } from '@/constants/messageTypes'
 import { AssertionSelector } from './components/AssertionSelector'
 import { EntryRow } from './components/EntryRow'
 import { Actions } from './components/Actions'
 import { DeleteAction } from './components/DeleteAction'
-import { truncate } from 'utils/string'
+import { truncate } from '@/utils/string'
 
 function getBackgroundColor({
   isHover,
