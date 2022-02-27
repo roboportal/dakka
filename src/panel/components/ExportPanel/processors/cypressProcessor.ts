@@ -1,7 +1,7 @@
 /* eslint-disable quotes */
-import { IEventBlock, ISelector } from 'store/eventRecorderSlice'
+import { IEventBlock, ISelector } from '@/store/eventRecorderSlice'
 import { exportOptions, INTERACTIVE_TAGS } from '../constants'
-import { assertionTypes } from 'constants/assertion'
+import { assertionTypes } from '@/constants/assertion'
 import { normalizeString } from '../normalizer'
 import { ExportProcessor } from './abstractProcessor'
 import { selectorTypes } from '../selectorTypes'
@@ -144,7 +144,7 @@ describe('${testName}', () => {
       assertionValue,
       assertionAttribute,
     }) => {
-      return `      cy.${selector}.should('have.attr', '${assertionAttribute}', '${assertionValue}')\n`
+      return `    cy.${selector}.should('have.attr', '${assertionAttribute}', '${assertionValue}')\n`
     },
 
     [assertionTypes.notHasAttribute]: ({

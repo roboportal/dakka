@@ -1,9 +1,9 @@
 import { MouseEventHandler, useCallback } from 'react'
 
-import { IEventBlock } from 'store/eventRecorderSlice'
+import { IEventBlock } from '@/store/eventRecorderSlice'
 
-import { HIGHLIGHT_ELEMENT, REDIRECT_STARTED } from 'constants/messageTypes'
-import { internalEventsMap } from 'constants/internalEventsMap'
+import { HIGHLIGHT_ELEMENT, REDIRECT_STARTED } from '@/constants/messageTypes'
+import { internalEventsMap } from '@/constants/internalEventsMap'
 
 function highlightElement(
   tabId: number,

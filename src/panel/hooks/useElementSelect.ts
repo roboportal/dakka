@@ -1,12 +1,12 @@
 import { useCallback } from 'react'
 import { useSelector } from 'react-redux'
 
-import { getActiveTabId } from 'store/eventSelectors'
+import { getActiveTabId } from '@/store/eventSelectors'
 
 import {
   ENABLE_SELECT_ELEMENT,
   DISABLE_SELECT_ELEMENT,
-} from 'constants/messageTypes'
+} from '@/constants/messageTypes'
 
 export default function useElementSelect() {
   const activeTabID = useSelector(getActiveTabId)

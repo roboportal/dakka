@@ -1,4 +1,4 @@
-import { IEventBlock } from 'store/eventRecorderSlice'
+import { IEventBlock } from '@/store/eventRecorderSlice'
 import { exportOptions } from '../constants'
 
 export abstract class ExportProcessor {

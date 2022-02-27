@@ -1,7 +1,7 @@
 import { createSelector } from '@reduxjs/toolkit'
-import { EventRecorderState, IEventBlock } from 'store/eventRecorderSlice'
+import { EventRecorderState, IEventBlock } from '@/store/eventRecorderSlice'
 import { SLICE_NAMES, RootState } from './index'
-import { assertionTypes } from 'constants/assertion'
+import { assertionTypes } from '@/constants/assertion'
 import { WAIT_FOR_ELEMENT, ASSERTION } from '../constants/actionTypes'
 
 const EVENT_TYPES_TO_IGNORE_ELEMENT_SELECT = [

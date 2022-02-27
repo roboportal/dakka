@@ -3,8 +3,8 @@ import { nanoid } from 'nanoid'
 import { createSlice, PayloadAction, original } from '@reduxjs/toolkit'
 import { WritableDraft } from 'immer/dist/internal'
 
-import { INTERACTIVE_ELEMENT, ELEMENT_SELECTED } from 'constants/messageTypes'
-import { eventsToTrack } from 'constants/eventTypes'
+import { INTERACTIVE_ELEMENT, ELEMENT_SELECTED } from '@/constants/messageTypes'
+import { eventsToTrack } from '@/constants/eventTypes'
 import { process } from './utils/eventProcessor'
 
 export interface EventRecorderState {

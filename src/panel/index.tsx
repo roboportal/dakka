@@ -1,7 +1,7 @@
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 
-import StylesProvider from 'components/StylesProvider'
+import StylesProvider from '@/components/StylesProvider'
 import { store } from './store'
 import { fatal } from '../shared/logger'
 

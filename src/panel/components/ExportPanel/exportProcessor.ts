@@ -1,4 +1,4 @@
-import { IEventBlock } from 'store/eventRecorderSlice'
+import { IEventBlock } from '@/store/eventRecorderSlice'
 import { exportOptions } from './constants'
 import { dump } from 'js-yaml'
 import { PlaywrightProcessor } from './processors/playwrightProcessor'

@@ -1,6 +1,6 @@
 import { useRef } from 'react'
 import SpeedDialAction from '@mui/material/SpeedDialAction'
-import { useDrag } from 'hooks/dnd/useDrag'
+import { useDrag } from '@/hooks/dnd/useDrag'
 
 import actions from './actions'
 

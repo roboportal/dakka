@@ -2,13 +2,13 @@ import { css } from '@emotion/react'
 import Box from '@mui/material/Box'
 import useMediaQuery from '@mui/material/useMediaQuery'
 
-import ControlPanel from 'components/ControlPanel'
-import EventsWrapper from 'components/EventsWrapper/EventsWrapper'
-import AllowInjection from 'components/AllowInjection'
+import ControlPanel from '@/components/ControlPanel'
+import EventsWrapper from '@/components/EventsWrapper/EventsWrapper'
+import AllowInjection from '@/components/AllowInjection'
 
-import useAllowInjection from 'hooks/useAllowInjection'
-import useToggle from 'hooks/useToggle'
-import useEventRecorder from 'hooks/useEventRecorder'
+import useAllowInjection from '@/hooks/useAllowInjection'
+import useToggle from '@/hooks/useToggle'
+import useEventRecorder from '@/hooks/useEventRecorder'
 
 export default function App() {
   useEventRecorder()

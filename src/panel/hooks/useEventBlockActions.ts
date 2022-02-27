@@ -1,8 +1,8 @@
 import { MouseEventHandler, useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
-import { removeEvent } from 'store/eventRecorderSlice'
-import { getEvents, getActiveTabId } from 'store/eventSelectors'
+import { removeEvent } from '@/store/eventRecorderSlice'
+import { getEvents, getActiveTabId } from '@/store/eventSelectors'
 
 import useEventHighlight from './useEventHighlight'
 

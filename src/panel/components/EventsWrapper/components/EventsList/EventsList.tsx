@@ -2,8 +2,8 @@ import { memo } from 'react'
 import { css } from '@emotion/react'
 import { useSelector } from 'react-redux'
 
-import { getActiveEvents } from 'store/eventSelectors'
-import { getExpandedEventId } from 'store/eventSelectors'
+import { getActiveEvents } from '@/store/eventSelectors'
+import { getExpandedEventId } from '@/store/eventSelectors'
 
 import { Record } from './components/Record/Record'
 import { EventEntity } from './components/EventEntity/EventEntity'

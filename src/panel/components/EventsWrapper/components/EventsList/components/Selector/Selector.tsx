@@ -11,9 +11,9 @@ import {
   selectEventSelector,
   IEventBlock,
   ISelector,
-} from 'store/eventRecorderSlice'
-import { getActiveTabId } from 'store/eventSelectors'
-import { INTERACTIVE_ELEMENT } from 'constants/messageTypes'
+} from '@/store/eventRecorderSlice'
+import { getActiveTabId } from '@/store/eventSelectors'
+import { INTERACTIVE_ELEMENT } from '@/constants/messageTypes'
 
 import { Divider } from './Divider'
 import { SelectorMenuItem } from './SelectorMenuItem'

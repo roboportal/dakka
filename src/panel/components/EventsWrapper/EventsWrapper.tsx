@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { css } from '@emotion/react'
 
-import useScroll from 'hooks/useScroll'
-import useEventBlockActions from 'hooks/useEventBlockActions'
+import useScroll from '@/hooks/useScroll'
+import useEventBlockActions from '@/hooks/useEventBlockActions'
 
 import EventsList from './components/EventsList/EventsList'
 import Scroll from './components/Scroll'

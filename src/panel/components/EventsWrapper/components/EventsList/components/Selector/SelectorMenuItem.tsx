@@ -3,7 +3,7 @@ import { css } from '@emotion/react'
 import WarningAmberIcon from '@mui/icons-material/WarningAmberRounded'
 import CheckCircle from '@mui/icons-material/CheckCircle'
 import { SvgIconTypeMap, Tooltip } from '@mui/material'
-import { ISelector } from 'store/eventRecorderSlice'
+import { ISelector } from '@/store/eventRecorderSlice'
 import { OverridableComponent } from '@mui/material/OverridableComponent'
 
 interface Item {

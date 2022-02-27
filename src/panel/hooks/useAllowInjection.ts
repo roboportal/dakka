@@ -1,15 +1,15 @@
 import { useEffect, useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
-import { setIsInjectionAllowed, IEventRecord } from 'store/eventRecorderSlice'
-import { getActiveTabId, getAllowedInjections } from 'store/eventSelectors'
+import { setIsInjectionAllowed, IEventRecord } from '@/store/eventRecorderSlice'
+import { getActiveTabId, getAllowedInjections } from '@/store/eventSelectors'
 
 import {
   IS_INJECTION_ALLOWED,
   ALLOW_INJECTING,
   INJECTION_ALLOWED_STATUS,
   REDIRECT_STARTED,
-} from 'constants/messageTypes'
+} from '@/constants/messageTypes'
 
 export default function useAllowInjection() {
   const dispatch = useDispatch()

@@ -1,6 +1,6 @@
-import { IEventBlock, ISelector } from 'store/eventRecorderSlice'
+import { IEventBlock, ISelector } from '@/store/eventRecorderSlice'
 import { exportOptions, INTERACTIVE_TAGS } from '../constants'
-import { assertionTypes } from 'constants/assertion'
+import { assertionTypes } from '@/constants/assertion'
 import { selectorTypes } from '../selectorTypes'
 import { normalizeString } from '../normalizer'
 import { ExportProcessor } from './abstractProcessor'
