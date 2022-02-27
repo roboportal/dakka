@@ -180,7 +180,7 @@ test('${testName}', async ({ page }) => {
       firstSelector,
     }) => {
       const normalizedSelector = normalizeString(selector)
-      return `  await expect(page.locator('${normalizedSelector}').getAttribute('${assertionAttribute}'))${firstSelector}.toBe('${assertionValue}')`
+      return `  await expect(page.locator('${normalizedSelector}').getAttribute('${assertionAttribute}'))${firstSelector}.toBe('${assertionValue}')\n`
     },
 
     [assertionTypes.notHasAttribute]: ({
@@ -190,7 +190,7 @@ test('${testName}', async ({ page }) => {
       firstSelector,
     }) => {
       const normalizedSelector = normalizeString(selector)
-      return `await expect(page.locator('${normalizedSelector}').getAttribute('${assertionAttribute}'))${firstSelector}.not.toBe('${assertionValue}')`
+      return `  await expect(page.locator('${normalizedSelector}').getAttribute('${assertionAttribute}'))${firstSelector}.not.toBe('${assertionValue}')\n`
     },
 
     [assertionTypes.toHaveLength]: ({

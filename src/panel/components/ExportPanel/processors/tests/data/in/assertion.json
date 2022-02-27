@@ -1176,5 +1176,1172 @@
     },
     "isInvalidValidSetUp": false,
     "shouldUseElementSelector": true
+  },
+  {
+    "id": "xZxV-IlCGysVm78Zptp81",
+    "eventRecordIndex": 1,
+    "type": "Assertion",
+    "url": "https://www.google.com/search?q=rfrf&oq=rfrf&aqs=chrome..69i57j46i175i199i512j0i512l8.518j0j7&sourceid=chrome&ie=UTF-8",
+    "title": "rfrf - Google Search",
+    "variant": "INTERACTIVE_ELEMENT",
+    "element": {
+      "id": "DxizZXxTSioIqyRe2Fkkf",
+      "validSelectors": [
+        {
+          "name": "text",
+          "value": "About 309,000 results",
+          "length": 1,
+          "priority": 1,
+          "rawValue": "About 309,000 results",
+          "closest": 0,
+          "tagName": "div"
+        },
+        {
+          "name": "tagName#element-id",
+          "value": "div#result-stats",
+          "length": 1,
+          "priority": 2,
+          "rawValue": "#result-stats",
+          "closest": 0,
+          "tagName": "div"
+        },
+        {
+          "name": "#element-id",
+          "value": "#result-stats",
+          "length": 1,
+          "priority": 2,
+          "rawValue": "#result-stats",
+          "closest": 0,
+          "tagName": "div"
+        },
+        {
+          "name": "unique-path",
+          "value": "#result-stats",
+          "length": 1,
+          "priority": 3,
+          "rawValue": "#result-stats",
+          "closest": 0,
+          "tagName": "div"
+        },
+        {
+          "name": "<tagName>",
+          "value": "div",
+          "length": 1310,
+          "priority": 3,
+          "rawValue": "div",
+          "closest": 0,
+          "tagName": "div"
+        }
+      ],
+      "triggeredAt": 1645993835393,
+      "selector": "#result-stats",
+      "selectedSelector": {
+        "name": "text",
+        "value": "About 309,000 results",
+        "length": 1,
+        "priority": 1,
+        "rawValue": "About 309,000 results",
+        "closest": 0,
+        "tagName": "div"
+      },
+      "url": "https://www.google.com/search?q=rfrf&oq=rfrf&aqs=chrome..69i57j46i175i199i512j0i512l8.518j0j7&sourceid=chrome&ie=UTF-8",
+      "type": "mouseover",
+      "altKey": false,
+      "bubbles": true,
+      "button": 0,
+      "buttons": 0,
+      "cancelable": true,
+      "clientX": 195,
+      "clientY": 155,
+      "ctrlKey": false,
+      "detail": 0,
+      "eventPhase": 1,
+      "isTrusted": true,
+      "metaKey": false,
+      "pageX": 195,
+      "pageY": 155,
+      "screenX": 195,
+      "screenY": 292,
+      "shiftKey": false,
+      "defaultPrevented": false,
+      "timeStamp": 307796.90000000596,
+      "which": 0,
+      "title": "rfrf - Google Search",
+      "innerWidth": 1309,
+      "innerHeight": 743,
+      "text": "About 309,000 results",
+      "attributesMap": {
+        "id": "result-stats"
+      }
+    },
+    "selector": "",
+    "assertionAttribute": "",
+    "assertionValue": "",
+    "assertionType": {
+      "type": "notInDocument",
+      "name": "Is not in document"
+    },
+    "isInvalidValidSetUp": false,
+    "shouldUseElementSelector": true
+  },
+  {
+    "id": "I8xkAIAqc-EgdFR6tzm3a",
+    "eventRecordIndex": 2,
+    "type": "Assertion",
+    "url": "https://www.google.com/search?q=rfrf&oq=rfrf&aqs=chrome..69i57j46i175i199i512j0i512l8.518j0j7&sourceid=chrome&ie=UTF-8",
+    "title": "rfrf - Google Search",
+    "variant": "INTERACTIVE_ELEMENT",
+    "element": {
+      "id": "G5raGtEjUZ_0vUNsBeG8a",
+      "validSelectors": [
+        {
+          "name": "text",
+          "value": " (0.47 seconds) ",
+          "length": 1,
+          "priority": 1,
+          "rawValue": " (0.47 seconds) ",
+          "closest": 0,
+          "tagName": "nobr"
+        },
+        {
+          "name": "unique-path",
+          "value": "nobr",
+          "length": 1,
+          "priority": 3,
+          "rawValue": "nobr",
+          "closest": 0,
+          "tagName": "nobr"
+        },
+        {
+          "name": "<tagName>",
+          "value": "nobr",
+          "length": 1,
+          "priority": 3,
+          "rawValue": "nobr",
+          "closest": 0,
+          "tagName": "nobr"
+        }
+      ],
+      "triggeredAt": 1645993866019,
+      "selector": "nobr",
+      "selectedSelector": {
+        "name": "text",
+        "value": " (0.47 seconds) ",
+        "length": 1,
+        "priority": 1,
+        "rawValue": " (0.47 seconds) ",
+        "closest": 0,
+        "tagName": "nobr"
+      },
+      "url": "https://www.google.com/search?q=rfrf&oq=rfrf&aqs=chrome..69i57j46i175i199i512j0i512l8.518j0j7&sourceid=chrome&ie=UTF-8",
+      "type": "mouseover",
+      "altKey": false,
+      "bubbles": true,
+      "button": 0,
+      "buttons": 0,
+      "cancelable": true,
+      "clientX": 322,
+      "clientY": 155,
+      "ctrlKey": false,
+      "detail": 0,
+      "eventPhase": 1,
+      "isTrusted": true,
+      "metaKey": false,
+      "pageX": 322,
+      "pageY": 155,
+      "screenX": 322,
+      "screenY": 292,
+      "shiftKey": false,
+      "defaultPrevented": false,
+      "timeStamp": 338424,
+      "which": 0,
+      "title": "rfrf - Google Search",
+      "innerWidth": 1309,
+      "innerHeight": 743,
+      "text": " (0.47 seconds) ",
+      "attributesMap": {}
+    },
+    "selector": "",
+    "assertionAttribute": "",
+    "assertionValue": " (0.47 seconds) ",
+    "assertionType": {
+      "type": "notContains",
+      "name": "Nor Contains"
+    },
+    "isInvalidValidSetUp": false,
+    "shouldUseElementSelector": true,
+    "assertionInputsValidationResult": {
+      "assertionValue": false
+    }
+  },
+  {
+    "id": "DBiKdAK4MD-rMeS-19sPP",
+    "eventRecordIndex": 3,
+    "type": "Assertion",
+    "url": "https://www.google.com/search?q=rfrf&oq=rfrf&aqs=chrome..69i57j46i175i199i512j0i512l8.518j0j7&sourceid=chrome&ie=UTF-8",
+    "title": "rfrf - Google Search",
+    "variant": "INTERACTIVE_ELEMENT",
+    "element": {
+      "id": "58aEQeJF6YQmiDIQ-ngEP",
+      "validSelectors": [
+        {
+          "name": "text",
+          "value": "Research for Resurgence Foundation, Nagpur",
+          "length": 1,
+          "priority": 1,
+          "rawValue": "Research for Resurgence Foundation, Nagpur",
+          "closest": 0,
+          "tagName": "h3"
+        },
+        {
+          "name": ".classname",
+          "value": ".LC20lb.MBeuO.DKV0Md",
+          "length": 39,
+          "priority": 3,
+          "rawValue": ".LC20lb.MBeuO.DKV0Md",
+          "closest": 0,
+          "tagName": "h3"
+        },
+        {
+          "name": "unique-path",
+          "value": ".jtfYYd:nth-child(2) .LC20lb",
+          "length": 1,
+          "priority": 3,
+          "rawValue": ".jtfYYd:nth-child(2) .LC20lb",
+          "closest": 0,
+          "tagName": "h3"
+        },
+        {
+          "name": "<tagName>",
+          "value": "h3",
+          "length": 41,
+          "priority": 3,
+          "rawValue": "h3",
+          "closest": 0,
+          "tagName": "h3"
+        },
+        {
+          "name": "href",
+          "value": "a[href=\"https://rfrfoundation.org/\"]",
+          "length": 1,
+          "priority": 2,
+          "rawValue": "https://rfrfoundation.org/",
+          "closest": 1,
+          "tagName": "a"
+        },
+        {
+          "name": "<tagName>",
+          "value": "a",
+          "length": 95,
+          "priority": 3,
+          "rawValue": "a",
+          "closest": 1,
+          "tagName": "a"
+        }
+      ],
+      "triggeredAt": 1645993898037,
+      "selector": ".jtfYYd:nth-child(2) .LC20lb",
+      "selectedSelector": {
+        "name": "text",
+        "value": "Research for Resurgence Foundation, Nagpur",
+        "length": 1,
+        "priority": 1,
+        "rawValue": "Research for Resurgence Foundation, Nagpur",
+        "closest": 0,
+        "tagName": "h3"
+      },
+      "url": "https://www.google.com/search?q=rfrf&oq=rfrf&aqs=chrome..69i57j46i175i199i512j0i512l8.518j0j7&sourceid=chrome&ie=UTF-8",
+      "type": "mouseover",
+      "altKey": false,
+      "bubbles": true,
+      "button": 0,
+      "buttons": 0,
+      "cancelable": true,
+      "clientX": 312,
+      "clientY": 212,
+      "ctrlKey": false,
+      "detail": 0,
+      "eventPhase": 1,
+      "isTrusted": true,
+      "metaKey": false,
+      "pageX": 312,
+      "pageY": 212,
+      "screenX": 312,
+      "screenY": 349,
+      "shiftKey": false,
+      "defaultPrevented": false,
+      "timeStamp": 370428.40000000596,
+      "which": 0,
+      "title": "rfrf - Google Search",
+      "innerWidth": 1309,
+      "innerHeight": 743,
+      "text": "Research for Resurgence Foundation, Nagpur",
+      "attributesMap": {
+        "class": "LC20lb MBeuO DKV0Md"
+      }
+    },
+    "selector": "",
+    "assertionAttribute": "",
+    "assertionValue": "Research for Resurgence Foundation, Nagpur",
+    "assertionType": {
+      "type": "notEquals",
+      "name": "Not Equals"
+    },
+    "isInvalidValidSetUp": false,
+    "shouldUseElementSelector": true,
+    "assertionInputsValidationResult": {
+      "assertionValue": false
+    }
+  },
+  {
+    "id": "RkWuR4kzXQHG7ptCOT-hU",
+    "eventRecordIndex": 4,
+    "type": "Assertion",
+    "url": "https://www.google.com/search?q=rfrf&oq=rfrf&aqs=chrome..69i57j46i175i199i512j0i512l8.518j0j7&sourceid=chrome&ie=UTF-8",
+    "title": "rfrf - Google Search",
+    "variant": "INTERACTIVE_ELEMENT",
+    "element": {
+      "id": "EcMp7Vp8A5Bk1thm7_VkP",
+      "validSelectors": [
+        {
+          "name": "text",
+          "value": "Tools",
+          "length": 1,
+          "priority": 1,
+          "rawValue": "Tools",
+          "closest": 0,
+          "tagName": "div"
+        },
+        {
+          "name": "role",
+          "value": "[role=\"button\"]",
+          "length": 68,
+          "priority": 2,
+          "rawValue": "button",
+          "closest": 0,
+          "tagName": "div"
+        },
+        {
+          "name": "tagName#element-id",
+          "value": "div#hdtb-tls",
+          "length": 1,
+          "priority": 2,
+          "rawValue": "#hdtb-tls",
+          "closest": 0,
+          "tagName": "div"
+        },
+        {
+          "name": "#element-id",
+          "value": "#hdtb-tls",
+          "length": 1,
+          "priority": 2,
+          "rawValue": "#hdtb-tls",
+          "closest": 0,
+          "tagName": "div"
+        },
+        {
+          "name": ".classname",
+          "value": ".t2vtad",
+          "length": 1,
+          "priority": 3,
+          "rawValue": ".t2vtad",
+          "closest": 0,
+          "tagName": "div"
+        },
+        {
+          "name": "unique-path",
+          "value": "#hdtb-tls",
+          "length": 1,
+          "priority": 3,
+          "rawValue": "#hdtb-tls",
+          "closest": 0,
+          "tagName": "div"
+        },
+        {
+          "name": "<tagName>",
+          "value": "div",
+          "length": 1310,
+          "priority": 3,
+          "rawValue": "div",
+          "closest": 0,
+          "tagName": "div"
+        }
+      ],
+      "triggeredAt": 1645993908592,
+      "selector": "#hdtb-tls",
+      "selectedSelector": {
+        "name": "text",
+        "value": "Tools",
+        "length": 1,
+        "priority": 1,
+        "rawValue": "Tools",
+        "closest": 0,
+        "tagName": "div"
+      },
+      "url": "https://www.google.com/search?q=rfrf&oq=rfrf&aqs=chrome..69i57j46i175i199i512j0i512l8.518j0j7&sourceid=chrome&ie=UTF-8",
+      "type": "mouseover",
+      "altKey": false,
+      "bubbles": true,
+      "button": 0,
+      "buttons": 0,
+      "cancelable": true,
+      "clientX": 803,
+      "clientY": 117,
+      "ctrlKey": false,
+      "detail": 0,
+      "eventPhase": 1,
+      "isTrusted": true,
+      "metaKey": false,
+      "pageX": 803,
+      "pageY": 117,
+      "screenX": 803,
+      "screenY": 254,
+      "shiftKey": false,
+      "defaultPrevented": false,
+      "timeStamp": 380997.799999997,
+      "which": 0,
+      "title": "rfrf - Google Search",
+      "innerWidth": 1309,
+      "innerHeight": 743,
+      "text": "Tools",
+      "attributesMap": {
+        "class": "t2vtad",
+        "id": "hdtb-tls",
+        "aria-controls": "hdtbMenus",
+        "aria-expanded": "false",
+        "role": "button",
+        "tabindex": "0",
+        "data-ved": "2ahUKEwj4tZXc26D2AhWkCjQIHT4-ASEQ2x96BAgBEA4"
+      }
+    },
+    "selector": "",
+    "assertionAttribute": "class",
+    "assertionValue": "t2vtad",
+    "assertionType": {
+      "type": "notHasAttribute",
+      "name": "Has no attribute"
+    },
+    "isInvalidValidSetUp": false,
+    "shouldUseElementSelector": true,
+    "assertionInputsValidationResult": {
+      "assertionValue": false,
+      "assertionAttribute": false
+    }
+  },
+  {
+    "id": "94EZmp_FNJCVkQhVLGxhJ",
+    "eventRecordIndex": 5,
+    "type": "Assertion",
+    "url": "https://www.google.com/search?q=rfrf&oq=rfrf&aqs=chrome..69i57j46i175i199i512j0i512l8.518j0j7&sourceid=chrome&ie=UTF-8",
+    "title": "rfrf - Google Search",
+    "variant": "INTERACTIVE_ELEMENT",
+    "element": {
+      "id": "Gj0hPXKCyR41Vc030qmDd",
+      "validSelectors": [
+        {
+          "name": "text",
+          "value": "About 309,000 results",
+          "length": 1,
+          "priority": 1,
+          "rawValue": "About 309,000 results",
+          "closest": 0,
+          "tagName": "div"
+        },
+        {
+          "name": "tagName#element-id",
+          "value": "div#result-stats",
+          "length": 1,
+          "priority": 2,
+          "rawValue": "#result-stats",
+          "closest": 0,
+          "tagName": "div"
+        },
+        {
+          "name": "#element-id",
+          "value": "#result-stats",
+          "length": 1,
+          "priority": 2,
+          "rawValue": "#result-stats",
+          "closest": 0,
+          "tagName": "div"
+        },
+        {
+          "name": "unique-path",
+          "value": "#result-stats",
+          "length": 1,
+          "priority": 3,
+          "rawValue": "#result-stats",
+          "closest": 0,
+          "tagName": "div"
+        },
+        {
+          "name": "<tagName>",
+          "value": "div",
+          "length": 1310,
+          "priority": 3,
+          "rawValue": "div",
+          "closest": 0,
+          "tagName": "div"
+        }
+      ],
+      "triggeredAt": 1645993920136,
+      "selector": "#result-stats",
+      "selectedSelector": {
+        "name": "text",
+        "value": "About 309,000 results",
+        "length": 1,
+        "priority": 1,
+        "rawValue": "About 309,000 results",
+        "closest": 0,
+        "tagName": "div"
+      },
+      "url": "https://www.google.com/search?q=rfrf&oq=rfrf&aqs=chrome..69i57j46i175i199i512j0i512l8.518j0j7&sourceid=chrome&ie=UTF-8",
+      "type": "mouseover",
+      "altKey": false,
+      "bubbles": true,
+      "button": 0,
+      "buttons": 0,
+      "cancelable": true,
+      "clientX": 427,
+      "clientY": 168,
+      "ctrlKey": false,
+      "detail": 0,
+      "eventPhase": 1,
+      "isTrusted": true,
+      "metaKey": false,
+      "pageX": 427,
+      "pageY": 168,
+      "screenX": 427,
+      "screenY": 305,
+      "shiftKey": false,
+      "defaultPrevented": false,
+      "timeStamp": 392537,
+      "which": 0,
+      "title": "rfrf - Google Search",
+      "innerWidth": 1309,
+      "innerHeight": 743,
+      "text": "About 309,000 results",
+      "attributesMap": {
+        "id": "result-stats"
+      }
+    },
+    "selector": "",
+    "assertionAttribute": "",
+    "assertionType": {
+      "type": "notToBeDisabled",
+      "name": "Not to be disabled"
+    },
+    "isInvalidValidSetUp": false,
+    "shouldUseElementSelector": true
+  },
+  {
+    "id": "_cGA1ZmCApEvFhOeyeEHT",
+    "eventRecordIndex": 6,
+    "type": "Assertion",
+    "url": "https://www.google.com/search?q=rfrf&oq=rfrf&aqs=chrome..69i57j46i175i199i512j0i512l8.518j0j7&sourceid=chrome&ie=UTF-8",
+    "title": "rfrf - Google Search",
+    "variant": "INTERACTIVE_ELEMENT",
+    "element": {
+      "id": "w8CIudoCylM3EImmS06L3",
+      "validSelectors": [
+        {
+          "name": "unique-path",
+          "value": ".jtfYYd:nth-child(2) .VwiC3b > span:nth-child(2)",
+          "length": 1,
+          "priority": 3,
+          "rawValue": ".jtfYYd:nth-child(2) .VwiC3b > span:nth-child(2)",
+          "closest": 0,
+          "tagName": "span"
+        },
+        {
+          "name": "<tagName>",
+          "value": "span",
+          "length": 391,
+          "priority": 3,
+          "rawValue": "span",
+          "closest": 0,
+          "tagName": "span"
+        }
+      ],
+      "triggeredAt": 1645993933068,
+      "selector": ".jtfYYd:nth-child(2) .VwiC3b > span:nth-child(2)",
+      "selectedSelector": {
+        "name": "unique-path",
+        "value": ".jtfYYd:nth-child(2) .VwiC3b > span:nth-child(2)",
+        "length": 1,
+        "priority": 3,
+        "rawValue": ".jtfYYd:nth-child(2) .VwiC3b > span:nth-child(2)",
+        "closest": 0,
+        "tagName": "span"
+      },
+      "url": "https://www.google.com/search?q=rfrf&oq=rfrf&aqs=chrome..69i57j46i175i199i512j0i512l8.518j0j7&sourceid=chrome&ie=UTF-8",
+      "type": "mouseover",
+      "altKey": false,
+      "bubbles": true,
+      "button": 0,
+      "buttons": 0,
+      "cancelable": true,
+      "clientX": 570,
+      "clientY": 254,
+      "ctrlKey": false,
+      "detail": 0,
+      "eventPhase": 1,
+      "isTrusted": true,
+      "metaKey": false,
+      "pageX": 570,
+      "pageY": 254,
+      "screenX": 570,
+      "screenY": 391,
+      "shiftKey": false,
+      "defaultPrevented": false,
+      "timeStamp": 405464.90000000596,
+      "which": 0,
+      "title": "rfrf - Google Search",
+      "innerWidth": 1309,
+      "innerHeight": 743,
+      "text": null,
+      "attributesMap": {}
+    },
+    "selector": "",
+    "assertionAttribute": "",
+    "assertionType": {
+      "type": "notToBeEnabled",
+      "name": "Not to be enabled"
+    },
+    "isInvalidValidSetUp": false,
+    "shouldUseElementSelector": true
+  },
+  {
+    "id": "Cgp_brJh0AIZC0PIcJrY1",
+    "eventRecordIndex": 7,
+    "type": "Assertion",
+    "url": "https://www.google.com/search?q=rfrf&oq=rfrf&aqs=chrome..69i57j46i175i199i512j0i512l8.518j0j7&sourceid=chrome&ie=UTF-8",
+    "title": "rfrf - Google Search",
+    "variant": "INTERACTIVE_ELEMENT",
+    "element": {
+      "id": "Q1y4T3kiwciWCPCWzjcIi",
+      "validSelectors": [
+        {
+          "name": "href",
+          "value": "a[href=\"https://rfrfoundation.org/rfrf-and-aicte-sign-mou-to-work-for-self-reliant-bharat/\"]",
+          "length": 1,
+          "priority": 2,
+          "rawValue": "https://rfrfoundation.org/rfrf-and-aicte-sign-mou-to-work-for-self-reliant-bharat/",
+          "closest": 0,
+          "tagName": "a"
+        },
+        {
+          "name": "text",
+          "value": "RFRF and AICTE sign MoU to...",
+          "length": 1,
+          "priority": 1,
+          "rawValue": "RFRF and AICTE sign MoU to...",
+          "closest": 0,
+          "tagName": "a"
+        },
+        {
+          "name": "unique-path",
+          "value": ".HiHjCd > a:nth-child(4)",
+          "length": 1,
+          "priority": 3,
+          "rawValue": ".HiHjCd > a:nth-child(4)",
+          "closest": 0,
+          "tagName": "a"
+        },
+        {
+          "name": "<tagName>",
+          "value": "a",
+          "length": 95,
+          "priority": 3,
+          "rawValue": "a",
+          "closest": 0,
+          "tagName": "a"
+        }
+      ],
+      "triggeredAt": 1645993945994,
+      "selector": ".HiHjCd > a:nth-child(4)",
+      "selectedSelector": {
+        "name": "text",
+        "value": "RFRF and AICTE sign MoU to...",
+        "length": 1,
+        "priority": 1,
+        "rawValue": "RFRF and AICTE sign MoU to...",
+        "closest": 0,
+        "tagName": "a"
+      },
+      "url": "https://www.google.com/search?q=rfrf&oq=rfrf&aqs=chrome..69i57j46i175i199i512j0i512l8.518j0j7&sourceid=chrome&ie=UTF-8",
+      "type": "mouseover",
+      "altKey": false,
+      "bubbles": true,
+      "button": 0,
+      "buttons": 0,
+      "cancelable": true,
+      "clientX": 635,
+      "clientY": 283,
+      "ctrlKey": false,
+      "detail": 0,
+      "eventPhase": 1,
+      "isTrusted": true,
+      "metaKey": false,
+      "pageX": 635,
+      "pageY": 283,
+      "screenX": 635,
+      "screenY": 420,
+      "shiftKey": false,
+      "defaultPrevented": false,
+      "timeStamp": 418401.799999997,
+      "which": 0,
+      "title": "rfrf - Google Search",
+      "innerWidth": 1309,
+      "innerHeight": 743,
+      "text": "RFRF and AICTE sign MoU to...",
+      "attributesMap": {
+        "href": "https://rfrfoundation.org/rfrf-and-aicte-sign-mou-to-work-for-self-reliant-bharat/",
+        "ping": "/url?sa=t&source=web&rct=j&url=https://rfrfoundation.org/rfrf-and-aicte-sign-mou-to-work-for-self-reliant-bharat/&ved=2ahUKEwj4tZXc26D2AhWkCjQIHT4-ASEQ0gIoA3oECAkQBA"
+      }
+    },
+    "selector": "",
+    "assertionAttribute": "",
+    "assertionValue": "rfrf - Google Search",
+    "assertionType": {
+      "type": "notToHaveTitle",
+      "name": "Not to have title"
+    },
+    "isInvalidValidSetUp": false,
+    "shouldUseElementSelector": false,
+    "assertionInputsValidationResult": {
+      "assertionValue": false
+    }
+  },
+  {
+    "id": "3fzuDxBrMba5ZcfdQ-7pP",
+    "eventRecordIndex": 8,
+    "type": "Assertion",
+    "url": "https://www.google.com/search?q=rfrf&oq=rfrf&aqs=chrome..69i57j46i175i199i512j0i512l8.518j0j7&sourceid=chrome&ie=UTF-8",
+    "title": "rfrf - Google Search",
+    "variant": "INTERACTIVE_ELEMENT",
+    "element": {
+      "id": "8zhf9QPqVdmtIxzvNRPIt",
+      "validSelectors": [
+        {
+          "name": "unique-path",
+          "value": ".jtfYYd:nth-child(2) .VwiC3b > span:nth-child(2)",
+          "length": 1,
+          "priority": 3,
+          "rawValue": ".jtfYYd:nth-child(2) .VwiC3b > span:nth-child(2)",
+          "closest": 0,
+          "tagName": "span"
+        },
+        {
+          "name": "<tagName>",
+          "value": "span",
+          "length": 391,
+          "priority": 3,
+          "rawValue": "span",
+          "closest": 0,
+          "tagName": "span"
+        }
+      ],
+      "triggeredAt": 1645993964035,
+      "selector": ".jtfYYd:nth-child(2) .VwiC3b > span:nth-child(2)",
+      "selectedSelector": {
+        "name": "unique-path",
+        "value": ".jtfYYd:nth-child(2) .VwiC3b > span:nth-child(2)",
+        "length": 1,
+        "priority": 3,
+        "rawValue": ".jtfYYd:nth-child(2) .VwiC3b > span:nth-child(2)",
+        "closest": 0,
+        "tagName": "span"
+      },
+      "url": "https://www.google.com/search?q=rfrf&oq=rfrf&aqs=chrome..69i57j46i175i199i512j0i512l8.518j0j7&sourceid=chrome&ie=UTF-8",
+      "type": "mouseover",
+      "altKey": false,
+      "bubbles": true,
+      "button": 0,
+      "buttons": 0,
+      "cancelable": true,
+      "clientX": 713,
+      "clientY": 240,
+      "ctrlKey": false,
+      "detail": 0,
+      "eventPhase": 1,
+      "isTrusted": true,
+      "metaKey": false,
+      "pageX": 713,
+      "pageY": 240,
+      "screenX": 713,
+      "screenY": 377,
+      "shiftKey": false,
+      "defaultPrevented": false,
+      "timeStamp": 436429.299999997,
+      "which": 0,
+      "title": "rfrf - Google Search",
+      "innerWidth": 1309,
+      "innerHeight": 743,
+      "text": null,
+      "attributesMap": {}
+    },
+    "selector": "",
+    "assertionAttribute": "",
+    "assertionType": {
+      "type": "notToBeHidden",
+      "name": "Not to be hidden"
+    },
+    "isInvalidValidSetUp": false,
+    "shouldUseElementSelector": true
+  },
+  {
+    "id": "JNvBGDXLe7R_bhjmZCpjx",
+    "eventRecordIndex": 9,
+    "type": "Assertion",
+    "url": "https://www.google.com/search?q=rfrf&oq=rfrf&aqs=chrome..69i57j46i175i199i512j0i512l8.518j0j7&sourceid=chrome&ie=UTF-8",
+    "title": "rfrf - Google Search",
+    "variant": "INTERACTIVE_ELEMENT",
+    "element": {
+      "id": "EqVGRdJzQwt3raPY1_oxc",
+      "validSelectors": [
+        {
+          "name": "unique-path",
+          "value": ".jtfYYd:nth-child(2) .VwiC3b > span:nth-child(2)",
+          "length": 1,
+          "priority": 3,
+          "rawValue": ".jtfYYd:nth-child(2) .VwiC3b > span:nth-child(2)",
+          "closest": 0,
+          "tagName": "span"
+        },
+        {
+          "name": "<tagName>",
+          "value": "span",
+          "length": 391,
+          "priority": 3,
+          "rawValue": "span",
+          "closest": 0,
+          "tagName": "span"
+        }
+      ],
+      "triggeredAt": 1645993986493,
+      "selector": ".jtfYYd:nth-child(2) .VwiC3b > span:nth-child(2)",
+      "selectedSelector": {
+        "name": "unique-path",
+        "value": ".jtfYYd:nth-child(2) .VwiC3b > span:nth-child(2)",
+        "length": 1,
+        "priority": 3,
+        "rawValue": ".jtfYYd:nth-child(2) .VwiC3b > span:nth-child(2)",
+        "closest": 0,
+        "tagName": "span"
+      },
+      "url": "https://www.google.com/search?q=rfrf&oq=rfrf&aqs=chrome..69i57j46i175i199i512j0i512l8.518j0j7&sourceid=chrome&ie=UTF-8",
+      "type": "mouseover",
+      "altKey": false,
+      "bubbles": true,
+      "button": 0,
+      "buttons": 0,
+      "cancelable": true,
+      "clientX": 627,
+      "clientY": 240,
+      "ctrlKey": false,
+      "detail": 0,
+      "eventPhase": 1,
+      "isTrusted": true,
+      "metaKey": false,
+      "pageX": 627,
+      "pageY": 240,
+      "screenX": 627,
+      "screenY": 377,
+      "shiftKey": false,
+      "defaultPrevented": false,
+      "timeStamp": 458888.200000003,
+      "which": 0,
+      "title": "rfrf - Google Search",
+      "innerWidth": 1309,
+      "innerHeight": 743,
+      "text": null,
+      "attributesMap": {}
+    },
+    "selector": "",
+    "assertionAttribute": "",
+    "assertionValue": "https://www.google.com/search?q=rfrf&oq=rfrf&aqs=chrome..69i57j46i175i199i512j0i512l8.518j0j7&sourceid=chrome&ie=UTF-8",
+    "assertionType": {
+      "type": "notToHaveURL",
+      "name": "Not to have URL"
+    },
+    "isInvalidValidSetUp": false,
+    "shouldUseElementSelector": false,
+    "assertionInputsValidationResult": {
+      "assertionValue": false
+    }
+  },
+  {
+    "id": "uswDZv30grrZKfHZn5KHJ",
+    "eventRecordIndex": 10,
+    "type": "Assertion",
+    "url": "https://www.google.com/search?q=rfrf&oq=rfrf&aqs=chrome..69i57j46i175i199i512j0i512l8.518j0j7&sourceid=chrome&ie=UTF-8",
+    "title": "rfrf - Google Search",
+    "variant": "INTERACTIVE_ELEMENT",
+    "element": {
+      "id": "Ygma1tRNe4IIEY-z8WdoH",
+      "validSelectors": [
+        {
+          "name": "unique-path",
+          "value": ".jtfYYd:nth-child(2) .VwiC3b > span:nth-child(2)",
+          "length": 1,
+          "priority": 3,
+          "rawValue": ".jtfYYd:nth-child(2) .VwiC3b > span:nth-child(2)",
+          "closest": 0,
+          "tagName": "span"
+        },
+        {
+          "name": "<tagName>",
+          "value": "span",
+          "length": 391,
+          "priority": 3,
+          "rawValue": "span",
+          "closest": 0,
+          "tagName": "span"
+        }
+      ],
+      "triggeredAt": 1645994009818,
+      "selector": ".jtfYYd:nth-child(2) .VwiC3b > span:nth-child(2)",
+      "selectedSelector": {
+        "name": "unique-path",
+        "value": ".jtfYYd:nth-child(2) .VwiC3b > span:nth-child(2)",
+        "length": 1,
+        "priority": 3,
+        "rawValue": ".jtfYYd:nth-child(2) .VwiC3b > span:nth-child(2)",
+        "closest": 0,
+        "tagName": "span"
+      },
+      "url": "https://www.google.com/search?q=rfrf&oq=rfrf&aqs=chrome..69i57j46i175i199i512j0i512l8.518j0j7&sourceid=chrome&ie=UTF-8",
+      "type": "mouseover",
+      "altKey": false,
+      "bubbles": true,
+      "button": 0,
+      "buttons": 0,
+      "cancelable": true,
+      "clientX": 699,
+      "clientY": 249,
+      "ctrlKey": false,
+      "detail": 0,
+      "eventPhase": 1,
+      "isTrusted": true,
+      "metaKey": false,
+      "pageX": 699,
+      "pageY": 249,
+      "screenX": 699,
+      "screenY": 386,
+      "shiftKey": false,
+      "defaultPrevented": false,
+      "timeStamp": 482209,
+      "which": 0,
+      "title": "rfrf - Google Search",
+      "innerWidth": 1309,
+      "innerHeight": 743,
+      "text": null,
+      "attributesMap": {}
+    },
+    "selector": "",
+    "assertionAttribute": "",
+    "assertionType": {
+      "type": "notToBeChecked",
+      "name": "Not to be checked"
+    },
+    "isInvalidValidSetUp": false,
+    "shouldUseElementSelector": true
+  },
+  {
+    "id": "sMSHGdfOl8FYILguiBNaS",
+    "eventRecordIndex": 11,
+    "type": "Assertion",
+    "url": "https://www.google.com/search?q=rfrf&oq=rfrf&aqs=chrome..69i57j46i175i199i512j0i512l8.518j0j7&sourceid=chrome&ie=UTF-8",
+    "title": "rfrf - Google Search",
+    "variant": "INTERACTIVE_ELEMENT",
+    "element": {
+      "id": "xgkbukEQUg_KFZgwdL7J1",
+      "validSelectors": [
+        {
+          "name": "text",
+          "value": "Research for Resurgence Foundation, Nagpur",
+          "length": 1,
+          "priority": 1,
+          "rawValue": "Research for Resurgence Foundation, Nagpur",
+          "closest": 0,
+          "tagName": "h3"
+        },
+        {
+          "name": ".classname",
+          "value": ".LC20lb.MBeuO.DKV0Md",
+          "length": 39,
+          "priority": 3,
+          "rawValue": ".LC20lb.MBeuO.DKV0Md",
+          "closest": 0,
+          "tagName": "h3"
+        },
+        {
+          "name": "unique-path",
+          "value": ".jtfYYd:nth-child(2) .LC20lb",
+          "length": 1,
+          "priority": 3,
+          "rawValue": ".jtfYYd:nth-child(2) .LC20lb",
+          "closest": 0,
+          "tagName": "h3"
+        },
+        {
+          "name": "<tagName>",
+          "value": "h3",
+          "length": 41,
+          "priority": 3,
+          "rawValue": "h3",
+          "closest": 0,
+          "tagName": "h3"
+        },
+        {
+          "name": "href",
+          "value": "a[href=\"https://rfrfoundation.org/\"]",
+          "length": 1,
+          "priority": 2,
+          "rawValue": "https://rfrfoundation.org/",
+          "closest": 1,
+          "tagName": "a"
+        },
+        {
+          "name": "<tagName>",
+          "value": "a",
+          "length": 95,
+          "priority": 3,
+          "rawValue": "a",
+          "closest": 1,
+          "tagName": "a"
+        }
+      ],
+      "triggeredAt": 1645994021182,
+      "selector": ".jtfYYd:nth-child(2) .LC20lb",
+      "selectedSelector": {
+        "name": "text",
+        "value": "Research for Resurgence Foundation, Nagpur",
+        "length": 1,
+        "priority": 1,
+        "rawValue": "Research for Resurgence Foundation, Nagpur",
+        "closest": 0,
+        "tagName": "h3"
+      },
+      "url": "https://www.google.com/search?q=rfrf&oq=rfrf&aqs=chrome..69i57j46i175i199i512j0i512l8.518j0j7&sourceid=chrome&ie=UTF-8",
+      "type": "mouseover",
+      "altKey": false,
+      "bubbles": true,
+      "button": 0,
+      "buttons": 0,
+      "cancelable": true,
+      "clientX": 589,
+      "clientY": 225,
+      "ctrlKey": false,
+      "detail": 0,
+      "eventPhase": 1,
+      "isTrusted": true,
+      "metaKey": false,
+      "pageX": 589,
+      "pageY": 225,
+      "screenX": 589,
+      "screenY": 362,
+      "shiftKey": false,
+      "defaultPrevented": false,
+      "timeStamp": 493576.09999999404,
+      "which": 0,
+      "title": "rfrf - Google Search",
+      "innerWidth": 1309,
+      "innerHeight": 743,
+      "text": "Research for Resurgence Foundation, Nagpur",
+      "attributesMap": {
+        "class": "LC20lb MBeuO DKV0Md"
+      }
+    },
+    "selector": "",
+    "assertionAttribute": "",
+    "assertionValue": "1",
+    "assertionType": {
+      "type": "notToHaveLength",
+      "name": "Not to have length"
+    },
+    "isInvalidValidSetUp": false,
+    "shouldUseElementSelector": true,
+    "assertionInputsValidationResult": {
+      "assertionValue": false
+    }
+  },
+  {
+    "id": "-Lnd7Y0ahH5ve6qeSR0ID",
+    "eventRecordIndex": 12,
+    "type": "Assertion",
+    "url": "https://www.google.com/search?q=rfrf&oq=rfrf&aqs=chrome..69i57j46i175i199i512j0i512l8.518j0j7&sourceid=chrome&ie=UTF-8",
+    "title": "rfrf - Google Search",
+    "variant": "INTERACTIVE_ELEMENT",
+    "element": {
+      "id": "AFYWGXQec3mJTgBQb-BfT",
+      "validSelectors": [
+        {
+          "name": "unique-path",
+          "value": ".jtfYYd:nth-child(2) .VwiC3b > span:nth-child(2)",
+          "length": 1,
+          "priority": 3,
+          "rawValue": ".jtfYYd:nth-child(2) .VwiC3b > span:nth-child(2)",
+          "closest": 0,
+          "tagName": "span"
+        },
+        {
+          "name": "<tagName>",
+          "value": "span",
+          "length": 391,
+          "priority": 3,
+          "rawValue": "span",
+          "closest": 0,
+          "tagName": "span"
+        }
+      ],
+      "triggeredAt": 1645994038013,
+      "selector": ".jtfYYd:nth-child(2) .VwiC3b > span:nth-child(2)",
+      "selectedSelector": {
+        "name": "unique-path",
+        "value": ".jtfYYd:nth-child(2) .VwiC3b > span:nth-child(2)",
+        "length": 1,
+        "priority": 3,
+        "rawValue": ".jtfYYd:nth-child(2) .VwiC3b > span:nth-child(2)",
+        "closest": 0,
+        "tagName": "span"
+      },
+      "url": "https://www.google.com/search?q=rfrf&oq=rfrf&aqs=chrome..69i57j46i175i199i512j0i512l8.518j0j7&sourceid=chrome&ie=UTF-8",
+      "type": "mouseover",
+      "altKey": false,
+      "bubbles": true,
+      "button": 0,
+      "buttons": 0,
+      "cancelable": true,
+      "clientX": 534,
+      "clientY": 254,
+      "ctrlKey": false,
+      "detail": 0,
+      "eventPhase": 1,
+      "isTrusted": true,
+      "metaKey": false,
+      "pageX": 534,
+      "pageY": 254,
+      "screenX": 534,
+      "screenY": 391,
+      "shiftKey": false,
+      "defaultPrevented": false,
+      "timeStamp": 510406.59999999404,
+      "which": 0,
+      "title": "rfrf - Google Search",
+      "innerWidth": 1309,
+      "innerHeight": 743,
+      "text": null,
+      "attributesMap": {}
+    },
+    "selector": "",
+    "assertionAttribute": "",
+    "assertionType": {
+      "type": "notToBeVisible",
+      "name": "Not to be visible"
+    },
+    "isInvalidValidSetUp": false,
+    "shouldUseElementSelector": true
   }
 ]

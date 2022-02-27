@@ -128,7 +128,7 @@ describe('${testName}', () => {
     },
 
     [assertionTypes.notToBeHidden]: ({ selector }) => {
-      return `  cy.${selector}.should('not.be.hidden')\n`
+      return `    cy.${selector}.should('not.be.hidden')\n`
     },
 
     [assertionTypes.toBeVisible]: ({ selector }) => {
