@@ -1,0 +1,40 @@
+const puppeteer = require('puppeteer');
+
+describe('Testing https://www.google.com/search?q=rfrf&oq=rfrf&aqs=chrome..69i57j46i175i199i512j0i512l8.518j0j7&sourceid=chrome&ie=UTF-8', () => {
+  it('Testing https://www.google.com/search?q=rfrf&oq=rfrf&aqs=chrome..69i57j46i175i199i512j0i512l8.518j0j7&sourceid=chrome&ie=UTF-8', async () => {
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage()
+
+    try {
+      await page.setViewport({ width: 1309, height: 743 })
+      await page.goto('https://www.google.com/search?q=rfrf&oq=rfrf&aqs=chrome..69i57j46i175i199i512j0i512l8.518j0j7&sourceid=chrome&ie=UTF-8')
+      await page.waitForXPath('//div[contains(text(), "About 309,000 results")]')
+      expect(await page.$x('//div[contains(text(), "About 309,000 results")]')).toBeDefined()
+      await page.waitForXPath('//nobr[contains(text(), " (0.47 seconds) ")]')
+      expect(await page.$x('//nobr[contains(text(), " (0.47 seconds) ")]').then(async (elem) => page.evaluate((e) => e.textContent, elem[0]))).toContain(' (0.47 seconds) ')
+      await page.waitForXPath('//h3[contains(text(), "Research for Resurgence Foundation, Nagpur")]')
+      expect(await page.$x('//h3[contains(text(), "Research for Resurgence Foundation, Nagpur")]').then(async (elem) => page.evaluate((e) => e.textContent, elem[0]))).toBe('Research for Resurgence Foundation, Nagpur')
+      await page.waitForXPath('//div[contains(text(), "Tools")]')
+      expect(await page.$x('//div[contains(text(), "Tools")]').then(async (elem) => page.evaluate((e) => e.getAttribute('class'), elem[0]))).toBe('t2vtad')
+      await page.waitForXPath('//div[contains(text(), "About 309,000 results")]')
+      expect(await page.$x('//div[contains(text(), "About 309,000 results")]').then(async (elem) => page.evaluate((e) => e.getAttribute("disabled"), elem[0]))).toBe(true)
+      await page.waitForSelector('.jtfYYd:nth-child(2) .VwiC3b > span:nth-child(2)')
+      expect(await page.$eval('.jtfYYd:nth-child(2) .VwiC3b > span:nth-child(2)', (e) => e.getAttribute('disabled'))).toBe(null)
+      await page.waitForXPath('//a[contains(text(), "RFRF and AICTE sign MoU to...")]')
+      expect(await page.title()).toBe('rfrf - Google Search')
+      await page.waitForSelector('.jtfYYd:nth-child(2) .VwiC3b > span:nth-child(2)')
+      expect(await page.$('.jtfYYd:nth-child(2) .VwiC3b > span:nth-child(2)')).toBeNull()
+      await page.waitForSelector('.jtfYYd:nth-child(2) .VwiC3b > span:nth-child(2)')
+      expect(page.url()).toBe('https://www.google.com/search?q=rfrf&oq=rfrf&aqs=chrome..69i57j46i175i199i512j0i512l8.518j0j7&sourceid=chrome&ie=UTF-8')
+      await page.waitForSelector('.jtfYYd:nth-child(2) .VwiC3b > span:nth-child(2)')
+      expect(await page.$eval('.jtfYYd:nth-child(2) .VwiC3b > span:nth-child(2)', e => e.checked)).toBe(true)
+      await page.waitForXPath('//h3[contains(text(), "Research for Resurgence Foundation, Nagpur")]')
+      expect(await page.$x('//h3[contains(text(), "Research for Resurgence Foundation, Nagpur")]').then(async (elem) => page.evaluate((e) => e.length, elem[0]))).toBe('1')
+      await page.waitForSelector('.jtfYYd:nth-child(2) .VwiC3b > span:nth-child(2)')
+      expect(await page.$eval('.jtfYYd:nth-child(2) .VwiC3b > span:nth-child(2)', e => e.style.visibility)).not.toBe('hidden')
+
+    } finally {
+      await browser.close();
+    }
+  }) 
+})

@@ -19,7 +19,7 @@ const getByXpath = ({
   selector: string | undefined
   value: string
 }) =>
-  `expect(await page.$x('${selector}').then(async (elem) => page.evaluate((e) => ${value}, elem[0])))`
+  `    expect(await page.$x('${selector}').then(async (elem) => page.evaluate((e) => ${value}, elem[0])))`
 
 export class PuppeteerProcessor extends ExportProcessor {
   type = exportOptions.puppeteer
@@ -108,7 +108,7 @@ describe('${testName}', () => {
 
     [assertionTypes.notToBeChecked]: ({ selector, selectorName }) => {
       if (selectorOptions[selectorName] === '$x') {
-        return `   ${getByXpath({
+        return `  ${getByXpath({
           selector,
           value: 'e.checked',
         })}.toBe(false)\n`
@@ -119,7 +119,7 @@ describe('${testName}', () => {
 
     [assertionTypes.contains]: ({ selector, assertionValue, selectorName }) => {
       if (selectorOptions[selectorName] === '$x') {
-        return `   ${getByXpath({
+        return `  ${getByXpath({
           selector,
           value: 'e.textContent',
         })}.toContain('${assertionValue}')\n`
@@ -144,7 +144,7 @@ describe('${testName}', () => {
 
     [assertionTypes.equals]: ({ selector, assertionValue, selectorName }) => {
       if (selectorOptions[selectorName] === '$x') {
-        return `   ${getByXpath({
+        return `  ${getByXpath({
           selector,
           value: 'e.textContent',
         })}.toBe('${assertionValue}')\n`
@@ -423,7 +423,7 @@ describe('${testName}', () => {
   private getContent(events: IEventBlock[]) {
     const [{ url, innerWidth, innerHeight }, ...restEvents] = events
     return `${this.getGoToTestedPage(url, innerWidth, innerHeight)}
-    ${this.serializeRecordedEvents(restEvents)}`
+${this.serializeRecordedEvents(restEvents)}`
   }
 
   process(events: IEventBlock[]) {

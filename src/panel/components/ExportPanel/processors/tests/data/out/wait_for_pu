@@ -1,0 +1,17 @@
+const puppeteer = require('puppeteer');
+
+describe('Testing https://www.google.com/search?q=rfrf&oq=rfrf&aqs=chrome..69i57j46i175i199i512j0i512l8.518j0j7&sourceid=chrome&ie=UTF-8', () => {
+  it('Testing https://www.google.com/search?q=rfrf&oq=rfrf&aqs=chrome..69i57j46i175i199i512j0i512l8.518j0j7&sourceid=chrome&ie=UTF-8', async () => {
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage()
+
+    try {
+      await page.setViewport({ width: 1309, height: 743 })
+      await page.goto('https://www.google.com/search?q=rfrf&oq=rfrf&aqs=chrome..69i57j46i175i199i512j0i512l8.518j0j7&sourceid=chrome&ie=UTF-8')
+      await page.waitForSelector('.VwiC3b.yXK7lf.MUxGbd.yDYNvb.lyLwlc.lEBKkf')
+
+    } finally {
+      await browser.close();
+    }
+  }) 
+})

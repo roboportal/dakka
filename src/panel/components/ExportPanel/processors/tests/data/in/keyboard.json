@@ -1,0 +1,681 @@
+[
+  {
+    "id": "3BsWQ9VYvi1d06rZqlgmf_0",
+    "triggeredAt": 1645993534945,
+    "url": "https://www.google.com/search?q=rfrf&oq=rfrf&aqs=chrome..69i57j46i175i199i512j0i512l8.518j0j7&sourceid=chrome&ie=UTF-8",
+    "title": "rfrf - Google Search",
+    "type": "_redirect",
+    "selector": "https://www.google.com/search?q=rfrf&oq=rfrf&aqs=chrome..69i57j46i175i199i512j0i512l8.518j0j7&sourceid=chrome&ie=UTF-8",
+    "variant": "",
+    "innerHeight": 743,
+    "innerWidth": 1309
+  },
+  {
+    "id": "3BsWQ9VYvi1d06rZqlgmf",
+    "validSelectors": [
+      {
+        "name": "aria-label",
+        "value": "input[aria-label=\"Search\"]",
+        "length": 1,
+        "priority": 2,
+        "rawValue": "Search",
+        "closest": 0,
+        "tagName": "input"
+      },
+      {
+        "name": "type",
+        "value": "input[type=\"text\"]",
+        "length": 3,
+        "priority": 2,
+        "rawValue": "text",
+        "closest": 0,
+        "tagName": "input"
+      },
+      {
+        "name": "name",
+        "value": "input[name=\"q\"]",
+        "length": 2,
+        "priority": 2,
+        "rawValue": "q",
+        "closest": 0,
+        "tagName": "input"
+      },
+      {
+        "name": "aria-label",
+        "value": "[aria-label=\"Search\"]",
+        "length": 1,
+        "priority": 2,
+        "rawValue": "Search",
+        "closest": 0,
+        "tagName": "input"
+      },
+      {
+        "name": "role",
+        "value": "[role=\"combobox\"]",
+        "length": 1,
+        "priority": 2,
+        "rawValue": "combobox",
+        "closest": 0,
+        "tagName": "input"
+      },
+      {
+        "name": ".classname",
+        "value": ".gLFyf.gsfi",
+        "length": 2,
+        "priority": 3,
+        "rawValue": ".gLFyf.gsfi",
+        "closest": 0,
+        "tagName": "input"
+      },
+      {
+        "name": "unique-path",
+        "value": ".gLFyf:nth-child(3)",
+        "length": 1,
+        "priority": 3,
+        "rawValue": ".gLFyf:nth-child(3)",
+        "closest": 0,
+        "tagName": "input"
+      },
+      {
+        "name": "<tagName>",
+        "value": "input",
+        "length": 13,
+        "priority": 3,
+        "rawValue": "input",
+        "closest": 0,
+        "tagName": "input"
+      }
+    ],
+    "triggeredAt": 1645993534946,
+    "selector": ".gLFyf:nth-child(3)",
+    "selectedSelector": {
+      "name": "aria-label",
+      "value": "input[aria-label=\"Search\"]",
+      "length": 1,
+      "priority": 2,
+      "rawValue": "Search",
+      "closest": 0,
+      "tagName": "input"
+    },
+    "url": "https://www.google.com/search?q=rfrf&oq=rfrf&aqs=chrome..69i57j46i175i199i512j0i512l8.518j0j7&sourceid=chrome&ie=UTF-8",
+    "type": "keyboard",
+    "altKey": false,
+    "bubbles": true,
+    "cancelable": true,
+    "charCode": 0,
+    "code": "KeyF",
+    "ctrlKey": false,
+    "detail": 0,
+    "eventPhase": 1,
+    "isTrusted": true,
+    "key": "fffff",
+    "repeat": false,
+    "keyCode": 70,
+    "location": 0,
+    "metaKey": false,
+    "shiftKey": false,
+    "defaultPrevented": false,
+    "timeStamp": 7342,
+    "which": 70,
+    "title": "rfrf - Google Search",
+    "innerWidth": 1309,
+    "innerHeight": 743,
+    "composedEvents": [
+      {
+        "id": "3BsWQ9VYvi1d06rZqlgmf",
+        "validSelectors": [
+          {
+            "name": "aria-label",
+            "value": "input[aria-label=\"Search\"]",
+            "length": 1,
+            "priority": 2,
+            "rawValue": "Search",
+            "closest": 0,
+            "tagName": "input"
+          },
+          {
+            "name": "type",
+            "value": "input[type=\"text\"]",
+            "length": 3,
+            "priority": 2,
+            "rawValue": "text",
+            "closest": 0,
+            "tagName": "input"
+          },
+          {
+            "name": "name",
+            "value": "input[name=\"q\"]",
+            "length": 2,
+            "priority": 2,
+            "rawValue": "q",
+            "closest": 0,
+            "tagName": "input"
+          },
+          {
+            "name": "aria-label",
+            "value": "[aria-label=\"Search\"]",
+            "length": 1,
+            "priority": 2,
+            "rawValue": "Search",
+            "closest": 0,
+            "tagName": "input"
+          },
+          {
+            "name": "role",
+            "value": "[role=\"combobox\"]",
+            "length": 1,
+            "priority": 2,
+            "rawValue": "combobox",
+            "closest": 0,
+            "tagName": "input"
+          },
+          {
+            "name": ".classname",
+            "value": ".gLFyf.gsfi",
+            "length": 2,
+            "priority": 3,
+            "rawValue": ".gLFyf.gsfi",
+            "closest": 0,
+            "tagName": "input"
+          },
+          {
+            "name": "unique-path",
+            "value": ".gLFyf:nth-child(3)",
+            "length": 1,
+            "priority": 3,
+            "rawValue": ".gLFyf:nth-child(3)",
+            "closest": 0,
+            "tagName": "input"
+          },
+          {
+            "name": "<tagName>",
+            "value": "input",
+            "length": 13,
+            "priority": 3,
+            "rawValue": "input",
+            "closest": 0,
+            "tagName": "input"
+          }
+        ],
+        "triggeredAt": 1645993534946,
+        "selector": ".gLFyf:nth-child(3)",
+        "selectedSelector": {
+          "name": "aria-label",
+          "value": "input[aria-label=\"Search\"]",
+          "length": 1,
+          "priority": 2,
+          "rawValue": "Search",
+          "closest": 0,
+          "tagName": "input"
+        },
+        "url": "https://www.google.com/search?q=rfrf&oq=rfrf&aqs=chrome..69i57j46i175i199i512j0i512l8.518j0j7&sourceid=chrome&ie=UTF-8",
+        "type": "keydown",
+        "altKey": false,
+        "bubbles": true,
+        "cancelable": true,
+        "charCode": 0,
+        "code": "KeyF",
+        "ctrlKey": false,
+        "detail": 0,
+        "eventPhase": 1,
+        "isTrusted": true,
+        "key": "f",
+        "repeat": false,
+        "keyCode": 70,
+        "location": 0,
+        "metaKey": false,
+        "shiftKey": false,
+        "defaultPrevented": false,
+        "timeStamp": 7342,
+        "which": 70,
+        "title": "rfrf - Google Search",
+        "innerWidth": 1309,
+        "innerHeight": 743
+      },
+      {
+        "id": "oezgIfPahgxgNNHN7WX5T",
+        "validSelectors": [
+          {
+            "name": "aria-label",
+            "value": "input[aria-label=\"Search\"]",
+            "length": 1,
+            "priority": 2,
+            "rawValue": "Search",
+            "closest": 0,
+            "tagName": "input"
+          },
+          {
+            "name": "type",
+            "value": "input[type=\"text\"]",
+            "length": 3,
+            "priority": 2,
+            "rawValue": "text",
+            "closest": 0,
+            "tagName": "input"
+          },
+          {
+            "name": "name",
+            "value": "input[name=\"q\"]",
+            "length": 2,
+            "priority": 2,
+            "rawValue": "q",
+            "closest": 0,
+            "tagName": "input"
+          },
+          {
+            "name": "aria-label",
+            "value": "[aria-label=\"Search\"]",
+            "length": 1,
+            "priority": 2,
+            "rawValue": "Search",
+            "closest": 0,
+            "tagName": "input"
+          },
+          {
+            "name": "role",
+            "value": "[role=\"combobox\"]",
+            "length": 1,
+            "priority": 2,
+            "rawValue": "combobox",
+            "closest": 0,
+            "tagName": "input"
+          },
+          {
+            "name": ".classname",
+            "value": ".gLFyf.gsfi",
+            "length": 2,
+            "priority": 3,
+            "rawValue": ".gLFyf.gsfi",
+            "closest": 0,
+            "tagName": "input"
+          },
+          {
+            "name": "unique-path",
+            "value": ".gLFyf:nth-child(3)",
+            "length": 1,
+            "priority": 3,
+            "rawValue": ".gLFyf:nth-child(3)",
+            "closest": 0,
+            "tagName": "input"
+          },
+          {
+            "name": "<tagName>",
+            "value": "input",
+            "length": 13,
+            "priority": 3,
+            "rawValue": "input",
+            "closest": 0,
+            "tagName": "input"
+          }
+        ],
+        "triggeredAt": 1645993540395,
+        "selector": ".gLFyf:nth-child(3)",
+        "selectedSelector": {
+          "name": "aria-label",
+          "value": "input[aria-label=\"Search\"]",
+          "length": 1,
+          "priority": 2,
+          "rawValue": "Search",
+          "closest": 0,
+          "tagName": "input"
+        },
+        "url": "https://www.google.com/search?q=rfrf&oq=rfrf&aqs=chrome..69i57j46i175i199i512j0i512l8.518j0j7&sourceid=chrome&ie=UTF-8",
+        "type": "keydown",
+        "altKey": false,
+        "bubbles": true,
+        "cancelable": true,
+        "charCode": 0,
+        "code": "KeyF",
+        "ctrlKey": false,
+        "detail": 0,
+        "eventPhase": 1,
+        "isTrusted": true,
+        "key": "f",
+        "repeat": false,
+        "keyCode": 70,
+        "location": 0,
+        "metaKey": false,
+        "shiftKey": false,
+        "defaultPrevented": false,
+        "timeStamp": 12789.20000000298,
+        "which": 70,
+        "title": "rfrf - Google Search",
+        "innerWidth": 1309,
+        "innerHeight": 743
+      },
+      {
+        "id": "PErO9N3KBFFSSGFvyBgmy",
+        "validSelectors": [
+          {
+            "name": "aria-label",
+            "value": "input[aria-label=\"Search\"]",
+            "length": 1,
+            "priority": 2,
+            "rawValue": "Search",
+            "closest": 0,
+            "tagName": "input"
+          },
+          {
+            "name": "type",
+            "value": "input[type=\"text\"]",
+            "length": 3,
+            "priority": 2,
+            "rawValue": "text",
+            "closest": 0,
+            "tagName": "input"
+          },
+          {
+            "name": "name",
+            "value": "input[name=\"q\"]",
+            "length": 2,
+            "priority": 2,
+            "rawValue": "q",
+            "closest": 0,
+            "tagName": "input"
+          },
+          {
+            "name": "aria-label",
+            "value": "[aria-label=\"Search\"]",
+            "length": 1,
+            "priority": 2,
+            "rawValue": "Search",
+            "closest": 0,
+            "tagName": "input"
+          },
+          {
+            "name": "role",
+            "value": "[role=\"combobox\"]",
+            "length": 1,
+            "priority": 2,
+            "rawValue": "combobox",
+            "closest": 0,
+            "tagName": "input"
+          },
+          {
+            "name": ".classname",
+            "value": ".gLFyf.gsfi",
+            "length": 2,
+            "priority": 3,
+            "rawValue": ".gLFyf.gsfi",
+            "closest": 0,
+            "tagName": "input"
+          },
+          {
+            "name": "unique-path",
+            "value": ".gLFyf:nth-child(3)",
+            "length": 1,
+            "priority": 3,
+            "rawValue": ".gLFyf:nth-child(3)",
+            "closest": 0,
+            "tagName": "input"
+          },
+          {
+            "name": "<tagName>",
+            "value": "input",
+            "length": 13,
+            "priority": 3,
+            "rawValue": "input",
+            "closest": 0,
+            "tagName": "input"
+          }
+        ],
+        "triggeredAt": 1645993540621,
+        "selector": ".gLFyf:nth-child(3)",
+        "selectedSelector": {
+          "name": "aria-label",
+          "value": "input[aria-label=\"Search\"]",
+          "length": 1,
+          "priority": 2,
+          "rawValue": "Search",
+          "closest": 0,
+          "tagName": "input"
+        },
+        "url": "https://www.google.com/search?q=rfrf&oq=rfrf&aqs=chrome..69i57j46i175i199i512j0i512l8.518j0j7&sourceid=chrome&ie=UTF-8",
+        "type": "keydown",
+        "altKey": false,
+        "bubbles": true,
+        "cancelable": true,
+        "charCode": 0,
+        "code": "KeyF",
+        "ctrlKey": false,
+        "detail": 0,
+        "eventPhase": 1,
+        "isTrusted": true,
+        "key": "f",
+        "repeat": false,
+        "keyCode": 70,
+        "location": 0,
+        "metaKey": false,
+        "shiftKey": false,
+        "defaultPrevented": false,
+        "timeStamp": 13019.79999999702,
+        "which": 70,
+        "title": "rfrf - Google Search",
+        "innerWidth": 1309,
+        "innerHeight": 743
+      },
+      {
+        "id": "5lJMFyIhaqiELzwKtHSvC",
+        "validSelectors": [
+          {
+            "name": "aria-label",
+            "value": "input[aria-label=\"Search\"]",
+            "length": 1,
+            "priority": 2,
+            "rawValue": "Search",
+            "closest": 0,
+            "tagName": "input"
+          },
+          {
+            "name": "type",
+            "value": "input[type=\"text\"]",
+            "length": 3,
+            "priority": 2,
+            "rawValue": "text",
+            "closest": 0,
+            "tagName": "input"
+          },
+          {
+            "name": "name",
+            "value": "input[name=\"q\"]",
+            "length": 2,
+            "priority": 2,
+            "rawValue": "q",
+            "closest": 0,
+            "tagName": "input"
+          },
+          {
+            "name": "aria-label",
+            "value": "[aria-label=\"Search\"]",
+            "length": 1,
+            "priority": 2,
+            "rawValue": "Search",
+            "closest": 0,
+            "tagName": "input"
+          },
+          {
+            "name": "role",
+            "value": "[role=\"combobox\"]",
+            "length": 1,
+            "priority": 2,
+            "rawValue": "combobox",
+            "closest": 0,
+            "tagName": "input"
+          },
+          {
+            "name": ".classname",
+            "value": ".gLFyf.gsfi",
+            "length": 2,
+            "priority": 3,
+            "rawValue": ".gLFyf.gsfi",
+            "closest": 0,
+            "tagName": "input"
+          },
+          {
+            "name": "unique-path",
+            "value": ".gLFyf:nth-child(3)",
+            "length": 1,
+            "priority": 3,
+            "rawValue": ".gLFyf:nth-child(3)",
+            "closest": 0,
+            "tagName": "input"
+          },
+          {
+            "name": "<tagName>",
+            "value": "input",
+            "length": 13,
+            "priority": 3,
+            "rawValue": "input",
+            "closest": 0,
+            "tagName": "input"
+          }
+        ],
+        "triggeredAt": 1645993540811,
+        "selector": ".gLFyf:nth-child(3)",
+        "selectedSelector": {
+          "name": "aria-label",
+          "value": "input[aria-label=\"Search\"]",
+          "length": 1,
+          "priority": 2,
+          "rawValue": "Search",
+          "closest": 0,
+          "tagName": "input"
+        },
+        "url": "https://www.google.com/search?q=rfrf&oq=rfrf&aqs=chrome..69i57j46i175i199i512j0i512l8.518j0j7&sourceid=chrome&ie=UTF-8",
+        "type": "keydown",
+        "altKey": false,
+        "bubbles": true,
+        "cancelable": true,
+        "charCode": 0,
+        "code": "KeyF",
+        "ctrlKey": false,
+        "detail": 0,
+        "eventPhase": 1,
+        "isTrusted": true,
+        "key": "f",
+        "repeat": false,
+        "keyCode": 70,
+        "location": 0,
+        "metaKey": false,
+        "shiftKey": false,
+        "defaultPrevented": false,
+        "timeStamp": 13207.29999999702,
+        "which": 70,
+        "title": "rfrf - Google Search",
+        "innerWidth": 1309,
+        "innerHeight": 743
+      },
+      {
+        "id": "ti0SQmx6yfnIOf5Z3XDXK",
+        "validSelectors": [
+          {
+            "name": "aria-label",
+            "value": "input[aria-label=\"Search\"]",
+            "length": 1,
+            "priority": 2,
+            "rawValue": "Search",
+            "closest": 0,
+            "tagName": "input"
+          },
+          {
+            "name": "type",
+            "value": "input[type=\"text\"]",
+            "length": 3,
+            "priority": 2,
+            "rawValue": "text",
+            "closest": 0,
+            "tagName": "input"
+          },
+          {
+            "name": "name",
+            "value": "input[name=\"q\"]",
+            "length": 2,
+            "priority": 2,
+            "rawValue": "q",
+            "closest": 0,
+            "tagName": "input"
+          },
+          {
+            "name": "aria-label",
+            "value": "[aria-label=\"Search\"]",
+            "length": 1,
+            "priority": 2,
+            "rawValue": "Search",
+            "closest": 0,
+            "tagName": "input"
+          },
+          {
+            "name": "role",
+            "value": "[role=\"combobox\"]",
+            "length": 1,
+            "priority": 2,
+            "rawValue": "combobox",
+            "closest": 0,
+            "tagName": "input"
+          },
+          {
+            "name": ".classname",
+            "value": ".gLFyf.gsfi",
+            "length": 2,
+            "priority": 3,
+            "rawValue": ".gLFyf.gsfi",
+            "closest": 0,
+            "tagName": "input"
+          },
+          {
+            "name": "unique-path",
+            "value": ".gLFyf:nth-child(3)",
+            "length": 1,
+            "priority": 3,
+            "rawValue": ".gLFyf:nth-child(3)",
+            "closest": 0,
+            "tagName": "input"
+          },
+          {
+            "name": "<tagName>",
+            "value": "input",
+            "length": 13,
+            "priority": 3,
+            "rawValue": "input",
+            "closest": 0,
+            "tagName": "input"
+          }
+        ],
+        "triggeredAt": 1645993540952,
+        "selector": ".gLFyf:nth-child(3)",
+        "selectedSelector": {
+          "name": "aria-label",
+          "value": "input[aria-label=\"Search\"]",
+          "length": 1,
+          "priority": 2,
+          "rawValue": "Search",
+          "closest": 0,
+          "tagName": "input"
+        },
+        "url": "https://www.google.com/search?q=rfrf&oq=rfrf&aqs=chrome..69i57j46i175i199i512j0i512l8.518j0j7&sourceid=chrome&ie=UTF-8",
+        "type": "keydown",
+        "altKey": false,
+        "bubbles": true,
+        "cancelable": true,
+        "charCode": 0,
+        "code": "KeyF",
+        "ctrlKey": false,
+        "detail": 0,
+        "eventPhase": 1,
+        "isTrusted": true,
+        "key": "f",
+        "repeat": false,
+        "keyCode": 70,
+        "location": 0,
+        "metaKey": false,
+        "shiftKey": false,
+        "defaultPrevented": false,
+        "timeStamp": 13350.59999999404,
+        "which": 70,
+        "title": "rfrf - Google Search",
+        "innerWidth": 1309,
+        "innerHeight": 743
+      }
+    ]
+  }
+]

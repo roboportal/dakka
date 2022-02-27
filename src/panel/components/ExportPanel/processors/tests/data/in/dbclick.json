@@ -1,0 +1,99 @@
+[
+  {
+    "id": "3BsWQ9VYvi1d06rZqlgmf_0",
+    "triggeredAt": 1645993534945,
+    "url": "https://www.google.com/search?q=rfrf&oq=rfrf&aqs=chrome..69i57j46i175i199i512j0i512l8.518j0j7&sourceid=chrome&ie=UTF-8",
+    "title": "rfrf - Google Search",
+    "type": "_redirect",
+    "selector": "https://www.google.com/search?q=rfrf&oq=rfrf&aqs=chrome..69i57j46i175i199i512j0i512l8.518j0j7&sourceid=chrome&ie=UTF-8",
+    "variant": "",
+    "innerHeight": 743,
+    "innerWidth": 1309
+  },
+  {
+    "id": "-CdHHXq1CC-tRPZqm52fy",
+    "validSelectors": [
+      {
+        "name": "tagName#element-id",
+        "value": "div#rcnt",
+        "length": 1,
+        "priority": 2,
+        "rawValue": "#rcnt",
+        "closest": 0,
+        "tagName": "div"
+      },
+      {
+        "name": "#element-id",
+        "value": "#rcnt",
+        "length": 1,
+        "priority": 2,
+        "rawValue": "#rcnt",
+        "closest": 0,
+        "tagName": "div"
+      },
+      {
+        "name": ".classname",
+        "value": ".GyAeWb",
+        "length": 1,
+        "priority": 3,
+        "rawValue": ".GyAeWb",
+        "closest": 0,
+        "tagName": "div"
+      },
+      {
+        "name": "unique-path",
+        "value": "#rcnt",
+        "length": 1,
+        "priority": 3,
+        "rawValue": "#rcnt",
+        "closest": 0,
+        "tagName": "div"
+      },
+      {
+        "name": "<tagName>",
+        "value": "div",
+        "length": 1310,
+        "priority": 3,
+        "rawValue": "div",
+        "closest": 0,
+        "tagName": "div"
+      }
+    ],
+    "triggeredAt": 1645993776757,
+    "selector": "#rcnt",
+    "selectedSelector": {
+      "name": "tagName#element-id",
+      "value": "div#rcnt",
+      "length": 1,
+      "priority": 2,
+      "rawValue": "#rcnt",
+      "closest": 0,
+      "tagName": "div"
+    },
+    "url": "https://www.google.com/search?q=rfrf&oq=rfrf&aqs=chrome..69i57j46i175i199i512j0i512l8.518j0j7&sourceid=chrome&ie=UTF-8",
+    "type": "dblclick",
+    "altKey": false,
+    "bubbles": true,
+    "button": 0,
+    "buttons": 0,
+    "cancelable": true,
+    "clientX": 121,
+    "clientY": 209,
+    "ctrlKey": false,
+    "detail": 2,
+    "eventPhase": 1,
+    "isTrusted": true,
+    "metaKey": false,
+    "pageX": 121,
+    "pageY": 209,
+    "screenX": 121,
+    "screenY": 346,
+    "shiftKey": false,
+    "defaultPrevented": false,
+    "timeStamp": 249163.70000000298,
+    "which": 1,
+    "title": "rfrf - Google Search",
+    "innerWidth": 1309,
+    "innerHeight": 743
+  }
+]

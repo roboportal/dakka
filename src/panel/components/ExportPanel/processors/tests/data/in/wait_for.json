@@ -1,0 +1,96 @@
+[
+  {
+    "id": "3BsWQ9VYvi1d06rZqlgmf_0",
+    "triggeredAt": 1645993534945,
+    "url": "https://www.google.com/search?q=rfrf&oq=rfrf&aqs=chrome..69i57j46i175i199i512j0i512l8.518j0j7&sourceid=chrome&ie=UTF-8",
+    "title": "rfrf - Google Search",
+    "type": "_redirect",
+    "selector": "https://www.google.com/search?q=rfrf&oq=rfrf&aqs=chrome..69i57j46i175i199i512j0i512l8.518j0j7&sourceid=chrome&ie=UTF-8",
+    "variant": "",
+    "innerHeight": 743,
+    "innerWidth": 1309
+  },
+  {
+    "id": "96KiUSKJP59baKqSWDwne",
+    "eventRecordIndex": 1,
+    "type": "Wait For Element",
+    "url": "https://www.google.com/search?q=rfrf&oq=rfrf&aqs=chrome..69i57j46i175i199i512j0i512l8.518j0j7&sourceid=chrome&ie=UTF-8",
+    "title": "rfrf - Google Search",
+    "variant": "INTERACTIVE_ELEMENT",
+    "element": {
+      "id": "VZ5DyTrkCnLgtnDr3aKFA",
+      "validSelectors": [
+        {
+          "name": ".classname",
+          "value": ".VwiC3b.yXK7lf.MUxGbd.yDYNvb.lyLwlc.lEBKkf",
+          "length": 37,
+          "priority": 3,
+          "rawValue": ".VwiC3b.yXK7lf.MUxGbd.yDYNvb.lyLwlc.lEBKkf",
+          "closest": 0,
+          "tagName": "div"
+        },
+        {
+          "name": "unique-path",
+          "value": ".jtfYYd:nth-child(2) .VwiC3b",
+          "length": 1,
+          "priority": 3,
+          "rawValue": ".jtfYYd:nth-child(2) .VwiC3b",
+          "closest": 0,
+          "tagName": "div"
+        },
+        {
+          "name": "<tagName>",
+          "value": "div",
+          "length": 1310,
+          "priority": 3,
+          "rawValue": "div",
+          "closest": 0,
+          "tagName": "div"
+        }
+      ],
+      "triggeredAt": 1645993718496,
+      "selector": ".jtfYYd:nth-child(2) .VwiC3b",
+      "selectedSelector": {
+        "name": ".classname",
+        "value": ".VwiC3b.yXK7lf.MUxGbd.yDYNvb.lyLwlc.lEBKkf",
+        "length": 37,
+        "priority": 3,
+        "rawValue": ".VwiC3b.yXK7lf.MUxGbd.yDYNvb.lyLwlc.lEBKkf",
+        "closest": 0,
+        "tagName": "div"
+      },
+      "url": "https://www.google.com/search?q=rfrf&oq=rfrf&aqs=chrome..69i57j46i175i199i512j0i512l8.518j0j7&sourceid=chrome&ie=UTF-8",
+      "type": "mouseover",
+      "altKey": false,
+      "bubbles": true,
+      "button": 0,
+      "buttons": 0,
+      "cancelable": true,
+      "clientX": 273,
+      "clientY": 260,
+      "ctrlKey": false,
+      "detail": 0,
+      "eventPhase": 1,
+      "isTrusted": true,
+      "metaKey": false,
+      "pageX": 273,
+      "pageY": 260,
+      "screenX": 273,
+      "screenY": 397,
+      "shiftKey": false,
+      "defaultPrevented": false,
+      "timeStamp": 190893.20000000298,
+      "which": 0,
+      "title": "rfrf - Google Search",
+      "innerWidth": 1309,
+      "innerHeight": 743,
+      "text": null,
+      "attributesMap": {
+        "class": "VwiC3b yXK7lf MUxGbd yDYNvb lyLwlc lEBKkf",
+        "style": "-webkit-line-clamp:2"
+      }
+    },
+    "selector": "",
+    "isInvalidValidSetUp": false
+  }
+]
