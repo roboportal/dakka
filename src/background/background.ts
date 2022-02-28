@@ -29,7 +29,9 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
   }
 })
 
-chrome.runtime.onInstalled.addListener(async () => {
-  const url = 'https://dakka.dev/getting_started'
-  await chrome.tabs.create({ url })
+chrome.runtime.onInstalled.addListener(async (details) => {
+  if (details.reason === (chrome.runtime as any).OnInstalledReason.INSTALL) {
+    const url = 'https://dakka.dev/getting_started'
+    await chrome.tabs.create({ url })
+  }
 })
