@@ -14,7 +14,8 @@
     "kill:stale-dev-server": "PORT=8080 kill $(lsof -ti:$PORT)",
     "devtools": "react-devtools & npx @redux-devtools/cli --open",
     "lint": "eslint",
-    "test": "jest"
+    "test": "jest",
+    "prepare": "husky install"
   },
   "author": "",
   "license": "ISC",
@@ -41,6 +42,7 @@
     "eslint-plugin-react-hooks": "^4.3.0",
     "html-loader": "^3.0.1",
     "html-webpack-plugin": "^5.5.0",
+    "husky": "^7.0.4",
     "jest": "^27.5.1",
     "react-devtools": "^4.21.0",
     "react-hot-loader": "^4.13.0",
