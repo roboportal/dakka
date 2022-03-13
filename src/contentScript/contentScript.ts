@@ -60,7 +60,7 @@ window.addEventListener('message', (p) => {
 })
 
 const mouseOverHandler = (event: MouseEvent) => {
-  if (selectElementEnabled) {
+  if (selectElementEnabled && (event?.target as any)?.tagName !== 'IFRAME') {
     event.stopImmediatePropagation()
     const extensionId = chrome.runtime.id
     const message = composeEvent({
@@ -70,6 +70,17 @@ const mouseOverHandler = (event: MouseEvent) => {
     })
     window.postMessage(message)
     hoveredElement = message
+  }
+}
+
+const mouseOutHandler = (event: MouseEvent) => {
+  if (selectElementEnabled) {
+    event.stopImmediatePropagation()
+    window.postMessage({
+      id: chrome.runtime.id,
+      type: HOVER_ELEMENT,
+    })
+    hoveredElement = null
   }
 }
 
@@ -130,14 +141,19 @@ chrome.runtime.onMessage.addListener((message) => {
 
     window.addEventListener('click', mouseClickHandler, true)
     window.addEventListener('mouseover', mouseOverHandler, true)
+    window.addEventListener('mouseout', mouseOutHandler, true)
   }
 
   if (message.type === DISABLE_SELECT_ELEMENT) {
     selectElementEnabled = false
     hoveredElement = null
-
+    window.postMessage({
+      id: chrome.runtime.id,
+      type: HOVER_ELEMENT,
+    })
     window.removeEventListener('click', mouseClickHandler, true)
     window.removeEventListener('mouseover', mouseOverHandler, true)
+    window.addEventListener('mouseout', mouseOutHandler, true)
   }
 
   if (shouldProcessMessage(message.type) && !selectElementEnabled) {

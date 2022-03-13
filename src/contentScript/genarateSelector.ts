@@ -1,7 +1,23 @@
 import { VALID_ATTRIBUTES, DATA_ATTRIBUTES } from './constants'
 
 function getSelectorLength(selector: string) {
-  return document?.querySelectorAll(selector)?.length ?? 1
+  try {
+    return document?.querySelectorAll(selector)?.length ?? 1
+  } catch {
+    return 1
+  }
+}
+
+function getTextContentSelectorLength(tagName: string, textContent: string) {
+  try {
+    return Array.from(document.querySelectorAll(tagName)).filter(
+      (el) =>
+        el?.firstChild?.nodeValue?.toLocaleLowerCase() ===
+        textContent?.toLocaleLowerCase(),
+    ).length
+  } catch {
+    return 1
+  }
 }
 
 export const generateSelectors = (
@@ -66,11 +82,7 @@ export const generateSelectors = (
       !!textContent?.replace(/\s/g, '')?.length && {
         name: 'text',
         value: textContent,
-        length: Array.from(document.querySelectorAll(tagName)).filter(
-          (el) =>
-            el?.firstChild?.nodeValue?.toLocaleLowerCase() ===
-            textContent?.toLocaleLowerCase(),
-        ).length,
+        length: getTextContentSelectorLength(tagName, textContent),
         priority: 1,
         rawValue: textContent,
         closest,

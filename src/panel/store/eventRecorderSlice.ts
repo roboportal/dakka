@@ -72,6 +72,7 @@ export interface IEventBlock {
   attributesMap?: Record<string, string>
   innerHeight?: number
   innerWidth?: number
+  isIframe?: boolean
 }
 
 export interface IEventBlockPayload {

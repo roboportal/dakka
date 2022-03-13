@@ -18,6 +18,8 @@ const extensionId =
 
 let highLightElement: HTMLDivElement | null = null
 
+const isIframe = window.location !== window.parent.location
+
 window.addEventListener('message', ({ data }) => {
   if (data?.type === ELEMENT_SELECTED && highLightElement) {
     highLightElement.style.display = 'none'
@@ -44,14 +46,27 @@ window.addEventListener('message', ({ data }) => {
     }
 
     highLightElement.style.pointerEvents = isElementSelect ? 'none' : 'auto'
-    highLightElement.style.backgroundColor = isElementSelect
-      ? '#18A558'
-      : '#0080ff'
+    const green = '#18A558'
+    const blue = '#0080ff'
+    highLightElement.style.backgroundColor = isElementSelect ? green : blue
 
-    if (selector) {
-      const { top, left, width, height } = document
-        .querySelector(selector)
-        ?.getBoundingClientRect() ?? { top: 0, bottom: 0, left: 0, right: 0 }
+    const hoveredElement = document.querySelector(selector)
+    const shouldHighlightHoveredElement =
+      !isElementSelect &&
+      hoveredElement &&
+      data.location === window.location.href &&
+      data.isIframe === isIframe
+
+    const shouldHighlightInteractiveSelector = isElementSelect && hoveredElement
+
+    if (shouldHighlightHoveredElement || shouldHighlightInteractiveSelector) {
+      const { top, left, width, height } =
+        hoveredElement.getBoundingClientRect() ?? {
+          top: 0,
+          bottom: 0,
+          left: 0,
+          right: 0,
+        }
       if (top && width && left && height) {
         highLightElement.style.top = top + 'px'
         highLightElement.style.width = width + 'px'
