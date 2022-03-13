@@ -3,6 +3,8 @@ import { finder } from '@medv/finder'
 import { generateSelectors } from './genarateSelector'
 import { TAGS, NON_INTERACTIVE_TAGS } from './constants'
 
+const isIframe = window.location !== window.parent.location
+
 export function composeEvent({
   event,
   extensionId,
@@ -169,6 +171,7 @@ export function composeEvent({
       title: document.title,
       innerWidth: window.innerWidth,
       innerHeight: window.innerHeight,
+      isIframe,
     },
   }
 }

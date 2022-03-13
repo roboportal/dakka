@@ -13,18 +13,32 @@ function highlightElement(
   if (tabId === -1) {
     return
   }
-  const payload: { type: string; selector: string | null } = {
+  const payload: {
+    type: string
+    selector: string | null
+    location: string | null
+    isIframe: boolean | null
+  } = {
     type: HIGHLIGHT_ELEMENT,
     selector: null,
+    location: null,
+    isIframe: null,
   }
 
   if (highlightedEventIndexes.length) {
     const item = events[tabId][highlightedEventIndexes[0]]
     if (Array.isArray(item)) {
-      payload.selector = item[highlightedEventIndexes[1]]?.selector ?? null
+      const el = item[highlightedEventIndexes[1]]
+      payload.selector = el?.selector ?? null
+      payload.selector = el?.url ?? null
+      payload.isIframe = el?.isIframe ?? null
     } else {
       const selector = item.element?.selector || item.selector
+      const location = item.element?.url ?? item.url
+      const isIframe = item.element?.isIframe ?? item.isIframe
       payload.selector = selector ?? null
+      payload.location = location ?? null
+      payload.isIframe = isIframe ?? null
     }
   }
 
