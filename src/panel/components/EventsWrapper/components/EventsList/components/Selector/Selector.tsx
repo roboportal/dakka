@@ -1,22 +1,17 @@
 import { useCallback, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import Select, { SelectChangeEvent } from '@mui/material/Select'
-import { css } from '@emotion/react'
-import MenuItem from '@mui/material/MenuItem'
-import useMediaQuery from '@mui/material/useMediaQuery'
-import { grey } from '@mui/material/colors'
+import { SelectChangeEvent } from '@mui/material/Select'
 
 import {
   selectEventSelector,
+  selectIframeEventSelector,
   IEventBlock,
-  ISelector,
 } from '@/store/eventRecorderSlice'
 import { getActiveTabId } from '@/store/eventSelectors'
 import { INTERACTIVE_ELEMENT } from '@/constants/messageTypes'
 
-import { Divider } from './Divider'
-import { SelectorMenuItem } from './SelectorMenuItem'
+import { CommonSelector } from './CommonSelector'
 
 interface ISelectorProp {
   record: IEventBlock
@@ -24,8 +19,6 @@ interface ISelectorProp {
 }
 
 export function Selector({ record, width }: ISelectorProp) {
-  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
-
   const dispatch = useDispatch()
 
   const activeTabID = useSelector(getActiveTabId)
@@ -98,90 +91,87 @@ export function Selector({ record, width }: ISelectorProp) {
     [record, validSelectors, activeTabID, dispatch],
   )
 
+  const validIframeSelectors = useMemo(
+    () =>
+      record?.variant === INTERACTIVE_ELEMENT
+        ? record?.element?.iframeDetails?.selectors
+        : record.iframeDetails?.selectors,
+    [record],
+  )
+
+  const iframeSelectorsHighPriority = useMemo(
+    () => validIframeSelectors?.filter(({ priority }) => priority === 1),
+    [validIframeSelectors],
+  )
+
+  const iframeSelectorsMediumPriority = useMemo(
+    () => validIframeSelectors?.filter(({ priority }) => priority === 2),
+    [validIframeSelectors],
+  )
+
+  const iframeSelectorsLowPriority = useMemo(
+    () => validIframeSelectors?.filter(({ priority }) => priority === 3),
+    [validIframeSelectors],
+  )
+
+  const selectedIframeSelector = useMemo(
+    () =>
+      record?.variant === INTERACTIVE_ELEMENT
+        ? record?.element?.selectedIframeSelector?.value
+        : record?.selectedIframeSelector?.value,
+    [record],
+  )
+
+  const handleIframeSelectorChange = useCallback(
+    (e: SelectChangeEvent<string>) => {
+      const selector = validIframeSelectors?.find(
+        (s: { value: string }) => s.value === e.target.value,
+      )
+      if (selector) {
+        dispatch(
+          selectIframeEventSelector({
+            selectedSelector: selector,
+            record,
+            tabId: activeTabID,
+          }),
+        )
+      }
+    },
+    [record, validIframeSelectors, activeTabID, dispatch],
+  )
+
   const shouldHideSelectorPanel =
     !validSelectors?.length || !(record.shouldUseElementSelector ?? true)
+
+  const isIframeSelectorVisible =
+    (record.isInIframe && !!record.iframeDetails) ||
+    (record?.element?.isInIframe && !!record?.element?.iframeDetails)
 
   if (shouldHideSelectorPanel) {
     return null
   }
 
   return (
-    <Select
-      css={css`
-        width: ${width};
-        border: 1px solid ${prefersDarkMode ? grey[800] : grey[300]};
-        border-radius: 4px;
-        > div {
-          padding: 4px;
-        }
-      `}
-      value={selectedSelector}
-      onChange={handleSelectorChange}
-      variant="standard"
-      renderValue={(value: string) => value}
-    >
-      {selectorsHighPriority?.map((item: ISelector) => (
-        <MenuItem
-          css={css`
-            font-size: 0.8rem;
-          `}
-          value={item.value}
-          key={`${item.name}${item.value}`}
-        >
-          <SelectorMenuItem item={item} key={item.value} />
-        </MenuItem>
-      ))}
-      {!!selectorsHighPriority?.length && <Divider />}
-      {selectorsMediumPriority?.map((item: ISelector) => (
-        <MenuItem
-          css={css`
-            font-size: 0.8rem;
-          `}
-          value={item.value}
-          key={`${item.name}${item.value}`}
-        >
-          <SelectorMenuItem item={item} key={item.value} />
-        </MenuItem>
-      ))}
-      {!!selectorsMediumPriority?.length && <Divider />}
-      {selectorsLowPriority?.map((item: ISelector) => (
-        <MenuItem
-          css={css`
-            font-size: 0.8rem;
-          `}
-          value={item.value}
-          key={`${item.name}${item.value}`}
-        >
-          <SelectorMenuItem item={item} key={item.value} />
-        </MenuItem>
-      ))}
-      {!!closestSelectors?.length && (
-        <div>
-          <Divider />
-          <div
-            css={css`
-              width: 100%;
-              color: #1769aa;
-              margin-left: 16px;
-              font-size: 0.8rem;
-              padding-top: 4px;
-            `}
-          >
-            Closest interactive element:
-          </div>
-        </div>
+    <>
+      {isIframeSelectorVisible && (
+        <CommonSelector
+          width={width}
+          selectedSelector={selectedIframeSelector}
+          handleSelectorChange={handleIframeSelectorChange}
+          selectorsHighPriority={iframeSelectorsHighPriority}
+          selectorsMediumPriority={iframeSelectorsMediumPriority}
+          selectorsLowPriority={iframeSelectorsLowPriority}
+        />
       )}
-      {closestSelectors?.map((item: ISelector) => (
-        <MenuItem
-          css={css`
-            font-size: 0.8rem;
-          `}
-          value={item.value}
-          key={`${item.name}${item.value}`}
-        >
-          <SelectorMenuItem item={item} key={item.value} />
-        </MenuItem>
-      ))}
-    </Select>
+      <CommonSelector
+        width={width}
+        selectedSelector={selectedSelector}
+        handleSelectorChange={handleSelectorChange}
+        selectorsHighPriority={selectorsHighPriority}
+        selectorsMediumPriority={selectorsMediumPriority}
+        selectorsLowPriority={selectorsLowPriority}
+        closestSelectors={closestSelectors}
+      />
+    </>
   )
 }

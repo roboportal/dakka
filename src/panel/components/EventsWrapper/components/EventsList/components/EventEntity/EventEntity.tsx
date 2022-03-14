@@ -79,7 +79,7 @@ export function EventEntity({
         font-size: 0.8rem;
         margin-bottom: 4px;
         border: 1px solid;
-        ${shouldHaveTopMargin ? 'margin-top: 28px;' : ''}
+        ${shouldHaveTopMargin ? 'margin-top: 30px;' : ''}
         background-color: ${getBackgroundColor({
           isRedirect,
           prefersDarkMode,

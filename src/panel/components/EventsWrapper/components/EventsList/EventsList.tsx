@@ -35,6 +35,11 @@ function EventsList({
       {events?.map((record, index) => {
         const isExpanded = expandedId === record.id
         const isFirstEvent = index === 0
+        const hasIframeSelector =
+          (!!record?.selectedIframeSelector ||
+            !!record?.element?.selectedIframeSelector) &&
+          (record.isInIframe || record?.element?.isInIframe)
+
         return (
           <Record
             key={record.id}
@@ -52,7 +57,7 @@ function EventsList({
                 max-width: ${isExpanded ? EXPANDED_WIDTH : DEFAULT_WIDTH};
                 display: flex;
                 flex-direction: column;
-                height: 100%;
+                height: calc(100% - ${hasIframeSelector ? '30px' : '0px'});
               `}
             >
               <Selector
