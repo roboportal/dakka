@@ -18,7 +18,7 @@ const extensionId =
 
 let highLightElement: HTMLDivElement | null = null
 
-const isIframe = window.location !== window.parent.location
+const isInIframe = window.location !== window.parent.location
 
 window.addEventListener('message', ({ data }) => {
   if (data?.type === ELEMENT_SELECTED && highLightElement) {
@@ -55,7 +55,7 @@ window.addEventListener('message', ({ data }) => {
       !isElementSelect &&
       hoveredElement &&
       data.location === window.location.href &&
-      data.isIframe === isIframe
+      data.isInIframe === isInIframe
 
     const shouldHighlightInteractiveSelector = isElementSelect && hoveredElement
 

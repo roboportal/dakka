@@ -72,7 +72,12 @@ export interface IEventBlock {
   attributesMap?: Record<string, string>
   innerHeight?: number
   innerWidth?: number
-  isIframe?: boolean
+  isInIframe?: boolean
+  selectedIframeSelector?: ISelector
+  iframeDetails?: {
+    selectors: ISelector[]
+    selector: string
+  }
 }
 
 export interface IEventBlockPayload {
@@ -100,6 +105,22 @@ const initialState: EventRecorderState = {
   activeBlockId: null,
   expandedId: null,
   lastSelectedEventId: '',
+}
+
+const areEventsIframeSelectorsEqual = (
+  record: WritableDraft<IEventBlock>,
+  eventRecord: WritableDraft<IEventBlock>,
+) => {
+  const existingIframeSelector =
+    (eventRecord as WritableDraft<IEventBlock>).element?.iframeDetails
+      ?.selector ??
+    (eventRecord as WritableDraft<IEventBlock>)?.iframeDetails?.selector
+
+  const incomingIframeSelector =
+    (record as WritableDraft<IEventBlock>).element?.iframeDetails?.selector ??
+    (record as WritableDraft<IEventBlock>)?.iframeDetails?.selector
+
+  return existingIframeSelector === incomingIframeSelector
 }
 
 export const eventRecorderSlice = createSlice({
@@ -133,7 +154,7 @@ export const eventRecorderSlice = createSlice({
       }
 
       const hasInValidTabIdOrEventShouldNotBeRecorded =
-        tabId < 0 || !eventsToTrack[eventRecord.payload.type]
+        tabId < 0 || !eventsToTrack[eventRecord?.payload?.type]
 
       if (hasInValidTabIdOrEventShouldNotBeRecorded) {
         return state
@@ -159,24 +180,54 @@ export const eventRecorderSlice = createSlice({
       const updateSelector = (
         eventRecord: WritableDraft<IEventBlock | IEventBlock>,
       ) => {
-        if (
-          eventRecord.variant === INTERACTIVE_ELEMENT &&
-          (eventRecord as WritableDraft<IEventBlock>).element?.selector ===
-            (record as WritableDraft<IEventBlock>).element?.selector
-        ) {
-          const element = (eventRecord as WritableDraft<IEventBlock>).element
-          if (element) {
-            element.selectedSelector = selectedSelector
-          }
-
+        if (!areEventsIframeSelectorsEqual(record, eventRecord)) {
           return
         }
 
-        if (
-          (eventRecord as WritableDraft<IEventBlock>)?.selector ===
+        const existingSelector =
+          (eventRecord as WritableDraft<IEventBlock>).element?.selector ??
+          (eventRecord as WritableDraft<IEventBlock>)?.selector
+
+        const incomingSelector =
+          (record as WritableDraft<IEventBlock>).element?.selector ??
           (record as WritableDraft<IEventBlock>)?.selector
-        ) {
+
+        if (incomingSelector === existingSelector) {
+          if (eventRecord.variant === INTERACTIVE_ELEMENT) {
+            const element = (eventRecord as WritableDraft<IEventBlock>).element
+            if (element) {
+              element.selectedSelector = selectedSelector
+            }
+            return
+          }
+
           ;(eventRecord as WritableDraft<IEventBlock>).selectedSelector =
+            selectedSelector
+        }
+      }
+
+      events[tabId].forEach((e) =>
+        updateSelector(e as WritableDraft<IEventBlock>),
+      )
+    },
+
+    selectIframeEventSelector: (
+      { events },
+      { payload: { record, selectedSelector, tabId } },
+    ) => {
+      const updateSelector = (
+        eventRecord: WritableDraft<IEventBlock | IEventBlock>,
+      ) => {
+        if (areEventsIframeSelectorsEqual(record, eventRecord)) {
+          if (eventRecord.variant === INTERACTIVE_ELEMENT) {
+            const element = (eventRecord as WritableDraft<IEventBlock>).element
+            if (element) {
+              element.selectedIframeSelector = selectedSelector
+            }
+            return
+          }
+
+          ;(eventRecord as WritableDraft<IEventBlock>).selectedIframeSelector =
             selectedSelector
         }
       }
@@ -184,6 +235,7 @@ export const eventRecorderSlice = createSlice({
         updateSelector(e as WritableDraft<IEventBlock>),
       )
     },
+
     setActiveBlockId: (state, { payload }: PayloadAction<string>) => {
       state.activeBlockId = payload
     },
@@ -311,6 +363,7 @@ export const {
   setAssertionProperties,
   setCustomAssertSelector,
   setLastSelectedEventId,
+  selectIframeEventSelector,
 } = eventRecorderSlice.actions
 
 export default eventRecorderSlice.reducer

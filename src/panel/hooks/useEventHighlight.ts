@@ -17,12 +17,12 @@ function highlightElement(
     type: string
     selector: string | null
     location: string | null
-    isIframe: boolean | null
+    isInIframe: boolean | null
   } = {
     type: HIGHLIGHT_ELEMENT,
     selector: null,
     location: null,
-    isIframe: null,
+    isInIframe: null,
   }
 
   if (highlightedEventIndexes.length) {
@@ -31,14 +31,14 @@ function highlightElement(
       const el = item[highlightedEventIndexes[1]]
       payload.selector = el?.selector ?? null
       payload.selector = el?.url ?? null
-      payload.isIframe = el?.isIframe ?? null
+      payload.isInIframe = el?.isInIframe ?? null
     } else {
       const selector = item.element?.selector || item.selector
       const location = item.element?.url ?? item.url
-      const isIframe = item.element?.isIframe ?? item.isIframe
+      const isInIframe = item.element?.isInIframe ?? item.isInIframe
       payload.selector = selector ?? null
       payload.location = location ?? null
-      payload.isIframe = isIframe ?? null
+      payload.isInIframe = isInIframe ?? null
     }
   }
 

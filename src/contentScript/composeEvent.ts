@@ -3,7 +3,7 @@ import { finder } from '@medv/finder'
 import { generateSelectors } from './genarateSelector'
 import { TAGS, NON_INTERACTIVE_TAGS } from './constants'
 
-const isIframe = window.location !== window.parent.location
+const isInIframe = window.location !== window.parent.location
 
 export function composeEvent({
   event,
@@ -111,12 +111,31 @@ export function composeEvent({
     })
     validSelectors.push(...validClosestSelectors)
   }
-
   const selectedSelector =
     validSelectors.find(
       (selector) =>
         (selector as Record<string, string | number>)?.priority === 1,
     ) || validSelectors[0]
+
+  const { frameElement } = window
+
+  const iframeDetails: {
+    selectors: any
+    selector: any
+  } | null = frameElement
+    ? {
+        selectors: generateSelectors(frameElement, {
+          closest: 0,
+        }),
+        selector: finder(frameElement),
+      }
+    : null
+
+  const selectedIframeSelector =
+    iframeDetails?.selectors?.find(
+      (selector: any) =>
+        (selector as Record<string, string | number>)?.priority === 1,
+    ) || iframeDetails?.selectors[0]
 
   return {
     id: extensionId,
@@ -127,6 +146,7 @@ export function composeEvent({
       triggeredAt: Date.now(),
       selector: uniqueSelector,
       selectedSelector,
+      selectedIframeSelector,
       url: window.location.href,
       type,
       altKey,
@@ -171,7 +191,8 @@ export function composeEvent({
       title: document.title,
       innerWidth: window.innerWidth,
       innerHeight: window.innerHeight,
-      isIframe,
+      isInIframe,
+      iframeDetails,
     },
   }
 }
