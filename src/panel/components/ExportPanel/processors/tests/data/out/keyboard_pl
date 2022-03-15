@@ -3,6 +3,7 @@ const { test } = require('@playwright/test')
 test('Testing https://www.google.com/search?q=rfrf&oq=rfrf&aqs=chrome..69i57j46i175i199i512j0i512l8.518j0j7&sourceid=chrome&ie=UTF-8', async ({ page }) => {
   await page.setViewportSize({ width: 1309, height: 743 })
   await page.goto('https://www.google.com/search?q=rfrf&oq=rfrf&aqs=chrome..69i57j46i175i199i512j0i512l8.518j0j7&sourceid=chrome&ie=UTF-8')
+
   await page.fill('input[aria-label="Search"]', 'fffff')
 
 })

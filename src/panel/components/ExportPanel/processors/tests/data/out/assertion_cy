@@ -3,6 +3,7 @@ describe('Testing https://www.google.com/search?q=rfrf&oq=rfrf&aqs=chrome..69i57
   it('Testing https://www.google.com/search?q=rfrf&oq=rfrf&aqs=chrome..69i57j46i175i199i512j0i512l8.518j0j7&sourceid=chrome&ie=UTF-8', () => {
     cy.viewport(1309, 743)
     cy.visit('https://www.google.com/search?q=rfrf&oq=rfrf&aqs=chrome..69i57j46i175i199i512j0i512l8.518j0j7&sourceid=chrome&ie=UTF-8', { failOnStatusCode: false })
+
     cy.contains('About 309,000 results').should('exist')
     cy.contains(' (0.47 seconds) ').should('contain.text', ' (0.47 seconds) ')
     cy.contains('Research for Resurgence Foundation, Nagpur').should('have.text', 'Research for Resurgence Foundation, Nagpur')
