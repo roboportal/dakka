@@ -11,6 +11,15 @@ const EVENT_TYPES_TO_IGNORE_ELEMENT_SELECT = [
   assertionTypes.toHaveURL,
 ]
 
+const validateString = (e: IEventBlock) => {
+  return {
+    isError: typeof e.assertionValue !== 'string',
+    areFieldsValid: {
+      assertionValue: typeof e.assertionValue !== 'string',
+    },
+  }
+}
+
 const validateNonEmptyValue = (e: IEventBlock) => {
   return {
     isError: !e.assertionValue,
@@ -33,9 +42,9 @@ const validateNumericValue = (e: IEventBlock) => {
 
 const validateNonEmptyAttributeAndValue = (e: IEventBlock) => {
   return {
-    isError: !e.assertionValue || !e.assertionAttribute,
+    isError: typeof e.assertionValue !== 'string' || !e.assertionAttribute,
     areFieldsValid: {
-      assertionValue: !e.assertionValue,
+      assertionValue: typeof e.assertionValue !== 'string',
       assertionAttribute: !e.assertionAttribute,
     },
   }
@@ -57,8 +66,8 @@ const assertionValidatorsMap: Record<
   [assertionTypes.hasAttribute]: validateNonEmptyAttributeAndValue,
   [assertionTypes.notHasAttribute]: validateNonEmptyAttributeAndValue,
 
-  [assertionTypes.toHaveTitle]: validateNonEmptyValue,
-  [assertionTypes.notToHaveTitle]: validateNonEmptyValue,
+  [assertionTypes.toHaveTitle]: validateString,
+  [assertionTypes.notToHaveTitle]: validateString,
 
   [assertionTypes.toHaveURL]: validateNonEmptyValue,
   [assertionTypes.notToHaveURL]: validateNonEmptyValue,

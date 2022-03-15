@@ -8,6 +8,7 @@ import { getExpandedEventId } from '@/store/eventSelectors'
 import { Record } from './components/Record/Record'
 import { EventEntity } from './components/EventEntity/EventEntity'
 import { Selector } from './components/Selector/Selector'
+import { assertionTypes } from '@/constants/assertion'
 
 const DEFAULT_WIDTH = '88px'
 const EXPANDED_WIDTH = '340px'
@@ -38,7 +39,13 @@ function EventsList({
         const hasIframeSelector =
           (!!record?.selectedIframeSelector ||
             !!record?.element?.selectedIframeSelector) &&
-          (record.isInIframe || record?.element?.isInIframe)
+          (record.isInIframe || record?.element?.isInIframe) &&
+          ![
+            assertionTypes.toHaveTitle,
+            assertionTypes.toHaveURL,
+            assertionTypes.notToHaveTitle,
+            assertionTypes.notToHaveURL,
+          ].includes((record.assertionType?.type ?? '') as assertionTypes)
 
         return (
           <Record

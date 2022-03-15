@@ -147,10 +147,6 @@ export function Selector({ record, width }: ISelectorProp) {
     (record.isInIframe && !!record.iframeDetails) ||
     (record?.element?.isInIframe && !!record?.element?.iframeDetails)
 
-  if (shouldHideSelectorPanel) {
-    return null
-  }
-
   return (
     <>
       {isIframeSelectorVisible && (
@@ -163,15 +159,17 @@ export function Selector({ record, width }: ISelectorProp) {
           selectorsLowPriority={iframeSelectorsLowPriority}
         />
       )}
-      <CommonSelector
-        width={width}
-        selectedSelector={selectedSelector}
-        handleSelectorChange={handleSelectorChange}
-        selectorsHighPriority={selectorsHighPriority}
-        selectorsMediumPriority={selectorsMediumPriority}
-        selectorsLowPriority={selectorsLowPriority}
-        closestSelectors={closestSelectors}
-      />
+      {!shouldHideSelectorPanel && (
+        <CommonSelector
+          width={width}
+          selectedSelector={selectedSelector}
+          handleSelectorChange={handleSelectorChange}
+          selectorsHighPriority={selectorsHighPriority}
+          selectorsMediumPriority={selectorsMediumPriority}
+          selectorsLowPriority={selectorsLowPriority}
+          closestSelectors={closestSelectors}
+        />
+      )}
     </>
   )
 }

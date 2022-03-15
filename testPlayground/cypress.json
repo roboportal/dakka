@@ -1,3 +1,5 @@
 {
-  "integrationFolder": "tests/cypress"
+  "integrationFolder": "tests/cypress",
+  "chromeWebSecurity": false,
+  "video": false
 }

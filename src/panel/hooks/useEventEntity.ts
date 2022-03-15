@@ -18,6 +18,7 @@ import { getLastSelectedEventId } from '@/store/eventSelectors'
 import useElementSelect from '@/hooks/useElementSelect'
 
 import { truncate } from '@/utils/string'
+import { assertionTypes } from '@/constants/assertion'
 
 export default function useEventEntity(
   record: IEventBlock,
@@ -51,10 +52,16 @@ export default function useEventEntity(
     variant === INTERACTIVE_ELEMENT && !element?.validSelectors?.length
 
   const shouldHaveTopMargin =
-    isRedirect ||
-    isInteractive ||
-    isResize ||
-    !(record.shouldUseElementSelector ?? true)
+    (isRedirect ||
+      isInteractive ||
+      isResize ||
+      !(record.shouldUseElementSelector ?? true)) &&
+    ![
+      assertionTypes.toHaveTitle,
+      assertionTypes.toHaveURL,
+      assertionTypes.notToHaveTitle,
+      assertionTypes.notToHaveURL,
+    ].includes((record.assertionType?.type ?? '') as assertionTypes)
 
   const isManualSelectorSetupVisible = record.type === ASSERTION
 

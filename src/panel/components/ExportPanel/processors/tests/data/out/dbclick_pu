@@ -8,6 +8,7 @@ describe('Testing https://www.google.com/search?q=rfrf&oq=rfrf&aqs=chrome..69i57
     try {
       await page.setViewport({ width: 1309, height: 743 })
       await page.goto('https://www.google.com/search?q=rfrf&oq=rfrf&aqs=chrome..69i57j46i175i199i512j0i512l8.518j0j7&sourceid=chrome&ie=UTF-8')
+
       
       await page.waitForSelector('div#rcnt:not([disabled])')
       await page.click('div#rcnt', { clickCount: 2 })

@@ -58,119 +58,165 @@ test('${testName}', async ({ page }) => {
       assertionValue,
       assertionAttribute,
       firstSelector,
+      isIframe,
     }: {
       selector?: string
       assertionValue?: string
       assertionAttribute?: string
       firstSelector: string
+      isIframe: boolean
     }) => string
   > = {
-    [assertionTypes.toHaveTitle]: ({ assertionValue }) => {
-      return `  await expect(page).toHaveTitle('${assertionValue}')\n`
+    [assertionTypes.toHaveTitle]: ({ assertionValue, isIframe }) => {
+      const scope = isIframe ? 'frame' : 'page'
+      return `  await expect(${scope}).toHaveTitle('${assertionValue}')\n`
     },
 
-    [assertionTypes.notToHaveTitle]: ({ assertionValue }) => {
-      return `  await expect(page).not.toHaveTitle('${assertionValue}')\n`
+    [assertionTypes.notToHaveTitle]: ({ assertionValue, isIframe }) => {
+      const scope = isIframe ? 'frame' : 'page'
+      return `  await expect(${scope}).not.toHaveTitle('${assertionValue}')\n`
     },
 
-    [assertionTypes.toHaveURL]: ({ assertionValue }) => {
-      return `  await expect(page).toHaveURL('${assertionValue}')\n`
+    [assertionTypes.toHaveURL]: ({ assertionValue, isIframe }) => {
+      const scope = isIframe ? 'frame' : 'page'
+      return `  await expect(${scope}).toHaveURL('${assertionValue}')\n`
     },
 
-    [assertionTypes.notToHaveURL]: ({ assertionValue }) => {
-      return `  await expect(page).not.toHaveURL('${assertionValue}')\n`
+    [assertionTypes.notToHaveURL]: ({ assertionValue, isIframe }) => {
+      const scope = isIframe ? 'frame' : 'page'
+      return `  await expect(${scope}).not.toHaveURL('${assertionValue}')\n`
     },
 
-    [assertionTypes.toBeChecked]: ({ selector, firstSelector }) => {
+    [assertionTypes.toBeChecked]: ({ selector, firstSelector, isIframe }) => {
+      const scope = isIframe ? 'frame' : 'page'
       const normalizedSelector = normalizeString(selector)
-      return `  await expect(page.locator('${normalizedSelector}')${firstSelector}).toBeChecked()\n`
+      return `  await expect(${scope}.locator('${normalizedSelector}')${firstSelector}).toBeChecked()\n`
     },
 
-    [assertionTypes.notToBeChecked]: ({ selector, firstSelector }) => {
+    [assertionTypes.notToBeChecked]: ({
+      selector,
+      firstSelector,
+      isIframe,
+    }) => {
+      const scope = isIframe ? 'frame' : 'page'
       const normalizedSelector = normalizeString(selector)
-      return `  await expect(page.locator('${normalizedSelector}')${firstSelector}).not.toBeChecked()\n`
+      return `  await expect(${scope}.locator('${normalizedSelector}')${firstSelector}).not.toBeChecked()\n`
     },
 
     [assertionTypes.contains]: ({
       selector,
       assertionValue,
       firstSelector,
+      isIframe,
     }) => {
+      const scope = isIframe ? 'frame' : 'page'
       const normalizedSelector = normalizeString(selector)
-      return `  await expect(page.locator('${normalizedSelector}')${firstSelector}).toContainText('${assertionValue}')\n`
+      return `  await expect(${scope}.locator('${normalizedSelector}')${firstSelector}).toContainText('${assertionValue}')\n`
     },
 
     [assertionTypes.notContains]: ({
       selector,
       assertionValue,
       firstSelector,
+      isIframe,
     }) => {
+      const scope = isIframe ? 'frame' : 'page'
       const normalizedSelector = normalizeString(selector)
-      return `  await expect(page.locator('${normalizedSelector}')${firstSelector}).not.toContainText('${assertionValue}')\n`
+      return `  await expect(${scope}.locator('${normalizedSelector}')${firstSelector}).not.toContainText('${assertionValue}')\n`
     },
 
-    [assertionTypes.equals]: ({ selector, assertionValue, firstSelector }) => {
+    [assertionTypes.equals]: ({
+      selector,
+      assertionValue,
+      firstSelector,
+      isIframe,
+    }) => {
+      const scope = isIframe ? 'frame' : 'page'
       const normalizedSelector = normalizeString(selector)
-      return `  await expect(page.locator('${normalizedSelector}')${firstSelector}).toHaveText('${assertionValue}')\n`
+      return `  await expect(${scope}.locator('${normalizedSelector}')${firstSelector}).toHaveText('${assertionValue}')\n`
     },
 
     [assertionTypes.notEquals]: ({
       selector,
       assertionValue,
       firstSelector,
+      isIframe,
     }) => {
+      const scope = isIframe ? 'frame' : 'page'
       const normalizedSelector = normalizeString(selector)
-      return `  await expect(page.locator('${normalizedSelector}')${firstSelector}).not.toHaveText('${assertionValue}')\n`
+      return `  await expect(${scope}.locator('${normalizedSelector}')${firstSelector}).not.toHaveText('${assertionValue}')\n`
     },
 
-    [assertionTypes.inDocument]: ({ selector, firstSelector }) => {
+    [assertionTypes.inDocument]: ({ selector, firstSelector, isIframe }) => {
+      const scope = isIframe ? 'frame' : 'page'
       const normalizedSelector = normalizeString(selector)
-      return `  await expect(page.locator('${normalizedSelector}')${firstSelector}).toBeTruthy()\n`
+      return `  await expect(${scope}.locator('${normalizedSelector}')${firstSelector}).toBeTruthy()\n`
     },
 
-    [assertionTypes.notInDocument]: ({ selector, firstSelector }) => {
+    [assertionTypes.notInDocument]: ({ selector, firstSelector, isIframe }) => {
+      const scope = isIframe ? 'frame' : 'page'
       const normalizedSelector = normalizeString(selector)
-      return `  await expect(page.locator('${normalizedSelector}')${firstSelector}).not.toBeTruthy()\n`
+      return `  await expect(${scope}.locator('${normalizedSelector}')${firstSelector}).not.toBeTruthy()\n`
     },
 
-    [assertionTypes.toBeDisabled]: ({ selector, firstSelector }) => {
+    [assertionTypes.toBeDisabled]: ({ selector, firstSelector, isIframe }) => {
+      const scope = isIframe ? 'frame' : 'page'
       const normalizedSelector = normalizeString(selector)
-      return `  await expect(page.locator('${normalizedSelector}')${firstSelector}).toBeDisabled()\n`
+      return `  await expect(${scope}.locator('${normalizedSelector}')${firstSelector}).toBeDisabled()\n`
     },
 
-    [assertionTypes.notToBeDisabled]: ({ selector, firstSelector }) => {
+    [assertionTypes.notToBeDisabled]: ({
+      selector,
+      firstSelector,
+      isIframe,
+    }) => {
+      const scope = isIframe ? 'frame' : 'page'
       const normalizedSelector = normalizeString(selector)
-      return `  await expect(page.locator('${normalizedSelector}')${firstSelector}).not.toBeDisabled()\n`
+      return `  await expect(${scope}.locator('${normalizedSelector}')${firstSelector}).not.toBeDisabled()\n`
     },
 
-    [assertionTypes.toBeEnabled]: ({ selector, firstSelector }) => {
+    [assertionTypes.toBeEnabled]: ({ selector, firstSelector, isIframe }) => {
+      const scope = isIframe ? 'frame' : 'page'
       const normalizedSelector = normalizeString(selector)
-      return `  await expect(page.locator('${normalizedSelector}')${firstSelector}).toBeEnabled()\n`
+      return `  await expect(${scope}.locator('${normalizedSelector}')${firstSelector}).toBeEnabled()\n`
     },
 
-    [assertionTypes.notToBeEnabled]: ({ selector, firstSelector }) => {
+    [assertionTypes.notToBeEnabled]: ({
+      selector,
+      firstSelector,
+      isIframe,
+    }) => {
+      const scope = isIframe ? 'frame' : 'page'
       const normalizedSelector = normalizeString(selector)
-      return `  await expect(page.locator('${normalizedSelector}')${firstSelector}).not.toBeEnabled()\n`
+      return `  await expect(${scope}.locator('${normalizedSelector}')${firstSelector}).not.toBeEnabled()\n`
     },
 
-    [assertionTypes.toBeHidden]: ({ selector, firstSelector }) => {
+    [assertionTypes.toBeHidden]: ({ selector, firstSelector, isIframe }) => {
+      const scope = isIframe ? 'frame' : 'page'
       const normalizedSelector = normalizeString(selector)
-      return `  await expect(page.locator('${normalizedSelector}')${firstSelector}).toBeHidden()\n`
+      return `  await expect(${scope}.locator('${normalizedSelector}')${firstSelector}).toBeHidden()\n`
     },
 
-    [assertionTypes.notToBeHidden]: ({ selector, firstSelector }) => {
+    [assertionTypes.notToBeHidden]: ({ selector, firstSelector, isIframe }) => {
+      const scope = isIframe ? 'frame' : 'page'
       const normalizedSelector = normalizeString(selector)
-      return `  await expect(page.locator('${normalizedSelector}')${firstSelector}).not.toBeHidden()\n`
+      return `  await expect(${scope}.locator('${normalizedSelector}')${firstSelector}).not.toBeHidden()\n`
     },
 
-    [assertionTypes.toBeVisible]: ({ selector, firstSelector }) => {
+    [assertionTypes.toBeVisible]: ({ selector, firstSelector, isIframe }) => {
+      const scope = isIframe ? 'frame' : 'page'
       const normalizedSelector = normalizeString(selector)
-      return `  await expect(page.locator('${normalizedSelector}')${firstSelector}).toBeVisible()\n`
+      return `  await expect(${scope}.locator('${normalizedSelector}')${firstSelector}).toBeVisible()\n`
     },
 
-    [assertionTypes.notToBeVisible]: ({ selector, firstSelector }) => {
+    [assertionTypes.notToBeVisible]: ({
+      selector,
+      firstSelector,
+      isIframe,
+    }) => {
+      const scope = isIframe ? 'frame' : 'page'
       const normalizedSelector = normalizeString(selector)
-      return `  await expect(page.locator('${normalizedSelector}')${firstSelector}).not.toBeVisible()\n`
+      return `  await expect(${scope}.locator('${normalizedSelector}')${firstSelector}).not.toBeVisible()\n`
     },
 
     [assertionTypes.hasAttribute]: ({
@@ -178,9 +224,11 @@ test('${testName}', async ({ page }) => {
       assertionValue,
       assertionAttribute,
       firstSelector,
+      isIframe,
     }) => {
+      const scope = isIframe ? 'frame' : 'page'
       const normalizedSelector = normalizeString(selector)
-      return `  await expect(page.locator('${normalizedSelector}').getAttribute('${assertionAttribute}'))${firstSelector}.toBe('${assertionValue}')\n`
+      return `  await expect(${scope}.locator('${normalizedSelector}').getAttribute('${assertionAttribute}'))${firstSelector}.resolves.toBe('${assertionValue}')\n`
     },
 
     [assertionTypes.notHasAttribute]: ({
@@ -188,27 +236,33 @@ test('${testName}', async ({ page }) => {
       assertionValue,
       assertionAttribute,
       firstSelector,
+      isIframe,
     }) => {
+      const scope = isIframe ? 'frame' : 'page'
       const normalizedSelector = normalizeString(selector)
-      return `  await expect(page.locator('${normalizedSelector}').getAttribute('${assertionAttribute}'))${firstSelector}.not.toBe('${assertionValue}')\n`
+      return `  await expect(${scope}.locator('${normalizedSelector}').getAttribute('${assertionAttribute}'))${firstSelector}.resolves.not.toBe('${assertionValue}')\n`
     },
 
     [assertionTypes.toHaveLength]: ({
       selector,
       assertionValue,
       firstSelector,
+      isIframe,
     }) => {
+      const scope = isIframe ? 'frame' : 'page'
       const normalizedSelector = normalizeString(selector)
-      return `  await expect(page.locator('${normalizedSelector}'))${firstSelector}.toHaveCount('${assertionValue}')\n`
+      return `  await expect(${scope}.locator('${normalizedSelector}'))${firstSelector}.toHaveCount('${assertionValue}')\n`
     },
 
     [assertionTypes.notToHaveLength]: ({
       selector,
       assertionValue,
       firstSelector,
+      isIframe,
     }) => {
+      const scope = isIframe ? 'frame' : 'page'
       const normalizedSelector = normalizeString(selector)
-      return `  await expect(page.locator('${normalizedSelector}'))${firstSelector}.not.toHaveCount('${assertionValue}')\n`
+      return `  await expect(${scope}.locator('${normalizedSelector}'))${firstSelector}.not.toHaveCount('${assertionValue}')\n`
     },
   }
 
@@ -247,8 +301,35 @@ test('${testName}', async ({ page }) => {
     return `  await ${playwrightAction}\n`
   }
 
+  private generateIframeSelector(it: IEventBlock) {
+    const defaultSelector = {
+      name: 'src',
+      tagName: 'iframe',
+      value: `iframe[src="${it.url ?? it.element?.url}"]`,
+    }
+    return this.generateSelector({
+      selectedSelector: it.selectedIframeSelector ?? defaultSelector,
+    } as IEventBlock)
+  }
+
+  private generateIframeInit(it: IEventBlock) {
+    const selector = this.generateIframeSelector(it)
+
+    return `
+  frameHandle = await page.$('${selector}')
+  frame = await frameHandle.contentFrame()\n`
+  }
+
   private serializeRecordedEvents(events: IEventBlock[]) {
     return events.reduce((acc, it, index) => {
+      const isInIframe = it.element?.isInIframe ?? it.isInIframe
+
+      const scope = isInIframe ? 'frame' : 'page'
+
+      if (isInIframe) {
+        acc += this.generateIframeInit(it)
+      }
+
       const firstSelector =
         it.selectedSelector && (it.selectedSelector as ISelector)?.length > 1
           ? '.first()'
@@ -257,7 +338,7 @@ test('${testName}', async ({ page }) => {
       if (it.selectedSelector) {
         const selector = this.generateSelector(it)
         if (this.pageMethodsMap[it.type]) {
-          acc += `  await page${this.pageMethodsMap[it?.type]?.(
+          acc += `  await ${scope}${this.pageMethodsMap[it?.type]?.(
             it,
             selector,
           )}\n`
@@ -265,7 +346,7 @@ test('${testName}', async ({ page }) => {
           const eventAction =
             this.methodsMap[it?.type]?.(it) ?? this.methodsMap.default(it)
 
-          const playwrightAction = `page.locator('${normalizeString(
+          const playwrightAction = `${scope}.locator('${normalizeString(
             selector,
           )}')${firstSelector}${eventAction}`
 
@@ -291,6 +372,7 @@ test('${testName}', async ({ page }) => {
             firstSelector,
             assertionValue: it.assertionValue,
             assertionAttribute: it.assertionAttribute,
+            isIframe: it.isInIframe ?? it.element?.isInIframe ?? false,
           },
         )
       }
@@ -303,9 +385,23 @@ test('${testName}', async ({ page }) => {
     }, '')
   }
 
+  private getIframeVariables(events: IEventBlock[]) {
+    const shouldCreateVariables = events.some(
+      (it) => it.element?.isInIframe ?? it.isInIframe,
+    )
+
+    if (shouldCreateVariables) {
+      return `
+  let frameHandle = null
+  let frame = null`
+    }
+    return ''
+  }
+
   private getContent(events: IEventBlock[]) {
     const [{ url, innerWidth, innerHeight }, ...restEvents] = events
     return `${this.getGoToTestedPage(url, innerWidth, innerHeight)}
+${this.getIframeVariables(events)}
 ${this.serializeRecordedEvents(restEvents)}`
   }
 

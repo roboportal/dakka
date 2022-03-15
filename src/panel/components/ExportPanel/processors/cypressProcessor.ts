@@ -31,7 +31,7 @@ export class CypressProcessor extends ExportProcessor {
 
   private getGoToTestedPage(url = '', innerWidth = 0, innerHeight = 0) {
     return `cy.viewport(${innerWidth}, ${innerHeight})
-    cy.visit('${url}', { failOnStatusCode: false })\n`
+    cy.visit('${url}', { failOnStatusCode: false })`
   }
 
   private setViewPort(innerWidth = 0, innerHeight = 0) {
@@ -53,114 +53,122 @@ describe('${testName}', () => {
       selector,
       assertionValue,
       assertionAttribute,
+      context,
     }: {
       selector?: string
       assertionValue?: string
       assertionAttribute?: string
+      context: string
     }) => string
   > = {
-    [assertionTypes.toHaveTitle]: ({ assertionValue }) => {
-      return `    cy.title().should('eq', '${assertionValue}')\n`
+    [assertionTypes.toHaveTitle]: ({ assertionValue, context }) => {
+      return `    ${context}.title().should('eq', '${assertionValue}')\n`
     },
 
-    [assertionTypes.notToHaveTitle]: ({ assertionValue }) => {
-      return `    cy.title().should('not.eq', '${assertionValue}')\n`
+    [assertionTypes.notToHaveTitle]: ({ assertionValue, context }) => {
+      return `    ${context}.title().should('not.eq', '${assertionValue}')\n`
     },
 
-    [assertionTypes.toHaveURL]: ({ assertionValue }) => {
-      return `    cy.url().should('eq', '${assertionValue}')\n`
+    [assertionTypes.toHaveURL]: ({ assertionValue, context }) => {
+      return `    ${context}.url().should('eq', '${assertionValue}')\n`
     },
 
-    [assertionTypes.notToHaveURL]: ({ assertionValue }) => {
-      return `    cy.url().should('not.eq', '${assertionValue}')\n`
+    [assertionTypes.notToHaveURL]: ({ assertionValue, context }) => {
+      return `    ${context}.url().should('not.eq', '${assertionValue}')\n`
     },
 
-    [assertionTypes.toBeChecked]: ({ selector }) => {
-      return `    cy.${selector}.should('be.checked')\n`
+    [assertionTypes.toBeChecked]: ({ selector, context }) => {
+      return `    ${context}.${selector}.should('be.checked')\n`
     },
 
-    [assertionTypes.notToBeChecked]: ({ selector }) => {
-      return `    cy.${selector}.should('not.be.checked')\n`
+    [assertionTypes.notToBeChecked]: ({ selector, context }) => {
+      return `    ${context}.${selector}.should('not.be.checked')\n`
     },
 
-    [assertionTypes.contains]: ({ selector, assertionValue }) => {
-      return `    cy.${selector}.should('contain.text', '${assertionValue}')\n`
+    [assertionTypes.contains]: ({ selector, assertionValue, context }) => {
+      return `    ${context}.${selector}.should('contain.text', '${assertionValue}')\n`
     },
 
-    [assertionTypes.notContains]: ({ selector, assertionValue }) => {
-      return `    cy.${selector}.should('not.contain.text', '${assertionValue}')\n`
+    [assertionTypes.notContains]: ({ selector, assertionValue, context }) => {
+      return `    ${context}.${selector}.should('not.contain.text', '${assertionValue}')\n`
     },
 
-    [assertionTypes.equals]: ({ selector, assertionValue }) => {
-      return `    cy.${selector}.should('have.text', '${assertionValue}')\n`
+    [assertionTypes.equals]: ({ selector, assertionValue, context }) => {
+      return `    ${context}.${selector}.should('have.text', '${assertionValue}')\n`
     },
 
-    [assertionTypes.notEquals]: ({ selector, assertionValue }) => {
-      return `    cy.${selector}.should('not.have.text', '${assertionValue}')\n`
+    [assertionTypes.notEquals]: ({ selector, assertionValue, context }) => {
+      return `    ${context}.${selector}.should('not.have.text', '${assertionValue}')\n`
     },
 
-    [assertionTypes.inDocument]: ({ selector }) => {
-      return `    cy.${selector}.should('exist')\n`
+    [assertionTypes.inDocument]: ({ selector, context }) => {
+      return `    ${context}.${selector}.should('exist')\n`
     },
 
-    [assertionTypes.notInDocument]: ({ selector }) => {
-      return `    cy.${selector}.should('not.exist')\n`
+    [assertionTypes.notInDocument]: ({ selector, context }) => {
+      return `    ${context}.${selector}.should('not.exist')\n`
     },
 
-    [assertionTypes.toBeDisabled]: ({ selector }) => {
-      return `    cy.${selector}.should('be.disabled')\n`
+    [assertionTypes.toBeDisabled]: ({ selector, context }) => {
+      return `    ${context}.${selector}.should('be.disabled')\n`
     },
 
-    [assertionTypes.notToBeDisabled]: ({ selector }) => {
-      return `    cy.${selector}.should('not.be.disabled')\n`
+    [assertionTypes.notToBeDisabled]: ({ selector, context }) => {
+      return `    ${context}.${selector}.should('not.be.disabled')\n`
     },
 
-    [assertionTypes.toBeEnabled]: ({ selector }) => {
-      return `    cy.${selector}.should('be.enabled')\n`
+    [assertionTypes.toBeEnabled]: ({ selector, context }) => {
+      return `    ${context}.${selector}.should('be.enabled')\n`
     },
 
-    [assertionTypes.notToBeEnabled]: ({ selector }) => {
-      return `    cy.${selector}.should('not.be.enabled')\n`
+    [assertionTypes.notToBeEnabled]: ({ selector, context }) => {
+      return `    ${context}.${selector}.should('not.be.enabled')\n`
     },
 
-    [assertionTypes.toBeHidden]: ({ selector }) => {
-      return `    cy.${selector}.should('be.hidden')\n`
+    [assertionTypes.toBeHidden]: ({ selector, context }) => {
+      return `    ${context}.${selector}.should('be.hidden')\n`
     },
 
-    [assertionTypes.notToBeHidden]: ({ selector }) => {
-      return `    cy.${selector}.should('not.be.hidden')\n`
+    [assertionTypes.notToBeHidden]: ({ selector, context }) => {
+      return `    ${context}.${selector}.should('not.be.hidden')\n`
     },
 
-    [assertionTypes.toBeVisible]: ({ selector }) => {
-      return `    cy.${selector}.should('be.visible')\n`
+    [assertionTypes.toBeVisible]: ({ selector, context }) => {
+      return `    ${context}.${selector}.should('be.visible')\n`
     },
 
-    [assertionTypes.notToBeVisible]: ({ selector }) => {
-      return `    cy.${selector}.should('not.be.visible')\n`
+    [assertionTypes.notToBeVisible]: ({ selector, context }) => {
+      return `    ${context}.${selector}.should('not.be.visible')\n`
     },
 
     [assertionTypes.hasAttribute]: ({
       selector,
       assertionValue,
       assertionAttribute,
+      context,
     }) => {
-      return `    cy.${selector}.should('have.attr', '${assertionAttribute}', '${assertionValue}')\n`
+      return `    ${context}.${selector}.should('have.attr', '${assertionAttribute}', '${assertionValue}')\n`
     },
 
     [assertionTypes.notHasAttribute]: ({
       selector,
       assertionValue,
       assertionAttribute,
+      context,
     }) => {
-      return `    cy.${selector}.should('not.have.attr', '${assertionAttribute}', '${assertionValue}')\n`
+      return `    ${context}.${selector}.should('not.have.attr', '${assertionAttribute}', '${assertionValue}')\n`
     },
 
-    [assertionTypes.toHaveLength]: ({ selector, assertionValue }) => {
-      return `    cy.${selector}.should('have.length', '${assertionValue}')\n`
+    [assertionTypes.toHaveLength]: ({ selector, assertionValue, context }) => {
+      return `    ${context}.${selector}.should('have.length', '${assertionValue}')\n`
     },
 
-    [assertionTypes.notToHaveLength]: ({ selector, assertionValue }) => {
-      return `    cy.${selector}.should('not.have.length', '${assertionValue}')\n`
+    [assertionTypes.notToHaveLength]: ({
+      selector,
+      assertionValue,
+      context,
+    }) => {
+      return `    ${context}.${selector}.should('not.have.length', '${assertionValue}')\n`
     },
   }
 
@@ -178,7 +186,28 @@ describe('${testName}', () => {
         : `contains('${normalizeString(value)}')`
     }
 
-    return `get('${normalizeString(value)}')`
+    const isInIframe = it.element?.isInIframe ?? it.isInIframe
+    const getter = isInIframe ? 'find' : 'get'
+
+    return `${getter}('${normalizeString(value)}')`
+  }
+
+  private generateIframeSelector(it: IEventBlock) {
+    const defaultSelector = {
+      name: 'src',
+      tagName: 'iframe',
+      value: `iframe[src="${it.url ?? it.element?.url}"]`,
+    }
+    return this.generateSelector({
+      selectedSelector: it.selectedIframeSelector ?? defaultSelector,
+    } as IEventBlock)
+  }
+
+  private generateIframeInit(it: IEventBlock) {
+    const selector = this.generateIframeSelector(it)
+
+    return `
+    frame = cy.${selector}.its('0.contentDocument').should('exist').its('body').should('not.be.undefined').then(cy.wrap)\n`
   }
 
   private serializeRecordedEvents(events: IEventBlock[]) {
@@ -191,16 +220,28 @@ describe('${testName}', () => {
 
       const action =
         this.methodsMap[it?.type]?.(it) ?? this.methodsMap.default(it)
+
       if (selector && action) {
-        acc += `    cy.${selector}${firstSelector}${action}\n`
+        const isInIframe = it.element?.isInIframe ?? it.isInIframe
+        const context = isInIframe ? 'frame' : 'cy'
+        if (isInIframe) {
+          acc += this.generateIframeInit(it)
+        }
+        acc += `    ${context}.${selector}${firstSelector}${action}\n`
       }
 
       if (it.type === ASSERTION) {
+        const isInIframe = it.element?.isInIframe ?? it.isInIframe
+        const context = isInIframe ? 'frame' : 'cy'
+        if (isInIframe) {
+          acc += this.generateIframeInit(it)
+        }
         acc += this.expectMethodsMap[it?.assertionType?.type as assertionTypes](
           {
             selector: `${this.generateSelector(it?.element)}${firstSelector}`,
             assertionValue: it.assertionValue,
             assertionAttribute: it.assertionAttribute,
+            context,
           },
         )
       }
@@ -213,13 +254,23 @@ describe('${testName}', () => {
     }, '')
   }
 
+  private getIframeVariables(events: IEventBlock[]) {
+    const shouldCreateVariables = events.some(
+      (it) => it.element?.isInIframe ?? it.isInIframe,
+    )
+
+    if (shouldCreateVariables) {
+      return `
+    let frame = null`
+    }
+    return ''
+  }
+
   private getContent(events: IEventBlock[]) {
     const [{ url, innerWidth, innerHeight }, ...restEvents] = events
-    return `${this.getGoToTestedPage(
-      url,
-      innerWidth,
-      innerHeight,
-    )}${this.serializeRecordedEvents(restEvents)}`
+    return `${this.getGoToTestedPage(url, innerWidth, innerHeight)}
+${this.getIframeVariables(events)}
+${this.serializeRecordedEvents(restEvents)}`
   }
 
   process(events: IEventBlock[]) {
