@@ -72,30 +72,37 @@ describe('${testName}', () => {
       assertionValue,
       assertionAttribute,
       selectorName,
+      isIframe,
     }: {
       selector?: string
       assertionValue?: string
       assertionAttribute?: string
       selectorName: string
+      isIframe: boolean
     }) => string
   > = {
-    [assertionTypes.toHaveTitle]: ({ assertionValue }) => {
-      return `      expect(await page.title()).toBe('${assertionValue}')\n`
+    [assertionTypes.toHaveTitle]: ({ assertionValue, isIframe }) => {
+      const scope = isIframe ? 'frame' : 'page'
+      return `      expect(await ${scope}.title()).toBe('${assertionValue}')\n`
     },
 
-    [assertionTypes.notToHaveTitle]: ({ assertionValue }) => {
-      return `      expect(await page.title()).not.toBe('${assertionValue}')\n`
+    [assertionTypes.notToHaveTitle]: ({ assertionValue, isIframe }) => {
+      const scope = isIframe ? 'frame' : 'page'
+      return `      expect(await ${scope}.title()).not.toBe('${assertionValue}')\n`
     },
 
-    [assertionTypes.toHaveURL]: ({ assertionValue }) => {
-      return `      expect(page.url()).toBe('${assertionValue}')\n`
+    [assertionTypes.toHaveURL]: ({ assertionValue, isIframe }) => {
+      const scope = isIframe ? 'frame' : 'page'
+      return `      expect(${scope}.url()).toBe('${assertionValue}')\n`
     },
 
-    [assertionTypes.notToHaveURL]: ({ assertionValue }) => {
-      return `      expect(page.url()).toBe('${assertionValue}')\n`
+    [assertionTypes.notToHaveURL]: ({ assertionValue, isIframe }) => {
+      const scope = isIframe ? 'frame' : 'page'
+      return `      expect(${scope}.url()).toBe('${assertionValue}')\n`
     },
 
-    [assertionTypes.toBeChecked]: ({ selector, selectorName }) => {
+    [assertionTypes.toBeChecked]: ({ selector, selectorName, isIframe }) => {
+      const scope = isIframe ? 'frame' : 'page'
       if (selectorOptions[selectorName] === '$x') {
         return `  ${getByXpath({
           selector,
@@ -103,10 +110,11 @@ describe('${testName}', () => {
         })}.toBe(true)\n`
       }
 
-      return `      expect(await page.$eval('${selector}', e => e.checked)).toBe(true)\n`
+      return `      expect(await ${scope}.$eval('${selector}', e => e.checked)).toBe(true)\n`
     },
 
-    [assertionTypes.notToBeChecked]: ({ selector, selectorName }) => {
+    [assertionTypes.notToBeChecked]: ({ selector, selectorName, isIframe }) => {
+      const scope = isIframe ? 'frame' : 'page'
       if (selectorOptions[selectorName] === '$x') {
         return `  ${getByXpath({
           selector,
@@ -114,10 +122,16 @@ describe('${testName}', () => {
         })}.toBe(false)\n`
       }
 
-      return `      expect(await page.$eval('${selector}', e => e.checked)).toBe(false)\n`
+      return `      expect(await ${scope}.$eval('${selector}', e => e.checked)).toBe(false)\n`
     },
 
-    [assertionTypes.contains]: ({ selector, assertionValue, selectorName }) => {
+    [assertionTypes.contains]: ({
+      selector,
+      assertionValue,
+      selectorName,
+      isIframe,
+    }) => {
+      const scope = isIframe ? 'frame' : 'page'
       if (selectorOptions[selectorName] === '$x') {
         return `  ${getByXpath({
           selector,
@@ -125,24 +139,32 @@ describe('${testName}', () => {
         })}.toContain('${assertionValue}')\n`
       }
 
-      return `      expect(await page.$eval('${selector}', e => e.textContent)).toContain('${assertionValue}')\n`
+      return `      expect(await ${scope}.$eval('${selector}', e => e.textContent)).toContain('${assertionValue}')\n`
     },
 
     [assertionTypes.notContains]: ({
       selector,
       assertionValue,
       selectorName,
+      isIframe,
     }) => {
+      const scope = isIframe ? 'frame' : 'page'
       if (selectorOptions[selectorName] === '$x') {
         return `  ${getByXpath({
           selector,
           value: 'e.textContent',
         })}.not.toContain('${assertionValue}')\n`
       }
-      return `      expect(await page.$eval('${selector}', e => e.textContent)).not.toContain('${assertionValue}')\n`
+      return `      expect(await ${scope}.$eval('${selector}', e => e.textContent)).not.toContain('${assertionValue}')\n`
     },
 
-    [assertionTypes.equals]: ({ selector, assertionValue, selectorName }) => {
+    [assertionTypes.equals]: ({
+      selector,
+      assertionValue,
+      selectorName,
+      isIframe,
+    }) => {
+      const scope = isIframe ? 'frame' : 'page'
       if (selectorOptions[selectorName] === '$x') {
         return `  ${getByXpath({
           selector,
@@ -150,38 +172,43 @@ describe('${testName}', () => {
         })}.toBe('${assertionValue}')\n`
       }
 
-      return `      expect(await page.$eval('${selector}', e => e.textContent)).toBe('${assertionValue}')\n`
+      return `      expect(await ${scope}.$eval('${selector}', e => e.textContent)).toBe('${assertionValue}')\n`
     },
 
     [assertionTypes.notEquals]: ({
       selector,
       assertionValue,
       selectorName,
+      isIframe,
     }) => {
+      const scope = isIframe ? 'frame' : 'page'
       if (selectorOptions[selectorName] === '$x') {
         return `  ${getByXpath({
           selector,
           value: 'e.textContent',
         })}.not.toBe('${assertionValue}')\n`
       }
-      return `      expect(await page.$eval('${selector}', e => e.textContent)).not.toBe('${assertionValue}')\n`
+      return `      expect(await ${scope}.$eval('${selector}', e => e.textContent)).not.toBe('${assertionValue}')\n`
     },
 
-    [assertionTypes.inDocument]: ({ selector, selectorName }) => {
+    [assertionTypes.inDocument]: ({ selector, selectorName, isIframe }) => {
+      const scope = isIframe ? 'frame' : 'page'
       const normalizedSelector = normalizeString(selector)
-      return `      expect(await page.${
+      return `      expect(await ${scope}.${
         selectorOptions[selectorName] ?? selectorOptions.default
       }('${normalizedSelector}')).toBeDefined()\n`
     },
 
-    [assertionTypes.notInDocument]: ({ selector, selectorName }) => {
+    [assertionTypes.notInDocument]: ({ selector, selectorName, isIframe }) => {
+      const scope = isIframe ? 'frame' : 'page'
       const normalizedSelector = normalizeString(selector)
-      return `      expect(await page.${
+      return `      expect(await ${scope}.${
         selectorOptions[selectorName] ?? selectorOptions.default
       }('${normalizedSelector}')).toBeUndefined()\n`
     },
 
-    [assertionTypes.toBeDisabled]: ({ selector, selectorName }) => {
+    [assertionTypes.toBeDisabled]: ({ selector, selectorName, isIframe }) => {
+      const scope = isIframe ? 'frame' : 'page'
       if (selectorOptions[selectorName] === '$x') {
         return `  ${getByXpath({
           selector,
@@ -189,10 +216,15 @@ describe('${testName}', () => {
         })}.toBe(true)\n`
       }
 
-      return `      expect(await page.$eval('${selector}', (e) => e.getAttribute('disabled'))).toBe(true)\n`
+      return `      expect(await ${scope}.$eval('${selector}', (e) => e.getAttribute('disabled'))).toBe(true)\n`
     },
 
-    [assertionTypes.notToBeDisabled]: ({ selector, selectorName }) => {
+    [assertionTypes.notToBeDisabled]: ({
+      selector,
+      selectorName,
+      isIframe,
+    }) => {
+      const scope = isIframe ? 'frame' : 'page'
       const normalizedSelector = normalizeString(selector)
       if (selectorOptions[selectorName] === '$x') {
         return `  ${getByXpath({
@@ -200,60 +232,66 @@ describe('${testName}', () => {
           value: 'e.getAttribute("disabled")',
         })}.toBe(null)\n`
       }
-      return `      expect(await page.$eval('${normalizedSelector}', (e) => e.getAttribute('disabled'))).toBe(null)\n`
+      return `      expect(await ${scope}.$eval('${normalizedSelector}', (e) => e.getAttribute('disabled'))).toBe(null)\n`
     },
 
-    [assertionTypes.toBeEnabled]: ({ selector, selectorName }) => {
+    [assertionTypes.toBeEnabled]: ({ selector, selectorName, isIframe }) => {
+      const scope = isIframe ? 'frame' : 'page'
       if (selectorOptions[selectorName] === '$x') {
         return `  ${getByXpath({
           selector,
           value: 'e.getAttribute("disabled")',
         })}.toBe(null)\n`
       }
-      return `      expect(await page.$eval('${selector}', (e) => e.getAttribute('disabled'))).toBe(null)\n`
+      return `      expect(await ${scope}.$eval('${selector}', (e) => e.getAttribute('disabled'))).toBe(null)\n`
     },
 
-    [assertionTypes.notToBeEnabled]: ({ selector, selectorName }) => {
+    [assertionTypes.notToBeEnabled]: ({ selector, selectorName, isIframe }) => {
+      const scope = isIframe ? 'frame' : 'page'
       if (selectorOptions[selectorName] === '$x') {
         return `  ${getByXpath({
           selector,
           value: 'e.getAttribute("disabled")',
         })}.toBe(true)\n`
       }
-      return `      expect(await page.$eval('${selector}', (e) => e.getAttribute('disabled'))).toBe(true)\n`
+      return `      expect(await ${scope}.$eval('${selector}', (e) => e.getAttribute('disabled'))).toBe(true)\n`
     },
 
-    [assertionTypes.toBeHidden]: ({ selector, selectorName }) => {
-      return `      expect(await page.${
+    [assertionTypes.toBeHidden]: ({ selector, selectorName, isIframe }) => {
+      const scope = isIframe ? 'frame' : 'page'
+      return `      expect(await ${scope}.${
         selectorOptions[selectorName] ?? selectorOptions.default
       }('${selector}')).toBeNull()\n`
     },
 
-    [assertionTypes.notToBeHidden]: ({ selector, selectorName }) => {
+    [assertionTypes.notToBeHidden]: ({ selector, selectorName, isIframe }) => {
+      const scope = isIframe ? 'frame' : 'page'
       const normalizedSelector = normalizeString(selector)
-      return `      expect(await page.${
+      return `      expect(await ${scope}.${
         selectorOptions[selectorName] ?? selectorOptions.default
       }('${normalizedSelector}')).not.toBeNull()\n`
     },
 
-    [assertionTypes.toBeVisible]: ({ selector, selectorName }) => {
+    [assertionTypes.toBeVisible]: ({ selector, selectorName, isIframe }) => {
+      const scope = isIframe ? 'frame' : 'page'
       if (selectorOptions[selectorName] === '$x') {
         return `  ${getByXpath({
           selector,
           value: 'e.style.visibility',
         })}.not.toBe('hidden')\n`
       }
-      return `      expect(await page.$eval('${selector}', e => e.style.visibility)).not.toBe('hidden')\n`
+      return `      expect(await ${scope}.$eval('${selector}', e => e.style.visibility)).not.toBe('hidden')\n`
     },
 
-    [assertionTypes.notToBeVisible]: ({ selector, selectorName }) => {
+    [assertionTypes.notToBeVisible]: ({ selector, selectorName, isIframe }) => {
+      const scope = isIframe ? 'frame' : 'page'
       if (selectorOptions[selectorName] === '$x') {
         return `  ${getByXpath({
           selector,
           value: 'e.style.visibility',
         })}.not.toBe('visible')\n`
       }
-      return `      expect(await page.$eval('${selector}', e => e.style.visibility)).not.toBe('visible')\n`
+      return `      expect(await ${scope}.$eval('${selector}', e => e.style.visibility)).not.toBe('visible')\n`
     },
 
     [assertionTypes.hasAttribute]: ({
@@ -261,7 +299,9 @@ describe('${testName}', () => {
       assertionValue,
       assertionAttribute,
       selectorName,
+      isIframe,
     }) => {
+      const scope = isIframe ? 'frame' : 'page'
       const normalizedSelector = normalizeString(selector)
       if (selectorOptions[selectorName] === '$x') {
         return `  ${getByXpath({
@@ -269,7 +309,7 @@ describe('${testName}', () => {
           value: `e.getAttribute('${assertionAttribute}')`,
         })}.toBe('${assertionValue}')\n`
       }
-      return `  expect(await page.$eval('${normalizedSelector}', e => e.getAttribute('${assertionAttribute}'))).toBe('${assertionValue}')\n`
+      return `  expect(await ${scope}.$eval('${normalizedSelector}', e => e.getAttribute('${assertionAttribute}'))).toBe('${assertionValue}')\n`
     },
 
     [assertionTypes.notHasAttribute]: ({
@@ -277,28 +317,32 @@ describe('${testName}', () => {
       assertionValue,
       assertionAttribute,
       selectorName,
+      isIframe,
     }) => {
+      const scope = isIframe ? 'frame' : 'page'
       if (selectorOptions[selectorName] === '$x') {
         return `  ${getByXpath({
           selector,
           value: `e.getAttribute('${assertionAttribute}')`,
         })}.not.toBe('${assertionValue}')\n`
       }
-      return `  expect(await page.$eval('${selector}', e => e.getAttribute('${assertionAttribute}'))).not.toBe('${assertionValue}')\n`
+      return `  expect(await ${scope}.$eval('${selector}', e => e.getAttribute('${assertionAttribute}'))).not.toBe('${assertionValue}')\n`
     },
 
     [assertionTypes.toHaveLength]: ({
       selector,
       assertionValue,
       selectorName,
+      isIframe,
     }) => {
+      const scope = isIframe ? 'frame' : 'page'
       if (selectorOptions[selectorName] === '$x') {
         return `  ${getByXpath({
           selector,
           value: 'e.length',
         })}.toBe('${assertionValue}')\n`
       }
-      return `  expect(await page.$$eval('${selector}', e => e.length)).toBe(${Number(
+      return `  expect(await ${scope}.$$eval('${selector}', e => e.length)).toBe(${Number(
         assertionValue,
       )})\n`
     },
@@ -307,14 +351,16 @@ describe('${testName}', () => {
       selector,
       assertionValue,
       selectorName,
+      isIframe,
     }) => {
+      const scope = isIframe ? 'frame' : 'page'
       if (selectorOptions[selectorName] === '$x') {
         return `  ${getByXpath({
           selector,
           value: 'e.length',
         })}.not.toBe('${assertionValue}')\n`
       }
-      return `  expect(await page.$$eval('${selector}', e => e.length)).not.toBe(${Number(
+      return `  expect(await ${scope}.$$eval('${selector}', e => e.length)).not.toBe(${Number(
         assertionValue,
       )})\n`
     },
@@ -335,28 +381,40 @@ describe('${testName}', () => {
     return normalizeString(value)
   }
 
+  private generateIframeSelector(it: IEventBlock) {
+    const defaultSelector = {
+      name: 'src',
+      tagName: 'iframe',
+      value: `iframe[src="${it.url ?? it.element?.url}"]`,
+    }
+    return this.generateSelector({
+      selectedSelector: it.selectedIframeSelector ?? defaultSelector,
+    } as IEventBlock)
+  }
+
   private generateAction(it: IEventBlock) {
     const selector = this.generateSelector(it)
     const key = normalizeString(it?.key)
     const payload = { key, selector }
+    const scope = it.isInIframe ? 'frame' : 'page'
 
     if (this.pageMethodsMap[it.type]) {
-      return `      await page${this.pageMethodsMap[it?.type]?.(it)}\n`
+      return `      await ${scope}${this.pageMethodsMap[it?.type]?.(it)}\n`
     }
 
     if (selectorOptions[it?.selectedSelector?.name ?? ''] === '$x') {
       return `  
-      await page.waitForXPath('${selector}[not(@disabled)]')
-      await page.$x('${selector}').then(async (elements) => await elements[0].evaluate((e) => e${
+      await ${scope}.waitForXPath('${selector}[not(@disabled)]')
+      await ${scope}.$x('${selector}').then(async (elements) => await elements[0].evaluate((e) => e${
         this.methodsMap[it?.type]?.({ key }) ?? this.methodsMap.default({ key })
       }))\n`
     }
 
     return `      
-      await page.waitForSelector('${payload.selector}:not([disabled])')
-      await page${
-        this.methodsMap[it?.type]?.(payload) ?? this.methodsMap.default(payload)
-      }\n`
+      await ${scope}.waitForSelector('${payload.selector}:not([disabled])')
+      await ${scope}${
+      this.methodsMap[it?.type]?.(payload) ?? this.methodsMap.default(payload)
+    }\n`
   }
 
   private waitForElement(
@@ -366,15 +424,30 @@ describe('${testName}', () => {
     const byXPath =
       selectorOptions[element?.selectedSelector?.name ?? ''] === '$x'
 
+    const scope = element?.isInIframe ? 'frame' : 'page'
     if (byXPath) {
-      return `      await page.waitForXPath('${selector}')\n`
+      return `      await ${scope}.waitForXPath('${selector}')\n`
     }
 
-    return `      await page.waitForSelector('${selector}')\n`
+    return `      await ${scope}.waitForSelector('${selector}')\n`
+  }
+
+  private generateIframeInit(it: IEventBlock) {
+    const selector = this.generateIframeSelector(it)
+
+    return `
+      frameHandle = await page.$('${selector}')
+      frame = await frameHandle.contentFrame()\n`
   }
 
   private serializeRecordedEvents(events: IEventBlock[]) {
     return events.reduce((acc, it) => {
+      const isInIframe = it.element?.isInIframe ?? it.isInIframe
+
+      if (isInIframe) {
+        acc += this.generateIframeInit(it)
+      }
+
       if (it.selectedSelector) {
         acc += this.generateAction(it)
       }
@@ -393,6 +466,7 @@ describe('${testName}', () => {
             selectorName: element?.selectedSelector?.name ?? '',
             assertionValue: it.assertionValue,
             assertionAttribute: it.assertionAttribute,
+            isIframe: it.isInIframe ?? it.element?.isInIframe ?? false,
           },
         )
       }
@@ -420,9 +494,23 @@ describe('${testName}', () => {
     return `      await page.setViewport({ width: ${innerWidth}, height: ${innerHeight} })`
   }
 
+  private getIframeVariables(events: IEventBlock[]) {
+    const shouldCreateVariables = events.some(
+      (it) => it.element?.isInIframe ?? it.isInIframe,
+    )
+
+    if (shouldCreateVariables) {
+      return `
+      let frameHandle = null
+      let frame = null`
+    }
+    return ''
+  }
+
   private getContent(events: IEventBlock[]) {
     const [{ url, innerWidth, innerHeight }, ...restEvents] = events
     return `${this.getGoToTestedPage(url, innerWidth, innerHeight)}
+${this.getIframeVariables(events)}
 ${this.serializeRecordedEvents(restEvents)}`
   }
 
