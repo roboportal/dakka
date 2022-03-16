@@ -1,11 +1,10 @@
 import { nanoid } from 'nanoid'
-
 import { createSlice, PayloadAction, original } from '@reduxjs/toolkit'
 import { WritableDraft } from 'immer/dist/internal'
-
 import { INTERACTIVE_ELEMENT, ELEMENT_SELECTED } from '@/constants/messageTypes'
 import { eventsToTrack } from '@/constants/eventTypes'
 import { process } from './utils/eventProcessor'
+import { exportOptions } from './utils/constants'
 
 export interface EventRecorderState {
   isRecorderEnabled: boolean
@@ -16,6 +15,7 @@ export interface EventRecorderState {
   activeBlockId: string | null
   expandedId: string | null
   lastSelectedEventId: string
+  exportType: exportOptions
 }
 
 export interface ISelector {
@@ -105,6 +105,7 @@ const initialState: EventRecorderState = {
   activeBlockId: null,
   expandedId: null,
   lastSelectedEventId: '',
+  exportType: exportOptions.none,
 }
 
 const areEventsIframeSelectorsEqual = (
@@ -346,6 +347,10 @@ export const eventRecorderSlice = createSlice({
     setLastSelectedEventId: (state, { payload }) => {
       state.lastSelectedEventId = payload
     },
+
+    setExportType: (state, { payload }: { payload: exportOptions }) => {
+      state.exportType = payload
+    },
   },
 })
 
@@ -364,6 +369,7 @@ export const {
   setCustomAssertSelector,
   setLastSelectedEventId,
   selectIframeEventSelector,
+  setExportType,
 } = eventRecorderSlice.actions
 
 export default eventRecorderSlice.reducer

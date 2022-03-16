@@ -49,3 +49,11 @@ export const INPUT_TYPE_TO_KEY_MAP: Record<string, string> = {
   deleteContentForward: 'Delete',
   deleteContentBackward: 'Backspace',
 }
+
+export enum exportOptions {
+  none = 'none',
+  cypress = 'cypress',
+  playwright = 'playwright',
+  puppeteer = 'puppeteer',
+  dakka = 'dakka',
+}

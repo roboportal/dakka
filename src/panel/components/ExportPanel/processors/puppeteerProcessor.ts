@@ -1,5 +1,5 @@
 import { IEventBlock } from '@/store/eventRecorderSlice'
-import { exportOptions } from '../constants'
+import { exportOptions } from '@/store/utils/constants'
 import { assertionTypes } from '@/constants/assertion'
 import { selectorTypes } from '../selectorTypes'
 import { normalizeString } from '../normalizer'

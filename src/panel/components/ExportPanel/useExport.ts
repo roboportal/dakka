@@ -1,9 +1,12 @@
-import { useCallback, useState } from 'react'
-import { useSelector } from 'react-redux'
-import { IEventBlock } from '@/store/eventRecorderSlice'
-import { getActiveEvents, getIsReadyToExport } from '@/store/eventSelectors'
-
-import { exportOptions } from './constants'
+import { useCallback } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { IEventBlock, setExportType } from '@/store/eventRecorderSlice'
+import {
+  getActiveEvents,
+  getExportType,
+  getIsReadyToExport,
+} from '@/store/eventSelectors'
+import { exportOptions } from '@/store/utils/constants'
 import exportProcessor from './exportProcessor'
 
 const writeToClipboard = (text: string): Promise<string> =>
@@ -35,12 +38,16 @@ const saveFile = (text: string, fileName: string) => {
 }
 
 export default function useExports() {
-  const [exportOption, setExportOption] = useState(exportOptions.none)
+  const dispatch = useDispatch()
+  const exportOption = useSelector(getExportType)
 
-  const handleChange = useCallback((e) => {
-    const value = e.target.value as exportOptions
-    setExportOption(value)
-  }, [])
+  const handleChange = useCallback(
+    (e) => {
+      const value = e.target.value as exportOptions
+      dispatch(setExportType(value))
+    },
+    [dispatch],
+  )
 
   const recordedEvents = useSelector(getActiveEvents)
   const isReadyToExport = useSelector(getIsReadyToExport)
