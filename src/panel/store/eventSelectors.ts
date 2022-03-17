@@ -168,3 +168,8 @@ export const getAllowedInjections = createSelector(
   (state: RootState) => state[SLICE_NAMES.eventRecorder],
   (state) => state.allowedInjections,
 )
+
+export const getExportType = createSelector(
+  (state: RootState) => state[SLICE_NAMES.eventRecorder],
+  (state) => state.exportType,
+)
