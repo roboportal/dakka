@@ -10,6 +10,8 @@
     "build": "npm run remove-dist && webpack --config webpack.panel.config.js && webpack --config webpack.scripts.config.js",
     "pack": "zip -r extension.zip dist/",
     "serve:panel": "NODE_ENV=development PORT=8080 webpack serve --config webpack.panel.config.js",
+    "build:integration": "npm run remove-dist && webpack --config webpack.integration.config.js",
+    "serve:integration": "NODE_ENV=development PORT=8081 webpack serve --config webpack.integration.config.js",
     "watch:scripts": "NODE_ENV=development webpack watch --config webpack.scripts.config.js",
     "kill:stale-dev-server": "PORT=8080 kill $(lsof -ti:$PORT)",
     "devtools": "react-devtools & npx @redux-devtools/cli --open",

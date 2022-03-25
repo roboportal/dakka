@@ -28,7 +28,9 @@ export default function useAllowInjection() {
     const messageHandler = (
       eventRecord: IEventRecord,
       sender: chrome.runtime.MessageSender,
+      sendResponse: () => void,
     ) => {
+      sendResponse()
       if (eventRecord.type === REDIRECT_STARTED) {
         chrome.tabs.sendMessage(activeTabID, {
           type: IS_INJECTION_ALLOWED,
@@ -43,6 +45,7 @@ export default function useAllowInjection() {
           }),
         )
       }
+      return true
     }
 
     chrome.runtime.onMessage.addListener(messageHandler)

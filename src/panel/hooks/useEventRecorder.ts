@@ -25,7 +25,9 @@ export default function useEventRecorder() {
     const messageHandler = (
       eventRecord: IEventRecord,
       sender: chrome.runtime.MessageSender,
+      sendResponse: () => void,
     ) => {
+      sendResponse()
       const tabId = sender?.tab?.id
 
       if (eventRecord?.type === ELEMENT_SELECTED) {
@@ -40,7 +42,7 @@ export default function useEventRecorder() {
       }
 
       if (!tabId) {
-        return chrome.tabs.query({ active: true }).then((tab) => {
+        chrome.tabs.query({ active: true }).then((tab) => {
           dispatch(
             recordEvent({
               eventRecord,
@@ -48,6 +50,7 @@ export default function useEventRecorder() {
             }),
           )
         })
+        return true
       }
       dispatch(
         recordEvent({
@@ -55,6 +58,7 @@ export default function useEventRecorder() {
           tabId,
         }),
       )
+      return true
     }
 
     const activeTabChangeHandler = ({ tabId }: chrome.tabs.TabActiveInfo) =>
@@ -80,10 +84,16 @@ export default function useEventRecorder() {
         isRecorderEnabled,
       })
 
-    const messageHandler = (eventRecord: IEventRecord) => {
+    const messageHandler = (
+      eventRecord: IEventRecord,
+      sender: chrome.runtime.MessageSender,
+      sendResponse: () => void,
+    ) => {
+      sendResponse()
       if (eventRecord?.type === REDIRECT_STARTED && activeTabID > -1) {
         sendEnableRecorderMessage(activeTabID)
       }
+      return true
     }
 
     const activeTabChangeHandler = (

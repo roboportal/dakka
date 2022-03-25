@@ -74,7 +74,13 @@ export function composeEvent({
     return {}
   }
 
-  const uniqueSelector = finder(target)
+  let uniqueSelector = ''
+  try {
+    uniqueSelector = target ? finder(target) : ''
+  } catch {
+    uniqueSelector
+  }
+
   const validSelectors = generateSelectors(target, {
     uniqueSelector,
     closest: 0,
@@ -119,6 +125,13 @@ export function composeEvent({
 
   const { frameElement } = window
 
+  let selector = ''
+  try {
+    selector = frameElement ? finder(frameElement) : ''
+  } catch {
+    selector
+  }
+
   const iframeDetails: {
     selectors: any
     selector: any
@@ -127,7 +140,7 @@ export function composeEvent({
         selectors: generateSelectors(frameElement, {
           closest: 0,
         }),
-        selector: finder(frameElement),
+        selector,
       }
     : null
 
