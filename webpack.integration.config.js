@@ -76,8 +76,11 @@ const options = {
   plugins: [
     new webpack.ProgressPlugin(),
     new HtmlWebpackPlugin({
-      template: path.join(__dirname, 'src/integration/index.html'),
+      template: path.join(__dirname, 'src/integration/index.ejs'),
       filename: `${isProd ? '' : 'integration/'}index.html`,
+      templateParameters: {
+        iframeSrc: `${isProd ? '' : 'integration/'}frame.html`,
+      },
       chunks: ['index'],
       publicPath: isProd ? '' : '..',
       cache: false,
