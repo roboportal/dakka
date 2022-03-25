@@ -22,16 +22,18 @@ const fileExtensions = [
 const mode = process.env.NODE_ENV ?? 'production'
 const port = process.env.PORT
 
+const isProd = mode === 'production'
+
 const options = {
   mode,
   entry: {
     index: {
       import: path.resolve(__dirname, 'src/integration/index.ts'),
-      filename: 'integration/[name].bundle.js',
+      filename: `${isProd ? '' : 'integration/'}[name].bundle.js`,
     },
     frame: {
       import: path.resolve(__dirname, 'src/integration/frame.ts'),
-      filename: 'integration/[name].bundle.js',
+      filename: `${isProd ? '' : 'integration/'}[name].bundle.js`,
     },
   },
   output: {
@@ -76,16 +78,16 @@ const options = {
     new webpack.ProgressPlugin(),
     new HtmlWebpackPlugin({
       template: path.join(__dirname, 'src/integration/index.html'),
-      filename: 'integration/index.html',
+      filename: `${isProd ? '' : 'integration/'}index.html`,
       chunks: ['index'],
-      publicPath: '..',
+      publicPath: isProd ? '' : '..',
       cache: false,
     }),
     new HtmlWebpackPlugin({
       template: path.join(__dirname, 'src/integration/frame.html'),
-      filename: 'integration/frame.html',
+      filename: `${isProd ? '' : 'integration/'}frame.html`,
       chunks: ['frame'],
-      publicPath: '..',
+      publicPath: isProd ? '' : '..',
       cache: false,
     }),
   ],
