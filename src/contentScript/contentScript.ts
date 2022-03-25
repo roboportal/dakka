@@ -115,11 +115,12 @@ const mouseClickHandler = (event: MouseEvent) => {
   })
 }
 
-chrome.runtime.onMessage.addListener((message) => {
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  sendResponse()
   if (message.type === ALLOW_INJECTING) {
     sessionStorage.setItem(SESSION_STORAGE_KEY, 'true')
     location.reload()
-    return
+    return true
   }
   if (message.type === IS_INJECTION_ALLOWED) {
     chrome.runtime.sendMessage({
@@ -129,11 +130,11 @@ chrome.runtime.onMessage.addListener((message) => {
         isInjectingAllowed,
       },
     })
-    return
+    return true
   }
   if (message.type === ENABLE_RECORDER) {
     shouldSendMessage = message.isRecorderEnabled
-    return
+    return true
   }
 
   if (message.type === ENABLE_SELECT_ELEMENT) {
@@ -159,6 +160,7 @@ chrome.runtime.onMessage.addListener((message) => {
   if (shouldProcessMessage(message.type) && !selectElementEnabled) {
     window.postMessage(message)
   }
+  return true
 })
 
 const errorHandler: OnErrorEventHandler = (e) => {

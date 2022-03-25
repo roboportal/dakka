@@ -6,17 +6,6 @@ const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
 
-const { DefinePlugin } = webpack
-
-const alias = {
-  'react-dom': '@hot-loader/react-dom',
-  '@/components': path.resolve(__dirname, 'src/panel/components'),
-  '@/constants': path.resolve(__dirname, 'src/panel/constants'),
-  '@/hooks': path.resolve(__dirname, 'src/panel/hooks'),
-  '@/store': path.resolve(__dirname, 'src/panel/store'),
-  '@/utils': path.resolve(__dirname, 'src/panel/utils'),
-}
-
 const fileExtensions = [
   'jpg',
   'jpeg',
@@ -36,13 +25,13 @@ const port = process.env.PORT
 const options = {
   mode,
   entry: {
-    devTools: {
-      import: path.resolve(__dirname, 'src/devTools/devTools.ts'),
-      filename: 'devTools/[name].bundle.js',
+    index: {
+      import: path.resolve(__dirname, 'src/integration/index.ts'),
+      filename: 'integration/[name].bundle.js',
     },
-    panel: {
-      import: path.resolve(__dirname, 'src/panel/index.tsx'),
-      filename: 'devTools/[name].bundle.js',
+    frame: {
+      import: path.resolve(__dirname, 'src/integration/frame.ts'),
+      filename: 'integration/[name].bundle.js',
     },
   },
   output: {
@@ -82,31 +71,22 @@ const options = {
       },
     ],
   },
-  resolve: {
-    alias,
-    extensions: fileExtensions
-      .map((extension) => '.' + extension)
-      .concat(['.js', '.jsx', '.ts', '.tsx', '.css']),
-  },
+
   plugins: [
     new webpack.ProgressPlugin(),
-
     new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, 'src/devTools/devTools.html'),
-      filename: 'devTools/devTools.html',
-      chunks: ['devTools'],
+      template: path.join(__dirname, 'src/integration/index.html'),
+      filename: 'integration/index.html',
+      chunks: ['index'],
       publicPath: '..',
       cache: false,
     }),
     new HtmlWebpackPlugin({
-      template: path.join(__dirname, 'src/panel/panel.html'),
-      filename: 'devTools/panel.html',
-      chunks: ['panel'],
+      template: path.join(__dirname, 'src/integration/frame.html'),
+      filename: 'integration/frame.html',
+      chunks: ['frame'],
       publicPath: '..',
       cache: false,
-    }),
-    new DefinePlugin({
-      NODE_ENV: mode,
     }),
   ],
   infrastructureLogging: {
@@ -118,30 +98,12 @@ if (mode === 'development') {
   options.devtool = 'inline-cheap-source-map'
 
   options.devServer = {
-    https: false,
     hot: true,
     client: {
       overlay: { errors: true, warnings: false },
     },
-    host: 'localhost',
     port: port,
-    devMiddleware: {
-      publicPath: `http://localhost:${port}/`,
-      writeToDisk: true,
-    },
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-    },
-    allowedHosts: 'all',
   }
-
-  const hot = [
-    'react-devtools',
-    'webpack/hot/dev-server',
-    `webpack-dev-server/client?hot=true&hostname=localhost&port=${port}`,
-  ]
-
-  options.entry.panel.import = [...hot, options.entry.panel.import]
 } else {
   options.optimization = {
     minimize: true,
