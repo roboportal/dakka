@@ -21,7 +21,6 @@ const fileExtensions = [
 
 const mode = process.env.NODE_ENV ?? 'production'
 const port = process.env.PORT
-
 const isProd = mode === 'production'
 
 const options = {
