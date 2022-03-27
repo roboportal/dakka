@@ -4,7 +4,7 @@
 [![Integration](https://github.com/roboportal/dakka/actions/workflows/integration.yml/badge.svg)](https://github.com/roboportal/dakka/actions/workflows/integration.yml)
 
 <div align="center">
-  ![dakka](https://user-images.githubusercontent.com/15819745/160267166-c1f78bee-67f4-44d2-8193-b999b4df61a4.svg)
+  <img src="https://user-images.githubusercontent.com/15819745/160267166-c1f78bee-67f4-44d2-8193-b999b4df61a4.svg" width="180px" height="60px" />
   <h3>Generate tests for Cypress, Playwright and Puppeteer using Dakka</3>
 </div>
 
