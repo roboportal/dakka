@@ -30,7 +30,7 @@ const inputDataTuple = [
 ]
 
 inputDataTuple.forEach(([testName, inputData]) => {
-  Object.entries(processorsMap).forEach(([processorName, processor]) => {
+  Object.entries(processorsMap).forEach(async ([processorName, processor]) => {
     const result = processor(inputData)
 
     const outputFileName = testName + '.spec.js'
@@ -45,7 +45,7 @@ inputDataTuple.forEach(([testName, inputData]) => {
       outputFileName,
     )
 
-    fs.mkdirSync(outputDirPath, { recursive: true })
-    fs.writeFileSync(outputFilePath, result)
+    await fs.promises.mkdir(outputDirPath, { recursive: true })
+    await fs.promises.writeFile(outputFilePath, result)
   })
 })

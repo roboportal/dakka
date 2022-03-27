@@ -7,7 +7,7 @@ on:
     branches: [ master ]
 
 jobs:
-  check_test:
+  integration_test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2

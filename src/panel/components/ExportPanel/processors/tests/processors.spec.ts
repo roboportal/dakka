@@ -53,13 +53,13 @@ if (process.env.UPDATE_OUT) {
 inputDataTuple.forEach(([testName, inputData]) => {
   describe(`block type: ${testName}`, () => {
     Object.entries(processorsMap).forEach(([processorName, processor]) => {
-      it(`processor: ${processorName}`, () => {
+      it(`processor: ${processorName}`, async () => {
         const result = processor(inputData)
 
         const outputFileName = testName + OUTPUT_SUFFIXES_MAP[processorName]
         const outputFilePath = path.resolve(outPath, outputFileName)
 
-        const expected = fs.readFileSync(outputFilePath, 'utf8')
+        const expected = await fs.promises.readFile(outputFilePath, 'utf8')
 
         expect(result).toStrictEqual(expected)
       })
