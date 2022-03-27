@@ -36,7 +36,7 @@ function shouldSkipRedirectDuplicate(
   events: IEventBlock[],
   event: IEventBlock,
 ) {
-  const prevEvent = events[events.length - 1] ?? {}
+  const prevEvent = events[events.length - 1] ?? ({} as IEventBlock)
 
   return (
     event.type === internalEventsMap[REDIRECT_STARTED] &&

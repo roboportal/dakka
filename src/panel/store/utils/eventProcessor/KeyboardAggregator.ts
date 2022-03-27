@@ -41,7 +41,7 @@ class KeyboardAggregator extends AbstractEventAggregator {
       }
     }, undefined)
 
-    return events[lastEventForTheKeyIndex ?? -1] ?? {}
+    return events[lastEventForTheKeyIndex ?? -1] ?? ({} as IEventBlock)
   }
 
   private checkIsUtilityKey(e: IEventBlock) {

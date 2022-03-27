@@ -1,0 +1,24 @@
+{
+  "name": "integration_tests",
+  "version": "1.0.0",
+  "scripts": {
+    "install": "npx playwright install",
+    "playwright": "playwright test",
+    "cypress": "cypress run",
+    "puppeteer": "jest",
+    "generate": "rm -rf ./generated && TS_NODE_BASEURL=./dist/panel node -r tsconfig-paths/register ./dist/integrationTests/generateTests",
+    "build": "tsc",
+    "test": "npm run playwright && npm run cypress && npm run puppeteer"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.17.2",
+    "@types/chrome": "^0.0.180",
+    "cypress": "^9.2.1",
+    "eslint": "^8.6.0",
+    "eslint-plugin-cypress": "^2.12.1",
+    "jest": "^27.4.7",
+    "puppeteer": "^13.1.3",
+    "tsconfig-paths": "^3.14.1",
+    "typescript": "^4.6.3"
+  }
+}

@@ -2,7 +2,7 @@ import type { Config } from '@jest/types'
 
 const config: Config.InitialOptions = {
   verbose: true,
-  testPathIgnorePatterns: ['testPlayground'],
+  testPathIgnorePatterns: ['testPlayground', 'integrationTests'],
   moduleNameMapper: {
     '^@/components(.*)$': '<rootDir>/src/panel/components$1',
     '^@/constants(.*)$': '<rootDir>/src/panel/constants$1',

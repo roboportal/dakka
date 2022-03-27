@@ -1,0 +1,25 @@
+{
+  "exclude": [
+    "dist", 
+    "node_modules"
+  ],
+
+  "compilerOptions": {
+    "target": "es6",
+    "outDir": "dist",
+    "types": ["node"],
+    "lib": ["es2021"],
+    "moduleResolution": "node",
+    "module": "commonjs",
+    "baseUrl": "./",
+    "paths": {
+      "@/store/*": ["../src/panel/store/*"],
+      "@/constants/*": ["../src/panel/constants/*"]
+    },
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true
+  }
+}

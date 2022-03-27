@@ -1,0 +1,32 @@
+name: Integration
+
+on:
+  pull_request:
+    branches: [ master ]
+  push:
+    branches: [ master ]
+
+jobs:
+  integration_test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - shell: bash
+        run: |
+          npm ci
+      - shell: bash
+        run: |
+          npm ci --prefix ./integrationTests
+      - shell: bash
+        run: |
+          npm run install --prefix ./integrationTests
+      - shell: bash
+        run: |
+          npm run build --prefix ./integrationTests
+      - shell: bash
+        run: |
+          npm run generate --prefix ./integrationTests
+      - shell: bash
+        run: |
+          npm run test --prefix ./integrationTests
+    
