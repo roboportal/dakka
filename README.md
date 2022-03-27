@@ -1,6 +1,6 @@
 # Dakka
 
-[![CI](https://github.com/roboportal/dakka/actions/workflows/ci.yml/badge.svg)](https://github.com/roboportal/dakka/actions/workflows/ci.yml)
+[![Unit](https://github.com/roboportal/dakka/actions/workflows/unit.yml/badge.svg)](https://github.com/roboportal/dakka/actions/workflows/unit.yml)
 [![Integration](https://github.com/roboportal/dakka/actions/workflows/integration.yml/badge.svg)](https://github.com/roboportal/dakka/actions/workflows/integration.yml)
 
 <div align="center">
