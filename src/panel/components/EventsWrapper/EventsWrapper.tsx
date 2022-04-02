@@ -58,7 +58,7 @@ export default function EventsWrapper({
       </div>
       <Scroll
         prefersDarkMode={prefersDarkMode}
-        wrapper={wrapperRef.current}
+        wrapperRef={wrapperRef}
         scrollPosition={eventsListScroll}
       />
       <ActionsToolbox setDragOverIndex={setDragOverIndex} />
