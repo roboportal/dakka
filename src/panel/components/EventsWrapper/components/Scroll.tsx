@@ -1,12 +1,19 @@
-import { useRef, useEffect, useState, memo, useMemo } from 'react'
+import {
+  useRef,
+  useEffect,
+  useState,
+  memo,
+  useMemo,
+  MutableRefObject,
+} from 'react'
 import { css } from '@emotion/react'
 import { useSelector } from 'react-redux'
 
-import { getExpandedEventId } from '@/store/eventSelectors'
+import { getActiveTabId, getExpandedEventId } from '@/store/eventSelectors'
 import { getActiveEvents } from '@/store/eventSelectors'
 
 interface IScrollProps {
-  wrapper: HTMLDivElement | null
+  wrapperRef: MutableRefObject<HTMLDivElement | null>
   scrollPosition: number
   prefersDarkMode: boolean
 }
@@ -15,12 +22,13 @@ const ORIGINAL_BAR_WIDTH = 88
 const EXPANDED_BAR_WIDTH = 340
 const ORIGINAL_GAP = 4
 
-function Scroll({ wrapper, scrollPosition, prefersDarkMode }: IScrollProps) {
+function Scroll({ wrapperRef, scrollPosition, prefersDarkMode }: IScrollProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const scaleFactorRef = useRef<number>(1)
   const expandedId = useSelector(getExpandedEventId)
   const events = useSelector(getActiveEvents)
-
+  useSelector(getActiveTabId)
+  console.log('events', events, wrapperRef, scrollPosition)
   const [scrollLeftOffset, setScrollLeftOffset] = useState(0)
   const [scrollWindowSize, setScrollWindowSize] = useState(0)
   const [toggleUpdate, setToggleUpdate] = useState(false)
@@ -34,20 +42,23 @@ function Scroll({ wrapper, scrollPosition, prefersDarkMode }: IScrollProps) {
   )
 
   useEffect(() => {
-    wrapper && resizeObserver.observe(wrapper)
+    wrapperRef.current && resizeObserver.observe(wrapperRef.current)
 
+    const el = wrapperRef.current
     return () => {
-      wrapper && resizeObserver.unobserve(wrapper)
+      el && resizeObserver.unobserve(el)
     }
-  }, [resizeObserver, wrapper])
+  }, [resizeObserver, wrapperRef])
 
   useEffect(() => {
-    if (!canvasRef.current || !events || !wrapper) {
+    if (!canvasRef.current || !events || !wrapperRef.current) {
       return
     }
     const ctx = canvasRef.current.getContext('2d')
-    const { width } = wrapper.getBoundingClientRect()
-    const scrollWidth = wrapper.scrollWidth
+    const { width } = wrapperRef.current
+      ? wrapperRef.current.getBoundingClientRect()
+      : { width: 0 }
+    const scrollWidth = wrapperRef.current.scrollWidth ?? 0
     const scaleFactor = width / scrollWidth
     scaleFactorRef.current = scaleFactor
     const slidingWindowSize = width * scaleFactor
@@ -81,22 +92,22 @@ function Scroll({ wrapper, scrollPosition, prefersDarkMode }: IScrollProps) {
   }, [
     events,
     scrollPosition,
-    wrapper,
+    wrapperRef,
     expandedId,
     prefersDarkMode,
     toggleUpdate,
   ])
 
   const handleScrollClick: React.MouseEventHandler<HTMLDivElement> = (e) => {
-    if (wrapper) {
-      wrapper.scrollLeft =
+    if (wrapperRef.current) {
+      wrapperRef.current.scrollLeft =
         (e.pageX - scrollWindowSize / 2) / scaleFactorRef.current
     }
   }
 
   const HandleScrollWheel: React.WheelEventHandler<HTMLDivElement> = (e) => {
-    if (wrapper) {
-      wrapper.scrollLeft += e.deltaX / scaleFactorRef.current
+    if (wrapperRef.current) {
+      wrapperRef.current.scrollLeft += e.deltaX / scaleFactorRef.current
     }
   }
 
