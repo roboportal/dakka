@@ -150,6 +150,11 @@ export function composeEvent({
         (selector as Record<string, string | number>)?.priority === 1,
     ) || iframeDetails?.selectors[0]
 
+  const url =
+    window.location !== window.parent.location
+      ? document.referrer
+      : document.location.href
+
   return {
     id: extensionId,
     type: eventType,
@@ -160,7 +165,7 @@ export function composeEvent({
       selector: uniqueSelector,
       selectedSelector,
       selectedIframeSelector,
-      url: window.location.href,
+      url,
       type,
       altKey,
       animationName,
