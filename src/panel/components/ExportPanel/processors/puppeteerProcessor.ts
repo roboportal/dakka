@@ -309,7 +309,7 @@ describe('${testName}', () => {
           value: `e.getAttribute('${assertionAttribute}')`,
         })}.toBe('${assertionValue}')\n`
       }
-      return `  expect(await ${scope}.$eval('${normalizedSelector}', e => e.getAttribute('${assertionAttribute}'))).toBe('${assertionValue}')\n`
+      return `      expect(await ${scope}.$eval('${normalizedSelector}', e => e.getAttribute('${assertionAttribute}'))).toBe('${assertionValue}')\n`
     },
 
     [assertionTypes.notHasAttribute]: ({
@@ -326,7 +326,7 @@ describe('${testName}', () => {
           value: `e.getAttribute('${assertionAttribute}')`,
         })}.not.toBe('${assertionValue}')\n`
       }
-      return `  expect(await ${scope}.$eval('${selector}', e => e.getAttribute('${assertionAttribute}'))).not.toBe('${assertionValue}')\n`
+      return `      expect(await ${scope}.$eval('${selector}', e => e.getAttribute('${assertionAttribute}'))).not.toBe('${assertionValue}')\n`
     },
 
     [assertionTypes.toHaveLength]: ({
@@ -388,7 +388,10 @@ describe('${testName}', () => {
       value: `iframe[src="${it.url ?? it.element?.url}"]`,
     }
     return this.generateSelector({
-      selectedSelector: it.selectedIframeSelector ?? defaultSelector,
+      selectedSelector:
+        it?.selectedIframeSelector ??
+        it?.element?.selectedIframeSelector ??
+        defaultSelector,
     } as IEventBlock)
   }
 

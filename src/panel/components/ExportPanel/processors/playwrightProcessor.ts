@@ -309,7 +309,10 @@ test('${testName}', async ({ page }) => {
       value: `iframe[src="${it.url ?? it.element?.url}"]`,
     }
     return this.generateSelector({
-      selectedSelector: it.selectedIframeSelector ?? defaultSelector,
+      selectedSelector:
+        it?.selectedIframeSelector ??
+        it?.element?.selectedIframeSelector ??
+        defaultSelector,
     } as IEventBlock)
   }
 
