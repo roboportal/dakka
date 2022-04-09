@@ -27,6 +27,23 @@ const outPath = path.resolve(__dirname, OUT_DIR_PATH)
 
 const inputDataTuple = [
   ['loadPage', require(path.resolve(__dirname, '../../mocks/loadPage.json'))],
+  [
+    'clickByTestId',
+    require(path.resolve(__dirname, '../../mocks/clickByTestId.json')),
+  ],
+  [
+    'clickByText',
+    require(path.resolve(__dirname, '../../mocks/clickByText.json')),
+  ],
+  [
+    'clickByTagName',
+    require(path.resolve(__dirname, '../../mocks/clickByTagName.json')),
+  ],
+
+  [
+    'dblclickByTestId',
+    require(path.resolve(__dirname, '../../mocks/dblclickByTestId.json')),
+  ],
 ]
 
 inputDataTuple.forEach(([testName, inputData]) => {
