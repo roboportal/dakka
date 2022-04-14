@@ -55,7 +55,14 @@ export default function useEventEntity(
     isRedirect ||
     isInteractive ||
     isResize ||
-    !(record.shouldUseElementSelector ?? true)
+    (!(record.shouldUseElementSelector ?? true) &&
+      record.isInIframe &&
+      ![
+        assertionTypes.toHaveTitle,
+        assertionTypes.toHaveURL,
+        assertionTypes.notToHaveTitle,
+        assertionTypes.notToHaveURL,
+      ].includes((record.assertionType?.type ?? '') as assertionTypes))
 
   const isManualSelectorSetupVisible = record.type === ASSERTION
 
