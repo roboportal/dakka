@@ -52,16 +52,17 @@ export default function useEventEntity(
     variant === INTERACTIVE_ELEMENT && !element?.validSelectors?.length
 
   const shouldHaveTopMargin =
-    (isRedirect ||
-      isInteractive ||
-      isResize ||
-      !(record.shouldUseElementSelector ?? true)) &&
-    ![
-      assertionTypes.toHaveTitle,
-      assertionTypes.toHaveURL,
-      assertionTypes.notToHaveTitle,
-      assertionTypes.notToHaveURL,
-    ].includes((record.assertionType?.type ?? '') as assertionTypes)
+    isRedirect ||
+    isInteractive ||
+    isResize ||
+    (!(record.shouldUseElementSelector ?? true) &&
+      record.isInIframe &&
+      ![
+        assertionTypes.toHaveTitle,
+        assertionTypes.toHaveURL,
+        assertionTypes.notToHaveTitle,
+        assertionTypes.notToHaveURL,
+      ].includes((record.assertionType?.type ?? '') as assertionTypes))
 
   const isManualSelectorSetupVisible = record.type === ASSERTION
 
