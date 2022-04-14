@@ -44,6 +44,31 @@ const inputDataTuple = [
     'dblclickByTestId',
     require(path.resolve(__dirname, '../../mocks/dblclickByTestId.json')),
   ],
+
+  [
+    'inputValueAssertion',
+    require(path.resolve(__dirname, '../../mocks/inputValueAssertion.json')),
+  ],
+
+  [
+    'clickLinkNavigation',
+    require(path.resolve(__dirname, '../../mocks/clickLinkNavigation.json')),
+  ],
+
+  [
+    'tabLinkNavigation',
+    require(path.resolve(__dirname, '../../mocks/tabLinkNavigation.json')),
+  ],
+
+  [
+    'backspaceDeleteInput',
+    require(path.resolve(__dirname, '../../mocks/backspaceDeleteInput.json')),
+  ],
+
+  [
+    'checkboxClickAssertion',
+    require(path.resolve(__dirname, '../../mocks/checkboxClickAssertion.json')),
+  ],
 ]
 
 inputDataTuple.forEach(([testName, inputData]) => {

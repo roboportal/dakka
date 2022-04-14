@@ -1,0 +1,216 @@
+[
+  {
+    "url": "https://master.d33h0yvwek6xsp.amplifyapp.com/#link",
+    "title": "Integration",
+    "id": "6dBYiboiV0Beg1uJbZ2T0",
+    "triggeredAt": 1649889511725,
+    "type": "_redirect",
+    "selector": "https://master.d33h0yvwek6xsp.amplifyapp.com/#link",
+    "innerWidth": 1483,
+    "innerHeight": 391
+  },
+  {
+    "id": "cstVtX4MsVva1ICmCAmEh",
+    "validSelectors": [
+      {
+        "name": "data-cy",
+        "value": "[data-cy=\"link\"]",
+        "length": 1,
+        "priority": 1,
+        "rawValue": "link",
+        "closest": 0,
+        "tagName": "a"
+      },
+      {
+        "name": "href",
+        "value": "a[href=\"#link\"]",
+        "length": 1,
+        "priority": 2,
+        "rawValue": "#link",
+        "closest": 0,
+        "tagName": "a"
+      },
+      {
+        "name": "text",
+        "value": "Link",
+        "length": 1,
+        "priority": 1,
+        "rawValue": "Link",
+        "closest": 0,
+        "tagName": "a"
+      },
+      {
+        "name": "unique-path",
+        "value": "a",
+        "length": 1,
+        "priority": 3,
+        "rawValue": "a",
+        "closest": 0,
+        "tagName": "a"
+      },
+      {
+        "name": "<tagName>",
+        "value": "a",
+        "length": 1,
+        "priority": 3,
+        "rawValue": "a",
+        "closest": 0,
+        "tagName": "a"
+      }
+    ],
+    "triggeredAt": 1649889513507,
+    "selector": "a",
+    "selectedSelector": {
+      "name": "data-cy",
+      "value": "[data-cy=\"link\"]",
+      "length": 1,
+      "priority": 1,
+      "rawValue": "link",
+      "closest": 0,
+      "tagName": "a"
+    },
+    "url": "https://master.d33h0yvwek6xsp.amplifyapp.com/#link",
+    "type": "mouseClick",
+    "altKey": false,
+    "bubbles": true,
+    "button": 0,
+    "buttons": 0,
+    "cancelable": true,
+    "clientX": 40,
+    "clientY": 114,
+    "ctrlKey": false,
+    "detail": 1,
+    "eventPhase": 1,
+    "isTrusted": true,
+    "metaKey": false,
+    "pageX": 40,
+    "pageY": 114,
+    "screenX": 1841,
+    "screenY": 250,
+    "shiftKey": false,
+    "defaultPrevented": false,
+    "timeStamp": 2876.199999999255,
+    "which": 1,
+    "title": "Integration",
+    "innerWidth": 1483,
+    "innerHeight": 391,
+    "isInIframe": false,
+    "iframeDetails": null,
+    "composedEvents": [
+      {
+        "id": "cstVtX4MsVva1ICmCAmEh",
+        "validSelectors": [
+          {
+            "name": "data-cy",
+            "value": "[data-cy=\"link\"]",
+            "length": 1,
+            "priority": 1,
+            "rawValue": "link",
+            "closest": 0,
+            "tagName": "a"
+          },
+          {
+            "name": "href",
+            "value": "a[href=\"#link\"]",
+            "length": 1,
+            "priority": 2,
+            "rawValue": "#link",
+            "closest": 0,
+            "tagName": "a"
+          },
+          {
+            "name": "text",
+            "value": "Link",
+            "length": 1,
+            "priority": 1,
+            "rawValue": "Link",
+            "closest": 0,
+            "tagName": "a"
+          },
+          {
+            "name": "unique-path",
+            "value": "a",
+            "length": 1,
+            "priority": 3,
+            "rawValue": "a",
+            "closest": 0,
+            "tagName": "a"
+          },
+          {
+            "name": "<tagName>",
+            "value": "a",
+            "length": 1,
+            "priority": 3,
+            "rawValue": "a",
+            "closest": 0,
+            "tagName": "a"
+          }
+        ],
+        "triggeredAt": 1649889513507,
+        "selector": "a",
+        "selectedSelector": {
+          "name": "data-cy",
+          "value": "[data-cy=\"link\"]",
+          "length": 1,
+          "priority": 1,
+          "rawValue": "link",
+          "closest": 0,
+          "tagName": "a"
+        },
+        "url": "https://master.d33h0yvwek6xsp.amplifyapp.com/#link",
+        "type": "click",
+        "altKey": false,
+        "bubbles": true,
+        "button": 0,
+        "buttons": 0,
+        "cancelable": true,
+        "clientX": 40,
+        "clientY": 114,
+        "ctrlKey": false,
+        "detail": 1,
+        "eventPhase": 1,
+        "isTrusted": true,
+        "metaKey": false,
+        "pageX": 40,
+        "pageY": 114,
+        "screenX": 1841,
+        "screenY": 250,
+        "shiftKey": false,
+        "defaultPrevented": false,
+        "timeStamp": 2876.199999999255,
+        "which": 1,
+        "title": "Integration",
+        "innerWidth": 1483,
+        "innerHeight": 391,
+        "isInIframe": false,
+        "iframeDetails": null
+      }
+    ]
+  },
+  {
+    "url": "https://master.d33h0yvwek6xsp.amplifyapp.com/#link",
+    "title": "Integration",
+    "id": "6UsTpsSIdegKWnAjHUKbd",
+    "triggeredAt": 1649889513513,
+    "type": "_redirect",
+    "selector": "https://master.d33h0yvwek6xsp.amplifyapp.com/#link",
+    "innerWidth": 1483,
+    "innerHeight": 391
+  },
+  {
+    "id": "sE1toDj_hkZZuBMlLk0QR",
+    "eventRecordIndex": 3,
+    "type": "Assertion",
+    "url": "https://master.d33h0yvwek6xsp.amplifyapp.com/#link",
+    "title": "Integration",
+    "variant": "INTERACTIVE_ELEMENT",
+    "element": null,
+    "selector": "",
+    "assertionAttribute": "",
+    "assertionValue": "https://master.d33h0yvwek6xsp.amplifyapp.com/#link",
+    "assertionType": {
+      "type": "toHaveURL",
+      "name": "To have URL"
+    }
+  }
+]
