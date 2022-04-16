@@ -55,27 +55,57 @@ describe('${testName}', () => {
       assertionValue,
       assertionAttribute,
       context,
+      iframeSelector,
     }: {
       selector?: string
       assertionValue?: string
       assertionAttribute?: string
       context: string
+      iframeSelector: string
     }) => string
   > = {
-    [assertionTypes.toHaveTitle]: ({ assertionValue, context }) => {
-      return `    ${context}.title().should('eq', '${assertionValue}')\n`
+    [assertionTypes.toHaveTitle]: ({
+      assertionValue,
+      context,
+      iframeSelector,
+    }) => {
+      if (context === 'cy') {
+        return `    ${context}.title().should('eq', '${assertionValue}')\n`
+      }
+      return `    cy.${iframeSelector}.its('0.contentDocument.documentElement.title').should('eq', '${assertionValue}')\n`
     },
 
-    [assertionTypes.notToHaveTitle]: ({ assertionValue, context }) => {
-      return `    ${context}.title().should('not.eq', '${assertionValue}')\n`
+    [assertionTypes.notToHaveTitle]: ({
+      assertionValue,
+      context,
+      iframeSelector,
+    }) => {
+      if (context === 'cy') {
+        return `    ${context}.title().should('not.eq', '${assertionValue}')\n`
+      }
+      return `    cy.${iframeSelector}.its('0.contentDocument.documentElement.title').should('not.eq', '${assertionValue}')\n`
     },
 
-    [assertionTypes.toHaveURL]: ({ assertionValue, context }) => {
-      return `    ${context}.url().should('eq', '${assertionValue}')\n`
+    [assertionTypes.toHaveURL]: ({
+      assertionValue,
+      context,
+      iframeSelector,
+    }) => {
+      if (context === 'cy') {
+        return `    ${context}.url().should('eq', '${assertionValue}')\n`
+      }
+      return `    cy.${iframeSelector}.its('0.contentDocument.documentElement.baseURI').should('eq', '${assertionValue}')\n`
     },
 
-    [assertionTypes.notToHaveURL]: ({ assertionValue, context }) => {
-      return `    ${context}.url().should('not.eq', '${assertionValue}')\n`
+    [assertionTypes.notToHaveURL]: ({
+      assertionValue,
+      context,
+      iframeSelector,
+    }) => {
+      if (context === 'cy') {
+        return `    ${context}.url().should('not.eq', '${assertionValue}')\n`
+      }
+      return `    cy.${iframeSelector}.its('0.contentDocument.documentElement.baseURI').should('not.eq', '${assertionValue}')\n`
     },
 
     [assertionTypes.toBeChecked]: ({ selector, context }) => {
@@ -237,7 +267,16 @@ describe('${testName}', () => {
       if (it.type === ASSERTION) {
         const isInIframe = it.element?.isInIframe ?? it.isInIframe
         const context = isInIframe ? 'frame' : 'cy'
-        if (isInIframe) {
+        const shouldGenerateIframe =
+          isInIframe &&
+          ![
+            assertionTypes.toHaveTitle,
+            assertionTypes.notToHaveTitle,
+            assertionTypes.toHaveURL,
+            assertionTypes.notToHaveURL,
+          ].includes(it?.assertionType?.type as assertionTypes)
+
+        if (shouldGenerateIframe) {
           acc += this.generateIframeInit(it)
         }
         acc += this.expectMethodsMap[it?.assertionType?.type as assertionTypes](
@@ -246,6 +285,7 @@ describe('${testName}', () => {
             assertionValue: it.assertionValue,
             assertionAttribute: it.assertionAttribute,
             context,
+            iframeSelector: this.generateIframeSelector(it),
           },
         )
       }

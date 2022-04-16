@@ -98,7 +98,7 @@ describe('${testName}', () => {
 
     [assertionTypes.notToHaveURL]: ({ assertionValue, isIframe }) => {
       const scope = isIframe ? 'frame' : 'page'
-      return `      expect(${scope}.url()).toBe('${assertionValue}')\n`
+      return `      expect(${scope}.url()).not.toBe('${assertionValue}')\n`
     },
 
     [assertionTypes.toBeChecked]: ({ selector, selectorName, isIframe }) => {

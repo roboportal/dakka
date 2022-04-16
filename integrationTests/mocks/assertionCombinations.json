@@ -1,0 +1,127 @@
+[
+  {
+    "id": "JKL7K3HUY4pg76duPpMCF_0",
+    "triggeredAt": 1650070553336,
+    "url": "https://master.d33h0yvwek6xsp.amplifyapp.com/",
+    "title": "Integration",
+    "type": "_redirect",
+    "selector": "https://master.d33h0yvwek6xsp.amplifyapp.com/",
+    "variant": "",
+    "innerHeight": 171,
+    "innerWidth": 1374
+  },
+  {
+    "id": "WV3IRvBqFV6XxGKAJjNWM",
+    "eventRecordIndex": 2,
+    "type": "Assertion",
+    "url": "https://master.d33h0yvwek6xsp.amplifyapp.com/",
+    "title": "Integration",
+    "variant": "INTERACTIVE_ELEMENT",
+    "element": {
+      "id": "lOjLO0RddySDbXHQeyBl_",
+      "validSelectors": [
+        {
+          "name": "data-cy",
+          "value": "[data-cy=\"button\"]",
+          "length": 1,
+          "priority": 1,
+          "rawValue": "button",
+          "closest": 0,
+          "tagName": "button"
+        },
+        {
+          "name": "text",
+          "value": "Click",
+          "length": 1,
+          "priority": 1,
+          "rawValue": "Click",
+          "closest": 0,
+          "tagName": "button"
+        },
+        {
+          "name": "tagName#element-id",
+          "value": "button#button",
+          "length": 1,
+          "priority": 2,
+          "rawValue": "#button",
+          "closest": 0,
+          "tagName": "button"
+        },
+        {
+          "name": "#element-id",
+          "value": "#button",
+          "length": 1,
+          "priority": 2,
+          "rawValue": "#button",
+          "closest": 0,
+          "tagName": "button"
+        },
+        {
+          "name": "unique-path",
+          "value": "#button",
+          "length": 1,
+          "priority": 3,
+          "rawValue": "#button",
+          "closest": 0,
+          "tagName": "button"
+        },
+        {
+          "name": "<tagName>",
+          "value": "button",
+          "length": 1,
+          "priority": 3,
+          "rawValue": "button",
+          "closest": 0,
+          "tagName": "button"
+        }
+      ],
+      "triggeredAt": 1650070582131,
+      "selector": "#button",
+      "selectedSelector": {
+        "name": "data-cy",
+        "value": "[data-cy=\"button\"]",
+        "length": 1,
+        "priority": 1,
+        "rawValue": "button",
+        "closest": 0,
+        "tagName": "button"
+      },
+      "url": "https://master.d33h0yvwek6xsp.amplifyapp.com/",
+      "type": "mouseover",
+      "altKey": false,
+      "bubbles": true,
+      "button": 0,
+      "buttons": 0,
+      "cancelable": true,
+      "clientX": 127,
+      "clientY": 107,
+      "ctrlKey": false,
+      "detail": 0,
+      "eventPhase": 1,
+      "isTrusted": true,
+      "metaKey": false,
+      "pageX": 127,
+      "pageY": 107,
+      "screenX": 192,
+      "screenY": 227,
+      "shiftKey": false,
+      "defaultPrevented": false,
+      "timeStamp": 37326.19999999553,
+      "which": 0,
+      "title": "Integration",
+      "innerWidth": 1374,
+      "innerHeight": 171,
+      "isInIframe": false,
+      "iframeDetails": null,
+      "text": "Click",
+      "attributesMap": {
+        "id": "button",
+        "data-cy": "button"
+      }
+    },
+    "selector": "",
+    "assertionAttribute": "",
+    "assertionValue": "",
+    "assertionType": {}
+  }
+]
