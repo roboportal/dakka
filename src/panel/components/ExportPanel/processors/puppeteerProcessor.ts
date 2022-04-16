@@ -216,7 +216,7 @@ describe('${testName}', () => {
         })}.toBe(true)\n`
       }
 
-      return `      expect(await ${scope}.$eval('${selector}', (e) => e.getAttribute('disabled'))).toBe(true)\n`
+      return `      expect(await ${scope}.$eval('${selector}', (e) => e.getAttribute('disabled'))).toBe('disabled')\n`
     },
 
     [assertionTypes.notToBeDisabled]: ({
@@ -254,7 +254,7 @@ describe('${testName}', () => {
           value: 'e.getAttribute("disabled")',
         })}.toBe(true)\n`
       }
-      return `      expect(await ${scope}.$eval('${selector}', (e) => e.getAttribute('disabled'))).toBe(true)\n`
+      return `      expect(await ${scope}.$eval('${selector}', (e) => e.getAttribute('disabled'))).toBe('disabled')\n`
     },
 
     [assertionTypes.toBeHidden]: ({ selector, selectorName, isIframe }) => {

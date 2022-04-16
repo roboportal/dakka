@@ -10,6 +10,30 @@ const framedAssertionTemplate = require(path.resolve(
   '../../../mocks/framedAssertionCombinations.json',
 ))
 
+const buttonElement = {
+  selectedSelector: {
+    name: 'data-cy',
+    value: '[data-cy="button"]',
+    length: 1,
+    priority: 1,
+    rawValue: 'button',
+    closest: 0,
+    tagName: 'button',
+  },
+}
+
+const disabledButtonElement = {
+  selectedSelector: {
+    name: 'data-cy',
+    value: '[data-cy="disabled"]',
+    length: 1,
+    priority: 1,
+    rawValue: 'button',
+    closest: 0,
+    tagName: 'button',
+  },
+}
+
 const values = {
   buttonInDocument: {
     assertionType: {
@@ -64,6 +88,13 @@ const values = {
       type: 'toBeVisible',
     },
   },
+  buttonToBeDisabled: {
+    element: disabledButtonElement,
+    assertionValue: 'Test',
+    assertionType: {
+      type: 'toBeDisabled',
+    },
+  },
 }
 
 const frameValues = {
@@ -108,6 +139,13 @@ const frameValues = {
       type: 'equals',
     },
   },
+  buttonToBeDisabledFrame: {
+    element: disabledButtonElement,
+    assertionValue: 'Test',
+    assertionType: {
+      type: 'toBeDisabled',
+    },
+  },
   pageToHaveTitleFrame: {
     assertionValue: '',
     assertionType: {
@@ -122,35 +160,23 @@ const frameValues = {
   },
 }
 
-const element = {
-  selectedSelector: {
-    name: 'data-cy',
-    value: '[data-cy="button"]',
-    length: 1,
-    priority: 1,
-    rawValue: 'button',
-    closest: 0,
-    tagName: 'button',
-  },
-}
-
 const notValues = {
   buttonNotContains: {
-    element,
+    element: buttonElement,
     assertionValue: 'NotClick',
     assertionType: {
       type: 'notContains',
     },
   },
   buttonNotEquals: {
-    element,
+    element: buttonElement,
     assertionValue: 'NotClick',
     assertionType: {
       type: 'notEquals',
     },
   },
   notHasAttribute: {
-    element,
+    element: buttonElement,
     assertionAttribute: 'not-id',
     assertionValue: 'not-button',
     assertionType: {
@@ -170,31 +196,44 @@ const notValues = {
     },
   },
   buttonNotToHaveLength: {
-    element,
+    element: buttonElement,
     assertionValue: '2',
     assertionType: {
       type: 'notToHaveLength',
+    },
+  },
+  buttonNotToBeDisabled: {
+    element: buttonElement,
+    assertionValue: '2',
+    assertionType: {
+      type: 'notToBeDisabled',
+    },
+  },
+  buttonNotToBeEnabled: {
+    element: disabledButtonElement,
+    assertionType: {
+      type: 'notToBeEnabled',
     },
   },
 }
 
 const frameNotValues = {
   buttonNotContains: {
-    element,
+    element: buttonElement,
     assertionValue: 'NotClick',
     assertionType: {
       type: 'notContains',
     },
   },
   buttonNotEquals: {
-    element,
+    element: buttonElement,
     assertionValue: 'NotClick',
     assertionType: {
       type: 'notEquals',
     },
   },
   notHasAttribute: {
-    element,
+    element: buttonElement,
     assertionAttribute: 'not-id',
     assertionValue: 'not-button',
     assertionType: {
@@ -214,10 +253,23 @@ const frameNotValues = {
     },
   },
   buttonNotToHaveLength: {
-    element,
+    element: buttonElement,
     assertionValue: '2',
     assertionType: {
       type: 'notToHaveLength',
+    },
+  },
+  buttonNotToBeDisabledFrame: {
+    element: buttonElement,
+    assertionValue: '2',
+    assertionType: {
+      type: 'notToBeDisabled',
+    },
+  },
+  buttonNotToBeEnabled: {
+    element: disabledButtonElement,
+    assertionType: {
+      type: 'notToBeEnabled',
     },
   },
 }
