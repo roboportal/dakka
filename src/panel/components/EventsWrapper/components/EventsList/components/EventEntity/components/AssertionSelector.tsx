@@ -134,11 +134,14 @@ export function AssertionSelector({
         record?.element?.attributesMap?.[firstElementAttributeName] ?? ''
 
       const assertionValuesMap: Record<string, string> = {
-        [assertionTypes.toHaveTitle]: record?.title ?? '',
-        [assertionTypes.notToHaveTitle]: record?.title ?? '',
+        [assertionTypes.toHaveTitle]:
+          (record?.element?.title || record?.title) ?? '',
+        [assertionTypes.notToHaveTitle]:
+          (record?.element?.title || record?.title) ?? '',
 
-        [assertionTypes.toHaveURL]: record?.url ?? '',
-        [assertionTypes.notToHaveURL]: record?.url ?? '',
+        [assertionTypes.toHaveURL]: (record?.element?.url || record?.url) ?? '',
+        [assertionTypes.notToHaveURL]:
+          (record?.element?.url || record?.url) ?? '',
 
         [assertionTypes.equals]: record?.element?.text ?? '',
         [assertionTypes.notEquals]: record?.element?.text ?? '',
