@@ -44,7 +44,7 @@ describe('Testing https://www.google.com/search?q=rfrf&oq=rfrf&aqs=chrome..69i57
       await page.waitForXPath('//div[contains(text(), "About 309,000 results")]')
       expect(await page.$x('//div[contains(text(), "About 309,000 results")]').then(async (elem) => page.evaluate((e) => e.getAttribute("disabled"), elem[0]))).toBe(null)
       await page.waitForSelector('.jtfYYd:nth-child(2) .VwiC3b > span:nth-child(2)')
-      expect(await page.$eval('.jtfYYd:nth-child(2) .VwiC3b > span:nth-child(2)', (e) => e.getAttribute('disabled'))).toBe(true)
+      expect(await page.$eval('.jtfYYd:nth-child(2) .VwiC3b > span:nth-child(2)', (e) => e.getAttribute('disabled'))).toBe('disabled')
       await page.waitForXPath('//a[contains(text(), "RFRF and AICTE sign MoU to...")]')
       expect(await page.title()).not.toBe('rfrf - Google Search')
       await page.waitForSelector('.jtfYYd:nth-child(2) .VwiC3b > span:nth-child(2)')
