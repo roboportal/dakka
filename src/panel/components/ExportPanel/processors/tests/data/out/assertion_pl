@@ -14,7 +14,7 @@ test('Testing https://www.google.com/search?q=rfrf&oq=rfrf&aqs=chrome..69i57j46i
   await expect(page.locator('.jtfYYd:nth-child(2) .VwiC3b > span:nth-child(2)')).toBeHidden()
   await expect(page).toHaveURL('https://www.google.com/search?q=rfrf&oq=rfrf&aqs=chrome..69i57j46i175i199i512j0i512l8.518j0j7&sourceid=chrome&ie=UTF-8')
   await expect(page.locator('.jtfYYd:nth-child(2) .VwiC3b > span:nth-child(2)')).toBeChecked()
-  await expect(page.locator('text="Research for Resurgence Foundation, Nagpur"')).toHaveCount('1')
+  await expect(page.locator('text="Research for Resurgence Foundation, Nagpur"')).toHaveCount(1)
   await expect(page.locator('.jtfYYd:nth-child(2) .VwiC3b > span:nth-child(2)')).toBeVisible()
   await expect(page.locator('text="About 309,000 results"')).not.toBeTruthy()
   await expect(page.locator('text=" (0.47 seconds) "')).not.toContainText(' (0.47 seconds) ')
@@ -26,7 +26,7 @@ test('Testing https://www.google.com/search?q=rfrf&oq=rfrf&aqs=chrome..69i57j46i
   await expect(page.locator('.jtfYYd:nth-child(2) .VwiC3b > span:nth-child(2)')).not.toBeHidden()
   await expect(page).not.toHaveURL('https://www.google.com/search?q=rfrf&oq=rfrf&aqs=chrome..69i57j46i175i199i512j0i512l8.518j0j7&sourceid=chrome&ie=UTF-8')
   await expect(page.locator('.jtfYYd:nth-child(2) .VwiC3b > span:nth-child(2)')).not.toBeChecked()
-  await expect(page.locator('text="Research for Resurgence Foundation, Nagpur"')).not.toHaveCount('1')
+  await expect(page.locator('text="Research for Resurgence Foundation, Nagpur"')).not.toHaveCount(1)
   await expect(page.locator('.jtfYYd:nth-child(2) .VwiC3b > span:nth-child(2)')).not.toBeVisible()
 
 })
