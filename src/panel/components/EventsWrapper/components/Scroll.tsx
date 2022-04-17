@@ -9,7 +9,7 @@ import {
 import { css } from '@emotion/react'
 import { useSelector } from 'react-redux'
 
-import { getActiveTabId, getExpandedEventId } from '@/store/eventSelectors'
+import { getExpandedEventId } from '@/store/eventSelectors'
 import { getActiveEvents } from '@/store/eventSelectors'
 
 interface IScrollProps {
@@ -27,8 +27,7 @@ function Scroll({ wrapperRef, scrollPosition, prefersDarkMode }: IScrollProps) {
   const scaleFactorRef = useRef<number>(1)
   const expandedId = useSelector(getExpandedEventId)
   const events = useSelector(getActiveEvents)
-  useSelector(getActiveTabId)
-  console.log('events', events, wrapperRef, scrollPosition)
+
   const [scrollLeftOffset, setScrollLeftOffset] = useState(0)
   const [scrollWindowSize, setScrollWindowSize] = useState(0)
   const [toggleUpdate, setToggleUpdate] = useState(false)

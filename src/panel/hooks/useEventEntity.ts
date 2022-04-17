@@ -48,21 +48,20 @@ export default function useEventEntity(
   const selector = `${selectedSelector?.name}: ${selectedSelector?.value}`
   const isRedirect = type === internalEventsMap[REDIRECT_STARTED]
   const isResize = type === resize
-  const isInteractive =
-    variant === INTERACTIVE_ELEMENT && !element?.validSelectors?.length
+  const isInteractive = variant === INTERACTIVE_ELEMENT
+  const hasSelectors = !!element?.validSelectors?.length
+  const isInteractiveWithoutElement = [
+    assertionTypes.toHaveTitle,
+    assertionTypes.toHaveURL,
+    assertionTypes.notToHaveTitle,
+    assertionTypes.notToHaveURL,
+  ].includes((record.assertionType?.type ?? '') as assertionTypes)
+  const isInIframe = record?.element?.isInIframe
 
   const shouldHaveTopMargin =
-    isRedirect ||
-    isInteractive ||
-    isResize ||
-    (!(record.shouldUseElementSelector ?? true) &&
-      record.isInIframe &&
-      ![
-        assertionTypes.toHaveTitle,
-        assertionTypes.toHaveURL,
-        assertionTypes.notToHaveTitle,
-        assertionTypes.notToHaveURL,
-      ].includes((record.assertionType?.type ?? '') as assertionTypes))
+    (isRedirect || isInteractive || isResize) &&
+    (!hasSelectors || isInteractiveWithoutElement) &&
+    !isInIframe
 
   const isManualSelectorSetupVisible = record.type === ASSERTION
 
