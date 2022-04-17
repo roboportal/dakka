@@ -79,13 +79,17 @@ test('${testName}', async ({ page }) => {
     },
 
     [assertionTypes.toHaveURL]: ({ assertionValue, isIframe }) => {
-      const scope = isIframe ? 'frame' : 'page'
-      return `  await expect(${scope}).toHaveURL('${assertionValue}')\n`
+      if (isIframe) {
+        return `  expect(frame.url()).toBe('${assertionValue}')`
+      }
+      return `  await expect(page).toHaveURL('${assertionValue}')\n`
     },
 
     [assertionTypes.notToHaveURL]: ({ assertionValue, isIframe }) => {
-      const scope = isIframe ? 'frame' : 'page'
-      return `  await expect(${scope}).not.toHaveURL('${assertionValue}')\n`
+      if (isIframe) {
+        return `  expect(frame.url()).not.toBe('${assertionValue}')`
+      }
+      return `  await expect(page).not.toHaveURL('${assertionValue}')\n`
     },
 
     [assertionTypes.toBeChecked]: ({ selector, firstSelector, isIframe }) => {
@@ -252,7 +256,7 @@ test('${testName}', async ({ page }) => {
     }) => {
       const scope = isIframe ? 'frame' : 'page'
       const normalizedSelector = normalizeString(selector)
-      return `  await expect(${scope}.locator('${normalizedSelector}'))${firstSelector}.toHaveCount('${assertionValue}')\n`
+      return `  await expect(${scope}.locator('${normalizedSelector}'))${firstSelector}.toHaveCount(${assertionValue})\n`
     },
 
     [assertionTypes.notToHaveLength]: ({
@@ -263,7 +267,7 @@ test('${testName}', async ({ page }) => {
     }) => {
       const scope = isIframe ? 'frame' : 'page'
       const normalizedSelector = normalizeString(selector)
-      return `  await expect(${scope}.locator('${normalizedSelector}'))${firstSelector}.not.toHaveCount('${assertionValue}')\n`
+      return `  await expect(${scope}.locator('${normalizedSelector}'))${firstSelector}.not.toHaveCount(${assertionValue})\n`
     },
   }
 

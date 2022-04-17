@@ -1,0 +1,441 @@
+[
+  {
+    "id": "tRjYiik2PeGpyR9JiUJHc_0",
+    "triggeredAt": 1650075520129,
+    "url": "https://master.d33h0yvwek6xsp.amplifyapp.com/",
+    "title": "Integration",
+    "type": "_redirect",
+    "selector": "https://master.d33h0yvwek6xsp.amplifyapp.com/",
+    "variant": "",
+    "innerHeight": 212,
+    "innerWidth": 1374
+  },
+  {
+    "id": "eNvqGohBN8MEPRG7UJfHw",
+    "eventRecordIndex": 1,
+    "type": "Assertion",
+    "url": "https://master.d33h0yvwek6xsp.amplifyapp.com/",
+    "title": "Integration",
+    "variant": "INTERACTIVE_ELEMENT",
+    "element": {
+      "id": "LVYuHAJ7kV1bywq0496S5",
+      "validSelectors": [
+        {
+          "name": "data-cy",
+          "value": "[data-cy='checkbox_input']",
+          "length": 1,
+          "priority": 1,
+          "rawValue": "checkbox_input",
+          "closest": 0,
+          "tagName": "input"
+        },
+        {
+          "name": "type",
+          "value": "input[type='checkbox']",
+          "length": 1,
+          "priority": 2,
+          "rawValue": "checkbox",
+          "closest": 0,
+          "tagName": "input"
+        },
+        {
+          "name": "tagName#element-id",
+          "value": "input#checkbox",
+          "length": 1,
+          "priority": 2,
+          "rawValue": "#checkbox",
+          "closest": 0,
+          "tagName": "input"
+        },
+        {
+          "name": "#element-id",
+          "value": "#checkbox",
+          "length": 1,
+          "priority": 2,
+          "rawValue": "#checkbox",
+          "closest": 0,
+          "tagName": "input"
+        },
+        {
+          "name": "unique-path",
+          "value": "#checkbox",
+          "length": 1,
+          "priority": 3,
+          "rawValue": "#checkbox",
+          "closest": 0,
+          "tagName": "input"
+        },
+        {
+          "name": "<tagName>",
+          "value": "input",
+          "length": 2,
+          "priority": 3,
+          "rawValue": "input",
+          "closest": 0,
+          "tagName": "input"
+        }
+      ],
+      "triggeredAt": 1650075550488,
+      "selector": "#checkbox",
+      "selectedSelector": {
+        "name": "data-cy",
+        "value": "[data-cy='checkbox_input']",
+        "length": 1,
+        "priority": 1,
+        "rawValue": "checkbox_input",
+        "closest": 0,
+        "tagName": "input"
+      },
+      "url": "https://master.d33h0yvwek6xsp.amplifyapp.com/",
+      "type": "mouseover",
+      "altKey": false,
+      "bubbles": true,
+      "button": 0,
+      "buttons": 0,
+      "cancelable": true,
+      "clientX": 41,
+      "clientY": 64,
+      "ctrlKey": false,
+      "detail": 0,
+      "eventPhase": 1,
+      "isTrusted": true,
+      "metaKey": false,
+      "pageX": 41,
+      "pageY": 64,
+      "screenX": 106,
+      "screenY": 184,
+      "shiftKey": false,
+      "defaultPrevented": false,
+      "timeStamp": 5005784.3999999985,
+      "which": 0,
+      "title": "Integration",
+      "innerWidth": 1374,
+      "innerHeight": 212,
+      "isInIframe": false,
+      "iframeDetails": null,
+      "attributesMap": {
+        "id": "checkbox",
+        "type": "checkbox",
+        "data-cy": "checkbox_input"
+      }
+    },
+    "selector": "",
+    "assertionAttribute": "",
+    "assertionType": {
+      "type": "notToBeChecked",
+      "name": "Not to be checked"
+    }
+  },
+  {
+    "id": "tRjYiik2PeGpyR9JiUJHc",
+    "validSelectors": [
+      {
+        "name": "data-cy",
+        "value": "[data-cy='checkbox_input']",
+        "length": 1,
+        "priority": 1,
+        "rawValue": "checkbox_input",
+        "closest": 0,
+        "tagName": "input"
+      },
+      {
+        "name": "type",
+        "value": "input[type='checkbox']",
+        "length": 1,
+        "priority": 2,
+        "rawValue": "checkbox",
+        "closest": 0,
+        "tagName": "input"
+      },
+      {
+        "name": "tagName#element-id",
+        "value": "input#checkbox",
+        "length": 1,
+        "priority": 2,
+        "rawValue": "#checkbox",
+        "closest": 0,
+        "tagName": "input"
+      },
+      {
+        "name": "#element-id",
+        "value": "#checkbox",
+        "length": 1,
+        "priority": 2,
+        "rawValue": "#checkbox",
+        "closest": 0,
+        "tagName": "input"
+      },
+      {
+        "name": "unique-path",
+        "value": "#checkbox",
+        "length": 1,
+        "priority": 3,
+        "rawValue": "#checkbox",
+        "closest": 0,
+        "tagName": "input"
+      },
+      {
+        "name": "<tagName>",
+        "value": "input",
+        "length": 2,
+        "priority": 3,
+        "rawValue": "input",
+        "closest": 0,
+        "tagName": "input"
+      }
+    ],
+    "triggeredAt": 1650075520130,
+    "selector": "#checkbox",
+    "selectedSelector": {
+      "name": "data-cy",
+      "value": "[data-cy='checkbox_input']",
+      "length": 1,
+      "priority": 1,
+      "rawValue": "checkbox_input",
+      "closest": 0,
+      "tagName": "input"
+    },
+    "url": "https://master.d33h0yvwek6xsp.amplifyapp.com/",
+    "type": "mouseClick",
+    "altKey": false,
+    "bubbles": true,
+    "button": 0,
+    "buttons": 0,
+    "cancelable": true,
+    "clientX": 39,
+    "clientY": 58,
+    "ctrlKey": false,
+    "detail": 1,
+    "eventPhase": 1,
+    "isTrusted": true,
+    "metaKey": false,
+    "pageX": 39,
+    "pageY": 58,
+    "screenX": 104,
+    "screenY": 178,
+    "shiftKey": false,
+    "defaultPrevented": false,
+    "timeStamp": 4975426.1999999955,
+    "which": 1,
+    "title": "Integration",
+    "innerWidth": 1374,
+    "innerHeight": 212,
+    "isInIframe": false,
+    "iframeDetails": null,
+    "composedEvents": [
+      {
+        "id": "tRjYiik2PeGpyR9JiUJHc",
+        "validSelectors": [
+          {
+            "name": "data-cy",
+            "value": "[data-cy='checkbox_input']",
+            "length": 1,
+            "priority": 1,
+            "rawValue": "checkbox_input",
+            "closest": 0,
+            "tagName": "input"
+          },
+          {
+            "name": "type",
+            "value": "input[type='checkbox']",
+            "length": 1,
+            "priority": 2,
+            "rawValue": "checkbox",
+            "closest": 0,
+            "tagName": "input"
+          },
+          {
+            "name": "tagName#element-id",
+            "value": "input#checkbox",
+            "length": 1,
+            "priority": 2,
+            "rawValue": "#checkbox",
+            "closest": 0,
+            "tagName": "input"
+          },
+          {
+            "name": "#element-id",
+            "value": "#checkbox",
+            "length": 1,
+            "priority": 2,
+            "rawValue": "#checkbox",
+            "closest": 0,
+            "tagName": "input"
+          },
+          {
+            "name": "unique-path",
+            "value": "#checkbox",
+            "length": 1,
+            "priority": 3,
+            "rawValue": "#checkbox",
+            "closest": 0,
+            "tagName": "input"
+          },
+          {
+            "name": "<tagName>",
+            "value": "input",
+            "length": 2,
+            "priority": 3,
+            "rawValue": "input",
+            "closest": 0,
+            "tagName": "input"
+          }
+        ],
+        "triggeredAt": 1650075520130,
+        "selector": "#checkbox",
+        "selectedSelector": {
+          "name": "data-cy",
+          "value": "[data-cy='checkbox_input']",
+          "length": 1,
+          "priority": 1,
+          "rawValue": "checkbox_input",
+          "closest": 0,
+          "tagName": "input"
+        },
+        "url": "https://master.d33h0yvwek6xsp.amplifyapp.com/",
+        "type": "click",
+        "altKey": false,
+        "bubbles": true,
+        "button": 0,
+        "buttons": 0,
+        "cancelable": true,
+        "clientX": 39,
+        "clientY": 58,
+        "ctrlKey": false,
+        "detail": 1,
+        "eventPhase": 1,
+        "isTrusted": true,
+        "metaKey": false,
+        "pageX": 39,
+        "pageY": 58,
+        "screenX": 104,
+        "screenY": 178,
+        "shiftKey": false,
+        "defaultPrevented": false,
+        "timeStamp": 4975426.1999999955,
+        "which": 1,
+        "title": "Integration",
+        "innerWidth": 1374,
+        "innerHeight": 212,
+        "isInIframe": false,
+        "iframeDetails": null
+      }
+    ]
+  },
+  {
+    "id": "DSc8M1bh0pcWljCd-lyrd",
+    "eventRecordIndex": 2,
+    "type": "Assertion",
+    "url": "https://master.d33h0yvwek6xsp.amplifyapp.com/",
+    "title": "Integration",
+    "variant": "INTERACTIVE_ELEMENT",
+    "element": {
+      "id": "9N8gJK7a_SXXN5kW2FTGD",
+      "validSelectors": [
+        {
+          "name": "data-cy",
+          "value": "[data-cy='checkbox_input']",
+          "length": 1,
+          "priority": 1,
+          "rawValue": "checkbox_input",
+          "closest": 0,
+          "tagName": "input"
+        },
+        {
+          "name": "type",
+          "value": "input[type='checkbox']",
+          "length": 1,
+          "priority": 2,
+          "rawValue": "checkbox",
+          "closest": 0,
+          "tagName": "input"
+        },
+        {
+          "name": "tagName#element-id",
+          "value": "input#checkbox",
+          "length": 1,
+          "priority": 2,
+          "rawValue": "#checkbox",
+          "closest": 0,
+          "tagName": "input"
+        },
+        {
+          "name": "#element-id",
+          "value": "#checkbox",
+          "length": 1,
+          "priority": 2,
+          "rawValue": "#checkbox",
+          "closest": 0,
+          "tagName": "input"
+        },
+        {
+          "name": "unique-path",
+          "value": "#checkbox",
+          "length": 1,
+          "priority": 3,
+          "rawValue": "#checkbox",
+          "closest": 0,
+          "tagName": "input"
+        },
+        {
+          "name": "<tagName>",
+          "value": "input",
+          "length": 2,
+          "priority": 3,
+          "rawValue": "input",
+          "closest": 0,
+          "tagName": "input"
+        }
+      ],
+      "triggeredAt": 1650075529712,
+      "selector": "#checkbox",
+      "selectedSelector": {
+        "name": "data-cy",
+        "value": "[data-cy='checkbox_input']",
+        "length": 1,
+        "priority": 1,
+        "rawValue": "checkbox_input",
+        "closest": 0,
+        "tagName": "input"
+      },
+      "url": "https://master.d33h0yvwek6xsp.amplifyapp.com/",
+      "type": "mouseover",
+      "altKey": false,
+      "bubbles": true,
+      "button": 0,
+      "buttons": 0,
+      "cancelable": true,
+      "clientX": 43,
+      "clientY": 65,
+      "ctrlKey": false,
+      "detail": 0,
+      "eventPhase": 1,
+      "isTrusted": true,
+      "metaKey": false,
+      "pageX": 43,
+      "pageY": 65,
+      "screenX": 108,
+      "screenY": 185,
+      "shiftKey": false,
+      "defaultPrevented": false,
+      "timeStamp": 4985009.1999999955,
+      "which": 0,
+      "title": "Integration",
+      "innerWidth": 1374,
+      "innerHeight": 212,
+      "isInIframe": false,
+      "iframeDetails": null,
+      "attributesMap": {
+        "id": "checkbox",
+        "type": "checkbox",
+        "data-cy": "checkbox_input"
+      }
+    },
+    "selector": "",
+    "assertionAttribute": "",
+    "assertionType": {
+      "type": "toBeChecked",
+      "name": "To be checked"
+    }
+  }
+]

@@ -1,0 +1,182 @@
+[
+  {
+    "id": "sdo1ELQafg8qn1cL3ipwU_0",
+    "triggeredAt": 1650076055055,
+    "url": "https://master.d33h0yvwek6xsp.amplifyapp.com/",
+    "title": "",
+    "type": "_redirect",
+    "selector": "https://master.d33h0yvwek6xsp.amplifyapp.com/",
+    "variant": "",
+    "innerHeight": 800,
+    "innerWidth": 1354
+  },
+  {
+    "id": "CEzGlxZ8_25yJWDgOeuqc",
+    "eventRecordIndex": 1,
+    "type": "Assertion",
+    "url": "https://master.d33h0yvwek6xsp.amplifyapp.com/",
+    "title": "",
+    "variant": "INTERACTIVE_ELEMENT",
+    "element": {
+      "id": "9MdHEWvncyX8IA23uOhYS",
+      "validSelectors": [
+        {
+          "name": "data-cy",
+          "value": "[data-cy=\"button\"]",
+          "length": 1,
+          "priority": 1,
+          "rawValue": "button",
+          "closest": 0,
+          "tagName": "button"
+        },
+        {
+          "name": "text",
+          "value": "Test",
+          "length": 1,
+          "priority": 1,
+          "rawValue": "Test",
+          "closest": 0,
+          "tagName": "button"
+        },
+        {
+          "name": "tagName#element-id",
+          "value": "button#button",
+          "length": 1,
+          "priority": 2,
+          "rawValue": "#button",
+          "closest": 0,
+          "tagName": "button"
+        },
+        {
+          "name": "#element-id",
+          "value": "#button",
+          "length": 1,
+          "priority": 2,
+          "rawValue": "#button",
+          "closest": 0,
+          "tagName": "button"
+        },
+        {
+          "name": "unique-path",
+          "value": "#button",
+          "length": 1,
+          "priority": 3,
+          "rawValue": "#button",
+          "closest": 0,
+          "tagName": "button"
+        },
+        {
+          "name": "<tagName>",
+          "value": "button",
+          "length": 1,
+          "priority": 3,
+          "rawValue": "button",
+          "closest": 0,
+          "tagName": "button"
+        }
+      ],
+      "triggeredAt": 1650076070996,
+      "selector": "#button",
+      "selectedSelector": {
+        "name": "data-cy",
+        "value": "[data-cy=\"button\"]",
+        "length": 1,
+        "priority": 1,
+        "rawValue": "button",
+        "closest": 0,
+        "tagName": "button"
+      },
+      "selectedIframeSelector": {
+        "name": "data-cy",
+        "value": "[data-cy=\"iframe\"]",
+        "length": 0,
+        "priority": 1,
+        "rawValue": "iframe",
+        "closest": 0,
+        "tagName": "iframe"
+      },
+      "url": "https://master.d33h0yvwek6xsp.amplifyapp.com/frame.html",
+      "type": "mouseover",
+      "altKey": false,
+      "bubbles": true,
+      "button": 0,
+      "buttons": 0,
+      "cancelable": true,
+      "clientX": 135,
+      "clientY": 49,
+      "ctrlKey": false,
+      "detail": 0,
+      "eventPhase": 1,
+      "isTrusted": true,
+      "metaKey": false,
+      "pageX": 135,
+      "pageY": 49,
+      "screenX": 210,
+      "screenY": 238,
+      "shiftKey": false,
+      "defaultPrevented": false,
+      "timeStamp": 5526015,
+      "which": 0,
+      "title": "",
+      "innerWidth": 1354,
+      "innerHeight": 800,
+      "isInIframe": true,
+      "iframeDetails": {
+        "selectors": [
+          {
+            "name": "src",
+            "value": "iframe[src=\"frame.html\"]",
+            "length": 0,
+            "priority": 2,
+            "rawValue": "frame.html",
+            "closest": 0,
+            "tagName": "iframe"
+          },
+          {
+            "name": "data-cy",
+            "value": "[data-cy=\"iframe\"]",
+            "length": 0,
+            "priority": 1,
+            "rawValue": "iframe",
+            "closest": 0,
+            "tagName": "iframe"
+          },
+          {
+            "name": "tagName#element-id",
+            "value": "iframe#iframe",
+            "length": 0,
+            "priority": 2,
+            "rawValue": "#iframe",
+            "closest": 0,
+            "tagName": "iframe"
+          },
+          {
+            "name": "#element-id",
+            "value": "#iframe",
+            "length": 0,
+            "priority": 2,
+            "rawValue": "#iframe",
+            "closest": 0,
+            "tagName": "iframe"
+          },
+          {
+            "name": "<tagName>",
+            "value": "iframe",
+            "length": 0,
+            "priority": 3,
+            "rawValue": "iframe",
+            "closest": 0,
+            "tagName": "iframe"
+          }
+        ],
+        "selector": ""
+      },
+      "text": "Test",
+      "attributesMap": {
+        "id": "button",
+        "data-cy": "button"
+      }
+    },
+    "selector": ""
+  }
+]

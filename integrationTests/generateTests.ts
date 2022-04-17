@@ -4,6 +4,7 @@ const path = require('path')
 import { CypressProcessor } from '../src/panel/components/ExportPanel/processors/cypressProcessor'
 import { PuppeteerProcessor } from '../src/panel/components/ExportPanel/processors/puppeteerProcessor'
 import { PlaywrightProcessor } from '../src/panel/components/ExportPanel/processors/playwrightProcessor'
+import generatedOnButton from './src/generatedAssertions'
 
 const OUT_DIR_PATH = '../../generated'
 
@@ -39,36 +40,35 @@ const inputDataTuple = [
     'clickByTagName',
     require(path.resolve(__dirname, '../../mocks/clickByTagName.json')),
   ],
-
   [
     'dblclickByTestId',
     require(path.resolve(__dirname, '../../mocks/dblclickByTestId.json')),
   ],
-
   [
     'inputValueAssertion',
     require(path.resolve(__dirname, '../../mocks/inputValueAssertion.json')),
   ],
-
   [
     'clickLinkNavigation',
     require(path.resolve(__dirname, '../../mocks/clickLinkNavigation.json')),
   ],
-
   [
     'tabLinkNavigation',
     require(path.resolve(__dirname, '../../mocks/tabLinkNavigation.json')),
   ],
-
   [
     'backspaceDeleteInput',
     require(path.resolve(__dirname, '../../mocks/backspaceDeleteInput.json')),
   ],
-
   [
     'checkboxClickAssertion',
     require(path.resolve(__dirname, '../../mocks/checkboxClickAssertion.json')),
   ],
+  [
+    'checkboxClick',
+    require(path.resolve(__dirname, '../../mocks/checkboxClick.json')),
+  ],
+  ...generatedOnButton,
 ]
 
 inputDataTuple.forEach(([testName, inputData]) => {

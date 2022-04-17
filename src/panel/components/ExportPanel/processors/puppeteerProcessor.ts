@@ -98,7 +98,7 @@ describe('${testName}', () => {
 
     [assertionTypes.notToHaveURL]: ({ assertionValue, isIframe }) => {
       const scope = isIframe ? 'frame' : 'page'
-      return `      expect(${scope}.url()).toBe('${assertionValue}')\n`
+      return `      expect(${scope}.url()).not.toBe('${assertionValue}')\n`
     },
 
     [assertionTypes.toBeChecked]: ({ selector, selectorName, isIframe }) => {
@@ -216,7 +216,7 @@ describe('${testName}', () => {
         })}.toBe(true)\n`
       }
 
-      return `      expect(await ${scope}.$eval('${selector}', (e) => e.getAttribute('disabled'))).toBe(true)\n`
+      return `      expect(await ${scope}.$eval('${selector}', (e) => e.getAttribute('disabled'))).toBe('disabled')\n`
     },
 
     [assertionTypes.notToBeDisabled]: ({
@@ -254,22 +254,29 @@ describe('${testName}', () => {
           value: 'e.getAttribute("disabled")',
         })}.toBe(true)\n`
       }
-      return `      expect(await ${scope}.$eval('${selector}', (e) => e.getAttribute('disabled'))).toBe(true)\n`
+      return `      expect(await ${scope}.$eval('${selector}', (e) => e.getAttribute('disabled'))).toBe('disabled')\n`
     },
 
     [assertionTypes.toBeHidden]: ({ selector, selectorName, isIframe }) => {
       const scope = isIframe ? 'frame' : 'page'
-      return `      expect(await ${scope}.${
-        selectorOptions[selectorName] ?? selectorOptions.default
-      }('${selector}')).toBeNull()\n`
+      if (selectorOptions[selectorName] === '$x') {
+        return `  ${getByXpath({
+          selector,
+          value: 'e.style.visibility',
+        })}.toBe('hidden')\n`
+      }
+      return `      expect(await ${scope}.$eval('${selector}', e => e.style.visibility)).not.toBe('hidden')\n`
     },
 
     [assertionTypes.notToBeHidden]: ({ selector, selectorName, isIframe }) => {
       const scope = isIframe ? 'frame' : 'page'
-      const normalizedSelector = normalizeString(selector)
-      return `      expect(await ${scope}.${
-        selectorOptions[selectorName] ?? selectorOptions.default
-      }('${normalizedSelector}')).not.toBeNull()\n`
+      if (selectorOptions[selectorName] === '$x') {
+        return `  ${getByXpath({
+          selector,
+          value: 'e.style.visibility',
+        })}.not.toBe('hidden')\n`
+      }
+      return `      expect(await ${scope}.$eval('${selector}', e => e.style.visibility)).not.toBe('hidden')\n`
     },
 
     [assertionTypes.toBeVisible]: ({ selector, selectorName, isIframe }) => {
