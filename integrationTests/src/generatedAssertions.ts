@@ -34,6 +34,18 @@ const disabledButtonElement = {
   },
 }
 
+const hiddenInputElement = {
+  selectedSelector: {
+    name: 'data-cy',
+    value: '[data-cy="hidden"]',
+    length: 1,
+    priority: 1,
+    rawValue: 'input',
+    closest: 0,
+    tagName: 'input',
+  },
+}
+
 const values = {
   buttonInDocument: {
     assertionType: {
@@ -93,6 +105,12 @@ const values = {
     assertionValue: 'Test',
     assertionType: {
       type: 'toBeDisabled',
+    },
+  },
+  inputToBeHidden: {
+    element: hiddenInputElement,
+    assertionType: {
+      type: 'toBeHidden',
     },
   },
 }
@@ -158,6 +176,12 @@ const frameValues = {
       type: 'toHaveURL',
     },
   },
+  inputToBeHiddenFrame: {
+    element: hiddenInputElement,
+    assertionType: {
+      type: 'toBeHidden',
+    },
+  },
 }
 
 const notValues = {
@@ -215,6 +239,11 @@ const notValues = {
       type: 'notToBeEnabled',
     },
   },
+  buttonNotToBeHidden: {
+    assertionType: {
+      type: 'notToBeHidden',
+    },
+  },
 }
 
 const frameNotValues = {
@@ -270,6 +299,11 @@ const frameNotValues = {
     element: disabledButtonElement,
     assertionType: {
       type: 'notToBeEnabled',
+    },
+  },
+  buttonNotToBeHiddenFrame: {
+    assertionType: {
+      type: 'notToBeHidden',
     },
   },
 }

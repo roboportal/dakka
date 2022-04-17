@@ -259,17 +259,24 @@ describe('${testName}', () => {
 
     [assertionTypes.toBeHidden]: ({ selector, selectorName, isIframe }) => {
       const scope = isIframe ? 'frame' : 'page'
-      return `      expect(await ${scope}.${
-        selectorOptions[selectorName] ?? selectorOptions.default
-      }('${selector}')).toBeNull()\n`
+      if (selectorOptions[selectorName] === '$x') {
+        return `  ${getByXpath({
+          selector,
+          value: 'e.style.visibility',
+        })}.toBe('hidden')\n`
+      }
+      return `      expect(await ${scope}.$eval('${selector}', e => e.style.visibility)).not.toBe('hidden')\n`
     },
 
     [assertionTypes.notToBeHidden]: ({ selector, selectorName, isIframe }) => {
       const scope = isIframe ? 'frame' : 'page'
-      const normalizedSelector = normalizeString(selector)
-      return `      expect(await ${scope}.${
-        selectorOptions[selectorName] ?? selectorOptions.default
-      }('${normalizedSelector}')).not.toBeNull()\n`
+      if (selectorOptions[selectorName] === '$x') {
+        return `  ${getByXpath({
+          selector,
+          value: 'e.style.visibility',
+        })}.not.toBe('hidden')\n`
+      }
+      return `      expect(await ${scope}.$eval('${selector}', e => e.style.visibility)).not.toBe('hidden')\n`
     },
 
     [assertionTypes.toBeVisible]: ({ selector, selectorName, isIframe }) => {
