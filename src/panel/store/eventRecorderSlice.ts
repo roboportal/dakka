@@ -16,6 +16,18 @@ export interface EventRecorderState {
   expandedId: string | null
   lastSelectedEventId: string
   exportType: exportOptions
+  testCases: Record<string, ITestCase>
+}
+
+interface IIt {
+  id: string
+  value: string
+  selected: boolean
+}
+
+export interface ITestCase {
+  describe: string
+  its: IIt[]
 }
 
 export interface ISelector {
@@ -106,6 +118,7 @@ const initialState: EventRecorderState = {
   expandedId: null,
   lastSelectedEventId: '',
   exportType: exportOptions.none,
+  testCases: {},
 }
 
 const areEventsIframeSelectorsEqual = (
@@ -138,7 +151,7 @@ export const eventRecorderSlice = createSlice({
       state,
       { payload: { tabId, eventRecord } }: PayloadAction<IRecordEventPayload>,
     ) => {
-      const { events, isRecorderEnabled, activeBlockId } = state
+      const { events, isRecorderEnabled, activeBlockId, testCases } = state
 
       if (eventRecord?.type === ELEMENT_SELECTED && activeBlockId) {
         const block = events[tabId].find(
@@ -165,6 +178,10 @@ export const eventRecorderSlice = createSlice({
 
       if (isFirstEventRecordedForTab) {
         events[tabId] = []
+        testCases[tabId] = {
+          describe: '',
+          its: [],
+        }
       }
 
       process(events[tabId] as IEventBlock[], eventRecord.payload)
@@ -351,6 +368,29 @@ export const eventRecorderSlice = createSlice({
     setExportType: (state, { payload }: { payload: exportOptions }) => {
       state.exportType = payload
     },
+    addItToTestCase: ({ activeTabID, testCases }) => {
+      const length = testCases[activeTabID].its.length
+      testCases[activeTabID].its.push({
+        id: nanoid(),
+        value: '',
+        selected: length === 0,
+      })
+    },
+    removeItFromTestCase: (
+      { activeTabID, testCases },
+      { payload }: { payload: string },
+    ) => {
+      const index = testCases[activeTabID].its.findIndex(
+        (it) => it.id === payload,
+      )
+      const isRemovedSelected = testCases[activeTabID].its[index].selected
+
+      testCases[activeTabID].its.splice(index, 1)
+
+      if (isRemovedSelected && testCases[activeTabID].its.length >= 1) {
+        testCases[activeTabID].its[0].selected = true
+      }
+    },
   },
 })
 
@@ -370,6 +410,8 @@ export const {
   setLastSelectedEventId,
   selectIframeEventSelector,
   setExportType,
+  addItToTestCase,
+  removeItFromTestCase,
 } = eventRecorderSlice.actions
 
 export default eventRecorderSlice.reducer

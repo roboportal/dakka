@@ -1,14 +1,33 @@
 import { css } from '@emotion/react'
+import { useDispatch, useSelector } from 'react-redux'
 
 import Drawer from '@mui/material/Drawer'
 import IconButton from '@mui/material/IconButton'
 import CloseIcon from '@mui/icons-material/Close'
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
+import AddIcon from '@mui/icons-material/Add'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
+import TextField from '@mui/material/TextField'
+import Radio from '@mui/material/Radio'
 
 import useToggle from '@/hooks/useToggle'
+import { getActiveTestCase } from '@/store/eventSelectors'
+import {
+  addItToTestCase,
+  removeItFromTestCase,
+} from '@/store/eventRecorderSlice'
 
 export default function ProjectPanel() {
   const [isDrawerOpened, toggleIsDrawerOpened] = useToggle(false)
+
+  const dispatch = useDispatch()
+
+  const testCase = useSelector(getActiveTestCase) ?? {}
+
+  const createIt = () => {
+    dispatch(addItToTestCase())
+  }
+
   return (
     <>
       <Drawer
@@ -20,8 +39,8 @@ export default function ProjectPanel() {
           css={css`
             display: flex;
             flex-direction: column;
-            width: 300px;
             margin: 8px;
+            width: 40vw;
           `}
         >
           <IconButton
@@ -33,7 +52,65 @@ export default function ProjectPanel() {
           >
             <CloseIcon />
           </IconButton>
-          <div>items</div>
+          <div
+            css={css`
+              width: 100%;
+              margin-top: 4px;
+            `}
+          >
+            <TextField
+              label="Describe"
+              size="small"
+              value={testCase.describe}
+              css={css`
+                width: 100%;
+              `}
+            />
+          </div>
+          <div
+            css={css`
+              margin-top: 16px;
+            `}
+          >
+            {testCase.its?.map((it) => (
+              <div
+                key={it.id}
+                css={css`
+                  display: flex;
+                  justify-content: space-between;
+                  margin-bottom: 8px;
+                  width: 100%;
+                `}
+              >
+                <Radio checked={it.selected} />
+                <TextField
+                  label="It"
+                  size="small"
+                  value={it.value}
+                  css={css`
+                    width: 100%;
+                    margin-left: 4px;
+                    margin-right: 4px;
+                  `}
+                />
+                <IconButton
+                  color="error"
+                  onClick={() => dispatch(removeItFromTestCase(it.id))}
+                >
+                  <DeleteForeverIcon />
+                </IconButton>
+              </div>
+            ))}
+          </div>
+          <div
+            css={css`
+              align-self: center;
+            `}
+          >
+            <IconButton color="primary" size="large" onClick={createIt}>
+              <AddIcon />
+            </IconButton>
+          </div>
         </div>
       </Drawer>
       <IconButton

@@ -173,3 +173,8 @@ export const getExportType = createSelector(
   (state: RootState) => state[SLICE_NAMES.eventRecorder],
   (state) => state.exportType,
 )
+
+export const getActiveTestCase = createSelector(
+  (state: RootState) => state[SLICE_NAMES.eventRecorder],
+  (state) => state.testCases[state.activeTabID],
+)
