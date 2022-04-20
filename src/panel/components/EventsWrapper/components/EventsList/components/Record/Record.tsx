@@ -110,6 +110,9 @@ export function Record({
         isOver={isOver && !isFirstRecord}
         gap={GAP_BETWEEN_RECORDS}
         className={LEFT_DROP_ZONE_CLASS_NAME}
+        css={css`
+          ${isFirstRecord ? 'display: none;' : ''}
+        `}
       />
       {children}
       {events.length - 1 === currentIndex && (
