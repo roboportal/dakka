@@ -1,3 +1,5 @@
+import { ChangeEvent } from 'react'
+
 import { css } from '@emotion/react'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -14,7 +16,10 @@ import useToggle from '@/hooks/useToggle'
 import { getActiveTestCase } from '@/store/eventSelectors'
 import {
   addItToTestCase,
+  changeDescribe,
+  changeIt,
   removeItFromTestCase,
+  selectIt,
 } from '@/store/eventRecorderSlice'
 
 export default function ProjectPanel() {
@@ -27,6 +32,12 @@ export default function ProjectPanel() {
   const createIt = () => {
     dispatch(addItToTestCase())
   }
+
+  const handleChangeDescribe = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => dispatch(changeDescribe(e.target.value))
+
+  const isDeleteButtonVisible = testCase?.its?.length > 1
 
   return (
     <>
@@ -41,6 +52,7 @@ export default function ProjectPanel() {
             flex-direction: column;
             margin: 8px;
             width: 40vw;
+            min-width: 300px;
           `}
         >
           <IconButton
@@ -65,6 +77,7 @@ export default function ProjectPanel() {
               css={css`
                 width: 100%;
               `}
+              onChange={handleChangeDescribe}
             />
           </div>
           <div
@@ -72,7 +85,7 @@ export default function ProjectPanel() {
               margin-top: 16px;
             `}
           >
-            {testCase.its?.map((it) => (
+            {testCase?.its?.map?.((it) => (
               <div
                 key={it.id}
                 css={css`
@@ -82,7 +95,12 @@ export default function ProjectPanel() {
                   width: 100%;
                 `}
               >
-                <Radio checked={it.selected} />
+                <Radio
+                  checked={it.selected}
+                  onClick={() => {
+                    dispatch(selectIt(it.id))
+                  }}
+                />
                 <TextField
                   label="It"
                   size="small"
@@ -92,13 +110,18 @@ export default function ProjectPanel() {
                     margin-left: 4px;
                     margin-right: 4px;
                   `}
+                  onChange={(e) =>
+                    dispatch(changeIt({ id: it.id, value: e.target.value }))
+                  }
                 />
-                <IconButton
-                  color="error"
-                  onClick={() => dispatch(removeItFromTestCase(it.id))}
-                >
-                  <DeleteForeverIcon />
-                </IconButton>
+                {isDeleteButtonVisible && (
+                  <IconButton
+                    color="error"
+                    onClick={() => dispatch(removeItFromTestCase(it.id))}
+                  >
+                    <DeleteForeverIcon />
+                  </IconButton>
+                )}
               </div>
             ))}
           </div>

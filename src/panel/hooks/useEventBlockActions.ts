@@ -2,7 +2,7 @@ import { MouseEventHandler, useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
 import { removeEvent } from '@/store/eventRecorderSlice'
-import { getEvents, getActiveTabId } from '@/store/eventSelectors'
+import { getActiveTabId, getEvents } from '@/store/eventSelectors'
 
 import useEventHighlight from './useEventHighlight'
 
@@ -29,7 +29,7 @@ export default function useEventBlockActions() {
     [dispatch],
   )
 
-  const toggleHighlightedElement = useEventHighlight(events, activeTabID)
+  const toggleHighlightedElement = useEventHighlight(activeTabID, events)
 
   return {
     toggleHighlightedElement,

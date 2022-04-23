@@ -8,7 +8,7 @@ import { internalEventsMap } from '@/constants/internalEventsMap'
 function highlightElement(
   tabId: number,
   highlightedEventIndexes: number[],
-  events: Record<number, IEventBlock[]>,
+  events: IEventBlock[],
 ) {
   if (tabId === -1) {
     return
@@ -26,7 +26,7 @@ function highlightElement(
   }
 
   if (highlightedEventIndexes.length) {
-    const item = events[tabId][highlightedEventIndexes[0]]
+    const item = events[highlightedEventIndexes[0]]
     if (Array.isArray(item)) {
       const el = item[highlightedEventIndexes[1]]
       payload.selector = el?.selector ?? null
@@ -46,8 +46,8 @@ function highlightElement(
 }
 
 export default function useEventHighlight(
-  events: Record<number, IEventBlock[]>,
-  activeTabID: number,
+  tabId: number,
+  events: IEventBlock[],
 ) {
   const toggleHighlightedElement: MouseEventHandler = useCallback(
     (e) => {
@@ -61,15 +61,15 @@ export default function useEventHighlight(
         (
           eventIds.reduce(
             (acc: unknown, id) => (acc as IEventBlock[])?.[id],
-            events?.[activeTabID],
+            events,
           ) as IEventBlock
         )?.type !== internalEventsMap[REDIRECT_STARTED]
 
       const ids = shouldHighlight ? eventIds : []
 
-      highlightElement(activeTabID, ids, events)
+      highlightElement(tabId, ids, events)
     },
-    [activeTabID, events],
+    [events, tabId],
   )
 
   return toggleHighlightedElement

@@ -92,8 +92,9 @@ export const getActiveBlockId = createSelector(
 
 export const getActiveEvents = createSelector(
   (state: RootState) => state[SLICE_NAMES.eventRecorder],
-  (state: EventRecorderState) =>
-    (state.events[state.activeTabID] ?? []).map((e) => {
+  (state: EventRecorderState) => {
+    const { selectedItId } = state.testCases[state.activeTabID]
+    return (state.events[state.activeTabID][selectedItId] ?? []).map((e) => {
       const { type, element, assertionType } = e as IEventBlock
 
       if (type === WAIT_FOR_ELEMENT) {
@@ -131,7 +132,8 @@ export const getActiveEvents = createSelector(
       }
 
       return e
-    }),
+    })
+  },
 )
 
 export const getIsReadyToExport = createSelector(
@@ -161,7 +163,11 @@ export const getLastSelectedEventId = createSelector(
 
 export const getEvents = createSelector(
   (state: RootState) => state[SLICE_NAMES.eventRecorder],
-  (state) => state.events,
+  (state) => {
+    const { selectedItId } = state.testCases[state.activeTabID]
+
+    return state.events[state.activeTabID][selectedItId]
+  },
 )
 
 export const getAllowedInjections = createSelector(
@@ -176,5 +182,15 @@ export const getExportType = createSelector(
 
 export const getActiveTestCase = createSelector(
   (state: RootState) => state[SLICE_NAMES.eventRecorder],
-  (state) => state.testCases[state.activeTabID],
+  (state) => {
+    const testCase = { ...(state.testCases[state.activeTabID] ?? {}) }
+
+    testCase.its =
+      testCase?.its?.map?.((it) => ({
+        ...it,
+        selected: it.id === testCase.selectedItId,
+      })) ?? []
+
+    return testCase
+  },
 )
