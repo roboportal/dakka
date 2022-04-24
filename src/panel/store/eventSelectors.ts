@@ -200,12 +200,20 @@ export const getActiveTestCase = createSelector(
   (state: RootState) => state[SLICE_NAMES.eventRecorder],
   (state) => {
     const testCase = { ...(state.testCases[state.activeTabID] ?? {}) }
+    const events = state.events[state.activeTabID]
 
     testCase.its =
-      testCase?.its?.map?.((it) => ({
-        ...it,
-        selected: it.id === testCase.selectedItId,
-      })) ?? []
+      testCase?.its?.map?.((it) => {
+        const isValidSetup = events[it.id]
+          .map(mapEventBlock)
+          .every((it) => !it.isInvalidValidSetUp)
+
+        return {
+          ...it,
+          selected: it.id === testCase.selectedItId,
+          isValidSetup,
+        }
+      }) ?? []
 
     return testCase
   },

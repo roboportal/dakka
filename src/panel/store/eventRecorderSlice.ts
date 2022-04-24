@@ -24,6 +24,7 @@ interface IIt {
   id: string
   value: string
   selected?: boolean
+  isValidSetup?: boolean
 }
 
 export interface ITestCase {

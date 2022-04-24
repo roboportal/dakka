@@ -101,10 +101,29 @@ export default function ProjectPanel() {
                 css={css`
                   display: flex;
                   justify-content: space-between;
+                  align-items: center;
                   margin-bottom: 8px;
                   width: 100%;
                 `}
               >
+                <div
+                  css={css`
+                    display: flex;
+                    align-items: center;
+                    width: 18px;
+                  `}
+                >
+                  {!it.isValidSetup && (
+                    <Tooltip title="Unfinished Setup">
+                      <WarningAmberIcon
+                        fontSize="small"
+                        css={css`
+                          color: ${red.A200};
+                        `}
+                      />
+                    </Tooltip>
+                  )}
+                </div>
                 <Radio
                   checked={it.selected}
                   onClick={() => {
