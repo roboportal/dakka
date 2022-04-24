@@ -1,8 +1,9 @@
 import { useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { IEventBlock, setExportType } from '@/store/eventRecorderSlice'
+import { setExportType } from '@/store/eventRecorderSlice'
 import {
-  getActiveEvents,
+  getActiveTestCase,
+  getActiveTestCaseEvents,
   getExportType,
   getIsReadyToExport,
 } from '@/store/eventSelectors'
@@ -49,13 +50,16 @@ export default function useExports() {
     [dispatch],
   )
 
-  const recordedEvents = useSelector(getActiveEvents)
+  const recordedTestCaseEvents = useSelector(getActiveTestCaseEvents)
+  const testCaseMeta = useSelector(getActiveTestCase)
+
   const isReadyToExport = useSelector(getIsReadyToExport)
 
   const handleCopyToClipboard = () => {
     const { text } = exportProcessor(
       exportOption,
-      recordedEvents as IEventBlock[],
+      recordedTestCaseEvents,
+      testCaseMeta,
     )
     writeToClipboard(text)
   }
@@ -63,15 +67,14 @@ export default function useExports() {
   const handleSaveToFile = () => {
     const { text, fileName } = exportProcessor(
       exportOption,
-      recordedEvents as IEventBlock[],
+      recordedTestCaseEvents,
+      testCaseMeta,
     )
     saveFile(text, fileName)
   }
 
   const areButtonsDisabled =
-    exportOption === exportOptions.none ||
-    !isReadyToExport ||
-    !recordedEvents.length
+    exportOption === exportOptions.none || !isReadyToExport // maybe add check that each test case is not empty
 
   return {
     exportOption,

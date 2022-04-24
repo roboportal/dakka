@@ -9,11 +9,18 @@ import CloseIcon from '@mui/icons-material/Close'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import AddIcon from '@mui/icons-material/Add'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
+import WarningAmberIcon from '@mui/icons-material/WarningAmber'
 import TextField from '@mui/material/TextField'
 import Radio from '@mui/material/Radio'
+import Tooltip from '@mui/material/Tooltip'
+import { red } from '@mui/material/colors'
 
 import useToggle from '@/hooks/useToggle'
-import { getActiveTestCase } from '@/store/eventSelectors'
+import {
+  getActiveTestCase,
+  getIsFirstEventRecorded,
+  getIsReadyToExport,
+} from '@/store/eventSelectors'
 import {
   addItToTestCase,
   changeDescribe,
@@ -28,6 +35,9 @@ export default function ProjectPanel() {
   const dispatch = useDispatch()
 
   const testCase = useSelector(getActiveTestCase) ?? {}
+
+  const isIncompleteSetup = !useSelector(getIsReadyToExport)
+  const isFirstEventRecorded = useSelector(getIsFirstEventRecorded)
 
   const createIt = () => {
     dispatch(addItToTestCase())
@@ -141,10 +151,25 @@ export default function ProjectPanel() {
           border-radius: 4px;
           margin: 0 4px 8px 0;
           padding: 0 4px;
+          display: flex;
+          flex-direction: column;
+          position: relative;
         `}
         color="info"
         onClick={toggleIsDrawerOpened}
       >
+        {isIncompleteSetup && isFirstEventRecorded && (
+          <Tooltip title="Unfinished Setup">
+            <WarningAmberIcon
+              fontSize="small"
+              css={css`
+                color: ${red.A200};
+                top: 4px;
+                position: absolute;
+              `}
+            />
+          </Tooltip>
+        )}
         <ArrowForwardIosIcon />
       </IconButton>
     </>

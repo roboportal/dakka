@@ -17,6 +17,7 @@ export interface EventRecorderState {
   lastSelectedEventId: string
   exportType: exportOptions
   testCases: Record<string, ITestCase>
+  firstEventRecorded: boolean
 }
 
 interface IIt {
@@ -120,6 +121,7 @@ const initialState: EventRecorderState = {
   lastSelectedEventId: '',
   exportType: exportOptions.none,
   testCases: {},
+  firstEventRecorded: false,
 }
 
 const areEventsIframeSelectorsEqual = (
@@ -193,6 +195,8 @@ export const eventRecorderSlice = createSlice({
       if (hasInValidTabIdOrEventShouldNotBeRecorded) {
         return state
       }
+
+      state.firstEventRecorded = true
 
       process(events[tabId][selectedItId] as IEventBlock[], eventRecord.payload)
 

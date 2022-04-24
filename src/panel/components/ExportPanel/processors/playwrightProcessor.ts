@@ -1,4 +1,4 @@
-import { IEventBlock, ISelector } from '@/store/eventRecorderSlice'
+import { IEventBlock, ISelector, ITestCase } from '@/store/eventRecorderSlice'
 import { exportOptions } from '@/store/utils/constants'
 import { assertionTypes } from '@/constants/assertion'
 import { INTERACTIVE_TAGS } from '../constants'
@@ -38,18 +38,18 @@ export class PlaywrightProcessor extends ExportProcessor {
       isAssertion ? ', expect' : ''
     } } = require('@playwright/test')
     
-test('${testName}', async ({ page }) => {
+test.describe('${testName}', () => {
   ${content}
 })`
   }
 
   private getGoToTestedPage(url = '', innerWidth = 0, innerHeight = 0) {
     return `await page.setViewportSize({ width: ${innerWidth}, height: ${innerHeight} })
-  await page.goto('${url}')`
+    await page.goto('${url}')`
   }
 
   private setViewPort(innerWidth = 0, innerHeight = 0) {
-    return `  await page.setViewportSize({ width: ${innerWidth}, height: ${innerHeight} })`
+    return `    await page.setViewportSize({ width: ${innerWidth}, height: ${innerHeight} })`
   }
 
   private expectMethodsMap: Record<
@@ -70,32 +70,32 @@ test('${testName}', async ({ page }) => {
   > = {
     [assertionTypes.toHaveTitle]: ({ assertionValue, isIframe }) => {
       const scope = isIframe ? 'frame' : 'page'
-      return `  await expect(${scope}).toHaveTitle('${assertionValue}')\n`
+      return `    await expect(${scope}).toHaveTitle('${assertionValue}')\n`
     },
 
     [assertionTypes.notToHaveTitle]: ({ assertionValue, isIframe }) => {
       const scope = isIframe ? 'frame' : 'page'
-      return `  await expect(${scope}).not.toHaveTitle('${assertionValue}')\n`
+      return `    await expect(${scope}).not.toHaveTitle('${assertionValue}')\n`
     },
 
     [assertionTypes.toHaveURL]: ({ assertionValue, isIframe }) => {
       if (isIframe) {
-        return `  expect(frame.url()).toBe('${assertionValue}')`
+        return `    expect(frame.url()).toBe('${assertionValue}')`
       }
-      return `  await expect(page).toHaveURL('${assertionValue}')\n`
+      return `    await expect(page).toHaveURL('${assertionValue}')\n`
     },
 
     [assertionTypes.notToHaveURL]: ({ assertionValue, isIframe }) => {
       if (isIframe) {
-        return `  expect(frame.url()).not.toBe('${assertionValue}')`
+        return `    expect(frame.url()).not.toBe('${assertionValue}')`
       }
-      return `  await expect(page).not.toHaveURL('${assertionValue}')\n`
+      return `    await expect(page).not.toHaveURL('${assertionValue}')\n`
     },
 
     [assertionTypes.toBeChecked]: ({ selector, firstSelector, isIframe }) => {
       const scope = isIframe ? 'frame' : 'page'
       const normalizedSelector = normalizeString(selector)
-      return `  await expect(${scope}.locator('${normalizedSelector}')${firstSelector}).toBeChecked()\n`
+      return `    await expect(${scope}.locator('${normalizedSelector}')${firstSelector}).toBeChecked()\n`
     },
 
     [assertionTypes.notToBeChecked]: ({
@@ -105,7 +105,7 @@ test('${testName}', async ({ page }) => {
     }) => {
       const scope = isIframe ? 'frame' : 'page'
       const normalizedSelector = normalizeString(selector)
-      return `  await expect(${scope}.locator('${normalizedSelector}')${firstSelector}).not.toBeChecked()\n`
+      return `    await expect(${scope}.locator('${normalizedSelector}')${firstSelector}).not.toBeChecked()\n`
     },
 
     [assertionTypes.contains]: ({
@@ -116,7 +116,7 @@ test('${testName}', async ({ page }) => {
     }) => {
       const scope = isIframe ? 'frame' : 'page'
       const normalizedSelector = normalizeString(selector)
-      return `  await expect(${scope}.locator('${normalizedSelector}')${firstSelector}).toContainText('${assertionValue}')\n`
+      return `    await expect(${scope}.locator('${normalizedSelector}')${firstSelector}).toContainText('${assertionValue}')\n`
     },
 
     [assertionTypes.notContains]: ({
@@ -127,7 +127,7 @@ test('${testName}', async ({ page }) => {
     }) => {
       const scope = isIframe ? 'frame' : 'page'
       const normalizedSelector = normalizeString(selector)
-      return `  await expect(${scope}.locator('${normalizedSelector}')${firstSelector}).not.toContainText('${assertionValue}')\n`
+      return `    await expect(${scope}.locator('${normalizedSelector}')${firstSelector}).not.toContainText('${assertionValue}')\n`
     },
 
     [assertionTypes.equals]: ({
@@ -138,7 +138,7 @@ test('${testName}', async ({ page }) => {
     }) => {
       const scope = isIframe ? 'frame' : 'page'
       const normalizedSelector = normalizeString(selector)
-      return `  await expect(${scope}.locator('${normalizedSelector}')${firstSelector}).toHaveText('${assertionValue}')\n`
+      return `    await expect(${scope}.locator('${normalizedSelector}')${firstSelector}).toHaveText('${assertionValue}')\n`
     },
 
     [assertionTypes.notEquals]: ({
@@ -149,25 +149,25 @@ test('${testName}', async ({ page }) => {
     }) => {
       const scope = isIframe ? 'frame' : 'page'
       const normalizedSelector = normalizeString(selector)
-      return `  await expect(${scope}.locator('${normalizedSelector}')${firstSelector}).not.toHaveText('${assertionValue}')\n`
+      return `    await expect(${scope}.locator('${normalizedSelector}')${firstSelector}).not.toHaveText('${assertionValue}')\n`
     },
 
     [assertionTypes.inDocument]: ({ selector, firstSelector, isIframe }) => {
       const scope = isIframe ? 'frame' : 'page'
       const normalizedSelector = normalizeString(selector)
-      return `  await expect(${scope}.locator('${normalizedSelector}')${firstSelector}).toBeTruthy()\n`
+      return `    await expect(${scope}.locator('${normalizedSelector}')${firstSelector}).toBeTruthy()\n`
     },
 
     [assertionTypes.notInDocument]: ({ selector, firstSelector, isIframe }) => {
       const scope = isIframe ? 'frame' : 'page'
       const normalizedSelector = normalizeString(selector)
-      return `  await expect(${scope}.locator('${normalizedSelector}')${firstSelector}).not.toBeTruthy()\n`
+      return `    await expect(${scope}.locator('${normalizedSelector}')${firstSelector}).not.toBeTruthy()\n`
     },
 
     [assertionTypes.toBeDisabled]: ({ selector, firstSelector, isIframe }) => {
       const scope = isIframe ? 'frame' : 'page'
       const normalizedSelector = normalizeString(selector)
-      return `  await expect(${scope}.locator('${normalizedSelector}')${firstSelector}).toBeDisabled()\n`
+      return `    await expect(${scope}.locator('${normalizedSelector}')${firstSelector}).toBeDisabled()\n`
     },
 
     [assertionTypes.notToBeDisabled]: ({
@@ -177,13 +177,13 @@ test('${testName}', async ({ page }) => {
     }) => {
       const scope = isIframe ? 'frame' : 'page'
       const normalizedSelector = normalizeString(selector)
-      return `  await expect(${scope}.locator('${normalizedSelector}')${firstSelector}).not.toBeDisabled()\n`
+      return `    await expect(${scope}.locator('${normalizedSelector}')${firstSelector}).not.toBeDisabled()\n`
     },
 
     [assertionTypes.toBeEnabled]: ({ selector, firstSelector, isIframe }) => {
       const scope = isIframe ? 'frame' : 'page'
       const normalizedSelector = normalizeString(selector)
-      return `  await expect(${scope}.locator('${normalizedSelector}')${firstSelector}).toBeEnabled()\n`
+      return `    await expect(${scope}.locator('${normalizedSelector}')${firstSelector}).toBeEnabled()\n`
     },
 
     [assertionTypes.notToBeEnabled]: ({
@@ -193,25 +193,25 @@ test('${testName}', async ({ page }) => {
     }) => {
       const scope = isIframe ? 'frame' : 'page'
       const normalizedSelector = normalizeString(selector)
-      return `  await expect(${scope}.locator('${normalizedSelector}')${firstSelector}).not.toBeEnabled()\n`
+      return `    await expect(${scope}.locator('${normalizedSelector}')${firstSelector}).not.toBeEnabled()\n`
     },
 
     [assertionTypes.toBeHidden]: ({ selector, firstSelector, isIframe }) => {
       const scope = isIframe ? 'frame' : 'page'
       const normalizedSelector = normalizeString(selector)
-      return `  await expect(${scope}.locator('${normalizedSelector}')${firstSelector}).toBeHidden()\n`
+      return `    await expect(${scope}.locator('${normalizedSelector}')${firstSelector}).toBeHidden()\n`
     },
 
     [assertionTypes.notToBeHidden]: ({ selector, firstSelector, isIframe }) => {
       const scope = isIframe ? 'frame' : 'page'
       const normalizedSelector = normalizeString(selector)
-      return `  await expect(${scope}.locator('${normalizedSelector}')${firstSelector}).not.toBeHidden()\n`
+      return `    await expect(${scope}.locator('${normalizedSelector}')${firstSelector}).not.toBeHidden()\n`
     },
 
     [assertionTypes.toBeVisible]: ({ selector, firstSelector, isIframe }) => {
       const scope = isIframe ? 'frame' : 'page'
       const normalizedSelector = normalizeString(selector)
-      return `  await expect(${scope}.locator('${normalizedSelector}')${firstSelector}).toBeVisible()\n`
+      return `    await expect(${scope}.locator('${normalizedSelector}')${firstSelector}).toBeVisible()\n`
     },
 
     [assertionTypes.notToBeVisible]: ({
@@ -221,7 +221,7 @@ test('${testName}', async ({ page }) => {
     }) => {
       const scope = isIframe ? 'frame' : 'page'
       const normalizedSelector = normalizeString(selector)
-      return `  await expect(${scope}.locator('${normalizedSelector}')${firstSelector}).not.toBeVisible()\n`
+      return `    await expect(${scope}.locator('${normalizedSelector}')${firstSelector}).not.toBeVisible()\n`
     },
 
     [assertionTypes.hasAttribute]: ({
@@ -233,7 +233,7 @@ test('${testName}', async ({ page }) => {
     }) => {
       const scope = isIframe ? 'frame' : 'page'
       const normalizedSelector = normalizeString(selector)
-      return `  await expect(${scope}.locator('${normalizedSelector}').getAttribute('${assertionAttribute}'))${firstSelector}.resolves.toBe('${assertionValue}')\n`
+      return `    await expect(${scope}.locator('${normalizedSelector}').getAttribute('${assertionAttribute}'))${firstSelector}.resolves.toBe('${assertionValue}')\n`
     },
 
     [assertionTypes.notHasAttribute]: ({
@@ -245,7 +245,7 @@ test('${testName}', async ({ page }) => {
     }) => {
       const scope = isIframe ? 'frame' : 'page'
       const normalizedSelector = normalizeString(selector)
-      return `  await expect(${scope}.locator('${normalizedSelector}').getAttribute('${assertionAttribute}'))${firstSelector}.resolves.not.toBe('${assertionValue}')\n`
+      return `    await expect(${scope}.locator('${normalizedSelector}').getAttribute('${assertionAttribute}'))${firstSelector}.resolves.not.toBe('${assertionValue}')\n`
     },
 
     [assertionTypes.toHaveLength]: ({
@@ -256,7 +256,7 @@ test('${testName}', async ({ page }) => {
     }) => {
       const scope = isIframe ? 'frame' : 'page'
       const normalizedSelector = normalizeString(selector)
-      return `  await expect(${scope}.locator('${normalizedSelector}'))${firstSelector}.toHaveCount(${assertionValue})\n`
+      return `    await expect(${scope}.locator('${normalizedSelector}'))${firstSelector}.toHaveCount(${assertionValue})\n`
     },
 
     [assertionTypes.notToHaveLength]: ({
@@ -267,7 +267,7 @@ test('${testName}', async ({ page }) => {
     }) => {
       const scope = isIframe ? 'frame' : 'page'
       const normalizedSelector = normalizeString(selector)
-      return `  await expect(${scope}.locator('${normalizedSelector}'))${firstSelector}.not.toHaveCount(${assertionValue})\n`
+      return `    await expect(${scope}.locator('${normalizedSelector}'))${firstSelector}.not.toHaveCount(${assertionValue})\n`
     },
   }
 
@@ -298,12 +298,12 @@ test('${testName}', async ({ page }) => {
     events: IEventBlock[]
   }) {
     if (events?.[nextEventIndex]?.type === redirect) {
-      return `  await Promise.all([
+      return `    await Promise.all([
     page.waitForNavigation(),
     ${playwrightAction},
   ])\n`
     }
-    return `  await ${playwrightAction}\n`
+    return `    await ${playwrightAction}\n`
   }
 
   private generateIframeSelector(it: IEventBlock) {
@@ -324,8 +324,8 @@ test('${testName}', async ({ page }) => {
     const selector = this.generateIframeSelector(it)
 
     return `
-  frameHandle = await page.$('${selector}')
-  frame = await frameHandle.contentFrame()\n`
+    frameHandle = await page.$('${selector}')
+    frame = await frameHandle.contentFrame()\n`
   }
 
   private serializeRecordedEvents(events: IEventBlock[]) {
@@ -346,7 +346,7 @@ test('${testName}', async ({ page }) => {
       if (it.selectedSelector) {
         const selector = this.generateSelector(it)
         if (this.pageMethodsMap[it.type]) {
-          acc += `  await ${scope}${this.pageMethodsMap[it?.type]?.(
+          acc += `    await ${scope}${this.pageMethodsMap[it?.type]?.(
             it,
             selector,
           )}\n`
@@ -400,23 +400,43 @@ test('${testName}', async ({ page }) => {
 
     if (shouldCreateVariables) {
       return `
-  let frameHandle = null
-  let frame = null`
+    let frameHandle = null
+    let frame = null`
     }
     return ''
   }
 
-  private getContent(events: IEventBlock[]) {
-    const [{ url, innerWidth, innerHeight }, ...restEvents] = events
-    return `${this.getGoToTestedPage(url, innerWidth, innerHeight)}
-${this.getIframeVariables(events)}
-${this.serializeRecordedEvents(restEvents)}`
+  private getContent(
+    testCaseEvents: Record<string, IEventBlock[]>,
+    testCaseMeta: ITestCase,
+  ) {
+    return testCaseMeta.its
+      .map((it, index) => {
+        const events = testCaseEvents[it.id]
+        const name = it.value || `Test case ${index}`
+        return this.getIt(name, events)
+      })
+      .join('\n\n  ')
   }
 
-  process(events: IEventBlock[]) {
-    const firstRedirect = events[0]
-    const testName = `Testing ${firstRedirect.url}`
+  private getIt(name: string, events: IEventBlock[]) {
+    const [{ url, innerWidth, innerHeight }, ...restEvents] = events
+    return `test('${name}', async ({page}) => {
+    ${this.getGoToTestedPage(url, innerWidth, innerHeight)}
+    ${this.getIframeVariables(events)}
+${this.serializeRecordedEvents(restEvents)}
+  })`
+  }
 
-    return this.getWrapper(testName, this.getContent(events))
+  process(
+    testCaseEvents: Record<string, IEventBlock[]>,
+    testCaseMeta: ITestCase,
+  ) {
+    const testName = testCaseMeta.describe || 'Dakka Playwright test'
+
+    return this.getWrapper(
+      testName,
+      this.getContent(testCaseEvents, testCaseMeta),
+    )
   }
 }

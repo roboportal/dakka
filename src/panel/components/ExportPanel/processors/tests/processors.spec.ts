@@ -40,7 +40,17 @@ const inputDataTuple = inputFilesAbsolutePaths.map((p, index) => {
 if (process.env.UPDATE_OUT) {
   inputDataTuple.forEach(([testName, inputData]) => {
     Object.entries(processorsMap).forEach(([processorName, processor]) => {
-      const result = processor(inputData)
+      const testCaseEvents = {
+        test: inputData,
+      }
+
+      const testCaseMeta = {
+        describe: 'describe',
+        selectedItId: 'test',
+        its: [{ id: 'test', value: '' }],
+      }
+
+      const result = processor(testCaseEvents, testCaseMeta)
 
       const outputFileName = testName + OUTPUT_SUFFIXES_MAP[processorName]
       const outputFilePath = path.resolve(outPath, outputFileName)
@@ -54,7 +64,17 @@ inputDataTuple.forEach(([testName, inputData]) => {
   describe(`block type: ${testName}`, () => {
     Object.entries(processorsMap).forEach(([processorName, processor]) => {
       it(`processor: ${processorName}`, async () => {
-        const result = processor(inputData)
+        const testCaseEvents = {
+          test: inputData,
+        }
+
+        const testCaseMeta = {
+          describe: 'describe',
+          selectedItId: 'test',
+          its: [{ id: 'test', value: '' }],
+        }
+
+        const result = processor(testCaseEvents, testCaseMeta)
 
         const outputFileName = testName + OUTPUT_SUFFIXES_MAP[processorName]
         const outputFilePath = path.resolve(outPath, outputFileName)
