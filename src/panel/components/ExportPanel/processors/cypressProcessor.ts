@@ -130,7 +130,10 @@ export class CypressProcessor extends ExportProcessor {
     },
 
     [assertionTypes.inDocument]: ({ selector, context }) => {
-      return `    ${context}.${selector}\n`
+      if (selector?.indexOf('contains') !== -1) {
+        return `    ${context}.${selector}\n`
+      }
+      return `    ${context}.${selector}.should('exist')\n`
     },
 
     [assertionTypes.notInDocument]: ({ selector, context }) => {
