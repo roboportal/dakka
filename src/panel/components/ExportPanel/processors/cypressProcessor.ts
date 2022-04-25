@@ -114,6 +114,9 @@ export class CypressProcessor extends ExportProcessor {
     },
 
     [assertionTypes.contains]: ({ selector, assertionValue, context }) => {
+      if (selector?.indexOf('contains') !== -1) {
+        return `    ${context}.${selector}\n`
+      }
       return `    ${context}.${selector}.should('contain.text', '${assertionValue}')\n`
     },
 
