@@ -1,71 +1,32 @@
 describe('describe', () => {
   it('Test case 0', () => {
     cy.viewport(1309, 743)
-    cy.visit(
-      'https://www.google.com/search?q=rfrf&oq=rfrf&aqs=chrome..69i57j46i175i199i512j0i512l8.518j0j7&sourceid=chrome&ie=UTF-8',
-      { failOnStatusCode: false },
-    )
+    cy.visit('https://www.google.com/search?q=rfrf&oq=rfrf&aqs=chrome..69i57j46i175i199i512j0i512l8.518j0j7&sourceid=chrome&ie=UTF-8', { failOnStatusCode: false })
 
     cy.contains('About 309,000 results')
-    cy.contains(' (0.47 seconds) ').should('contain.text', ' (0.47 seconds) ')
-    cy.contains('Research for Resurgence Foundation, Nagpur').should(
-      'have.text',
-      'Research for Resurgence Foundation, Nagpur',
-    )
+    cy.contains(' (0.47 seconds) ').should('contain.text', ' (0.47 seconds) ')
+    cy.contains('Research for Resurgence Foundation, Nagpur').should('have.text', 'Research for Resurgence Foundation, Nagpur')
     cy.contains('Tools').should('have.attr', 'class', 't2vtad')
     cy.contains('About 309,000 results').should('be.disabled')
-    cy.get('.jtfYYd:nth-child(2) .VwiC3b > span:nth-child(2)').should(
-      'be.enabled',
-    )
+    cy.get('.jtfYYd:nth-child(2) .VwiC3b > span:nth-child(2)').should('be.enabled')
     cy.title().should('eq', 'rfrf - Google Search')
-    cy.get('.jtfYYd:nth-child(2) .VwiC3b > span:nth-child(2)').should(
-      'be.hidden',
-    )
-    cy.url().should(
-      'eq',
-      'https://www.google.com/search?q=rfrf&oq=rfrf&aqs=chrome..69i57j46i175i199i512j0i512l8.518j0j7&sourceid=chrome&ie=UTF-8',
-    )
-    cy.get('.jtfYYd:nth-child(2) .VwiC3b > span:nth-child(2)').should(
-      'be.checked',
-    )
-    cy.contains('Research for Resurgence Foundation, Nagpur').should(
-      'have.length',
-      '1',
-    )
-    cy.get('.jtfYYd:nth-child(2) .VwiC3b > span:nth-child(2)').should(
-      'be.visible',
-    )
+    cy.get('.jtfYYd:nth-child(2) .VwiC3b > span:nth-child(2)').should('be.hidden')
+    cy.url().should('eq', 'https://www.google.com/search?q=rfrf&oq=rfrf&aqs=chrome..69i57j46i175i199i512j0i512l8.518j0j7&sourceid=chrome&ie=UTF-8')
+    cy.get('.jtfYYd:nth-child(2) .VwiC3b > span:nth-child(2)').should('be.checked')
+    cy.contains('Research for Resurgence Foundation, Nagpur').should('have.length', '1')
+    cy.get('.jtfYYd:nth-child(2) .VwiC3b > span:nth-child(2)').should('be.visible')
     cy.contains('About 309,000 results').should('not.exist')
-    cy.contains(' (0.47 seconds) ').should(
-      'not.contain.text',
-      ' (0.47 seconds) ',
-    )
-    cy.contains('Research for Resurgence Foundation, Nagpur').should(
-      'not.have.text',
-      'Research for Resurgence Foundation, Nagpur',
-    )
+    cy.contains(' (0.47 seconds) ').should('not.contain.text', ' (0.47 seconds) ')
+    cy.contains('Research for Resurgence Foundation, Nagpur').should('not.have.text', 'Research for Resurgence Foundation, Nagpur')
     cy.contains('Tools').should('not.have.attr', 'class', 't2vtad')
     cy.contains('About 309,000 results').should('not.be.disabled')
-    cy.get('.jtfYYd:nth-child(2) .VwiC3b > span:nth-child(2)').should(
-      'not.be.enabled',
-    )
+    cy.get('.jtfYYd:nth-child(2) .VwiC3b > span:nth-child(2)').should('not.be.enabled')
     cy.title().should('not.eq', 'rfrf - Google Search')
-    cy.get('.jtfYYd:nth-child(2) .VwiC3b > span:nth-child(2)').should(
-      'not.be.hidden',
-    )
-    cy.url().should(
-      'not.eq',
-      'https://www.google.com/search?q=rfrf&oq=rfrf&aqs=chrome..69i57j46i175i199i512j0i512l8.518j0j7&sourceid=chrome&ie=UTF-8',
-    )
-    cy.get('.jtfYYd:nth-child(2) .VwiC3b > span:nth-child(2)').should(
-      'not.be.checked',
-    )
-    cy.contains('Research for Resurgence Foundation, Nagpur').should(
-      'not.have.length',
-      '1',
-    )
-    cy.get('.jtfYYd:nth-child(2) .VwiC3b > span:nth-child(2)').should(
-      'not.be.visible',
-    )
+    cy.get('.jtfYYd:nth-child(2) .VwiC3b > span:nth-child(2)').should('not.be.hidden')
+    cy.url().should('not.eq', 'https://www.google.com/search?q=rfrf&oq=rfrf&aqs=chrome..69i57j46i175i199i512j0i512l8.518j0j7&sourceid=chrome&ie=UTF-8')
+    cy.get('.jtfYYd:nth-child(2) .VwiC3b > span:nth-child(2)').should('not.be.checked')
+    cy.contains('Research for Resurgence Foundation, Nagpur').should('not.have.length', '1')
+    cy.get('.jtfYYd:nth-child(2) .VwiC3b > span:nth-child(2)').should('not.be.visible')
+
   })
 })
