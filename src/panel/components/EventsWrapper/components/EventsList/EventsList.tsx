@@ -62,6 +62,7 @@ function EventsList({
                 text-align: center;
                 min-width: ${isExpanded ? EXPANDED_WIDTH : DEFAULT_WIDTH};
                 max-width: ${isExpanded ? EXPANDED_WIDTH : DEFAULT_WIDTH};
+                transition: max-width 0.3s, min-width 0.3s;
                 display: flex;
                 flex-direction: column;
                 height: calc(100% - ${hasIframeSelector ? '30px' : '0px'});
