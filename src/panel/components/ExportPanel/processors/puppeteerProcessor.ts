@@ -1,4 +1,4 @@
-import { IEventBlock } from '@/store/eventRecorderSlice'
+import { IEventBlock, ITestCase } from '@/store/eventRecorderSlice'
 import { exportOptions } from '@/store/utils/constants'
 import { assertionTypes } from '@/constants/assertion'
 import { selectorTypes } from '../selectorTypes'
@@ -52,16 +52,7 @@ export class PuppeteerProcessor extends ExportProcessor {
     return `const puppeteer = require('puppeteer');
 
 describe('${testName}', () => {
-  it('${testName}', async () => {
-    const browser = await puppeteer.launch();
-    const page = await browser.newPage()
-
-    try {
-      ${content}
-    } finally {
-      await browser.close();
-    }
-  }) 
+  ${content}
 })`
   }
 
@@ -517,17 +508,44 @@ describe('${testName}', () => {
     return ''
   }
 
-  private getContent(events: IEventBlock[]) {
-    const [{ url, innerWidth, innerHeight }, ...restEvents] = events
-    return `${this.getGoToTestedPage(url, innerWidth, innerHeight)}
-${this.getIframeVariables(events)}
-${this.serializeRecordedEvents(restEvents)}`
+  private getContent(
+    testCaseEvents: Record<string, IEventBlock[]>,
+    testCaseMeta: ITestCase,
+  ) {
+    return testCaseMeta.its
+      .map((it, index) => {
+        const events = testCaseEvents[it.id]
+        const name = it.value || `Test case ${index}`
+        return this.getIt(name, events)
+      })
+      .join('\n\n  ')
   }
 
-  process(events: IEventBlock[]) {
-    const firstRedirect = events[0]
-    const testName = `Testing ${firstRedirect.url}`
+  private getIt(name: string, events: IEventBlock[]) {
+    const [{ url, innerWidth, innerHeight }, ...restEvents] = events
+    return `it('${name}', async () => {
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage()
 
-    return this.getWrapper(testName, this.getContent(events))
+    try {
+      ${this.getGoToTestedPage(url, innerWidth, innerHeight)}
+${this.getIframeVariables(events)}
+${this.serializeRecordedEvents(restEvents)}
+    } finally {
+      await browser.close();
+    }
+  })`
+  }
+
+  process(
+    testCaseEvents: Record<string, IEventBlock[]>,
+    testCaseMeta: ITestCase,
+  ) {
+    const testName = testCaseMeta.describe || 'Dakka Puppeteer test'
+
+    return this.getWrapper(
+      testName,
+      this.getContent(testCaseEvents, testCaseMeta),
+    )
   }
 }

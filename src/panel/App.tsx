@@ -5,6 +5,7 @@ import useMediaQuery from '@mui/material/useMediaQuery'
 import ControlPanel from '@/components/ControlPanel'
 import EventsWrapper from '@/components/EventsWrapper/EventsWrapper'
 import AllowInjection from '@/components/AllowInjection'
+import ProjectPanel from '@/components/ProjectPanel/ProjectPanel'
 
 import useAllowInjection from '@/hooks/useAllowInjection'
 import useToggle from '@/hooks/useToggle'
@@ -16,6 +17,7 @@ export default function App() {
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
 
   const [isAutoScrollEnabled, toggleAutoScroll] = useToggle(true)
+
   const { isInjectionAllowed, allowInjection } = useAllowInjection()
 
   if (!isInjectionAllowed) {
@@ -42,10 +44,11 @@ export default function App() {
           flex-direction: row;
           justify-content: space-between;
           height: calc(100vh - 36px - 8px);
-          padding-left: 8px;
+          padding-left: 4px;
           padding-right: 8px;
         `}
       >
+        <ProjectPanel />
         <EventsWrapper
           prefersDarkMode={prefersDarkMode}
           autoScroll={isAutoScrollEnabled}

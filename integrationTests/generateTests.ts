@@ -73,7 +73,17 @@ const inputDataTuple = [
 
 inputDataTuple.forEach(([testName, inputData]) => {
   Object.entries(processorsMap).forEach(async ([processorName, processor]) => {
-    const result = processor(inputData)
+    const testCaseEvents = {
+      test: inputData,
+    }
+
+    const testCaseMeta = {
+      describe: 'describe',
+      selectedItId: 'test',
+      its: [{ id: 'test', value: '' }],
+    }
+
+    const result = processor(testCaseEvents, testCaseMeta)
 
     const outputFileName = testName + '.spec.js'
     const outputDirPath = path.resolve(
