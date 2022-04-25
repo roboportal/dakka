@@ -25,6 +25,7 @@ export const DATA_ATTRIBUTES = [
   'data-QA',
   'data-qa',
   'data-name',
+  'data-icon'
 ]
 
 export const NON_INTERACTIVE_TAGS = [

@@ -57,18 +57,21 @@ export const generateSelectors = (
       }
 
       if (VALID_ATTRIBUTES.includes(name) && value && tagName) {
-        return [
-          {
-            name,
-            value: `${tagName}[${name}="${value}"]`,
-            length: getSelectorLength(`${tagName}[${name}="${value}"]`),
-            priority: 2,
-            rawValue: value,
-            closest,
-            tagName,
-          },
-          ...data,
-        ]
+        const validAttribute = {
+          name,
+          value: `${tagName}[${name}="${value}"]`,
+          length: getSelectorLength(`${tagName}[${name}="${value}"]`),
+          priority: 2,
+          rawValue: value,
+          closest,
+          tagName,
+        }
+
+        if (value === 'text' && name === 'type') {
+          return [...data, validAttribute]
+        }
+
+        return [validAttribute, ...data]
       }
 
       return data
