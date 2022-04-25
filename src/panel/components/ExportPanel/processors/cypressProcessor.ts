@@ -1,5 +1,5 @@
 /* eslint-disable quotes */
-import { IEventBlock, ISelector } from '@/store/eventRecorderSlice'
+import { IEventBlock, ISelector, ITestCase } from '@/store/eventRecorderSlice'
 import { exportOptions } from '@/store/utils/constants'
 import { assertionTypes } from '@/constants/assertion'
 import { INTERACTIVE_TAGS } from '../constants'
@@ -40,11 +40,8 @@ export class CypressProcessor extends ExportProcessor {
   }
 
   private getWrapper(testName: string, content: string) {
-    return `
-describe('${testName}', () => {
-  it('${testName}', () => {
-    ${content}
-  })
+    return `describe('${testName}', () => {
+  ${content}
 })`
   }
 
@@ -310,17 +307,37 @@ describe('${testName}', () => {
     return ''
   }
 
-  private getContent(events: IEventBlock[]) {
-    const [{ url, innerWidth, innerHeight }, ...restEvents] = events
-    return `${this.getGoToTestedPage(url, innerWidth, innerHeight)}
-${this.getIframeVariables(events)}
-${this.serializeRecordedEvents(restEvents)}`
+  private getContent(
+    testCaseEvents: Record<string, IEventBlock[]>,
+    testCaseMeta: ITestCase,
+  ) {
+    return testCaseMeta.its
+      .map((it, index) => {
+        const events = testCaseEvents[it.id]
+        const name = it.value || `Test case ${index}`
+        return this.getIt(name, events)
+      })
+      .join('\n\n  ')
   }
 
-  process(events: IEventBlock[]) {
-    const firstRedirect = events[0]
-    const testName = `Testing ${firstRedirect.url}`
+  private getIt(name: string, events: IEventBlock[]) {
+    const [{ url, innerWidth, innerHeight }, ...restEvents] = events
+    return `it('${name}', () => {
+    ${this.getGoToTestedPage(url, innerWidth, innerHeight)}
+${this.getIframeVariables(events)}
+${this.serializeRecordedEvents(restEvents)}
+  })`
+  }
 
-    return this.getWrapper(testName, this.getContent(events))
+  process(
+    testCaseEvents: Record<string, IEventBlock[]>,
+    testCaseMeta: ITestCase,
+  ) {
+    const testName = testCaseMeta.describe || 'Dakka Cypress test'
+
+    return this.getWrapper(
+      testName,
+      this.getContent(testCaseEvents, testCaseMeta),
+    )
   }
 }

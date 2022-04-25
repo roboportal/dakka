@@ -97,7 +97,7 @@ Run `npm i` and `npm start` to start development. It will run webpack dev server
 
 ### Testing
 
-Run `npm test` to execute the testsuite. To update mocks of generated tests execute `UPDATE_OUT=true npm run test`
+Run `npm test` to execute the test suite. To update mocks of generated tests execute `UPDATE_OUT=true npm run test`
 
 ### Build details
 

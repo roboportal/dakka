@@ -1,5 +1,5 @@
 import { dump } from 'js-yaml'
-import { IEventBlock } from '@/store/eventRecorderSlice'
+import { IEventBlock, ITestCase } from '@/store/eventRecorderSlice'
 import { exportOptions } from '@/store/utils/constants'
 import { PlaywrightProcessor } from './processors/playwrightProcessor'
 import { CypressProcessor } from './processors/cypressProcessor'
@@ -10,8 +10,21 @@ class DakkaProcessor extends ExportProcessor {
   type = exportOptions.dakka
   fileName = 'dakka.yml'
 
-  process(events: IEventBlock[]) {
-    return dump(events)
+  process(
+    testCaseEvents: Record<string, IEventBlock[]>,
+    testCaseMeta: ITestCase,
+  ) {
+    const testName = testCaseMeta.describe || 'Dakka test'
+    const test = {
+      describe: testName,
+      cases: testCaseMeta.its.map((it) => {
+        return {
+          it: it.value,
+          events: testCaseEvents[it.id],
+        }
+      }),
+    }
+    return dump(test)
   }
 }
 
@@ -30,10 +43,14 @@ const processorsMap = Object.fromEntries(processorsEntries)
 const getProcessor = (type: exportOptions): ExportProcessor =>
   processorsMap[type] ?? processorsMap[exportOptions.dakka]
 
-export default function process(type: exportOptions, events: IEventBlock[]) {
+export default function process(
+  type: exportOptions,
+  testCaseEvents: Record<string, IEventBlock[]>,
+  testCaseMeta: ITestCase,
+) {
   const p = getProcessor(type)
   return {
-    text: p.process(events),
+    text: p.process(testCaseEvents, testCaseMeta),
     fileName: p.fileName,
   }
 }

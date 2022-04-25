@@ -32,6 +32,7 @@ const validateNonEmptyValue = (e: IEventBlock) => {
 const validateNumericValue = (e: IEventBlock) => {
   const isNotNumber =
     e.assertionValue === '' || !Number.isFinite(+(e.assertionValue ?? ''))
+
   return {
     isError: isNotNumber,
     areFieldsValid: {
@@ -90,53 +91,70 @@ export const getActiveBlockId = createSelector(
   (state) => state.activeBlockId,
 )
 
+const mapEventBlock = (e: IEventBlock) => {
+  const { type, element, assertionType } = e
+
+  if (type === WAIT_FOR_ELEMENT) {
+    const isInvalidValidSetUp = !element
+
+    return { ...e, isInvalidValidSetUp }
+  }
+
+  if (type === ASSERTION) {
+    const r = e as IEventBlock
+
+    const shouldUseElementSelector =
+      !EVENT_TYPES_TO_IGNORE_ELEMENT_SELECT.includes(
+        assertionType?.type as assertionTypes,
+      )
+
+    const validationResult =
+      assertionValidatorsMap?.[assertionType?.type ?? '']?.(r) ??
+      assertionValidatorsMap.default(r)
+
+    const isElementSelected = !!(element && element.selectedSelector)
+    const areInputsInvalid = validationResult?.isError
+    const isAssertionTypeSelected = assertionType?.type
+
+    const isInvalidValidSetUp =
+      (shouldUseElementSelector && !isElementSelected) ||
+      areInputsInvalid ||
+      !isAssertionTypeSelected
+
+    return {
+      ...e,
+      isInvalidValidSetUp,
+      shouldUseElementSelector,
+      assertionInputsValidationResult: validationResult.areFieldsValid,
+    }
+  }
+
+  return e
+}
+
 export const getActiveEvents = createSelector(
   (state: RootState) => state[SLICE_NAMES.eventRecorder],
-  (state: EventRecorderState) =>
-    (state.events[state.activeTabID] ?? []).map((e) => {
-      const { type, element, assertionType } = e as IEventBlock
+  (state: EventRecorderState) => {
+    const { selectedItId } = state.testCases[state.activeTabID]
 
-      if (type === WAIT_FOR_ELEMENT) {
-        const isInvalidValidSetUp = !element
-        return { ...e, isInvalidValidSetUp }
-      }
-
-      if (type === ASSERTION) {
-        const r = e as IEventBlock
-
-        const shouldUseElementSelector =
-          !EVENT_TYPES_TO_IGNORE_ELEMENT_SELECT.includes(
-            assertionType?.type as assertionTypes,
-          )
-
-        const validationResult =
-          assertionValidatorsMap?.[assertionType?.type ?? '']?.(r) ??
-          assertionValidatorsMap.default(r)
-
-        const isElementSelected = !!(element && element.selectedSelector)
-        const areInputsInvalid = validationResult?.isError
-        const isAssertionTypeSelected = assertionType?.type
-
-        const isInvalidValidSetUp =
-          (shouldUseElementSelector && !isElementSelected) ||
-          areInputsInvalid ||
-          !isAssertionTypeSelected
-
-        return {
-          ...e,
-          isInvalidValidSetUp,
-          shouldUseElementSelector,
-          assertionInputsValidationResult: validationResult.areFieldsValid,
-        }
-      }
-
-      return e
-    }),
+    return (state.events[state.activeTabID][selectedItId] ?? []).map(
+      mapEventBlock,
+    )
+  },
 )
 
 export const getIsReadyToExport = createSelector(
-  getActiveEvents,
-  (state: IEventBlock[]) => state.every((it) => !it.isInvalidValidSetUp),
+  (state: RootState) => state[SLICE_NAMES.eventRecorder],
+  (state) => {
+    const events = state.events[state.activeTabID]
+    const areValid = Object.values(events)
+      .flat()
+      .map(mapEventBlock)
+      .every((it) => !it.isInvalidValidSetUp)
+    const nonEmpty = Object.values(events).every((it) => !!it.length)
+
+    return areValid && nonEmpty
+  },
 )
 
 export const getIsManualEventInsert = createSelector(
@@ -161,7 +179,11 @@ export const getLastSelectedEventId = createSelector(
 
 export const getEvents = createSelector(
   (state: RootState) => state[SLICE_NAMES.eventRecorder],
-  (state) => state.events,
+  (state) => {
+    const { selectedItId } = state.testCases[state.activeTabID]
+
+    return state.events[state.activeTabID][selectedItId]
+  },
 )
 
 export const getAllowedInjections = createSelector(
@@ -172,4 +194,37 @@ export const getAllowedInjections = createSelector(
 export const getExportType = createSelector(
   (state: RootState) => state[SLICE_NAMES.eventRecorder],
   (state) => state.exportType,
+)
+
+export const getActiveTestCase = createSelector(
+  (state: RootState) => state[SLICE_NAMES.eventRecorder],
+  (state) => {
+    const testCase = { ...(state.testCases[state.activeTabID] ?? {}) }
+    const events = state.events[state.activeTabID]
+
+    testCase.its =
+      testCase?.its?.map?.((it) => {
+        const isValidSetup = events[it.id]
+          .map(mapEventBlock)
+          .every((it) => !it.isInvalidValidSetUp)
+
+        return {
+          ...it,
+          selected: it.id === testCase.selectedItId,
+          isValidSetup,
+        }
+      }) ?? []
+
+    return testCase
+  },
+)
+
+export const getActiveTestCaseEvents = createSelector(
+  (state: RootState) => state[SLICE_NAMES.eventRecorder],
+  ({ events, activeTabID }) => events[activeTabID],
+)
+
+export const getIsFirstEventRecorded = createSelector(
+  (state: RootState) => state[SLICE_NAMES.eventRecorder],
+  (state) => state.firstEventRecorded,
 )
