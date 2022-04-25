@@ -133,7 +133,7 @@ describe('${testName}', () => {
     },
 
     [assertionTypes.inDocument]: ({ selector, context }) => {
-      return `    ${context}.${selector}.should('exist')\n`
+      return `    ${context}.${selector}\n`
     },
 
     [assertionTypes.notInDocument]: ({ selector, context }) => {
