@@ -1,5 +1,5 @@
-const fs = require('fs')
-const path = require('path')
+import fs from 'fs'
+import path from 'path'
 
 import { CypressProcessor } from '@roboportal/export_processors/cypressProcessor'
 import { PuppeteerProcessor } from '@roboportal/export_processors/puppeteerProcessor'
@@ -7,7 +7,19 @@ import { PlaywrightProcessor } from '@roboportal/export_processors/playwrightPro
 
 import generatedOnButton from './src/generatedAssertions'
 
-const OUT_DIR_PATH = '../../generated'
+import loadPage from './mocks/loadPage.json'
+import clickByTestId from './mocks/clickByTestId.json'
+import clickByText from './mocks/clickByText.json'
+import clickByTagName from './mocks/clickByTagName.json'
+import dblclickByTestId from './mocks/dblclickByTestId.json'
+import inputValueAssertion from './mocks/inputValueAssertion.json'
+import clickLinkNavigation from './mocks/clickLinkNavigation.json'
+import tabLinkNavigation from './mocks/tabLinkNavigation.json'
+import backspaceDeleteInput from './mocks/backspaceDeleteInput.json'
+import checkboxClickAssertion from './mocks/checkboxClickAssertion.json'
+import checkboxClick from './mocks/checkboxClick.json'
+
+const OUT_DIR_PATH = '../../../generated'
 
 const OUTPUT_FOLDERS_MAP: Record<string, string> = {
   cypress: 'cypress',
@@ -28,53 +40,23 @@ const processorsMap = {
 const outPath = path.resolve(__dirname, OUT_DIR_PATH)
 
 const inputDataTuple = [
-  ['loadPage', require(path.resolve(__dirname, '../../mocks/loadPage.json'))],
-  [
-    'clickByTestId',
-    require(path.resolve(__dirname, '../../mocks/clickByTestId.json')),
-  ],
-  [
-    'clickByText',
-    require(path.resolve(__dirname, '../../mocks/clickByText.json')),
-  ],
-  [
-    'clickByTagName',
-    require(path.resolve(__dirname, '../../mocks/clickByTagName.json')),
-  ],
-  [
-    'dblclickByTestId',
-    require(path.resolve(__dirname, '../../mocks/dblclickByTestId.json')),
-  ],
-  [
-    'inputValueAssertion',
-    require(path.resolve(__dirname, '../../mocks/inputValueAssertion.json')),
-  ],
-  [
-    'clickLinkNavigation',
-    require(path.resolve(__dirname, '../../mocks/clickLinkNavigation.json')),
-  ],
-  [
-    'tabLinkNavigation',
-    require(path.resolve(__dirname, '../../mocks/tabLinkNavigation.json')),
-  ],
-  [
-    'backspaceDeleteInput',
-    require(path.resolve(__dirname, '../../mocks/backspaceDeleteInput.json')),
-  ],
-  [
-    'checkboxClickAssertion',
-    require(path.resolve(__dirname, '../../mocks/checkboxClickAssertion.json')),
-  ],
-  [
-    'checkboxClick',
-    require(path.resolve(__dirname, '../../mocks/checkboxClick.json')),
-  ],
+  ['loadPage', loadPage],
+  ['clickByTestId', clickByTestId],
+  ['clickByText', clickByText],
+  ['clickByTagName', clickByTagName],
+  ['dblclickByTestId', dblclickByTestId],
+  ['inputValueAssertion', inputValueAssertion],
+  ['clickLinkNavigation', clickLinkNavigation],
+  ['tabLinkNavigation', tabLinkNavigation],
+  ['backspaceDeleteInput', backspaceDeleteInput],
+  ['checkboxClickAssertion', checkboxClickAssertion],
+  ['checkboxClick', checkboxClick],
   ...generatedOnButton,
 ]
 
 inputDataTuple.forEach(([testName, inputData]) => {
   Object.entries(processorsMap).forEach(async ([processorName, processor]) => {
-    const testCaseEvents = {
+    const testCaseEvents: any = {
       test: inputData,
     }
 
