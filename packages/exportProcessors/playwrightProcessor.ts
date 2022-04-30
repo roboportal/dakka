@@ -1,12 +1,15 @@
-import { IEventBlock, ISelector, ITestCase } from '@/store/eventRecorderSlice'
-import { exportOptions } from '@/store/utils/constants'
-import { assertionTypes } from '@/constants/assertion'
-import { INTERACTIVE_TAGS } from '../constants'
-import { selectorTypes } from '../selectorTypes'
-import { normalizeString } from '../normalizer'
+import { exportOptions } from '@roboportal/constants/exportOptions'
+import { INTERACTIVE_TAGS } from '@roboportal/constants/interactiveTags'
+import { resize, redirect } from '@roboportal/constants/browserEvents'
+import { selectorTypes } from '@roboportal/constants/selectorTypes'
+import { ASSERTION } from '@roboportal/constants/actionTypes'
+import { assertionTypes } from '@roboportal/constants/assertion'
+
+import { normalizeString } from '@roboportal/utils/normalizer'
+
+import { IEventBlock, ISelector, ITestCase } from '@roboportal/types'
+
 import { ExportProcessor } from './abstractProcessor'
-import { ASSERTION } from '../../../constants/actionTypes'
-import { redirect, resize } from '../../../constants/browserEvents'
 
 export class PlaywrightProcessor extends ExportProcessor {
   type = exportOptions.playwright

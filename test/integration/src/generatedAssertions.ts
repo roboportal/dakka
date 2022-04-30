@@ -1,14 +1,5 @@
-const path = require('path')
-
-const assertionTemplate = require(path.resolve(
-  __dirname,
-  '../../../mocks/assertionCombinations.json',
-))
-
-const framedAssertionTemplate = require(path.resolve(
-  __dirname,
-  '../../../mocks/framedAssertionCombinations.json',
-))
+import assertionTemplate from '../mocks/assertionCombinations.json'
+import framedAssertionTemplate from '../mocks/framedAssertionCombinations.json'
 
 const buttonElement = {
   selectedSelector: {

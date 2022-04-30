@@ -1,4 +1,4 @@
-import { shouldProcessMessage } from './utils'
+import { info, fatal } from '@roboportal/utils/logger'
 import {
   ENABLE_RECORDER,
   ALLOW_INJECTING,
@@ -8,10 +8,11 @@ import {
   DISABLE_SELECT_ELEMENT,
   ELEMENT_SELECTED,
   HOVER_ELEMENT,
-} from '../globalConstants/messageTypes'
+} from '@roboportal/constants/messageTypes'
+
 import { SESSION_STORAGE_KEY } from './constants'
 import { composeEvent } from './composeEvent'
-import { info, fatal } from '../shared/logger'
+import { shouldProcessMessage } from './utils'
 
 info('Content script attached')
 

@@ -1,4 +1,5 @@
-import { IEventBlock } from '../../eventRecorderSlice'
+import { IEventBlock } from '@roboportal/types'
+
 import { UTILITY_KEYS, INPUT_TYPE_TO_KEY_MAP } from '../constants'
 import AbstractEventAggregator from './AbstractEventAggregator'
 

@@ -1,10 +1,11 @@
-import { red, green, orange, grey } from '@mui/material/colors'
 import { css } from '@emotion/react'
+import { red, green, orange, grey } from '@mui/material/colors'
 import WarningAmberIcon from '@mui/icons-material/WarningAmberRounded'
 import CheckCircle from '@mui/icons-material/CheckCircle'
 import { SvgIconTypeMap, Tooltip } from '@mui/material'
-import { ISelector } from '@/store/eventRecorderSlice'
 import { OverridableComponent } from '@mui/material/OverridableComponent'
+
+import { ISelector } from '@roboportal/types'
 
 interface Item {
   icon: OverridableComponent<SvgIconTypeMap<Record<string, unknown>, 'svg'>> & {

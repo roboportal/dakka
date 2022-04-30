@@ -1,7 +1,7 @@
 import { nanoid } from 'nanoid'
 
-import { REDIRECT_STARTED } from '../globalConstants/messageTypes'
-import { info } from '../shared/logger'
+import { REDIRECT_STARTED } from '@roboportal/constants/messageTypes'
+import { info } from '@roboportal/utils/logger'
 
 info('Background SW')
 

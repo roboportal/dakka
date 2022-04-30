@@ -1,6 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit'
 import devToolsEnhancer from 'remote-redux-devtools'
-import { exportOptions } from '@/store/utils/constants'
+
+import { exportOptions } from '@roboportal/constants/exportOptions'
+
 import eventRecorderReducer from './eventRecorderSlice'
 import { setExportType } from './eventRecorderSlice'
 

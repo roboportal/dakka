@@ -1,13 +1,16 @@
 /* eslint-disable quotes */
-import { IEventBlock, ISelector, ITestCase } from '@/store/eventRecorderSlice'
-import { exportOptions } from '@/store/utils/constants'
-import { assertionTypes } from '@/constants/assertion'
-import { INTERACTIVE_TAGS } from '../constants'
-import { normalizeString } from '../normalizer'
+import { exportOptions } from '@roboportal/constants/exportOptions'
+import { selectorTypes } from '@roboportal/constants/selectorTypes'
+import { INTERACTIVE_TAGS } from '@roboportal/constants/interactiveTags'
+import { assertionTypes } from '@roboportal/constants/assertion'
+import { ASSERTION } from '@roboportal/constants/actionTypes'
+import { resize } from '@roboportal/constants/browserEvents'
+
+import { normalizeString } from '@roboportal/utils/normalizer'
+
+import { IEventBlock, ISelector, ITestCase } from '@roboportal/types'
+
 import { ExportProcessor } from './abstractProcessor'
-import { selectorTypes } from '../selectorTypes'
-import { ASSERTION } from '../../../constants/actionTypes'
-import { resize } from '../../../constants/browserEvents'
 
 const keyDowns: Record<string, string> = {
   Backspace: ".type('{backspace}')",

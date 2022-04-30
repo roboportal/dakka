@@ -1,5 +1,8 @@
 import { useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+
+import { exportOptions } from '@roboportal/constants/exportOptions'
+
 import { setExportType } from '@/store/eventRecorderSlice'
 import {
   getActiveTestCase,
@@ -7,7 +10,7 @@ import {
   getExportType,
   getIsReadyToExport,
 } from '@/store/eventSelectors'
-import { exportOptions } from '@/store/utils/constants'
+
 import exportProcessor from './exportProcessor'
 
 const writeToClipboard = (text: string): Promise<string> =>

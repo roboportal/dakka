@@ -1,4 +1,4 @@
-import { IEventBlock } from '../../eventRecorderSlice'
+import { IEventBlock } from '@roboportal/types'
 
 abstract class AbstractEventAggregator {
   abstract aggregatedEventName: string

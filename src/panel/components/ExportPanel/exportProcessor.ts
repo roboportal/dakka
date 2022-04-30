@@ -1,10 +1,12 @@
 import { dump } from 'js-yaml'
-import { IEventBlock, ITestCase } from '@/store/eventRecorderSlice'
-import { exportOptions } from '@/store/utils/constants'
-import { PlaywrightProcessor } from './processors/playwrightProcessor'
-import { CypressProcessor } from './processors/cypressProcessor'
-import { ExportProcessor } from './processors/abstractProcessor'
-import { PuppeteerProcessor } from './processors/puppeteerProcessor'
+
+import { IEventBlock, ITestCase } from '@roboportal/types'
+import { exportOptions } from '@roboportal/constants/exportOptions'
+
+import { PlaywrightProcessor } from '@roboportal/export_processors/playwrightProcessor'
+import { CypressProcessor } from '@roboportal/export_processors/cypressProcessor'
+import { ExportProcessor } from '@roboportal/export_processors/abstractProcessor'
+import { PuppeteerProcessor } from '@roboportal/export_processors/puppeteerProcessor'
 
 class DakkaProcessor extends ExportProcessor {
   type = exportOptions.dakka

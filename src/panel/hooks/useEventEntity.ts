@@ -1,24 +1,24 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
-import { internalEventsMap } from '@/constants/internalEventsMap'
-import { resize } from '@/constants/browserEvents'
-
-import { ASSERTION } from '@/constants/actionTypes'
-import { REDIRECT_STARTED, INTERACTIVE_ELEMENT } from '@/constants/messageTypes'
+import { internalEventsMap } from '@roboportal/constants/internalEventsMap'
+import { resize } from '@roboportal/constants/browserEvents'
+import { ASSERTION } from '@roboportal/constants/actionTypes'
+import {
+  REDIRECT_STARTED,
+  INTERACTIVE_ELEMENT,
+} from '@roboportal/constants/messageTypes'
+import { assertionTypes } from '@roboportal/constants/assertion'
+import { truncate } from '@roboportal/utils/string'
+import { IEventBlock } from '@roboportal/types'
 
 import {
   setActiveBlockId,
   setExpandedId,
   setCustomAssertSelector,
-  IEventBlock,
 } from '@/store/eventRecorderSlice'
 import { getLastSelectedEventId } from '@/store/eventSelectors'
-
 import useElementSelect from '@/hooks/useElementSelect'
-
-import { truncate } from '@/utils/string'
-import { assertionTypes } from '@/constants/assertion'
 
 export default function useEventEntity(
   record: IEventBlock,

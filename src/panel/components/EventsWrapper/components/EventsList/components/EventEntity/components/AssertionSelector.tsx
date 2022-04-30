@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-
 import { css } from '@emotion/react'
 import Select, { SelectChangeEvent } from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
@@ -8,20 +7,21 @@ import TextField from '@mui/material/TextField'
 import Switch from '@mui/material/Switch'
 import FormControl from '@mui/material/FormControl'
 import FormControlLabel from '@mui/material/FormControlLabel'
+import Autocomplete from '@mui/material/Autocomplete'
 
-import {
-  IEventBlock,
-  IAssertionPayload,
-  setAssertionProperties,
-} from '@/store/eventRecorderSlice'
-
+import { IEventBlock } from '@roboportal/types'
 import {
   assertionsList,
   assertionsListNegative,
   assertionTypes,
-} from '@/constants/assertion'
+} from '@roboportal/constants/assertion'
+
+import {
+  IAssertionPayload,
+  setAssertionProperties,
+} from '@/store/eventRecorderSlice'
+
 import { Label } from './Label'
-import Autocomplete from '@mui/material/Autocomplete'
 
 interface IAssertionSelectorProp {
   record: IEventBlock

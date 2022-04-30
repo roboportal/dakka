@@ -1,10 +1,10 @@
-import Select, { SelectChangeEvent } from '@mui/material/Select'
 import { css } from '@emotion/react'
+import Select, { SelectChangeEvent } from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { grey } from '@mui/material/colors'
 
-import { ISelector } from '@/store/eventRecorderSlice'
+import { ISelector } from '@roboportal/types'
 
 import { Divider } from './Divider'
 import { SelectorMenuItem } from './SelectorMenuItem'

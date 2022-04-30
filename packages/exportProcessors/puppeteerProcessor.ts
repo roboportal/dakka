@@ -1,11 +1,14 @@
-import { IEventBlock, ITestCase } from '@/store/eventRecorderSlice'
-import { exportOptions } from '@/store/utils/constants'
-import { assertionTypes } from '@/constants/assertion'
-import { selectorTypes } from '../selectorTypes'
-import { normalizeString } from '../normalizer'
+import { exportOptions } from '@roboportal/constants/exportOptions'
+import { assertionTypes } from '@roboportal/constants/assertion'
+import { selectorTypes } from '@roboportal/constants/selectorTypes'
+import { resize } from '@roboportal/constants/browserEvents'
+import { WAIT_FOR_ELEMENT, ASSERTION } from '@roboportal/constants/actionTypes'
+
+import { normalizeString } from '@roboportal/utils/normalizer'
+
+import { IEventBlock, ITestCase } from '@roboportal/types'
+
 import { ExportProcessor } from './abstractProcessor'
-import { WAIT_FOR_ELEMENT, ASSERTION } from '../../../constants/actionTypes'
-import { resize } from '../../../constants/browserEvents'
 
 const selectorOptions: Record<string, string> = {
   [selectorTypes.text]: '$x',

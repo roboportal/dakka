@@ -16,17 +16,17 @@ jobs:
           npm ci
       - shell: bash
         run: |
-          npm ci --prefix ./integrationTests
+          npm ci --prefix ./test/integration
       - shell: bash
         run: |
-          npm run install --prefix ./integrationTests
+          npm run install --prefix ./test/integration
       - shell: bash
         run: |
-          npm run build --prefix ./integrationTests
+          npm run build --prefix ./test/integration
       - shell: bash
         run: |
-          npm run generate --prefix ./integrationTests
+          npm run generate --prefix ./test/integration
       - shell: bash
         run: |
-          npm run test --prefix ./integrationTests
+          npm run test --prefix ./test/integration
     
