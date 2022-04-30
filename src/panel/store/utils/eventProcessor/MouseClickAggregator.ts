@@ -1,4 +1,5 @@
-import { IEventBlock } from '../../eventRecorderSlice'
+import { IEventBlock } from '@roboportal/types'
+
 import AbstractEventAggregator from './AbstractEventAggregator'
 
 enum mouseEvents {

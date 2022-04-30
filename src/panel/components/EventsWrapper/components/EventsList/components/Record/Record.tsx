@@ -1,13 +1,13 @@
 import React, { useRef, useCallback } from 'react'
 import { useDispatch } from 'react-redux'
-
 import { css } from '@emotion/react'
 
+import { IEventBlock } from '@roboportal/types'
+
 import { useDrop } from '@/hooks/dnd/useDrop'
-import { insertBlock, IEventBlock } from '@/store/eventRecorderSlice'
+import { insertBlock } from '@/store/eventRecorderSlice'
 
 import { RECORD_WIDTH, GAP_BETWEEN_RECORDS } from './constants/defaults'
-
 import { DropZone } from './components/DropZone'
 
 const RIGHT_DROP_ZONE_CLASS_NAME = 'right_drop'

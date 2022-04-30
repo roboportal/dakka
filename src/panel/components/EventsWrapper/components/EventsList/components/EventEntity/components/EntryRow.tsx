@@ -1,8 +1,9 @@
+import { ChangeEventHandler } from 'react'
 import { css } from '@emotion/react'
 import TextField from '@mui/material/TextField'
-import { ChangeEventHandler } from 'react'
-import { IEventBlock } from '@/store/eventRecorderSlice'
-import { ASSERTION } from '@/constants/actionTypes'
+
+import { IEventBlock } from '@roboportal/types'
+import { ASSERTION } from '@roboportal/constants/actionTypes'
 
 interface IEventEntityProps {
   label?: string

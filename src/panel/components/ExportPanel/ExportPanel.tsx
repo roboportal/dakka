@@ -8,7 +8,9 @@ import {
 } from '@mui/material'
 import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined'
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined'
-import { exportOptions } from '@/store/utils/constants'
+
+import { exportOptions } from '@roboportal/constants/exportOptions'
+
 import useExport from './useExport'
 
 const options = [

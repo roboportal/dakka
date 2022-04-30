@@ -1,8 +1,13 @@
 {
-  "name": "dakka",
+  "name": "@roboportal/dakka",
   "version": "0.0.12",
   "description": "",
   "main": "index.js",
+  "private": true,
+  "workspaces": [
+    "./packages/*",
+    "./test/*"
+  ],
   "scripts": {
     "start": "npm run remove-dist && npm run start:dev",
     "remove-dist": "rm -rf ./dist/*",
@@ -19,7 +24,6 @@
     "test": "jest",
     "prepare": "husky install"
   },
-  "author": "",
   "license": "ISC",
   "devDependencies": {
     "@babel/preset-env": "^7.16.0",

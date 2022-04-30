@@ -2,13 +2,14 @@ import { memo } from 'react'
 import { css } from '@emotion/react'
 import { useSelector } from 'react-redux'
 
+import { assertionTypes } from '@roboportal/constants/assertion'
+
 import { getActiveEvents } from '@/store/eventSelectors'
 import { getExpandedEventId } from '@/store/eventSelectors'
 
 import { Record } from './components/Record/Record'
 import { EventEntity } from './components/EventEntity/EventEntity'
 import { Selector } from './components/Selector/Selector'
-import { assertionTypes } from '@/constants/assertion'
 
 const DEFAULT_WIDTH = '88px'
 const EXPANDED_WIDTH = '340px'

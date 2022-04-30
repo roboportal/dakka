@@ -1,16 +1,15 @@
 import { nanoid } from 'nanoid'
-import { resize } from '../globalConstants/browserEvents'
 
-import { composeEvent } from './composeEvent'
-
-import { fatal } from '../shared/logger'
-
+import { fatal } from '@roboportal/utils/logger'
+import { resize } from '@roboportal/constants/browserEvents'
 import {
   EVENT_INTERCEPTED,
   HIGHLIGHT_ELEMENT,
   ELEMENT_SELECTED,
   HOVER_ELEMENT,
-} from '../globalConstants/messageTypes'
+} from '@roboportal/constants/messageTypes'
+
+import { composeEvent } from './composeEvent'
 
 const extensionId =
   (document?.querySelector('script[data-extid]') as HTMLElement)?.dataset

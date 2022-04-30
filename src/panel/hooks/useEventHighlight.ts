@@ -1,9 +1,11 @@
 import { MouseEventHandler, useCallback } from 'react'
 
-import { IEventBlock } from '@/store/eventRecorderSlice'
-
-import { HIGHLIGHT_ELEMENT, REDIRECT_STARTED } from '@/constants/messageTypes'
-import { internalEventsMap } from '@/constants/internalEventsMap'
+import { IEventBlock } from '@roboportal/types'
+import {
+  HIGHLIGHT_ELEMENT,
+  REDIRECT_STARTED,
+} from '@roboportal/constants/messageTypes'
+import { internalEventsMap } from '@roboportal/constants/internalEventsMap'
 
 function highlightElement(
   tabId: number,

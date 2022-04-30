@@ -1,10 +1,11 @@
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 
-import StylesProvider from '@/components/StylesProvider'
-import { store } from './store'
-import { fatal } from '../shared/logger'
+import { fatal } from '@roboportal/utils/logger'
 
+import StylesProvider from '@/components/StylesProvider'
+
+import { store } from './store'
 import App from './App'
 
 interface Module extends NodeModule {

@@ -1,6 +1,7 @@
-import { IEventBlock } from '../../eventRecorderSlice'
+import { IEventBlock } from '@roboportal/types'
+import { resize } from '@roboportal/constants/browserEvents'
+
 import AbstractEventAggregator from './AbstractEventAggregator'
-import { resize } from '@/constants/browserEvents'
 
 class ResizeAggregator extends AbstractEventAggregator {
   aggregatedEventName = resize

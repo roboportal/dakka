@@ -1,21 +1,16 @@
 {
-  "exclude": [
-    "dist", 
-    "node_modules"
+  "include": [
+    "node_modules/@roboportal/**/*",
+    "."
   ],
-
-  "compilerOptions": {
-    "target": "es6",
+  "compilerOptions": { 
+    "target": "es2021",
     "outDir": "dist",
-    "types": ["node"],
-    "lib": ["es2021"],
+    // "types": ["node"],
+    // "lib": ["es2021"],
     "moduleResolution": "node",
     "module": "commonjs",
     "baseUrl": "./",
-    "paths": {
-      "@/store/*": ["../src/panel/store/*"],
-      "@/constants/*": ["../src/panel/constants/*"]
-    },
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,

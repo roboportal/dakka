@@ -1,10 +1,8 @@
-import { IEventBlock } from '../../eventRecorderSlice'
-
-import { REDIRECT_STARTED } from '@/constants/messageTypes'
-import { internalEventsMap } from '@/constants/internalEventsMap'
+import { IEventBlock } from '@roboportal/types'
+import { REDIRECT_STARTED } from '@roboportal/constants/messageTypes'
+import { internalEventsMap } from '@roboportal/constants/internalEventsMap'
 
 import AbstractEventAggregator from './AbstractEventAggregator'
-
 import KeyboardAggregator from './KeyboardAggregator'
 import MouseClickAggregator from './MouseClickAggregator'
 import ResizeAggregator from './ResizeAggregator'

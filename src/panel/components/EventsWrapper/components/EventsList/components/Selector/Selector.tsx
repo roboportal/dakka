@@ -1,15 +1,15 @@
 import { useCallback, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-
 import { SelectChangeEvent } from '@mui/material/Select'
+
+import { INTERACTIVE_ELEMENT } from '@roboportal/constants/messageTypes'
+import { IEventBlock } from '@roboportal/types'
 
 import {
   selectEventSelector,
   selectIframeEventSelector,
-  IEventBlock,
 } from '@/store/eventRecorderSlice'
 import { getActiveTabId } from '@/store/eventSelectors'
-import { INTERACTIVE_ELEMENT } from '@/constants/messageTypes'
 
 import { CommonSelector } from './CommonSelector'
 

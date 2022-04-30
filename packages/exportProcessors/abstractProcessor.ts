@@ -1,5 +1,5 @@
-import { IEventBlock, ITestCase } from '@/store/eventRecorderSlice'
-import { exportOptions } from '@/store/utils/constants'
+import { exportOptions } from '@roboportal/constants/exportOptions'
+import { IEventBlock, ITestCase } from '@roboportal/types'
 
 export abstract class ExportProcessor {
   abstract type: exportOptions

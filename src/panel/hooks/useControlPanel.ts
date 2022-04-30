@@ -1,7 +1,8 @@
 import { useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { ENABLE_RECORDER } from '@/constants/messageTypes'
+import { ENABLE_RECORDER } from '@roboportal/constants/messageTypes'
+
 import {
   clearEvents,
   toggleIsRecorderEnabled,

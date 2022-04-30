@@ -1,9 +1,10 @@
 const fs = require('fs')
 const path = require('path')
 
-import { CypressProcessor } from '../src/panel/components/ExportPanel/processors/cypressProcessor'
-import { PuppeteerProcessor } from '../src/panel/components/ExportPanel/processors/puppeteerProcessor'
-import { PlaywrightProcessor } from '../src/panel/components/ExportPanel/processors/playwrightProcessor'
+import { CypressProcessor } from '@roboportal/export_processors/cypressProcessor'
+import { PuppeteerProcessor } from '@roboportal/export_processors/puppeteerProcessor'
+import { PlaywrightProcessor } from '@roboportal/export_processors/playwrightProcessor'
+
 import generatedOnButton from './src/generatedAssertions'
 
 const OUT_DIR_PATH = '../../generated'
