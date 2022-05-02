@@ -82,18 +82,19 @@ Generated test can be copied to clipboard or downloaded as a file and added to t
 
 ## Contributing
 
-### Package content
+### Content
 
-- `src/background` - service-worker
-- `src/devTools` - creating tab for dev panel
-- `src/contentScript` - content and injectable scripts. Content has access to inspected DOM page, but is executed in different global context. Injectable is embedded to the document to intercept events.
-- `src/panel` - dev tool UI app
-- `src/testPage` - test application to debug tool
-- `src/manifest.json` - extension manifest
+- `projects/extension/src/background` - service-worker
+- `projects/extension/src/devTools` - creating tab for dev panel
+- `projects/extension/src/contentScript` - content and injectable scripts. Content has access to inspected DOM page, but is executed in different global context. Injectable is embedded to the document to intercept events.
+- `projects/extension/src/panel` - dev tool UI app
+- `projects/extension/src/manifest.json` - extension manifest
+- `projects/test/integration` - integration tests for projects
+- `projects/test/playground` - test playground with pre-configured tools
 
 ### Development
 
-Run `npm i` and `npm start` to start development. It will run webpack dev server on the 8080 port. To get the test page run `npm run serve:integration` and use: `http://localhost:8081/integration`
+Run `npm i` and `npm start` to start development. It will run webpack dev server on the 8080 port. To get the test page run `npm run serve:integration` and use: `http://localhost:8081`
 
 ### Testing
 

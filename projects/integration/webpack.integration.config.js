@@ -21,18 +21,17 @@ const fileExtensions = [
 
 const mode = process.env.NODE_ENV ?? 'production'
 const port = process.env.PORT
-const isProd = mode === 'production'
 
 const options = {
   mode,
   entry: {
     index: {
-      import: path.resolve(__dirname, 'src/integration/index.ts'),
-      filename: `${isProd ? '' : 'integration/'}[name].bundle.js`,
+      import: path.resolve(__dirname, 'src/index.ts'),
+      filename: '[name].bundle.js',
     },
     frame: {
-      import: path.resolve(__dirname, 'src/integration/frame.ts'),
-      filename: `${isProd ? '' : 'integration/'}[name].bundle.js`,
+      import: path.resolve(__dirname, 'src/frame.ts'),
+      filename: '[name].bundle.js',
     },
   },
   output: {
@@ -76,20 +75,20 @@ const options = {
   plugins: [
     new webpack.ProgressPlugin(),
     new HtmlWebpackPlugin({
-      template: path.join(__dirname, 'src/integration/index.ejs'),
-      filename: `${isProd ? '' : 'integration/'}index.html`,
+      template: path.join(__dirname, 'src/index.ejs'),
+      filename: 'index.html',
       templateParameters: {
-        iframeSrc: `${isProd ? '' : 'integration/'}frame.html`,
+        iframeSrc: 'frame.html',
       },
       chunks: ['index'],
-      publicPath: isProd ? '' : '..',
+      publicPath: '.',
       cache: false,
     }),
     new HtmlWebpackPlugin({
-      template: path.join(__dirname, 'src/integration/frame.html'),
-      filename: `${isProd ? '' : 'integration/'}frame.html`,
+      template: path.join(__dirname, 'src/frame.html'),
+      filename: 'frame.html',
       chunks: ['frame'],
-      publicPath: isProd ? '' : '..',
+      publicPath: '.',
       cache: false,
     }),
   ],
