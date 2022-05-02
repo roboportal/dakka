@@ -19,7 +19,7 @@ jobs:
           npm ci --prefix ./projects/test/integration
       - shell: bash
         run: |
-          npm run integration --prefix ./projects/test/integration
+          npm run install --prefix ./projects/test/integration
       - shell: bash
         run: |
           npm run build --prefix ./projects/test/integration
