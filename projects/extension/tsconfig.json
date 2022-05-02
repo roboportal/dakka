@@ -16,7 +16,8 @@
       "@/store/*": ["./src/panel/store/*"],  
     },                                     
     "typeRoots": [
-      "node_modules/@types"
+      "node_modules/@types",
+      "../../node_modules/@types"
     ],
     "resolveJsonModule": true,                       
     "allowSyntheticDefaultImports": true,            
