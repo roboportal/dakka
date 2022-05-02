@@ -19,6 +19,9 @@
     "strict": true,                                     
     "skipLibCheck": true,
   },
+  "include": [
+    "."
+  ],
   "exclude": [
     "dist",
     "node_modules"
