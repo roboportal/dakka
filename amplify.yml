@@ -3,7 +3,7 @@ frontend:
   phases:
     preBuild:
       commands:
-        - npm ci
+        - npm ci --prefix ./projects/integration
     build:
       commands:
         - npm run build:integration  --prefix ./projects/integration
