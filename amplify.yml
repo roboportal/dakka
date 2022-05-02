@@ -6,7 +6,7 @@ frontend:
         - npm ci
     build:
       commands:
-        - npm run build:integration
+        - npm run build:integration -w @roboportal/integration_page"
   artifacts:
     baseDirectory: /projects/integration/dist
     files:
