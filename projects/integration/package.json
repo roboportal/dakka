@@ -8,5 +8,14 @@
     "build:integration": "npm run remove-dist && webpack --config webpack.integration.config.js",
     "serve:integration": "NODE_ENV=development PORT=8081 webpack serve --config webpack.integration.config.js"
   },
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "ts-jest": "^27.1.4",
+    "ts-loader": "^9.2.6",
+    "ts-node": "^10.5.0",
+    "typescript": "^4.4.4",
+    "webpack": "^5.64.0",
+    "webpack-cli": "^4.9.1",
+    "webpack-dev-server": "^4.4.0"
+  }
 }

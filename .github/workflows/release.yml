@@ -18,7 +18,7 @@ jobs:
       - run: |
           git config user.name malykhin
           git config user.email malykhin@ukr.net
-      - run: npm version ${{ github.event.inputs.version }}
+      - run: npm version ${{ github.event.inputs.version }} -w @roboportal/dakka
       - run: git push origin master
       - run: |
           git checkout -b release/v${{ github.event.inputs.version }}
