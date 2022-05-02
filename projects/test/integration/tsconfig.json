@@ -2,9 +2,9 @@
   "include": [
     "./",
     "./mocks/**/*",
-    "../../node_modules/@roboportal/export_processors/**/*",
-    "../../node_modules/@roboportal/constants/**/*",
-    "../../node_modules/@roboportal/utils/**/*"
+    "../../../node_modules/@roboportal/export_processors/**/*",
+    "../../../node_modules/@roboportal/constants/**/*",
+    "../../../node_modules/@roboportal/utils/**/*"
   ],
   "compilerOptions": { 
     "target": "es2021",

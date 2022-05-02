@@ -1,7 +1,7 @@
 const { devices } = require('@playwright/test')
 
 module.exports = {
-  testDir: './generated/playwright',
+  testDir: './dist/generated/playwright',
   projects: [
     {
       name: 'chromium',
