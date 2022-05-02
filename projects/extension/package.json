@@ -1,0 +1,39 @@
+{
+  "name": "@roboportal/dakka",
+  "version": "0.0.12",
+  "description": "",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "start": "npm run remove-dist && npm run start:dev",
+    "remove-dist": "rm -rf ./dist/*",
+    "start:dev": "npm run serve:panel & npm run watch:scripts",
+    "build": "npm run remove-dist && webpack --config webpack.panel.config.js && webpack --config webpack.scripts.config.js",
+    "pack": "zip -r extension.zip dist/",
+    "serve:panel": "NODE_ENV=development PORT=8080 webpack serve --config webpack.panel.config.js",
+    "build:integration": "npm run remove-dist && webpack --config webpack.integration.config.js",
+    "serve:integration": "NODE_ENV=development PORT=8081 webpack serve --config webpack.integration.config.js",
+    "watch:scripts": "NODE_ENV=development webpack watch --config webpack.scripts.config.js",
+    "kill:stale-dev-server": "PORT=8080 kill $(lsof -ti:$PORT)",
+    "devtools": "react-devtools & npx @redux-devtools/cli --open"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "@emotion/react": "^11.5.0",
+    "@emotion/styled": "^11.3.0",
+    "@medv/finder": "^2.1.0",
+    "@mui/icons-material": "^5.4.1",
+    "@mui/material": "^5.4.1",
+    "@reduxjs/toolkit": "^1.6.2",
+    "@types/chrome": "^0.0.183",
+    "@types/jest": "^27.4.1",
+    "@types/node": "^17.0.31",
+    "ansi-regex": "^6.0.1",
+    "js-yaml": "^4.1.0",
+    "nanoid": "^3.2.0",
+    "react": "17.0.2",
+    "react-dom": "^17.0.2",
+    "react-redux": "^7.2.5",
+    "remote-redux-devtools": "^0.5.16"
+  }
+}

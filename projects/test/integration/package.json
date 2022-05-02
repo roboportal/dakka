@@ -7,7 +7,7 @@
     "playwright": "playwright test",
     "cypress": "cypress run",
     "puppeteer": "jest",
-    "generate": "rm -rf ./generated && node ./dist/test/integration/generateTests",
+    "generate": "rm -rf ./generated && node ./dist/projects/test/integration/generateTests",
     "build": "tsc",
     "test": "npm run playwright && npm run cypress && npm run puppeteer"
   },

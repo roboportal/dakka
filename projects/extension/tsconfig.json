@@ -8,7 +8,13 @@
     "jsx": "react-jsx",                                    
     "jsxImportSource": "@emotion/react",                
     "module": "CommonJS",                                
-    "moduleResolution": "node",                                                          
+    "moduleResolution": "node",                       
+    "baseUrl": "./",                                
+    "paths": {
+      "@/components/*": ["./src/panel/components/*"],
+      "@/hooks/*": ["./src/panel/hooks/*"],
+      "@/store/*": ["./src/panel/store/*"],  
+    },                                     
     "typeRoots": [
       "node_modules/@types"
     ],
@@ -21,6 +27,12 @@
   },
   "exclude": [
     "dist",
-    "node_modules"
+    "node_modules",
+    "packages",
+    "projects/test"
   ],
+  "include": [
+    ".",
+    "../../packages/exportProcessors/**/*"
+  ]
 }

@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const { version } = require('../package.json')
 const inputVersion = process.argv[2] || ''
 
