@@ -28,6 +28,7 @@
     "@types/chrome": "^0.0.159",
     "@types/jest": "^27.4.1",
     "@types/js-yaml": "^4.0.5",
+    "@types/node": "^17.0.31",
     "@types/react": "^17.0.31",
     "@types/react-dom": "^17.0.10",
     "@types/remote-redux-devtools": "^0.5.5",
