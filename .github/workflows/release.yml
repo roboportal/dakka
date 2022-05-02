@@ -19,6 +19,8 @@ jobs:
           git config user.name malykhin
           git config user.email malykhin@ukr.net
       - run: npm version ${{ github.event.inputs.version }} --prefix ./projects/extension
+      - run: git add .
+      - run: git commit -m "release ${{ github.event.inputs.version }}"
       - run: git push origin master
       - run: |
           git checkout -b release/v${{ github.event.inputs.version }}
