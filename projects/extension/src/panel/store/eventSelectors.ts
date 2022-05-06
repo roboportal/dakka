@@ -208,9 +208,10 @@ export const getActiveTestCase = createSelector(
 
     testCase.its =
       testCase?.its?.map?.((it) => {
-        const isValidSetup = events[it.id]
-          .map(mapEventBlock)
-          .every((it) => !it.isInvalidValidSetUp)
+        const isValidSetup =
+          events[it.id]
+            .map(mapEventBlock)
+            .every((it) => !it.isInvalidValidSetUp) && !!events[it.id].length
 
         return {
           ...it,
