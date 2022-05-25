@@ -42,6 +42,10 @@ const options = {
       import: path.resolve(__dirname, 'src/panel/index.tsx'),
       filename: 'devTools/[name].bundle.js',
     },
+    popup: {
+      import: path.resolve(__dirname, 'src/popup/index.tsx'),
+      filename: 'devTools/[name].bundle.js',
+    },
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -100,6 +104,13 @@ const options = {
       template: path.join(__dirname, 'src/panel/panel.html'),
       filename: 'devTools/panel.html',
       chunks: ['panel'],
+      publicPath: '..',
+      cache: false,
+    }),
+    new HtmlWebpackPlugin({
+      template: path.join(__dirname, 'src/popup/popup.html'),
+      filename: 'devTools/popup.html',
+      chunks: ['popup'],
       publicPath: '..',
       cache: false,
     }),

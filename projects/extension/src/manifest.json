@@ -7,6 +7,9 @@
   "background": {
     "service_worker": "./background/background.bundle.js"
   },
+  "action": {
+    "default_popup": "./devTools/popup.html"
+  },
   "permissions": ["tabs", "clipboardWrite", "storage"],
   "content_scripts": [
     {
