@@ -51,16 +51,23 @@ export default function App() {
 
   if (generatedTest) {
     return (
-      <SyntaxHighlighter
-        language="javascript"
-        showLineNumbers
-        style={prefersDarkMode ? a11yDark : a11yLight}
-        customStyle={{
-          backgroundColor: theme.palette.background.default,
-        }}
+      <div
+        css={css`
+          margin: 16px;
+        `}
       >
-        {generatedTest}
-      </SyntaxHighlighter>
+        <h3>Generated test</h3>
+        <SyntaxHighlighter
+          language="javascript"
+          showLineNumbers
+          style={prefersDarkMode ? a11yDark : a11yLight}
+          customStyle={{
+            backgroundColor: theme.palette.background.default,
+          }}
+        >
+          {generatedTest}
+        </SyntaxHighlighter>
+      </div>
     )
   }
 
