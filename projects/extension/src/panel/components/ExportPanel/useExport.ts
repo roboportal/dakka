@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { useCallback, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { exportOptions } from '@roboportal/constants/exportOptions'
@@ -12,6 +12,10 @@ import {
 } from '@/store/eventSelectors'
 
 import exportProcessor from './exportProcessor'
+import {
+  REQUEST_GENERATED_TEST,
+  RESPOND_GENERATED_TEST,
+} from '@roboportal/constants/messageTypes'
 
 const writeToClipboard = (text: string): Promise<string> =>
   new Promise((resolve, reject) => {
@@ -57,6 +61,43 @@ export default function useExports() {
   const testCaseMeta = useSelector(getActiveTestCase)
 
   const isReadyToExport = useSelector(getIsReadyToExport)
+
+  useEffect(() => {
+    const notifyActionPopup = () => {
+      const text =
+        isReadyToExport && exportOption !== exportOptions.none
+          ? exportProcessor(exportOption, recordedTestCaseEvents, testCaseMeta)
+              .text
+          : ''
+
+      chrome.runtime.sendMessage({
+        id: chrome.runtime.id,
+        type: RESPOND_GENERATED_TEST,
+        payload: {
+          text,
+        },
+      })
+    }
+
+    const messageHandler = (
+      event: { type: string },
+      sender: chrome.runtime.MessageSender,
+      sendResponse: () => void,
+    ) => {
+      sendResponse()
+      if (event.type === REQUEST_GENERATED_TEST) {
+        notifyActionPopup()
+      }
+    }
+
+    notifyActionPopup()
+
+    chrome.runtime.onMessage.addListener(messageHandler)
+
+    return () => {
+      chrome.runtime.onMessage.removeListener(messageHandler)
+    }
+  }, [exportOption, isReadyToExport, recordedTestCaseEvents, testCaseMeta])
 
   const handleCopyToClipboard = () => {
     const { text } = exportProcessor(
