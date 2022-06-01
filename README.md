@@ -80,6 +80,12 @@ Generated test can be copied to clipboard or downloaded as a file and added to t
 <img width="760" alt="Screenshot 2022-02-16 at 11 01 29 PM" src="https://user-images.githubusercontent.com/7383804/154789533-2ed4c538-7f9b-4cbb-86bf-6be11889b87b.gif">
 </div>
 
+Alternatively, you can open the generated test in the extension's popup by clicking the action icon:
+
+<div align="center">
+<img width="760" alt="Screenshot 2022-02-16 at 11 01 29 PM" src="https://user-images.githubusercontent.com/15819745/171315495-1561eab7-8017-41f4-b227-4ae7e73ccb95.gif">
+</div>
+
 ## Contributing
 
 ### Content
