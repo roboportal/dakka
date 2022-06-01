@@ -4,7 +4,7 @@
 [![Integration](https://github.com/roboportal/dakka/actions/workflows/integration.yml/badge.svg)](https://github.com/roboportal/dakka/actions/workflows/integration.yml)
 
 <div align="center">
-  <img src="https://user-images.githubusercontent.com/15819745/160267166-c1f78bee-67f4-44d2-8193-b999b4df61a4.svg" width="180px" height="60px" />
+  <img alt="Dakka logo" src="https://user-images.githubusercontent.com/15819745/160267166-c1f78bee-67f4-44d2-8193-b999b4df61a4.svg" width="180px" height="60px" />
   <h3>Generate tests for Cypress, Playwright and Puppeteer using Dakka</3>
 </div>
 
@@ -34,7 +34,7 @@ To install Dakka click <a href="https://chrome.google.com/webstore/detail/dakka/
 
 <br/>
 <div align="center">
-<img width="760" alt="Screenshot 2022-02-16 at 11 01 27 PM" src="https://user-images.githubusercontent.com/7383804/154786735-1fd140c2-3515-4978-a52e-3bb26e3e8c3a.png">
+<img width="760" alt="Dakka demo" src="https://user-images.githubusercontent.com/7383804/154786735-1fd140c2-3515-4978-a52e-3bb26e3e8c3a.png">
 </div>
 
 ## Adding Assertions
@@ -44,7 +44,7 @@ To add an assertion hover over the floating plus sign and drag and drop assertio
 
 <br/>
 <div align="center">
-<img width="760" alt="Screenshot 2022-02-16 at 11 01 28 PM" src="https://user-images.githubusercontent.com/7383804/154787750-16716f68-40d1-4360-bc96-0152128a635a.gif">
+<img width="760" alt="Adding Assertions" src="https://user-images.githubusercontent.com/7383804/154787750-16716f68-40d1-4360-bc96-0152128a635a.gif">
 </div>
 <br/>
 
@@ -52,8 +52,8 @@ After adding Assertion Block you will need to configure assertion logic - locate
 
 <br/>
 <div align="center">
-<img width="360" alt="Screenshot 2022-02-19 at 12 44 36 AM" src="https://user-images.githubusercontent.com/7383804/154793765-c04130a5-b061-415a-9abe-9f23a9e802a0.png">
-<img width="450" alt="Screenshot 2022-02-19 at 12 41 22 AM" src="https://user-images.githubusercontent.com/7383804/154793730-57da26b3-9408-455a-a2c8-1a406f3a272d.png">
+<img width="360" alt="assertion setup 1" src="https://user-images.githubusercontent.com/7383804/154793765-c04130a5-b061-415a-9abe-9f23a9e802a0.png">
+<img width="450" alt="assertion setup 2" src="https://user-images.githubusercontent.com/7383804/154793730-57da26b3-9408-455a-a2c8-1a406f3a272d.png">
 </div>
 
 ## Choosing Selectors
@@ -61,14 +61,14 @@ After adding Assertion Block you will need to configure assertion logic - locate
 Dakka suggests the list of best possible selectors for the elements on the page.
 
 <div align="center">
-<img width="560" alt="Screenshot 2022-02-16 at 11 01 29 PM" src="https://user-images.githubusercontent.com/7383804/154788192-b5376c0d-c9f2-4a25-afc2-aad98939aa5c.png">
+<img width="560" alt="Choosing Selectors" src="https://user-images.githubusercontent.com/7383804/154788192-b5376c0d-c9f2-4a25-afc2-aad98939aa5c.png">
 </div>
 
 <br/>
 Selectors are sorted by priority with green, red and yellow icons. First selector is pre-selected by default. Hover over the icon to get the element count on the page by selector.
 <br/>
 
-## Delete events
+## Delete Events
 
 If generated events contain any entries that aren't required for the test use the Delete button located at the bottom of the event block.
 
@@ -77,13 +77,21 @@ If generated events contain any entries that aren't required for the test use th
 Generated test can be copied to clipboard or downloaded as a file and added to the project.
 
 <div align="center">
-<img width="760" alt="Screenshot 2022-02-16 at 11 01 29 PM" src="https://user-images.githubusercontent.com/7383804/154789533-2ed4c538-7f9b-4cbb-86bf-6be11889b87b.gif">
+<img width="760" alt="Exporting" src="https://user-images.githubusercontent.com/7383804/154789533-2ed4c538-7f9b-4cbb-86bf-6be11889b87b.gif">
 </div>
 
 Alternatively, you can open the generated test in the extension's popup by clicking the action icon:
 
 <div align="center">
-<img width="760" alt="Screenshot 2022-02-16 at 11 01 29 PM" src="https://user-images.githubusercontent.com/15819745/171315495-1561eab7-8017-41f4-b227-4ae7e73ccb95.gif">
+<img width="760" alt="Test Preview" src="https://user-images.githubusercontent.com/15819745/171315495-1561eab7-8017-41f4-b227-4ae7e73ccb95.gif">
+</div>
+
+## Test Case Creation
+
+Dakka allows not only the single test recording and creation, but also the comprehensive test cases setup:
+
+<div align="center">
+<img width="760" alt="Test Case Creation" src="https://user-images.githubusercontent.com/15819745/171320546-5c51adcf-09df-4b6f-8539-52a6c5055b43.gif">
 </div>
 
 ## Contributing
