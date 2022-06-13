@@ -90,7 +90,10 @@ export const eventRecorderSlice = createSlice({
   name: 'eventRecorder',
   initialState,
   reducers: {
-    setActiveTabID: (state, { payload }: PayloadAction<number>) => {
+    setActiveTabID: (
+      state: EventRecorderState,
+      { payload }: PayloadAction<number>,
+    ) => {
       const id = nanoid()
       state.activeTabID = payload
       if (!state.events[payload]) {
@@ -110,12 +113,12 @@ export const eventRecorderSlice = createSlice({
       }
     },
 
-    toggleIsRecorderEnabled: (state) => {
+    toggleIsRecorderEnabled: (state: EventRecorderState) => {
       state.isRecorderEnabled = !state.isRecorderEnabled
     },
 
     recordEvent: (
-      state,
+      state: EventRecorderState,
       { payload: { tabId, eventRecord } }: PayloadAction<IRecordEventPayload>,
     ) => {
       const { events, isRecorderEnabled, activeBlockId, testCases } = state
@@ -149,14 +152,23 @@ export const eventRecorderSlice = createSlice({
       state.isManualEventInsert = false
     },
 
-    clearEvents: (state, { payload: { tabId } }) => {
+    clearEvents: (
+      state: EventRecorderState,
+      { payload: { tabId } }: PayloadAction<{ tabId: number }>,
+    ) => {
       const { selectedItId } = state.testCases[tabId]
       state.events[tabId][selectedItId] = []
     },
 
     selectEventSelector: (
-      { events, testCases },
-      { payload: { record, selectedSelector, tabId } },
+      { events, testCases }: EventRecorderState,
+      {
+        payload: { record, selectedSelector, tabId },
+      }: PayloadAction<{
+        tabId: number
+        record: IEventBlock
+        selectedSelector: ISelector
+      }>,
     ) => {
       const { selectedItId } = testCases[tabId]
       const updateSelector = (
@@ -194,8 +206,14 @@ export const eventRecorderSlice = createSlice({
     },
 
     selectIframeEventSelector: (
-      { events, testCases },
-      { payload: { record, selectedSelector, tabId } },
+      { events, testCases }: EventRecorderState,
+      {
+        payload: { record, selectedSelector, tabId },
+      }: PayloadAction<{
+        tabId: number
+        record: IEventBlock
+        selectedSelector: ISelector
+      }>,
     ) => {
       const { selectedItId } = testCases[tabId]
       const updateSelector = (
@@ -219,12 +237,15 @@ export const eventRecorderSlice = createSlice({
       )
     },
 
-    setActiveBlockId: (state, { payload }: PayloadAction<string>) => {
+    setActiveBlockId: (
+      state: EventRecorderState,
+      { payload }: PayloadAction<string>,
+    ) => {
       state.activeBlockId = payload
     },
 
     setCustomAssertSelector: (
-      { events, activeTabID, testCases },
+      { events, activeTabID, testCases }: EventRecorderState,
       {
         payload: { blockId, selector },
       }: PayloadAction<{ blockId: string; selector: string }>,
@@ -249,12 +270,15 @@ export const eventRecorderSlice = createSlice({
       }
     },
 
-    setExpandedId: (state, { payload }: PayloadAction<string>) => {
+    setExpandedId: (
+      state: EventRecorderState,
+      { payload }: PayloadAction<string>,
+    ) => {
       state.expandedId = payload
     },
 
     setAssertionProperties: (
-      { events, testCases, activeTabID },
+      { events, testCases, activeTabID }: EventRecorderState,
       { payload }: PayloadAction<IAssertionPayload>,
     ) => {
       const { selectedItId } = testCases[activeTabID]
@@ -278,7 +302,7 @@ export const eventRecorderSlice = createSlice({
     },
 
     removeEvent: (
-      state,
+      state: EventRecorderState,
       { payload: { eventIds } }: PayloadAction<{ eventIds: number[] }>,
     ) => {
       const tabId = state.activeTabID
@@ -300,7 +324,16 @@ export const eventRecorderSlice = createSlice({
       }
     },
 
-    insertBlock: (state, { payload: { type, eventIndex, triggeredAt } }) => {
+    insertBlock: (
+      state: EventRecorderState,
+      {
+        payload: { type, eventIndex, triggeredAt },
+      }: PayloadAction<{
+        type: string
+        eventIndex: number
+        triggeredAt: number
+      }>,
+    ) => {
       const tabId = state.activeTabID
       const { selectedItId } = state.testCases[tabId]
       const index = eventIndex + 1
@@ -332,21 +365,36 @@ export const eventRecorderSlice = createSlice({
     },
 
     setIsInjectionAllowed: (
-      state,
-      { payload: { tabId, isInjectingAllowed } },
+      state: EventRecorderState,
+      {
+        payload: { tabId, isInjectingAllowed },
+      }: PayloadAction<{
+        tabId: number
+        isInjectingAllowed: boolean
+      }>,
     ) => {
       state.allowedInjections[tabId] = isInjectingAllowed
     },
 
-    setLastSelectedEventId: (state, { payload }) => {
+    setLastSelectedEventId: (
+      state: EventRecorderState,
+      { payload }: PayloadAction<string>,
+    ) => {
       state.lastSelectedEventId = payload
     },
 
-    setExportType: (state, { payload }: PayloadAction<exportOptions>) => {
+    setExportType: (
+      state: EventRecorderState,
+      { payload }: PayloadAction<exportOptions>,
+    ) => {
       state.exportType = payload
     },
 
-    addItToTestCase: ({ events, activeTabID, testCases }) => {
+    addItToTestCase: ({
+      events,
+      activeTabID,
+      testCases,
+    }: EventRecorderState) => {
       const length = testCases[activeTabID]?.its?.length
       const id = nanoid()
       testCases[activeTabID].its.push({
@@ -360,7 +408,7 @@ export const eventRecorderSlice = createSlice({
     },
 
     removeItFromTestCase: (
-      { events, activeTabID, testCases },
+      { events, activeTabID, testCases }: EventRecorderState,
       { payload }: PayloadAction<string>,
     ) => {
       const index = testCases[activeTabID].its.findIndex(
@@ -378,21 +426,21 @@ export const eventRecorderSlice = createSlice({
     },
 
     selectIt: (
-      { activeTabID, testCases },
+      { activeTabID, testCases }: EventRecorderState,
       { payload }: PayloadAction<string>,
     ) => {
       testCases[activeTabID].selectedItId = payload
     },
 
     changeDescribe: (
-      { activeTabID, testCases },
+      { activeTabID, testCases }: EventRecorderState,
       { payload }: PayloadAction<string>,
     ) => {
       testCases[activeTabID].describe = payload
     },
 
     changeIt: (
-      { activeTabID, testCases },
+      { activeTabID, testCases }: EventRecorderState,
       { payload: { id, value } }: PayloadAction<{ id: string; value: string }>,
     ) => {
       testCases[activeTabID].its.forEach((it) => {

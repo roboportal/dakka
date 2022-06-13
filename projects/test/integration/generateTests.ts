@@ -18,7 +18,7 @@ import tabLinkNavigation from './mocks/tabLinkNavigation.json'
 import backspaceDeleteInput from './mocks/backspaceDeleteInput.json'
 import checkboxClickAssertion from './mocks/checkboxClickAssertion.json'
 import checkboxClick from './mocks/checkboxClick.json'
-
+import fileUpload from './mocks/fileUpload.json'
 const OUT_DIR_PATH = '../../../generated'
 
 const OUTPUT_FOLDERS_MAP: Record<string, string> = {
@@ -51,6 +51,7 @@ const inputDataTuple = [
   ['backspaceDeleteInput', backspaceDeleteInput],
   ['checkboxClickAssertion', checkboxClickAssertion],
   ['checkboxClick', checkboxClick],
+  ['fileUpload', fileUpload],
   ...generatedOnButton,
 ]
 

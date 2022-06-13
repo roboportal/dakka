@@ -113,3 +113,20 @@ export function resizeEventHandler(innerWidth: number, innerHeight: number) {
     fatal('Error sending recorded event:', error)
   }
 }
+
+export function changeEventHandler(event: any) {
+  try {
+    const isTargetFileInput = !!event.target?.files?.length
+
+    if (isTargetFileInput) {
+      const message = composeEvent({
+        event: event,
+        extensionId,
+        eventType: EVENT_INTERCEPTED,
+      })
+      window.postMessage(message)
+    }
+  } catch (error) {
+    fatal('Error sending recorded event:', error)
+  }
+}

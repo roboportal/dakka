@@ -1,7 +1,11 @@
 import { info } from '@roboportal/utils/logger'
-import { eventTypes, resize } from '@roboportal/constants/browserEvents'
+import { eventTypes, resize, change } from '@roboportal/constants/browserEvents'
 
-import { eventHandler, resizeEventHandler } from './eventLogger'
+import {
+  eventHandler,
+  resizeEventHandler,
+  changeEventHandler,
+} from './eventLogger'
 
 info('Script injected')
 
@@ -12,3 +16,5 @@ eventTypes.forEach((eventTypes) => {
 window.addEventListener(resize, () =>
   resizeEventHandler(window.innerWidth, window.innerHeight),
 )
+
+window.addEventListener(change, changeEventHandler, true)

@@ -1,7 +1,7 @@
 import { exportOptions } from '@roboportal/constants/exportOptions'
 import { assertionTypes } from '@roboportal/constants/assertion'
 import { selectorTypes } from '@roboportal/constants/selectorTypes'
-import { resize } from '@roboportal/constants/browserEvents'
+import { fileUpload, resize } from '@roboportal/constants/browserEvents'
 import { WAIT_FOR_ELEMENT, ASSERTION } from '@roboportal/constants/actionTypes'
 
 import { normalizeString } from '@roboportal/utils/normalizer'
@@ -28,10 +28,7 @@ export class PuppeteerProcessor extends ExportProcessor {
   type = exportOptions.puppeteer
   fileName = 'puppeteer.spec.js'
 
-  private methodsMap: Record<
-    string,
-    (it: { key: string; selector?: string }) => string
-  > = {
+  private methodsMap: Record<string, (it: IEventBlock) => string> = {
     mouseClick: ({ selector }) =>
       selector ? `.click('${selector}')` : '.click()',
     dblclick: ({ selector }) =>
@@ -42,6 +39,14 @@ export class PuppeteerProcessor extends ExportProcessor {
       selector
         ? `.type('${selector}', '${key ?? ''}')`
         : `.type('${key ?? ''}')`,
+    [fileUpload]: ({ selector, files }) => {
+      if (!files) {
+        return ''
+      }
+      return `.$('${selector}').then(el => el.uploadFile(${files
+        .map((f) => `'./${f.name}'`)
+        .join(', ')}))`
+    },
     default: () => '',
   }
 
@@ -410,14 +415,16 @@ describe('${testName}', () => {
       return `  
       await ${scope}.waitForXPath('${selector}[not(@disabled)]')
       await ${scope}.$x('${selector}').then(async (elements) => await elements[0].evaluate((e) => e${
-        this.methodsMap[it?.type]?.({ key }) ?? this.methodsMap.default({ key })
+        this.methodsMap[it?.type]?.({ ...it, key }) ??
+        this.methodsMap.default({ ...it, key })
       }))\n`
     }
 
     return `      
       await ${scope}.waitForSelector('${payload.selector}:not([disabled])')
       await ${scope}${
-      this.methodsMap[it?.type]?.(payload) ?? this.methodsMap.default(payload)
+      this.methodsMap[it?.type]?.({ ...it, ...payload }) ??
+      this.methodsMap.default({ ...it, ...payload })
     }\n`
   }
 

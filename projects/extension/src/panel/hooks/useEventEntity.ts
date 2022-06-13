@@ -43,7 +43,7 @@ export default function useEventEntity(
     [dispatch],
   )
 
-  const { type, selectedSelector, url, key, variant, element } = record
+  const { type, selectedSelector, url, key, variant, element, files } = record
 
   const selector = `${selectedSelector?.name}: ${selectedSelector?.value}`
   const isRedirect = type === internalEventsMap[REDIRECT_STARTED]
@@ -131,6 +131,7 @@ export default function useEventEntity(
     setIsSelectElement(false)
   }, [lastSelectedEventId])
 
+  const isFileUpload = !!files?.length
   return {
     shouldHaveTopMargin,
     isRedirect,
@@ -148,5 +149,7 @@ export default function useEventEntity(
     url,
     selector,
     isResize,
+    files,
+    isFileUpload,
   }
 }

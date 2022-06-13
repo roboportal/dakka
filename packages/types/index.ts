@@ -58,4 +58,10 @@ export interface IEventBlock {
     selectors: ISelector[]
     selector: string
   }
+  files?: Array<{
+    lastModified: number
+    name: string
+    size: number
+    type: string
+  }>
 }

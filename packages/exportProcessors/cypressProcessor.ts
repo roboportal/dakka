@@ -4,7 +4,7 @@ import { selectorTypes } from '@roboportal/constants/selectorTypes'
 import { INTERACTIVE_TAGS } from '@roboportal/constants/interactiveTags'
 import { assertionTypes } from '@roboportal/constants/assertion'
 import { ASSERTION } from '@roboportal/constants/actionTypes'
-import { resize } from '@roboportal/constants/browserEvents'
+import { fileUpload, resize } from '@roboportal/constants/browserEvents'
 
 import { normalizeString } from '@roboportal/utils/normalizer'
 
@@ -30,6 +30,12 @@ export class CypressProcessor extends ExportProcessor {
     keyboard: ({ key }) => `.type('${normalizeString(key ?? '')}')`,
     keydown: ({ key }) => keyDowns[key ?? ''] ?? '',
     keyup: ({ key }) => keyDowns[key ?? ''] ?? '',
+    [fileUpload]: ({ files }) => {
+      if (!files) {
+        return ''
+      }
+      return `.selectFile([${files.map((f) => `'./${f.name}'`).join(', ')}])`
+    },
     default: () => '',
   }
 

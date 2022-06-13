@@ -48,6 +48,7 @@ export function Record({
         insertBlock({
           type,
           eventIndex: refIndex?.current,
+          triggeredAt: 0,
         }),
       )
       refIndex.current = null

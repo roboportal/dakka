@@ -37,11 +37,11 @@ export default function useAllowInjection() {
         })
       }
       if (eventRecord.type === INJECTION_ALLOWED_STATUS) {
-        const tabId = sender?.tab?.id
+        const tabId = sender?.tab?.id ?? -1
         dispatch(
           setIsInjectionAllowed({
             tabId,
-            isInjectingAllowed: eventRecord.payload.isInjectingAllowed,
+            isInjectingAllowed: !!eventRecord.payload.isInjectingAllowed,
           }),
         )
       }

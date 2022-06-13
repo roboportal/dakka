@@ -1,0 +1,222 @@
+[
+  {
+    "url": "https://master.d33h0yvwek6xsp.amplifyapp.com/",
+    "title": "Integration",
+    "id": "B0slEcVTOkMEaVvkzmCeW",
+    "triggeredAt": 1655090177172,
+    "type": "_redirect",
+    "selector": "https://master.d33h0yvwek6xsp.amplifyapp.com/",
+    "innerWidth": 1242,
+    "innerHeight": 379
+  },
+  {
+    "id": "XMCoohrH0z4pVa_urV4f7",
+    "validSelectors": [
+      {
+        "name": "data-cy",
+        "value": "[data-cy=\"file_input\"]",
+        "length": 1,
+        "priority": 1,
+        "rawValue": "file_input",
+        "closest": 0,
+        "tagName": "input"
+      },
+      {
+        "name": "type",
+        "value": "input[type=\"file\"]",
+        "length": 1,
+        "priority": 2,
+        "rawValue": "file",
+        "closest": 0,
+        "tagName": "input"
+      },
+      {
+        "name": "tagName#element-id",
+        "value": "input#file",
+        "length": 1,
+        "priority": 2,
+        "rawValue": "#file",
+        "closest": 0,
+        "tagName": "input"
+      },
+      {
+        "name": "#element-id",
+        "value": "#file",
+        "length": 1,
+        "priority": 2,
+        "rawValue": "#file",
+        "closest": 0,
+        "tagName": "input"
+      },
+      {
+        "name": "unique-path",
+        "value": "#file",
+        "length": 1,
+        "priority": 3,
+        "rawValue": "#file",
+        "closest": 0,
+        "tagName": "input"
+      },
+      {
+        "name": "<tagName>",
+        "value": "input",
+        "length": 4,
+        "priority": 3,
+        "rawValue": "input",
+        "closest": 0,
+        "tagName": "input"
+      }
+    ],
+    "triggeredAt": 1655090185305,
+    "selector": "#file",
+    "selectedSelector": {
+      "name": "data-cy",
+      "value": "[data-cy=\"file_input\"]",
+      "length": 1,
+      "priority": 1,
+      "rawValue": "file_input",
+      "closest": 0,
+      "tagName": "input"
+    },
+    "url": "https://master.d33h0yvwek6xsp.amplifyapp.com/",
+    "type": "_fileUpload",
+    "bubbles": true,
+    "cancelable": false,
+    "eventPhase": 1,
+    "isTrusted": true,
+    "defaultPrevented": false,
+    "timeStamp": 8797.5,
+    "title": "Integration",
+    "innerWidth": 1242,
+    "innerHeight": 379,
+    "isInIframe": false,
+    "iframeDetails": null,
+    "files": [
+      {
+        "lastModified": 1651648978504,
+        "name": "test_file.txt",
+        "size": 987284,
+        "type": ""
+      }
+    ]
+  },
+  {
+    "id": "i52_rhCYcYYTHlR5_TFfI",
+    "eventRecordIndex": 2,
+    "type": "Assertion",
+    "url": "https://master.d33h0yvwek6xsp.amplifyapp.com/",
+    "title": "Integration",
+    "variant": "INTERACTIVE_ELEMENT",
+    "triggeredAt": 0,
+    "element": {
+      "id": "HuosZnMrnJi5WYjwfftyz",
+      "validSelectors": [
+        {
+          "name": "data-cy",
+          "value": "[data-cy=\"file_select_result\"]",
+          "length": 1,
+          "priority": 1,
+          "rawValue": "file_select_result",
+          "closest": 0,
+          "tagName": "div"
+        },
+        {
+          "name": "text",
+          "value": "test_file.txt",
+          "length": 1,
+          "priority": 1,
+          "rawValue": "test_file.txt",
+          "closest": 0,
+          "tagName": "div"
+        },
+        {
+          "name": "tagName#element-id",
+          "value": "div#file_select_result",
+          "length": 1,
+          "priority": 2,
+          "rawValue": "#file_select_result",
+          "closest": 0,
+          "tagName": "div"
+        },
+        {
+          "name": "#element-id",
+          "value": "#file_select_result",
+          "length": 1,
+          "priority": 2,
+          "rawValue": "#file_select_result",
+          "closest": 0,
+          "tagName": "div"
+        },
+        {
+          "name": "unique-path",
+          "value": "#file_select_result",
+          "length": 1,
+          "priority": 3,
+          "rawValue": "#file_select_result",
+          "closest": 0,
+          "tagName": "div"
+        },
+        {
+          "name": "<tagName>",
+          "value": "div",
+          "length": 5,
+          "priority": 3,
+          "rawValue": "div",
+          "closest": 0,
+          "tagName": "div"
+        }
+      ],
+      "triggeredAt": 1655090202894,
+      "selector": "#file_select_result",
+      "selectedSelector": {
+        "name": "data-cy",
+        "value": "[data-cy=\"file_select_result\"]",
+        "length": 1,
+        "priority": 1,
+        "rawValue": "file_select_result",
+        "closest": 0,
+        "tagName": "div"
+      },
+      "url": "https://master.d33h0yvwek6xsp.amplifyapp.com/",
+      "type": "mouseover",
+      "altKey": false,
+      "bubbles": true,
+      "button": 0,
+      "buttons": 0,
+      "cancelable": true,
+      "clientX": 85,
+      "clientY": 89,
+      "ctrlKey": false,
+      "detail": 0,
+      "eventPhase": 1,
+      "isTrusted": true,
+      "metaKey": false,
+      "pageX": 85,
+      "pageY": 89,
+      "screenX": 85,
+      "screenY": 193,
+      "shiftKey": false,
+      "defaultPrevented": false,
+      "timeStamp": 26385.100000023842,
+      "which": 0,
+      "title": "Integration",
+      "innerWidth": 1242,
+      "innerHeight": 379,
+      "isInIframe": false,
+      "iframeDetails": null,
+      "files": [],
+      "text": "test_file.txt",
+      "attributesMap": {
+        "id": "file_select_result",
+        "data-cy": "file_select_result"
+      }
+    },
+    "selector": "",
+    "assertionAttribute": "",
+    "assertionValue": "test_file.txt",
+    "assertionType": {
+      "type": "contains",
+      "name": "Contains"
+    }
+  }
+]
