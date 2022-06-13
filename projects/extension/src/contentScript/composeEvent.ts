@@ -2,6 +2,7 @@ import { nanoid } from 'nanoid'
 import { finder } from '@medv/finder'
 import { generateSelectors } from './genarateSelector'
 import { TAGS, NON_INTERACTIVE_TAGS } from './constants'
+import { fileUpload } from '@roboportal/constants/browserEvents'
 
 const isInIframe = window.location !== window.parent.location
 
@@ -70,7 +71,7 @@ export function composeEvent({
     (computedStyles as CSSStyleDeclaration)?.display === 'none' ||
     target?.style?.display === 'none'
 
-  if (!(target instanceof Element) || isHidden || isDisplayNone) {
+  if (!target || !(target instanceof Element) || isHidden || isDisplayNone) {
     return {}
   }
 
@@ -155,6 +156,22 @@ export function composeEvent({
       ? document.referrer
       : document.location.href
 
+  const mappedFiles = Array.from<any>((target as any)?.files ?? []).map(
+    ({ lastModified, name, size, type }) => ({
+      lastModified,
+      name,
+      size,
+      type,
+    }),
+  )
+
+  const typeOverride = (() => {
+    if (mappedFiles.length) {
+      return fileUpload
+    }
+    return type
+  })()
+
   return {
     id: extensionId,
     type: eventType,
@@ -166,7 +183,7 @@ export function composeEvent({
       selectedSelector,
       selectedIframeSelector,
       url,
-      type,
+      type: typeOverride,
       altKey,
       animationName,
       bubbles,
@@ -211,6 +228,7 @@ export function composeEvent({
       innerHeight: window.innerHeight,
       isInIframe,
       iframeDetails,
+      files: mappedFiles,
     },
   }
 }

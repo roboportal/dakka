@@ -43,23 +43,24 @@ export default function useEventRecorder() {
         eventRecord.payload.type = internalEventsMap[eventRecord.type]
       }
 
-      if (!tabId) {
-        chrome.tabs.query({ active: true }).then((tab) => {
+      Promise.resolve(tabId)
+        .then((tabId) => {
+          if (tabId) {
+            return tabId
+          }
+          return chrome.tabs
+            .query({ active: true })
+            .then((tab) => tab[0]?.id ?? -1)
+        })
+        .then((tabId) => {
           dispatch(
             recordEvent({
               eventRecord,
-              tabId: tab[0]?.id ?? -1,
+              tabId,
             }),
           )
         })
-        return true
-      }
-      dispatch(
-        recordEvent({
-          eventRecord,
-          tabId,
-        }),
-      )
+
       return true
     }
 
