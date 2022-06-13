@@ -1,6 +1,10 @@
 import { exportOptions } from '@roboportal/constants/exportOptions'
 import { INTERACTIVE_TAGS } from '@roboportal/constants/interactiveTags'
-import { resize, redirect } from '@roboportal/constants/browserEvents'
+import {
+  resize,
+  redirect,
+  fileUpload,
+} from '@roboportal/constants/browserEvents'
 import { selectorTypes } from '@roboportal/constants/selectorTypes'
 import { ASSERTION } from '@roboportal/constants/actionTypes'
 import { assertionTypes } from '@roboportal/constants/assertion'
@@ -19,6 +23,12 @@ export class PlaywrightProcessor extends ExportProcessor {
     mouseClick: () => '.click()',
     dblclick: () => '.dblclick()',
     keyboard: ({ key }) => `.fill('${normalizeString(key ?? '')}')`,
+    [fileUpload]: ({ files }) => {
+      if (!files) {
+        return ''
+      }
+      return `.setInputFiles([${files.map((f) => `'./${f.name}'`).join(', ')}])`
+    },
     default: () => '',
   }
 

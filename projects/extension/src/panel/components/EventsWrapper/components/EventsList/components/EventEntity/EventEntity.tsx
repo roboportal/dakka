@@ -12,6 +12,7 @@ import { AssertionSelector } from './components/AssertionSelector'
 import { EntryRow } from './components/EntryRow'
 import { Actions } from './components/Actions'
 import { DeleteAction } from './components/DeleteAction'
+import { FileEntryRow } from './components/FileEntryRow'
 
 function getBackgroundColor({
   isHover,
@@ -65,6 +66,8 @@ export function EventEntity({
     url,
     selector,
     isResize,
+    files,
+    isFileUpload,
   } = useEventEntity(record, isExpanded)
 
   return (
@@ -127,6 +130,13 @@ export function EventEntity({
             isExpanded={isExpanded}
             label="Key"
             value={truncate(key, 7, isExpanded)}
+          />
+        )}
+        {isFileUpload && (
+          <FileEntryRow
+            prefersDarkMode={prefersDarkMode}
+            isExpanded={isExpanded}
+            files={files ?? []}
           />
         )}
 
