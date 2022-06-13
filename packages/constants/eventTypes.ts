@@ -1,5 +1,5 @@
-import { eventTypes, resize, redirect } from './browserEvents'
+import { eventTypes, resize, redirect, fileUpload } from './browserEvents'
 
 export const eventsToTrack = Object.fromEntries(
-  [...eventTypes, resize, redirect].map((t) => [t, true]),
+  [...eventTypes, resize, redirect, fileUpload].map((t) => [t, true]),
 )
