@@ -4,7 +4,11 @@ import { selectorTypes } from '@roboportal/constants/selectorTypes'
 import { INTERACTIVE_TAGS } from '@roboportal/constants/interactiveTags'
 import { assertionTypes } from '@roboportal/constants/assertion'
 import { ASSERTION } from '@roboportal/constants/actionTypes'
-import { fileUpload, resize } from '@roboportal/constants/browserEvents'
+import {
+  fileUpload,
+  resize,
+  redirect,
+} from '@roboportal/constants/browserEvents'
 
 import { normalizeString } from '@roboportal/utils/normalizer'
 
@@ -304,6 +308,15 @@ export class CypressProcessor extends ExportProcessor {
 
       if (it.type === resize) {
         acc += this.setViewPort(it.innerWidth, it.innerHeight)
+      }
+
+      if (it.type === redirect) {
+        acc += `    ${this.getGoToTestedPage(
+          it.url,
+          it.innerWidth,
+          it.innerHeight,
+        )}
+`
       }
 
       return acc

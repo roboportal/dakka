@@ -53,10 +53,15 @@ export default function useEventHighlight(
 ) {
   const toggleHighlightedElement: MouseEventHandler = useCallback(
     (e) => {
+      const target = e?.target as HTMLElement
+
+      const eventListIndex = target?.dataset?.event_list_index
+        ? target?.dataset?.event_list_index
+        : (target?.closest('[data-event_list_index]') as HTMLElement)?.dataset
+            ?.event_list_index
+
       const eventIds: number[] =
-        (e?.target as HTMLElement)?.dataset?.event_list_index
-          ?.split('.')
-          .map((it) => Number(it)) ?? []
+        eventListIndex?.split('.').map((it) => Number(it)) ?? []
 
       const shouldHighlight: boolean =
         !!eventIds.length &&

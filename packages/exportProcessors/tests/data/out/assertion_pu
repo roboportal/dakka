@@ -8,7 +8,6 @@ describe('describe', () => {
     try {
       await page.setViewport({ width: 1309, height: 743 })
       await page.goto('https://www.google.com/search?q=rfrf&oq=rfrf&aqs=chrome..69i57j46i175i199i512j0i512l8.518j0j7&sourceid=chrome&ie=UTF-8')
-
       await page.waitForXPath('//div[contains(text(), "About 309,000 results")]')
       expect(await page.$x('//div[contains(text(), "About 309,000 results")]')).toBeDefined()
       await page.waitForXPath('//nobr[contains(text(), " (0.47 seconds) ")]')
