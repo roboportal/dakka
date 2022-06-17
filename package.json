@@ -13,6 +13,7 @@
     "start:dev": "npm run start:dev -w @roboportal/dakka",
     "build": "npm run build -w @roboportal/dakka",
     "pack": "npm run pack -w @roboportal/dakka",
+    "devtools": "npm run devtools -w @roboportal/dakka",
     "lint": "eslint",
     "test": "jest",
     "prepare": "husky install"

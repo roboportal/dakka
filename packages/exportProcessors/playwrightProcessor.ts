@@ -402,6 +402,15 @@ test.describe('${testName}', () => {
         acc += this.setViewPort(it.innerWidth, it.innerHeight)
       }
 
+      if (it.type === redirect) {
+        acc += `    ${this.getGoToTestedPage(
+          it.url,
+          it.innerWidth,
+          it.innerHeight,
+        )}
+`
+      }
+
       return acc
     }, '')
   }

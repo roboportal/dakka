@@ -1,11 +1,13 @@
 import { exportOptions } from '@roboportal/constants/exportOptions'
 import { assertionTypes } from '@roboportal/constants/assertion'
 import { selectorTypes } from '@roboportal/constants/selectorTypes'
-import { fileUpload, resize } from '@roboportal/constants/browserEvents'
+import {
+  fileUpload,
+  resize,
+  redirect,
+} from '@roboportal/constants/browserEvents'
 import { WAIT_FOR_ELEMENT, ASSERTION } from '@roboportal/constants/actionTypes'
-
 import { normalizeString } from '@roboportal/utils/normalizer'
-
 import { IEventBlock, ITestCase } from '@roboportal/types'
 
 import { ExportProcessor } from './abstractProcessor'
@@ -492,6 +494,15 @@ describe('${testName}', () => {
         acc += this.setViewPort(it.innerWidth, it.innerHeight)
       }
 
+      if (it.type === redirect) {
+        acc += `      ${this.getGoToTestedPage(
+          it.url,
+          it.innerWidth,
+          it.innerHeight,
+        )}
+`
+      }
+
       return acc
     }, '')
   }
@@ -538,8 +549,11 @@ describe('${testName}', () => {
     const page = await browser.newPage()
 
     try {
-      ${this.getGoToTestedPage(url, innerWidth, innerHeight)}
-${this.getIframeVariables(events)}
+      ${this.getGoToTestedPage(
+        url,
+        innerWidth,
+        innerHeight,
+      )}${this.getIframeVariables(events)}
 ${this.serializeRecordedEvents(restEvents)}
     } finally {
       await browser.close();
