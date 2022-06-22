@@ -39,7 +39,7 @@ To install Dakka click <a href="https://chrome.google.com/webstore/detail/dakka/
 
 ## User Actions
 
-Once user interactions recording allowed for the page, Dakka will catch:
+Once user starts recording, Dakka will catch:
 
 - Mouse clicks, double-clicks and right button clicks
 - Keyboard inputs including meta and special keys
