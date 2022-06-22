@@ -37,6 +37,18 @@ To install Dakka click <a href="https://chrome.google.com/webstore/detail/dakka/
 <img width="760" alt="Dakka demo" src="https://user-images.githubusercontent.com/7383804/154786735-1fd140c2-3515-4978-a52e-3bb26e3e8c3a.png">
 </div>
 
+## User Actions
+
+Once user starts recording, Dakka will catch:
+
+- Mouse clicks, double-clicks and right button clicks
+- Keyboard inputs including meta and special keys
+- File uploads
+- Browser navigation
+- Screen resize
+
+Not only Dakka tracks events for the page, but also for all its iframes (all origins supported!).
+
 ## Adding Assertions
 
 Assertion Blocks are validation steps, which are converted to assertion logic such as <code>cy.get('#loading').should('not.exist')</code>.
