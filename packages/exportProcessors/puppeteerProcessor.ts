@@ -513,7 +513,7 @@ describe('${testName}', () => {
   }
 
   private setViewPort(innerWidth = 0, innerHeight = 0) {
-    return `      await page.setViewport({ width: ${innerWidth}, height: ${innerHeight} })`
+    return `      await page.setViewport({ width: ${innerWidth}, height: ${innerHeight} })\n`
   }
 
   private getIframeVariables(events: IEventBlock[]) {

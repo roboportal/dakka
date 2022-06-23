@@ -172,6 +172,7 @@ export default function ProjectPanel() {
           display: flex;
           flex-direction: column;
           position: relative;
+          width: 28px;
         `}
         color="info"
         onClick={toggleIsDrawerOpened}
