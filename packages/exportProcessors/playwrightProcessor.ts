@@ -62,7 +62,7 @@ test.describe('${testName}', () => {
   }
 
   private setViewPort(innerWidth = 0, innerHeight = 0) {
-    return `    await page.setViewportSize({ width: ${innerWidth}, height: ${innerHeight} })`
+    return `    await page.setViewportSize({ width: ${innerWidth}, height: ${innerHeight} })\n`
   }
 
   private expectMethodsMap: Record<

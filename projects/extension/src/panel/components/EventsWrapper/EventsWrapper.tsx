@@ -30,7 +30,6 @@ export default function EventsWrapper({
         display: flex;
         flex-direction: column;
         position: relative;
-        width: 100%;
         height: calc(100vh - 52px);
       `}
     >
@@ -39,6 +38,7 @@ export default function EventsWrapper({
           display: flex;
           justify-content: row;
           overflow-x: scroll;
+          width: calc(100vw - 35px);
           height: 100%;
           &::-webkit-scrollbar {
             display: none;
