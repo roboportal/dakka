@@ -84,23 +84,18 @@ If generated events contain any entries that aren't required for the test use th
 
 Generated test can be copied to clipboard or downloaded as a file and added to the project.
 
-<div align="center">
-<img width="760" alt="Exporting" src="https://user-images.githubusercontent.com/7383804/154789533-2ed4c538-7f9b-4cbb-86bf-6be11889b87b.gif">
-</div>
+![Exporting](https://user-images.githubusercontent.com/7383804/154789533-2ed4c538-7f9b-4cbb-86bf-6be11889b87b.gif)
 
 Alternatively, you can open the generated test in the extension's popup by clicking the action icon:
 
-<div align="center">
-<img width="760" alt="Test Preview" src="https://user-images.githubusercontent.com/15819745/171315495-1561eab7-8017-41f4-b227-4ae7e73ccb95.gif">
-</div>
+![Test Preview](https://user-images.githubusercontent.com/15819745/171315495-1561eab7-8017-41f4-b227-4ae7e73ccb95.gif)
 
 ## Test Case Creation
 
 Dakka allows not only the single test recording and creation, but also the comprehensive test cases setup:
 
-<div align="center">
-<img width="760" alt="Test Case Creation" src="https://user-images.githubusercontent.com/15819745/171320546-5c51adcf-09df-4b6f-8539-52a6c5055b43.gif">
-</div>
+![Test Case Creation](https://user-images.githubusercontent.com/15819745/171320546-5c51adcf-09df-4b6f-8539-52a6c5055b43.gif)
+
 
 ## Contributing
 
