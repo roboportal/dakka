@@ -11,6 +11,7 @@ import { normalizeString } from '@roboportal/utils/normalizer'
 import { IEventBlock, ITestCase } from '@roboportal/types'
 
 import { ExportProcessor } from './abstractProcessor'
+import { formatCode } from './formatter'
 
 const selectorOptions: Record<string, string> = {
   [selectorTypes.text]: '$x',
@@ -567,9 +568,8 @@ ${this.serializeRecordedEvents(restEvents)}
   ) {
     const testName = testCaseMeta.describe || 'Dakka Puppeteer test'
 
-    return this.getWrapper(
-      testName,
-      this.getContent(testCaseEvents, testCaseMeta),
+    return formatCode(
+      this.getWrapper(testName, this.getContent(testCaseEvents, testCaseMeta)),
     )
   }
 }

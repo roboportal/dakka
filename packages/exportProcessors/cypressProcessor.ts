@@ -15,6 +15,7 @@ import { normalizeString } from '@roboportal/utils/normalizer'
 import { IEventBlock, ISelector, ITestCase } from '@roboportal/types'
 
 import { ExportProcessor } from './abstractProcessor'
+import { formatCode } from './formatter'
 
 const keyDowns: Record<string, string> = {
   Backspace: ".type('{backspace}')",
@@ -363,9 +364,8 @@ ${this.serializeRecordedEvents(restEvents)}
   ) {
     const testName = testCaseMeta.describe || 'Dakka Cypress test'
 
-    return this.getWrapper(
-      testName,
-      this.getContent(testCaseEvents, testCaseMeta),
+    return formatCode(
+      this.getWrapper(testName, this.getContent(testCaseEvents, testCaseMeta)),
     )
   }
 }
