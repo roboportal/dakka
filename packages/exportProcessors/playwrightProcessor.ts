@@ -14,6 +14,7 @@ import { normalizeString } from '@roboportal/utils/normalizer'
 import { IEventBlock, ISelector, ITestCase } from '@roboportal/types'
 
 import { ExportProcessor } from './abstractProcessor'
+import { formatCode } from './formatter'
 
 export class PlaywrightProcessor extends ExportProcessor {
   type = exportOptions.playwright
@@ -456,9 +457,8 @@ ${this.serializeRecordedEvents(restEvents)}
   ) {
     const testName = testCaseMeta.describe || 'Dakka Playwright test'
 
-    return this.getWrapper(
-      testName,
-      this.getContent(testCaseEvents, testCaseMeta),
+    return formatCode(
+      this.getWrapper(testName, this.getContent(testCaseEvents, testCaseMeta)),
     )
   }
 }

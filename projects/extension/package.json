@@ -1,6 +1,6 @@
 {
   "name": "@roboportal/dakka",
-  "version": "0.0.21",
+  "version": "0.0.23",
   "description": "",
   "main": "index.js",
   "private": true,
@@ -28,6 +28,7 @@
     "ansi-regex": "^6.0.1",
     "js-yaml": "^4.1.0",
     "nanoid": "^3.2.0",
+    "prettier": "^2.7.1",
     "react": "17.0.2",
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.5",

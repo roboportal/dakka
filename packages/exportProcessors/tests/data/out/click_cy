@@ -1,9 +1,11 @@
 describe('describe', () => {
   it('Test case 0', () => {
-    cy.viewport(1309, 743)
-    cy.visit('https://www.google.com/search?q=rfrf&oq=rfrf&aqs=chrome..69i57j46i175i199i512j0i512l8.518j0j7&sourceid=chrome&ie=UTF-8', { failOnStatusCode: false })
+    cy.viewport(1309, 743);
+    cy.visit(
+      'https://www.google.com/search?q=rfrf&oq=rfrf&aqs=chrome..69i57j46i175i199i512j0i512l8.518j0j7&sourceid=chrome&ie=UTF-8',
+      { failOnStatusCode: false }
+    );
 
-    cy.get('input[aria-label="Search"]').click()
-
-  })
-})
+    cy.get('input[aria-label="Search"]').click();
+  });
+});

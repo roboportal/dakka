@@ -21,7 +21,7 @@ Dakka is an open source Chrome Extension which helps to generate end-to-end test
 
 Demo website link: https://roboportal.io/
 
-![Capture 2022-02-22 at 00 22 29](https://user-images.githubusercontent.com/7383804/155093359-37df3741-4010-4c26-a93a-4fdfa02ed336.gif)
+![Demo](https://user-images.githubusercontent.com/7383804/155093359-37df3741-4010-4c26-a93a-4fdfa02ed336.gif)
 
 ## Installing
 
@@ -54,11 +54,7 @@ Not only Dakka tracks events for the page, but also for all its iframes (all ori
 Assertion Blocks are validation steps, which are converted to assertion logic such as <code>cy.get('#loading').should('not.exist')</code>.
 To add an assertion hover over the floating plus sign and drag and drop assertion block.
 
-<br/>
-<div align="center">
-<img width="760" alt="Adding Assertions" src="https://user-images.githubusercontent.com/7383804/154787750-16716f68-40d1-4360-bc96-0152128a635a.gif">
-</div>
-<br/>
+![Adding Assertions](https://user-images.githubusercontent.com/7383804/154787750-16716f68-40d1-4360-bc96-0152128a635a.gif)
 
 After adding Assertion Block you will need to configure assertion logic - locate the element on the page or manually add the element selector, choose the assertion from dropdown and edit the value if needed.
 
@@ -88,23 +84,18 @@ If generated events contain any entries that aren't required for the test use th
 
 Generated test can be copied to clipboard or downloaded as a file and added to the project.
 
-<div align="center">
-<img width="760" alt="Exporting" src="https://user-images.githubusercontent.com/7383804/154789533-2ed4c538-7f9b-4cbb-86bf-6be11889b87b.gif">
-</div>
+![Exporting](https://user-images.githubusercontent.com/7383804/154789533-2ed4c538-7f9b-4cbb-86bf-6be11889b87b.gif)
 
 Alternatively, you can open the generated test in the extension's popup by clicking the action icon:
 
-<div align="center">
-<img width="760" alt="Test Preview" src="https://user-images.githubusercontent.com/15819745/171315495-1561eab7-8017-41f4-b227-4ae7e73ccb95.gif">
-</div>
+![Test Preview](https://user-images.githubusercontent.com/15819745/171315495-1561eab7-8017-41f4-b227-4ae7e73ccb95.gif)
 
 ## Test Case Creation
 
 Dakka allows not only the single test recording and creation, but also the comprehensive test cases setup:
 
-<div align="center">
-<img width="760" alt="Test Case Creation" src="https://user-images.githubusercontent.com/15819745/171320546-5c51adcf-09df-4b6f-8539-52a6c5055b43.gif">
-</div>
+![Test Case Creation](https://user-images.githubusercontent.com/15819745/171320546-5c51adcf-09df-4b6f-8539-52a6c5055b43.gif)
+
 
 ## Contributing
 
