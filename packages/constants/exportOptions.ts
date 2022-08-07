@@ -3,5 +3,6 @@ export enum exportOptions {
   cypress = 'cypress',
   playwright = 'playwright',
   puppeteer = 'puppeteer',
+  describe = 'describe',
   dakka = 'dakka',
 }

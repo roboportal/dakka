@@ -19,6 +19,10 @@ export interface ISelector {
   priority: number
   closest?: number
   tagName?: string
+  rawValue?: string
+  elementType?: string
+  placeholder?: string
+  textContent?: string
 }
 
 export interface IEventBlock {

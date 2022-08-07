@@ -26,9 +26,10 @@ export const generateSelectors = (
 ) => {
   const tagName = (target?.tagName ?? '*').toLowerCase()
   const role = target?.getAttribute('role')
-  const ariaLabel = target?.ariaLabel
-  const placeholder = target?.getAttribute('placeholder')
-  const textContent = target?.firstChild?.nodeValue
+  const ariaLabel = target?.ariaLabel ?? ''
+  const placeholder = target?.getAttribute('placeholder') ?? ''
+  const elementType = target?.getAttribute('type') ?? ''
+  const textContent = target?.firstChild?.nodeValue ?? ''
   const classAttribute = target?.getAttribute('class')
   const className = classAttribute
     ? `.${classAttribute.replace(/ +/g, '.')}`
@@ -36,6 +37,15 @@ export const generateSelectors = (
   const elementId = target?.getAttribute('id')
     ? `#${target?.getAttribute('id')}`
     : ''
+
+  const commonIdentifiers = {
+    closest,
+    tagName,
+    elementType,
+    ariaLabel,
+    placeholder,
+    textContent,
+  }
 
   const customDataAttributes = Object.values(target?.attributes ?? []).reduce(
     (data: Record<string, string | number>[], attribute) => {
@@ -49,8 +59,7 @@ export const generateSelectors = (
             length: getSelectorLength(`[${name}="${value}"]`),
             priority: 1,
             rawValue: value,
-            closest,
-            tagName,
+            ...commonIdentifiers,
           },
           ...data,
         ]
@@ -63,8 +72,7 @@ export const generateSelectors = (
           length: getSelectorLength(`${tagName}[${name}="${value}"]`),
           priority: 2,
           rawValue: value,
-          closest,
-          tagName,
+          ...commonIdentifiers,
         }
 
         if (value === 'text' && name === 'type') {
@@ -88,8 +96,7 @@ export const generateSelectors = (
         length: getTextContentSelectorLength(tagName, textContent),
         priority: 1,
         rawValue: textContent,
-        closest,
-        tagName,
+        ...commonIdentifiers,
       },
     ariaLabel && {
       name: 'aria-label',
@@ -97,8 +104,7 @@ export const generateSelectors = (
       length: getSelectorLength(`[aria-label="${ariaLabel}"]`),
       priority: 2,
       rawValue: ariaLabel,
-      closest,
-      tagName,
+      ...commonIdentifiers,
     },
     placeholder && {
       name: 'placeholder',
@@ -106,8 +112,7 @@ export const generateSelectors = (
       length: getSelectorLength(`[placeholder="${placeholder}"]`),
       priority: 2,
       rawValue: placeholder,
-      closest,
-      tagName,
+      ...commonIdentifiers,
     },
     role && {
       name: 'role',
@@ -115,8 +120,7 @@ export const generateSelectors = (
       length: getSelectorLength(`[role="${role}"]`),
       priority: 2,
       rawValue: role,
-      closest,
-      tagName,
+      ...commonIdentifiers,
     },
     elementId &&
       tagName && {
@@ -125,8 +129,7 @@ export const generateSelectors = (
         length: getSelectorLength(elementId),
         priority: 2,
         rawValue: elementId,
-        closest,
-        tagName,
+        ...commonIdentifiers,
       },
     elementId && {
       name: '#element-id',
@@ -134,8 +137,7 @@ export const generateSelectors = (
       length: getSelectorLength(elementId),
       priority: 2,
       rawValue: elementId,
-      closest,
-      tagName,
+      ...commonIdentifiers,
     },
     className && {
       name: '.classname',
@@ -143,8 +145,7 @@ export const generateSelectors = (
       length: getSelectorLength(className),
       priority: 3,
       rawValue: className,
-      closest,
-      tagName,
+      ...commonIdentifiers,
     },
     uniqueSelector &&
       uniqueSelector !== className && {
@@ -153,8 +154,7 @@ export const generateSelectors = (
         length: getSelectorLength(uniqueSelector),
         priority: 3,
         rawValue: uniqueSelector,
-        closest,
-        tagName,
+        ...commonIdentifiers,
       },
     tagName && {
       name: '<tagName>',
@@ -162,8 +162,7 @@ export const generateSelectors = (
       length: getSelectorLength(tagName),
       priority: 3,
       rawValue: tagName,
-      closest,
-      tagName,
+      ...commonIdentifiers,
     },
   ].filter((sel) => !!sel)
 }

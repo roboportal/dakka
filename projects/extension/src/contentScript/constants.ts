@@ -10,6 +10,7 @@ export const VALID_ATTRIBUTES = [
   'name',
   'ng-model',
   'type',
+  'title',
 ]
 
 export const DATA_ATTRIBUTES = [
@@ -25,7 +26,7 @@ export const DATA_ATTRIBUTES = [
   'data-QA',
   'data-qa',
   'data-name',
-  'data-icon'
+  'data-icon',
 ]
 
 export const NON_INTERACTIVE_TAGS = [

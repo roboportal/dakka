@@ -7,6 +7,7 @@ import { PlaywrightProcessor } from '@roboportal/export_processors/playwrightPro
 import { CypressProcessor } from '@roboportal/export_processors/cypressProcessor'
 import { ExportProcessor } from '@roboportal/export_processors/abstractProcessor'
 import { PuppeteerProcessor } from '@roboportal/export_processors/puppeteerProcessor'
+import { DescribeProcessor } from '@roboportal/export_processors/describeProcessor'
 
 class DakkaProcessor extends ExportProcessor {
   type = exportOptions.dakka
@@ -35,6 +36,7 @@ const processorsEntries = [
   CypressProcessor,
   PlaywrightProcessor,
   PuppeteerProcessor,
+  DescribeProcessor,
 ].map((P) => {
   const p = new P()
   return [p.type, p]
