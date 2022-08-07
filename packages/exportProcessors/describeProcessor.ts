@@ -175,13 +175,13 @@ export class DescribeProcessor extends ExportProcessor {
     const ariaLabel = it?.selectedSelector?.ariaLabel || ''
 
     const isSelect = rawValue === 'listbox' && name === 'role'
-    const isNoneInteractiveTag = NON_INTERACTIVE_TAGS.indexOf(tagName) > -1
+    const isNonInteractiveTag = NON_INTERACTIVE_TAGS.indexOf(tagName) > -1
 
     if (isSelect) {
       return `'${ariaLabel}' dropdown`
     }
 
-    return isNoneInteractiveTag ? `'${ariaLabel}'` : `'${ariaLabel}' ${tagName}`
+    return isNonInteractiveTag ? `'${ariaLabel}'` : `'${ariaLabel}' ${tagName}`
   }
 
   private getPlaceholderDescription(it: IEventBlock | null | undefined) {
@@ -198,14 +198,13 @@ export class DescribeProcessor extends ExportProcessor {
   }
 
   private getStepDescription(it: IEventBlock | null | undefined) {
-    console.log('it', it?.validSelectors)
     const tagName = this.getTagName(it)
     const rawValue = it?.selectedSelector?.rawValue || ''
     const textContent = it?.selectedSelector?.textContent || ''
     const ariaLabel = it?.selectedSelector?.ariaLabel || ''
     const placeholder = it?.selectedSelector?.placeholder || ''
 
-    const isNoneInteractiveTag = NON_INTERACTIVE_TAGS.indexOf(tagName) > -1
+    const isNonInteractiveTag = NON_INTERACTIVE_TAGS.indexOf(tagName) > -1
 
     if (ariaLabel) {
       return this.getLabeledDescription(it)
@@ -215,7 +214,7 @@ export class DescribeProcessor extends ExportProcessor {
       return this.getPlaceholderDescription(it)
     }
 
-    if (isNoneInteractiveTag) {
+    if (isNonInteractiveTag) {
       return `'${textContent || rawValue}'`
     }
 
@@ -225,8 +224,6 @@ export class DescribeProcessor extends ExportProcessor {
   private serializeRecordedEvents(events: IEventBlock[], step: number) {
     return events.reduce((acc, it, index) => {
       const elementName = this.getStepDescription(it)
-
-      console.log('elementName', elementName)
 
       const action =
         this.methodsMap[it?.type]?.(it) ?? this.methodsMap.default(it)
