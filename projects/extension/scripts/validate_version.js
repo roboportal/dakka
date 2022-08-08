@@ -13,8 +13,8 @@ if (!versionRegex.test(inputVersion)) {
 
 const parseVersions = (v) => v.split('.').map((n) => Number(n))
 
-const [patchA, minorA, majorA] = parseVersions(version)
-const [patchB, minorB, majorB] = parseVersions(inputVersion)
+const [majorA, minorA, patchA] = parseVersions(version)
+const [majorB, minorB, patchB] = parseVersions(inputVersion)
 
 const isInputVersionGtExisting =
   majorB > majorA ||
