@@ -47,14 +47,20 @@ const processorsMap = Object.fromEntries(processorsEntries)
 const getProcessor = (type: exportOptions): ExportProcessor =>
   processorsMap[type] ?? processorsMap[exportOptions.dakka]
 
-export default function process(
-  type: exportOptions,
-  testCaseEvents: Record<string, IEventBlock[]>,
-  testCaseMeta: ITestCase,
-) {
+export default function process({
+  type,
+  testCaseEvents,
+  testCaseMeta,
+  isIncludeSelector,
+}: {
+  type: exportOptions
+  testCaseEvents: Record<string, IEventBlock[]>
+  testCaseMeta: ITestCase
+  isIncludeSelector: boolean
+}) {
   const p = getProcessor(type)
   return {
-    text: p.process(testCaseEvents, testCaseMeta),
+    text: p.process(testCaseEvents, testCaseMeta, isIncludeSelector),
     fileName: p.fileName,
   }
 }

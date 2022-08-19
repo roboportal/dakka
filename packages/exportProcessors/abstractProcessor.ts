@@ -7,5 +7,6 @@ export abstract class ExportProcessor {
   abstract process(
     testCaseEvents: Record<string, IEventBlock[]>,
     testCaseMeta: ITestCase,
+    isIncludeSelector: boolean,
   ): string
 }

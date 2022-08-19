@@ -23,6 +23,7 @@ export interface EventRecorderState {
   expandedId: string | null
   lastSelectedEventId: string
   exportType: exportOptions
+  isIncludeSelector: boolean
   testCases: Record<string, ITestCase>
   firstEventRecorded: boolean
 }
@@ -67,6 +68,7 @@ const initialState: EventRecorderState = {
   lastSelectedEventId: '',
   exportType: exportOptions.none,
   testCases: {},
+  isIncludeSelector: true,
   firstEventRecorded: false,
 }
 
@@ -390,6 +392,13 @@ export const eventRecorderSlice = createSlice({
       state.exportType = payload
     },
 
+    setIsIncludeSelector: (
+      state: EventRecorderState,
+      { payload }: PayloadAction<boolean>,
+    ) => {
+      state.isIncludeSelector = payload
+    },
+
     addItToTestCase: ({
       events,
       activeTabID,
@@ -473,6 +482,7 @@ export const {
   selectIt,
   changeDescribe,
   changeIt,
+  setIsIncludeSelector,
 } = eventRecorderSlice.actions
 
 export default eventRecorderSlice.reducer
