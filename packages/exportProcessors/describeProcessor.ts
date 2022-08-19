@@ -5,6 +5,8 @@ import { selectorTypes } from '@roboportal/constants/selectorTypes'
 import {
   NON_INTERACTIVE_TAGS,
   TAG_NAMES,
+  VALID_NAMES,
+  CLASSNAME_SELECTOR,
 } from '@roboportal/constants/elementTypes'
 import { ASSERTION } from '@roboportal/constants/actionTypes'
 import { fileUpload, redirect } from '@roboportal/constants/browserEvents'
@@ -221,11 +223,9 @@ export class DescribeProcessor extends ExportProcessor {
     const name = it?.selectedSelector?.name
     const isNonInteractiveTag = NON_INTERACTIVE_TAGS.indexOf(tagName) > -1
 
-    if (name === '.classname') {
-      const validNames = ['aria-label', 'title', 'role']
-
+    if (name === CLASSNAME_SELECTOR) {
       const value = it?.validSelectors?.find((selector) =>
-        validNames.find((item) => item === selector.name),
+        VALID_NAMES.find((item) => item === selector.name),
       )
 
       const tag =

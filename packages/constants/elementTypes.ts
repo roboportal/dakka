@@ -12,3 +12,7 @@ export const NON_INTERACTIVE_TAGS = [
   'div',
   'summary',
 ]
+
+export const VALID_NAMES = ['aria-label', 'title', 'role']
+
+export const CLASSNAME_SELECTOR = '.classname'
