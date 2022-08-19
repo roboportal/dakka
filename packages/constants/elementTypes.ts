@@ -1,4 +1,4 @@
-export const TAG_NAMES: Record<string, string> = { a: 'link' }
+export const TAG_NAMES: Record<string, string> = { a: 'link', i: 'icon' }
 
 export const NON_INTERACTIVE_TAGS = [
   'svg',
@@ -10,4 +10,5 @@ export const NON_INTERACTIVE_TAGS = [
   'ol',
   'area',
   'div',
+  'summary',
 ]

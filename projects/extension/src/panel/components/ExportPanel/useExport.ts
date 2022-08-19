@@ -3,11 +3,12 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { exportOptions } from '@roboportal/constants/exportOptions'
 
-import { setExportType } from '@/store/eventRecorderSlice'
+import { setExportType, setIsIncludeSelector } from '@/store/eventRecorderSlice'
 import {
   getActiveTestCase,
   getActiveTestCaseEvents,
   getExportType,
+  getIsIncludeSelector,
   getIsReadyToExport,
 } from '@/store/eventSelectors'
 
@@ -48,6 +49,7 @@ const saveFile = (text: string, fileName: string) => {
 export default function useExports() {
   const dispatch = useDispatch()
   const exportOption = useSelector(getExportType)
+  const isIncludeSelector = useSelector(getIsIncludeSelector)
 
   const handleChange = useCallback(
     (e) => {
@@ -66,8 +68,12 @@ export default function useExports() {
     const notifyActionPopup = () => {
       const text =
         isReadyToExport && exportOption !== exportOptions.none
-          ? exportProcessor(exportOption, recordedTestCaseEvents, testCaseMeta)
-              .text
+          ? exportProcessor({
+              type: exportOption,
+              testCaseEvents: recordedTestCaseEvents,
+              testCaseMeta: testCaseMeta,
+              isIncludeSelector,
+            }).text
           : ''
 
       chrome.runtime.sendMessage({
@@ -97,34 +103,52 @@ export default function useExports() {
     return () => {
       chrome.runtime.onMessage.removeListener(messageHandler)
     }
-  }, [exportOption, isReadyToExport, recordedTestCaseEvents, testCaseMeta])
+  }, [
+    exportOption,
+    isReadyToExport,
+    recordedTestCaseEvents,
+    testCaseMeta,
+    isIncludeSelector,
+  ])
 
   const handleCopyToClipboard = () => {
-    const { text } = exportProcessor(
-      exportOption,
-      recordedTestCaseEvents,
-      testCaseMeta,
-    )
+    const { text } = exportProcessor({
+      type: exportOption,
+      testCaseEvents: recordedTestCaseEvents,
+      testCaseMeta: testCaseMeta,
+      isIncludeSelector,
+    })
     writeToClipboard(text)
   }
 
   const handleSaveToFile = () => {
-    const { text, fileName } = exportProcessor(
-      exportOption,
-      recordedTestCaseEvents,
-      testCaseMeta,
-    )
+    const { text, fileName } = exportProcessor({
+      type: exportOption,
+      testCaseEvents: recordedTestCaseEvents,
+      testCaseMeta: testCaseMeta,
+      isIncludeSelector,
+    })
     saveFile(text, fileName)
   }
+
+  const handleIncludeSelector = useCallback(
+    (e) => {
+      const value = e.target.checked
+      dispatch(setIsIncludeSelector(value))
+    },
+    [dispatch],
+  )
 
   const areButtonsDisabled =
     exportOption === exportOptions.none || !isReadyToExport // maybe add check that each test case is not empty
 
   return {
     exportOption,
+    isIncludeSelector,
     handleChange,
     areButtonsDisabled,
     handleCopyToClipboard,
     handleSaveToFile,
+    handleIncludeSelector,
   }
 }

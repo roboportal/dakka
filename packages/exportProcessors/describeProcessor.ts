@@ -1,6 +1,7 @@
 /* eslint-disable quotes */
 import { exportOptions } from '@roboportal/constants/exportOptions'
 import { assertionTypes } from '@roboportal/constants/assertion'
+import { selectorTypes } from '@roboportal/constants/selectorTypes'
 import {
   NON_INTERACTIVE_TAGS,
   TAG_NAMES,
@@ -54,10 +55,12 @@ export class DescribeProcessor extends ExportProcessor {
   private expectMethodsMap: Record<
     string,
     ({
+      elementName,
       selector,
       assertionValue,
       assertionAttribute,
     }: {
+      elementName?: string
       selector?: string
       assertionValue?: string
       assertionAttribute?: string
@@ -79,92 +82,102 @@ export class DescribeProcessor extends ExportProcessor {
       return `Page url should not equal '${assertionValue}'\n`
     },
 
-    [assertionTypes.toBeChecked]: ({ selector }) => {
-      return `${selector} checkbox should be checked\n`
+    [assertionTypes.toBeChecked]: ({ elementName, selector }) => {
+      return `${elementName} checkbox ${selector} should be checked\n`
     },
 
-    [assertionTypes.notToBeChecked]: ({ selector }) => {
-      return `${selector} checkbox should not be checked\n`
+    [assertionTypes.notToBeChecked]: ({ elementName, selector }) => {
+      return `${elementName} checkbox ${selector} should not be checked\n`
     },
 
     [assertionTypes.contains]: ({ selector, assertionValue }) => {
-      return `${selector} should contain text '${assertionValue}'\n`
+      return `'${assertionValue}' ${selector} should be shown\n`
     },
 
     [assertionTypes.notContains]: ({ selector, assertionValue }) => {
-      return `${selector} should not contain text '${assertionValue}'\n`
+      return `'${assertionValue}' ${selector} should not be shown\n`
     },
 
-    [assertionTypes.equals]: ({ selector, assertionValue }) => {
-      return `${selector} should have text '${assertionValue}'\n`
+    [assertionTypes.equals]: ({ elementName, selector, assertionValue }) => {
+      return `${elementName} ${selector} should have text '${assertionValue}'\n`
     },
 
-    [assertionTypes.notEquals]: ({ selector, assertionValue }) => {
-      return `${selector} should not have text '${assertionValue}'\n`
+    [assertionTypes.notEquals]: ({ elementName, selector, assertionValue }) => {
+      return `${elementName} ${selector} should not have text '${assertionValue}'\n`
     },
 
-    [assertionTypes.inDocument]: ({ selector }) => {
-      return `${selector} should exist\n`
+    [assertionTypes.inDocument]: ({ elementName, selector }) => {
+      return `${elementName} ${selector} should be shown\n`
     },
 
-    [assertionTypes.notInDocument]: ({ selector }) => {
-      return `${selector} should not exist\n`
+    [assertionTypes.notInDocument]: ({ elementName, selector }) => {
+      return `${elementName} ${selector} should not be shown\n`
     },
 
-    [assertionTypes.toBeDisabled]: ({ selector }) => {
-      return `${selector} should be disabled\n`
+    [assertionTypes.toBeDisabled]: ({ selector, elementName }) => {
+      return `${elementName} ${selector} should be disabled\n`
     },
 
-    [assertionTypes.notToBeDisabled]: ({ selector }) => {
-      return `${selector} should not be disabled\n`
+    [assertionTypes.notToBeDisabled]: ({ elementName, selector }) => {
+      return `${elementName} ${selector} should not be disabled\n`
     },
 
-    [assertionTypes.toBeEnabled]: ({ selector }) => {
-      return `${selector} should be enabled\n`
+    [assertionTypes.toBeEnabled]: ({ elementName, selector }) => {
+      return `${elementName} ${selector} should be enabled\n`
     },
 
-    [assertionTypes.notToBeEnabled]: ({ selector }) => {
-      return `${selector} should not be enabled\n`
+    [assertionTypes.notToBeEnabled]: ({ elementName, selector }) => {
+      return `${elementName} ${selector} should not be enabled\n`
     },
 
-    [assertionTypes.toBeHidden]: ({ selector }) => {
-      return `${selector} should be hidden\n`
+    [assertionTypes.toBeHidden]: ({ elementName, selector }) => {
+      return `${elementName} ${selector} should be hidden\n`
     },
 
-    [assertionTypes.notToBeHidden]: ({ selector }) => {
-      return `${selector} should not be hidden\n`
+    [assertionTypes.notToBeHidden]: ({ elementName, selector }) => {
+      return `${elementName} ${selector} should not be hidden\n`
     },
 
-    [assertionTypes.toBeVisible]: ({ selector }) => {
-      return `${selector} should be visible\n`
+    [assertionTypes.toBeVisible]: ({ elementName, selector }) => {
+      return `${elementName} ${selector} should be visible\n`
     },
 
-    [assertionTypes.notToBeVisible]: ({ selector }) => {
-      return `${selector} should not be visible\n`
+    [assertionTypes.notToBeVisible]: ({ elementName, selector }) => {
+      return `${elementName} ${selector} should not be visible\n`
     },
 
     [assertionTypes.hasAttribute]: ({
       selector,
       assertionValue,
       assertionAttribute,
+      elementName,
     }) => {
-      return `${selector} should have attribute '${assertionAttribute}' with value '${assertionValue}'\n`
+      return `${elementName} ${selector} should have attribute '${assertionAttribute}' with value '${assertionValue}'\n`
     },
 
     [assertionTypes.notHasAttribute]: ({
       selector,
       assertionValue,
       assertionAttribute,
+      elementName,
     }) => {
-      return `${selector} should not have attribute '${assertionAttribute}', '${assertionValue}'\n`
+      return `${elementName} ${selector} should not have attribute '${assertionAttribute}', '${assertionValue}'\n`
     },
 
-    [assertionTypes.toHaveLength]: ({ selector, assertionValue }) => {
-      return `${selector} should have length '${assertionValue}'\n`
+    [assertionTypes.toHaveLength]: ({
+      elementName,
+      selector,
+      assertionValue,
+    }) => {
+      return `${elementName} ${selector} should have length '${assertionValue}'\n`
     },
 
-    [assertionTypes.notToHaveLength]: ({ selector, assertionValue }) => {
-      return `${selector} should not have length '${assertionValue}'\n`
+    [assertionTypes.notToHaveLength]: ({
+      elementName,
+      selector,
+      assertionValue,
+    }) => {
+      return `${elementName} ${selector} should not have length '${assertionValue}'\n`
     },
   }
 
@@ -172,23 +185,25 @@ export class DescribeProcessor extends ExportProcessor {
     const name = it?.selectedSelector?.name || ''
     const tagName = it?.selectedSelector?.tagName || ''
     const rawValue = it?.selectedSelector?.rawValue || ''
-    const ariaLabel = it?.selectedSelector?.ariaLabel || ''
+    const ariaLabel = (it?.selectedSelector?.ariaLabel || '').trim()
 
     const isSelect = rawValue === 'listbox' && name === 'role'
     const isNonInteractiveTag = NON_INTERACTIVE_TAGS.indexOf(tagName) > -1
 
     if (isSelect) {
-      return `'${ariaLabel}' dropdown`
+      return `'${ariaLabel}' dropdown `
     }
 
-    return isNonInteractiveTag ? `'${ariaLabel}'` : `'${ariaLabel}' ${tagName}`
+    return isNonInteractiveTag
+      ? `'${ariaLabel}' `
+      : `'${ariaLabel}' ${tagName} `
   }
 
   private getPlaceholderDescription(it: IEventBlock | null | undefined) {
     const tagName = it?.selectedSelector?.tagName || ''
     const rawValue = it?.selectedSelector?.rawValue || ''
 
-    return `${tagName} with "${rawValue}" placeholder`
+    return `${tagName} with "${rawValue}" placeholder `
   }
 
   private getTagName(it: IEventBlock | null | undefined) {
@@ -200,11 +215,26 @@ export class DescribeProcessor extends ExportProcessor {
   private getStepDescription(it: IEventBlock | null | undefined) {
     const tagName = this.getTagName(it)
     const rawValue = it?.selectedSelector?.rawValue || ''
-    const textContent = it?.selectedSelector?.textContent || ''
+    const textContent = (it?.selectedSelector?.textContent || '').trim()
     const ariaLabel = it?.selectedSelector?.ariaLabel || ''
     const placeholder = it?.selectedSelector?.placeholder || ''
-
+    const name = it?.selectedSelector?.name
     const isNonInteractiveTag = NON_INTERACTIVE_TAGS.indexOf(tagName) > -1
+
+    if (name === '.classname') {
+      const validNames = ['aria-label', 'title', 'role']
+
+      const value = it?.validSelectors?.find((selector) =>
+        validNames.find((item) => item === selector.name),
+      )
+
+      const tag =
+        rawValue == tagName || isNonInteractiveTag
+          ? ''
+          : TAG_NAMES[tagName] ?? tagName
+
+      return `${value?.rawValue ?? tagName} ${tag} `
+    }
 
     if (ariaLabel) {
       return this.getLabeledDescription(it)
@@ -215,21 +245,40 @@ export class DescribeProcessor extends ExportProcessor {
     }
 
     if (isNonInteractiveTag) {
-      return `'${textContent || rawValue}'`
+      return `'${textContent || rawValue}' `
     }
 
-    return `"${rawValue}" ${tagName}`
+    return `"${rawValue}" ${rawValue == tagName ? '' : tagName} `
   }
 
-  private serializeRecordedEvents(events: IEventBlock[], step: number) {
+  private generateSelector(
+    it: IEventBlock | null | undefined,
+    isIncludeSelector: boolean,
+  ) {
+    const name = it?.selectedSelector?.name
+    const value = it?.selectedSelector?.value
+
+    if (!value || name === selectorTypes.text || !isIncludeSelector) {
+      return ''
+    }
+
+    return `(${value})`
+  }
+
+  private serializeRecordedEvents(
+    events: IEventBlock[],
+    step: number,
+    isIncludeSelector: boolean,
+  ) {
     return events.reduce((acc, it, index) => {
       const elementName = this.getStepDescription(it)
+      const selector = this.generateSelector(it, isIncludeSelector)
 
       const action =
         this.methodsMap[it?.type]?.(it) ?? this.methodsMap.default(it)
 
       if (action) {
-        acc += `Step ${index + step}: ${action} ${elementName}\n`
+        acc += `Step ${index + step}: ${action} ${elementName}${selector}\n`
       }
 
       if (it.type === ASSERTION) {
@@ -238,11 +287,12 @@ export class DescribeProcessor extends ExportProcessor {
         const result = this.expectMethodsMap[
           it?.assertionType?.type as assertionTypes
         ]({
-          selector: `${elementName}`,
+          selector: selector ? `(${selector})` : '',
+          elementName: `${elementName}`,
           assertionValue: it.assertionValue,
           assertionAttribute: it.assertionAttribute,
         })
-        acc += `Expected Result: ${result}`
+        acc += `\nExpected Result: ${result}`
       }
 
       if (it.type === redirect) {
@@ -256,28 +306,36 @@ export class DescribeProcessor extends ExportProcessor {
   private getContent(
     testCaseEvents: Record<string, IEventBlock[]>,
     testCaseMeta: ITestCase,
+    isIncludeSelector: boolean,
   ) {
     return testCaseMeta.its
       .map((it) => {
         const events = testCaseEvents[it.id]
         const name = it.value || ''
-        return this.getIt(name, events)
+        return this.getIt(name, events, isIncludeSelector)
       })
       .join('\n\n  ')
   }
 
-  private getIt(name: string, events: IEventBlock[]) {
+  private getIt(
+    name: string,
+    events: IEventBlock[],
+    isIncludeSelector: boolean,
+  ) {
     const [{ url }, ...restEvents] = events
     return `Test description:\n${name}\n\nSteps to reproduce:\n
 ${this.getGoToTestedPage(url, 1)}
-${this.serializeRecordedEvents(restEvents, 2)}
+${this.serializeRecordedEvents(restEvents, 2, isIncludeSelector)}
 `
   }
 
   process(
     testCaseEvents: Record<string, IEventBlock[]>,
     testCaseMeta: ITestCase,
+    isIncludeSelector: boolean,
   ) {
-    return this.getWrapper(this.getContent(testCaseEvents, testCaseMeta))
+    return this.getWrapper(
+      this.getContent(testCaseEvents, testCaseMeta, isIncludeSelector),
+    )
   }
 }

@@ -5,6 +5,8 @@ import {
   Select,
   IconButton,
   Tooltip,
+  Checkbox,
+  FormControlLabel,
 } from '@mui/material'
 import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined'
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined'
@@ -22,10 +24,12 @@ const options = [
 
 const ExportPanel = () => {
   const {
+    isIncludeSelector,
     exportOption,
     handleChange,
     handleCopyToClipboard,
     handleSaveToFile,
+    handleIncludeSelector,
     areButtonsDisabled,
   } = useExport()
 
@@ -107,6 +111,26 @@ const ExportPanel = () => {
           </span>
         </Tooltip>
       </div>
+      {exportOption === exportOptions.describe && (
+        <FormControlLabel
+          label="Include Selectors"
+          css={css`
+            margin-left: 8px;
+          `}
+          control={
+            <Checkbox
+              size="small"
+              onChange={handleIncludeSelector}
+              defaultChecked={isIncludeSelector}
+              css={css`
+                &:hover {
+                  background-color: transparent;
+                }
+              `}
+            />
+          }
+        />
+      )}
     </div>
   )
 }

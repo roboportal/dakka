@@ -200,6 +200,11 @@ export const getExportType = createSelector(
   (state) => state.exportType,
 )
 
+export const getIsIncludeSelector = createSelector(
+  (state: RootState) => state[SLICE_NAMES.eventRecorder],
+  (state) => state.isIncludeSelector,
+)
+
 export const getActiveTestCase = createSelector(
   (state: RootState) => state[SLICE_NAMES.eventRecorder],
   (state) => {
