@@ -5,6 +5,8 @@ import { selectorTypes } from '@roboportal/constants/selectorTypes'
 import {
   NON_INTERACTIVE_TAGS,
   TAG_NAMES,
+  CLASSNAME_SELECTOR,
+  VALID_SELECTOR_NAMES,
 } from '@roboportal/constants/elementTypes'
 import { ASSERTION } from '@roboportal/constants/actionTypes'
 import { fileUpload, redirect } from '@roboportal/constants/browserEvents'
@@ -24,6 +26,7 @@ const keyDowns: Record<string, string> = {
 export class DescribeProcessor extends ExportProcessor {
   type = exportOptions.describe
   fileName = 'describe.txt'
+  private stepDescription = ''
 
   private methodsMap: Record<string, (it: IEventBlock) => string> = {
     mouseClick: () => 'Click',
@@ -42,10 +45,10 @@ export class DescribeProcessor extends ExportProcessor {
 
   private getGoToTestedPage(url = '', step: number, isRedirect?: boolean) {
     if (isRedirect) {
-      return `Step ${step}: User is redirected to ${url}`
+      return `Step ${step}: User is redirected to ${url}.`
     }
 
-    return `Step ${step}: visit url '${url}'`
+    return `Step ${step}: visit url '${url}'.`
   }
 
   private getWrapper(content: string) {
@@ -181,74 +184,116 @@ export class DescribeProcessor extends ExportProcessor {
     },
   }
 
-  private getLabeledDescription(it: IEventBlock | null | undefined) {
+  private isNoneInteractiveTag(tag: string) {
+    return NON_INTERACTIVE_TAGS.indexOf(tag) > -1
+  }
+
+  private getLabeledDescription(it: IEventBlock) {
     const name = it?.selectedSelector?.name || ''
     const tagName = it?.selectedSelector?.tagName || ''
     const rawValue = it?.selectedSelector?.rawValue || ''
     const ariaLabel = (it?.selectedSelector?.ariaLabel || '').trim()
 
-    const isSelect = rawValue === 'listbox' && name === 'role'
-    const isNonInteractiveTag = NON_INTERACTIVE_TAGS.indexOf(tagName) > -1
-
-    if (isSelect) {
-      return `'${ariaLabel}' dropdown `
+    if (this.stepDescription || !ariaLabel) {
+      return this
     }
 
-    return isNonInteractiveTag
-      ? `'${ariaLabel}' `
-      : `'${ariaLabel}' ${tagName} `
+    const isSelect = rawValue === 'listbox' && name === 'role'
+    const isNonInteractiveTag = this.isNoneInteractiveTag(tagName)
+
+    if (isSelect) {
+      this.stepDescription = `"${ariaLabel}" dropdown`
+      return this
+    }
+
+    this.stepDescription = isNonInteractiveTag
+      ? `"${ariaLabel}"`
+      : `"${ariaLabel}" ${tagName}`
+
+    return this
   }
 
-  private getPlaceholderDescription(it: IEventBlock | null | undefined) {
+  private getNonInteractiveDescription(it: IEventBlock) {
+    const rawValue = it?.selectedSelector?.rawValue || ''
+    const textContent = (it?.selectedSelector?.textContent || '').trim()
+    const tagName = it?.selectedSelector?.tagName || ''
+    const isNonInteractiveTag = this.isNoneInteractiveTag(tagName)
+    const elementContent = `"${textContent || rawValue}"`
+
+    if (this.stepDescription) {
+      return this
+    }
+
+    if (isNonInteractiveTag) {
+      this.stepDescription = elementContent
+      return this
+    }
+
+    this.stepDescription = `${elementContent} ${this.getTagName(it)}`
+  }
+
+  private getPlaceholderDescription(it: IEventBlock) {
     const tagName = it?.selectedSelector?.tagName || ''
     const rawValue = it?.selectedSelector?.rawValue || ''
+    const placeholder = it?.selectedSelector?.placeholder || ''
 
-    return `${tagName} with "${rawValue}" placeholder `
+    if (this.stepDescription) {
+      return this
+    }
+
+    if (placeholder) {
+      this.stepDescription = `${tagName} with "${rawValue}" placeholder`
+      return this
+    }
+
+    return this
   }
 
-  private getTagName(it: IEventBlock | null | undefined) {
+  private getTagName(it: IEventBlock) {
     const tagName = it?.selectedSelector?.tagName || ''
 
     return TAG_NAMES[tagName] ?? tagName
   }
 
-  private getStepDescription(it: IEventBlock | null | undefined) {
-    const tagName = this.getTagName(it)
-    const rawValue = it?.selectedSelector?.rawValue || ''
-    const textContent = (it?.selectedSelector?.textContent || '').trim()
-    const ariaLabel = it?.selectedSelector?.ariaLabel || ''
-    const placeholder = it?.selectedSelector?.placeholder || ''
-    const name = it?.selectedSelector?.name
-    const isNonInteractiveTag = NON_INTERACTIVE_TAGS.indexOf(tagName) > -1
+  private getClassNameDescription(it: IEventBlock) {
+    if (this.stepDescription || !it.selectedSelector) {
+      return this
+    }
 
-    if (name === '.classname') {
-      const validNames = ['aria-label', 'title', 'role']
+    const { name, rawValue = '' } = it.selectedSelector
 
-      const value = it?.validSelectors?.find((selector) =>
-        validNames.find((item) => item === selector.name),
-      )
-
+    if (name === CLASSNAME_SELECTOR) {
+      const tagName = this.getTagName(it)
+      const isNonInteractiveTag = this.isNoneInteractiveTag(tagName)
       const tag =
-        rawValue == tagName || isNonInteractiveTag
+        rawValue === tagName || isNonInteractiveTag
           ? ''
           : TAG_NAMES[tagName] ?? tagName
 
-      return `${value?.rawValue ?? tagName} ${tag} `
+      const value = it?.validSelectors?.find((selector) =>
+        VALID_SELECTOR_NAMES.find((item) => item === selector.name),
+      )
+
+      const description = value?.rawValue ?? tagName
+
+      this.stepDescription =
+        description === tag ? `${description}` : `${description} ${tag}`
     }
 
-    if (ariaLabel) {
-      return this.getLabeledDescription(it)
-    }
+    return this
+  }
 
-    if (placeholder) {
-      return this.getPlaceholderDescription(it)
-    }
+  private getStepDescription(it: IEventBlock) {
+    return this.getClassNameDescription(it)
+      .getLabeledDescription(it)
+      .getPlaceholderDescription(it)
+      .getNonInteractiveDescription(it)
+  }
 
-    if (isNonInteractiveTag) {
-      return `'${textContent || rawValue}' `
+  private resetStepDescription() {
+    if (this.stepDescription) {
+      this.stepDescription = ''
     }
-
-    return `"${rawValue}" ${rawValue == tagName ? '' : tagName} `
   }
 
   private generateSelector(
@@ -271,28 +316,37 @@ export class DescribeProcessor extends ExportProcessor {
     isIncludeSelector: boolean,
   ) {
     return events.reduce((acc, it, index) => {
-      const elementName = this.getStepDescription(it)
-      const selector = this.generateSelector(it, isIncludeSelector)
+      this.resetStepDescription()
 
+      if (it) {
+        this.getStepDescription(it)
+      }
+
+      const selector = this.generateSelector(it, isIncludeSelector)
       const action =
         this.methodsMap[it?.type]?.(it) ?? this.methodsMap.default(it)
 
       if (action) {
-        acc += `Step ${index + step}: ${action} ${elementName}${selector}\n`
+        acc += `Step ${index + step}: ${action} ${
+          this.stepDescription
+        }. ${selector}\n`
       }
 
       if (it.type === ASSERTION) {
-        const elementName = this.getStepDescription(it?.element)
+        if (it?.element) {
+          this.resetStepDescription()
+          this.getStepDescription(it?.element)
+        }
 
         const result = this.expectMethodsMap[
           it?.assertionType?.type as assertionTypes
         ]({
           selector: selector ? `(${selector})` : '',
-          elementName: `${elementName}`,
+          elementName: `${this.stepDescription}`,
           assertionValue: it.assertionValue,
           assertionAttribute: it.assertionAttribute,
         })
-        acc += `\nExpected Result: ${result}`
+        acc += `\nExpected Result: ${result}\n`
       }
 
       if (it.type === redirect) {
