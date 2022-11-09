@@ -12,7 +12,7 @@
     "test": "npm run playwright && npm run cypress && npm run puppeteer"
   },
   "devDependencies": {
-    "@playwright/test": "^1.17.2",
+    "@playwright/test": "^1.27.1",
     "@types/chrome": "^0.0.180",
     "cypress": "^9.2.1",
     "eslint": "^8.6.0",
