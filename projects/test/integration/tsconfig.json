@@ -6,6 +6,9 @@
     "../../../node_modules/@roboportal/constants/**/*",
     "../../../node_modules/@roboportal/utils/**/*"
   ],
+  "exclude": [
+    "cypress.config.ts"
+  ],
   "compilerOptions": { 
     "target": "es2021",
     "outDir": "dist",
