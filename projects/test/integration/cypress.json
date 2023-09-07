@@ -1,5 +1,0 @@
-{
-  "integrationFolder": "dist/generated/cypress",
-  "chromeWebSecurity": false,
-  "video": false
-}

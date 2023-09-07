@@ -69,7 +69,8 @@ inputDataTuple.forEach(([testName, inputData]) => {
 
     const result = processor(testCaseEvents, testCaseMeta)
 
-    const outputFileName = testName + '.spec.js'
+    const outputFileName =
+      testName + (processorName === 'cypress' ? '.cy.js' : '.spec.js')
     const outputDirPath = path.resolve(
       outPath,
       OUTPUT_FOLDERS_MAP[processorName],

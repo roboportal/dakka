@@ -27,7 +27,7 @@ const keyDowns: Record<string, string> = {
 
 export class CypressProcessor extends ExportProcessor {
   type = exportOptions.cypress
-  fileName = 'cypress.spec.js'
+  fileName = 'cypress.cy.js'
 
   private methodsMap: Record<string, (it: IEventBlock) => string> = {
     mouseClick: () => '.click()',
