@@ -47,7 +47,7 @@
     "html-webpack-plugin": "^5.5.0",
     "husky": "^7.0.4",
     "jest": "^27.5.1",
-    "react-devtools": "^4.27.1",
+    "react-devtools": "^4.27.2",
     "react-hot-loader": "^4.13.0",
     "source-map-loader": "^3.0.0",
     "terser-webpack-plugin": "^5.2.5",
